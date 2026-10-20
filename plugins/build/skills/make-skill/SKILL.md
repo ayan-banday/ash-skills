@@ -15,8 +15,8 @@ Make or fix one skill in Ash's plugin repo, `D:\ash-skills`, so it is **filed, n
 
 1. **Learn what it's for.** When the conversation already shows the workflow ("turn this into a skill"), take the answers from it. Otherwise ask Ash one question that names the subject: what he's doing when he'd reach for it, and what it hands back.
    Done when you can say the skill's job in one sentence and name one phrase Ash would say to start it.
-2. **Decide the five calls** by CONVENTIONS.md: plugin, name, bracket, question, who can start it. Check the list for a name clash and for a look-alike the description must tell apart. Show them to Ash in one line and wait:
-   > **learn:which-skill** · (skill guide) Which of my skills should I use right now? · Claude can fire it · new plugin. OK?
+2. **Decide the five calls** by CONVENTIONS.md: plugin, name, bracket, question, who can start it. The name ends in its tag (`-udyaan`, `-matt`) whenever one fits, since the name is the only thing Ash can search. Check the list for a name clash and for a look-alike the description must tell apart. Show them to Ash in one line and wait:
+   > **visualize:brief-page-udyaan** · (Udyaan course) How do I brief a teammate on a plan with a page they read alone? · only Ash types it · existing plugin. OK?
    Done when Ash says yes, or gives changes you applied.
 3. **Draft the SKILL.md** at `D:\ash-skills\plugins/<plugin>/skills/<name>/SKILL.md`, with the frontmatter from step 2 and the body by "Writing the body" in CONVENTIONS.md.
    - For anything longer than a page, or with scripts or reference files, call the Skill tool with "anthropic-skills:skill-creator" to draft, write test prompts and tune the description. Override its defaults: save to the repo path above, keep the frontmatter from step 2, and skip its packaging step.
