@@ -1,7 +1,7 @@
 # Ash's taste in stories
 
 His verdicts on visual stories, in his words. Add to it whenever he reacts. For page design taste (palettes, type,
-motion house style) see `../pitch-site-udyaan/references/taste.md`.
+motion house style) see `../pitch-site/references/taste.md`.
 
 ## What he loves
 

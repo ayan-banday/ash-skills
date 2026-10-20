@@ -1,6 +1,6 @@
 ---
 name: story-plan
-description: "How do I turn an abstract idea into a story people watch? Turn any content into a visual story the reader watches instead of reads, then hand it to the skill that builds it. Finds the one-sentence thesis, casts abstract ideas as a living metaphor (one world, one creature or object per part, each backed by a real fact), and writes a storyboard (one row per screen with its story beat, shot size, the one bright thing, the one thing that moves, 20 words or fewer, a tension score, and plants and payoffs), checked by a script. Uses film craft (the covered tests, the story spine, the tension curve, where the eye goes, setup and payoff, full circle) with guardrails that keep names, numbers and the ask in plain words. Use whenever Ash says \"visual story\", \"visual storytelling\", \"tell it as a story\", \"show, don't tell\", \"make it a story, not a list\", \"visual metaphor\", \"mental model as a picture\", \"storyboard this\", \"it's too clicky\", \"too much information\", or wants values, a framework, a process, a pitch, a lesson or a personal map shown as a journey. Works with pitch-site-udyaan, brief-page-udyaan, polished-doc and course-lesson-udyaan, which build what it plans."
+description: "How do I turn an abstract idea into a story people watch? Turn any content into a visual story the reader watches instead of reads, then hand it to the skill that builds it. Finds the one-sentence thesis, casts abstract ideas as a living metaphor (one world, one creature or object per part, each backed by a real fact), and writes a storyboard (one row per screen with its story beat, shot size, the one bright thing, the one thing that moves, 20 words or fewer, a tension score, and plants and payoffs), checked by a script. Uses film craft (the covered tests, the story spine, the tension curve, where the eye goes, setup and payoff, full circle) with guardrails that keep names, numbers and the ask in plain words. Use whenever Ash says \"visual story\", \"visual storytelling\", \"tell it as a story\", \"show, don't tell\", \"make it a story, not a list\", \"visual metaphor\", \"mental model as a picture\", \"storyboard this\", \"it's too clicky\", \"too much information\", or wants values, a framework, a process, a pitch, a lesson or a personal map shown as a journey. Works with pitch-site, brief-page, polished-doc and course-lesson, which build what it plans."
 ---
 
 # Visual storytelling
@@ -37,7 +37,7 @@ Their shared qualities:
 
 ### 1. Content, reader and host
 Get what the story must carry (the facts, numbers, names, quotes, the ask), who will see it, and which skill builds
-it: pitch-site-udyaan, brief-page-udyaan, polished-doc, course-lesson-udyaan, or a deck. Keep the facts in the host's
+it: pitch-site, brief-page, polished-doc, course-lesson, or a deck. Keep the facts in the host's
 facts sheet; the story never invents one. If Ash is away, infer and log every assumption.
 
 ### 2. Thesis and shape

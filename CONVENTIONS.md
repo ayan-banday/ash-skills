@@ -16,37 +16,41 @@ The one rulebook for every skill in this repo. `/build:make-skill` reads it befo
 
 **A sixth plugin needs three skills that fit none of these.** Until then, file the skill in the closest one.
 
-## The name: what it does, then a tag for who it's for
+## The name: what it does, then the tag in round brackets
 
-Ash finds skills only by typing words of the name in the `/` menu (see "How Ash finds a skill"). So **every word he'd search for goes in the name.**
+Ash finds skills by typing words of the name in the `/` menu (see "How Ash finds a skill"). So **every word he'd search for goes in the name.**
 
 **The pattern** (confirmed by Ash on 2026-10-20; change it here and nowhere else):
 
-> `<what-it-does>-<tag>`
+> folder: `<what-it-does>` · `name: "<what-it-does> (<tag>)"`
 
-- **What it does:** a verb and an object, saying what it makes: `write-spec`, `try-prototype`, `brief-page`. Start with a verb Ash would say out loud: write, make, try, split, grill, chart, ask, draw, check.
-- **The tag:** one word for who it's for or where it came from: `udyaan`, `shasta`, `substack`, `matt`.
-- **A memorable original name goes before the tag:** `chart-project-wayfinder-matt` (from Matt's `wayfinder`), so `/wayf` and `/matt` both find it.
-- **No tag when nothing fits:** `story-plan`, `which-skill`, `make-skill`.
+The menu then shows `/visualize:brief-page (udyaan)`, and Ash types `/visualize:brief-page`.
 
-**Examples:** `/plan:chart-project-wayfinder-matt`, `/visualize:brief-page-udyaan`, `/write:headline-angles-substack`, `/learn:study-shasta`.
+- **What it does:** a verb and an object, saying what it makes: `write-spec`, `try-prototype`, `brief-page`. Start with a verb Ash would say out loud: write, make, try, split, grill, chart, ask, draw, check. This is the folder name and the command.
+- **The tag, in round brackets after it:** one lowercase word for who it's for or where it came from: `udyaan`, `shasta`, `substack`, `matt`. It never goes in the folder name.
+- **A memorable original name stays in the name:** `chart-project-wayfinder (matt)`, from Matt's `wayfinder`, so `/wayf` finds it.
+- **No tag when nothing fits:** then `name:` is just the folder name, with no brackets: `story-plan`, `which-skill`, `make-skill`.
+
+**Examples:** `/plan:chart-project-wayfinder (matt)`, `/visualize:brief-page (udyaan)`, `/write:headline-angles (substack)`, `/learn:study (shasta)`.
 
 **Also:**
-- **Lowercase words joined by hyphens,** at most 64 characters. Aim for four words or fewer before the tag.
-- **No two skills share a name,** across all five plugins. Check with the listing command under "Shipping".
+- **Lowercase words joined by hyphens,** at most 64 characters. Aim for four words or fewer.
+- **Quote the `name:` line** when it has brackets, so YAML reads it as one string.
+- **No two skills share a folder name,** across all five plugins. Check with the listing command under "Shipping".
+- **Links between skills use the folder name:** `/plan:grilling`, `../grilling/`, never the bracketed name.
 
-**Bad:** `wayfinder` (no verb, no tag), `domain-modeling` (names a field, with no verb), `matt-setup-tracker` (the tag comes first).
-**Good:** `chart-project-wayfinder-matt`, `brief-page-udyaan`, `make-skill`.
+**Bad:** `wayfinder` (no verb), `domain-modeling` (names a field, with no verb), `brief-page-udyaan` (the tag is in the folder name).
+**Good:** `chart-project-wayfinder (matt)`, `brief-page (udyaan)`, `make-skill`.
 
 ## The description: four parts, in this order
 
 Written as one YAML line in double quotes. Use single quotes inside it.
 
-1. **A square bracket with the extra information: who it's for, or where it came from.** It's for reading in the menu; search runs on the name.
-   - **It holds the tag in words,** the same tag the name ends with: `[Udyaan course]`, `[Substack]`, `[Shasta]`, `[Matt]`.
-   - Add a role after ` · ` when it helps: `[Matt · helper]` for a skill other skills call, `[skill maker · uses skill-creator]` for one that leans on another skill.
+1. **A square bracket, only when it adds something the name's tag doesn't:** what kind of skill it is or what it leans on. It shows at the start of the hover card.
+   - `[helper]` for a skill other skills call, `[course]` or `[website]` for what it makes, `[skill maker · uses skill-creator]` for one that leans on another skill.
+   - **Never repeat the tag.** `(matt)` is already in the name, so no `[Matt]`.
    - **No old names.** A renamed skill drops what it used to be called; git history keeps it.
-   - **No tag, no bracket.** A skill without a tag starts straight with its question.
+   - **Nothing to add, no bracket.** The description starts straight with its question.
 2. **The question it answers, in Ash's voice.** Usually "How do I ...?". "Which", "Where" or "What" are fine when they read more naturally.
    - **It names the topic and the situation,** so it makes sense read alone, with the skill name hidden.
    - Bad: "How do I plan it?" / "How do I get unstuck?"
@@ -64,7 +68,8 @@ Written as one YAML line in double quotes. Use single quotes inside it.
 **Full example:**
 
 ```yaml
-description: "[Matt] How do I turn what we just decided into one written plan? Turns the current conversation into a spec and publishes it to the project's issue tracker. No interview, just what was already discussed."
+name: "write-spec (matt)"
+description: "How do I turn what we just decided into one written plan? Turns the current conversation into a spec and publishes it to the project's issue tracker. No interview, just what was already discussed."
 ```
 
 ## Who can start it: Claude, or only Ash
@@ -76,13 +81,13 @@ description: "[Matt] How do I turn what we just decided into one written plan? T
 
 ## How Ash finds a skill (from the Claude Code docs)
 
-- **The `/` menu matches the name only,** from the start of the name or of any word in it. Typing `/wayf` finds `chart-project-wayfinder-matt`. The description shows beside the name, and the menu picks its top match from names.
+- **The `/` menu matches the name only,** from the start of the name or of any word in it. Typing `/wayf` finds `chart-project-wayfinder`. The description shows beside the name, and the menu picks its top match from names.
 - **The plugin name counts too.** Typing `/plan` lists every plan skill.
 - **`/skills` doesn't work in Ash's app,** so description words are never a way to find a skill. The docs say `/skills` filters by name, description and source, but Ash can't use it.
 - **Skills can't have aliases.** The name is the only handle in the `/` menu, so it carries every word Ash would type.
 - **The full name is `/plugin:skill`,** like `/plan:write-spec`.
-- **What the menu row shows:** `plugin:name (name)`. The folder sets the command; the `name:` line sets the label and the word in round brackets after it, which is a short alias (`/make-skill` runs `/build:make-skill`). Read in Claude Code's source on 2026-10-20. So the round bracket repeats the name; it can't hold a free label. Extra information goes in the description's square bracket, which shows in the hover card.
-- **Keep `name:` equal to the folder name.** If they differ, the menu shows one name and the command runs under another.
+- **What the menu row shows:** `plugin:` plus the `name:` line. The folder sets the command Ash types. A plain `name:` also shows again in round brackets as a short alias (`/build:make-skill (make-skill)`). A `name:` with a bracketed tag shows as written: `/visualize:brief-page (udyaan)`, tested by Ash on 2026-10-20.
+- **The `name:` line is the folder name, plus ` (<tag>)` when there is one.** Anything else makes the menu show one name while the command runs under another.
 
 ## Writing the body (from Matt Pocock's writing-for-agents rules)
 
@@ -110,7 +115,7 @@ The body is read by Claude, so it follows these rules. Anything the skill says t
 
 **Files**
 - **Edit the repo, never the installed copy.** The repo is `D:\ash-skills`. Installed copies under `~/.claude/plugins/cache/` are overwritten on update.
-- **Folder:** `plugins/<plugin>/skills/<name>/SKILL.md`. The folder name equals `name:`.
+- **Folder:** `plugins/<plugin>/skills/<what-it-does>/SKILL.md`. `name:` is the folder name, plus ` (<tag>)` when there is one.
 - **Copied skills keep their licence** in the plugin folder (like `plugins/plan/LICENSE-matt-pocock`) and their credit in README.md.
 
 **A new plugin**

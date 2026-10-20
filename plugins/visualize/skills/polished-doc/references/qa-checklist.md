@@ -40,7 +40,7 @@ Short, in the reply, after the file link:
 | Stairs label crossing the riser | Label wider than the tread | Shorter label, centred on the tread |
 | Flow row wrapping | Long step names | "Request" not "Refund request" |
 | Matrix labels away from dots | Text placed by eye | Put each label 14 px right of its dot |
-| Section screenshots blank in brief-page-udyaan's shots.py | That script hides wrappers | Use check_pages.py sheets for documents |
+| Section screenshots blank in brief-page's shots.py | That script hides wrappers | Use check_pages.py sheets for documents |
 | `sed` or heredoc errors | Quotes and `#` in replacements | Use Python or the file tool for edits |
 | Part heading alone at a page bottom | No lede after the h2 | Write a lede after every h2; with none, keepnext keeps the h2 with the next block |
 | One table row orphaned on the next page | Short tables could split | Tables of 8 rows or fewer never split |

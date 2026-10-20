@@ -113,7 +113,7 @@ World: the ocean under Mauna Kea · Verb: dive · Thread: the searchlight's reac
 ## Worked example 3: a proposal section
 
 One ask from a fleet proposal (the Coastline build), as a small story inside a page. The host is
-pitch-site-udyaan; the board sets what each screen of the pinned stage shows.
+pitch-site; the board sets what each screen of the pinned stage shows.
 
 Thesis: one trip record replaces three logbooks.
 World: the client's own truck, drawn in line · Verb: scroll the truck along its route · Thread: the trip record.

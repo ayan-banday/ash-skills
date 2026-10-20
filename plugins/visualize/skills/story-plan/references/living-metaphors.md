@@ -2,7 +2,7 @@
 
 How to show an idea as a world the reader travels through, where each part of the idea is a creature or object
 whose real behaviour proves it. The metaphor carries the definition, the example and the memory hook at once, so the
-page needs a fraction of the words. Plan the journey as a storyboard (`storyboard.md`). In pitch-site-udyaan it is
+page needs a fraction of the words. Plan the journey as a storyboard (`storyboard.md`). In pitch-site it is
 catalogue entry ARC-33 ★ Expedition through a living metaphor.
 
 ## Contents
@@ -135,7 +135,7 @@ the counter-example, see What failed) with `frag-01-engine.html`.
 - **Finished state.** Under `?final=1` and reduced motion, the `viewBox` shows the full height, every part is lit and
   every line written.
 - **Hover and controls answer at once;** only the camera move eases (rule 16 in
-  `../pitch-site-udyaan/references/motion.md`).
+  `../pitch-site/references/motion.md`).
 
 ## What failed
 

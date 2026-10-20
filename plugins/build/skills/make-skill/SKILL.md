@@ -15,10 +15,10 @@ Make or fix one skill in Ash's plugin repo, `D:\ash-skills`, so it is **filed, n
 
 1. **Learn what it's for.** When the conversation already shows the workflow ("turn this into a skill"), take the answers from it. Otherwise ask Ash one question that names the subject: what he's doing when he'd reach for it, and what it hands back.
    Done when you can say the skill's job in one sentence and name one phrase Ash would say to start it.
-2. **Decide the five calls** by CONVENTIONS.md: plugin, name, bracket, question, who can start it. The name ends in its tag (`-udyaan`, `-matt`) whenever one fits, since the name is the only thing Ash can search. Check the list for a name clash and for a look-alike the description must tell apart. Show them to Ash in one line and wait:
-   > **visualize:brief-page-udyaan** · [Udyaan teammates] How do I brief a teammate on a plan with a page they read alone? · only Ash types it · existing plugin. OK?
+2. **Decide the five calls** by CONVENTIONS.md: plugin, name, bracket, question, who can start it. The tag goes in round brackets after the name (`brief-page (udyaan)`), never in the folder name. Check the list for a name clash and for a look-alike the description must tell apart. Show them to Ash in one line and wait:
+   > **visualize:brief-page (udyaan)** · [for teammates] How do I brief a teammate on a plan with a page they read alone? · only Ash types it · existing plugin. OK?
    Done when Ash says yes, or gives changes you applied.
-3. **Draft the SKILL.md** at `D:\ash-skills\plugins/<plugin>/skills/<name>/SKILL.md`, with the frontmatter from step 2 and the body by "Writing the body" in CONVENTIONS.md.
+3. **Draft the SKILL.md** at `D:\ash-skills\plugins/<plugin>/skills/<what-it-does>/SKILL.md` (no tag in the folder), with the frontmatter from step 2 and the body by "Writing the body" in CONVENTIONS.md.
    - For anything longer than a page, or with scripts or reference files, call the Skill tool with "anthropic-skills:skill-creator" to draft, write test prompts and tune the description. Override its defaults: save to the repo path above, keep the frontmatter from step 2, and skip its packaging step.
    - Copied from a known source: keep the original body, add the licence file and the README credit.
    Done when the description is 200 to 450 characters, its question makes sense with the name hidden, and every step in the body ends on a done test.
@@ -32,8 +32,8 @@ Make or fix one skill in Ash's plugin repo, `D:\ash-skills`, so it is **filed, n
 ## Fix a skill
 
 1. **Check the skill** against CONVENTIONS.md: plugin, name, bracket, question, the one-sentence summary, triggers, and who can start it.
-2. **Show each change** as old to new with one line of why, and wait for Ash's yes. A rename breaks the command Ash already types, so say so.
-3. **Apply.** For a rename: `git -C D:/ash-skills mv` the folder, change `name:`, then search the repo for the old name (`/<plugin>:<old>`, `"<plugin>:<old>"`, README) and update every hit.
+2. **Show each change** as old to new with one line of why. A tag in a folder name (`brief-page-udyaan`) or an old name in the bracket is always a fix, and wait for Ash's yes. A rename breaks the command Ash already types, so say so.
+3. **Apply.** For a rename: `git -C D:/ash-skills mv` the folder, change `name:` (folder name plus ` (<tag>)`), then search the repo for the old name (`/<plugin>:<old>`, `"<plugin>:<old>"`, README) and update every hit.
    Done when a search for the old name finds nothing outside git history.
 4. **Ship and commit** as in steps 5 to 7 above, with a patch version bump. Message: `Fix <plugin>:<name>: <what changed>`.
 

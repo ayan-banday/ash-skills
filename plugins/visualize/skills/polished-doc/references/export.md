@@ -42,7 +42,7 @@ Word cannot run the HTML layout, so expect small differences: chips become comma
 
 ## HTML
 
-The built HTML (with the palette applied) works as a page in its own right. For a screen-first, scrolling page with animation, the brief-page-udyaan skill is the better tool; this skill's HTML is print-shaped.
+The built HTML (with the palette applied) works as a page in its own right. For a screen-first, scrolling page with animation, the brief-page skill is the better tool; this skill's HTML is print-shaped.
 
 ## Setup and troubleshooting
 

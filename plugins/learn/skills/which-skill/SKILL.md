@@ -16,7 +16,7 @@ Name the **one command Ash should type** for what he's doing now, from the skill
    - **Anthropic's and Claude Code's own skills** (`anthropic-skills:...`, `/code-review`, `/simplify`): from your own skill listing in this session.
    Done when every source above was read in this run.
 3. **Pick the skill.** Match Ash's task to each description's question first, then to its trigger and look-alike lines.
-   - **Prefer Ash's own copy.** A bracket like `[Matt: to-spec]` marks a skill copied from another pack: name the ash-skills one (`/plan:write-spec-matt`) over the original (`/mattpocock-skills:to-spec`). The same goes for a loose skill that now also lives in a plugin.
+   - **Prefer Ash's own copy.** A bracket like `[Matt: to-spec]` marks a skill copied from another pack: name the ash-skills one (`/plan:write-spec`) over the original (`/mattpocock-skills:to-spec`). The same goes for a loose skill that now also lives in a plugin.
    - **Weigh the skills only Ash can type** (`disable-model-invocation: true`) like the rest. They're the ones he forgets.
    - **Several fit:** pick the one whose question names his situation most closely, and give the runner-up on line two.
    Done when one skill fits, only a nearby one does, or none does.

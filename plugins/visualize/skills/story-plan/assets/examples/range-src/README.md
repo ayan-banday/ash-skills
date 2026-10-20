@@ -13,4 +13,4 @@ Copy the mechanics, never the words: the quotes are Ash's own and must not appea
 - `starter.html`: tokens, `penDraw()`, `rng()`, the night switch.
 
 Method, test and casting bank: `references/living-metaphors.md`; the dive as a storyboard: `references/storyboard.md`.
-In pitch-site-udyaan it is catalogue entry ARC-33.
+In pitch-site it is catalogue entry ARC-33.

@@ -1,0 +1,1497 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"></head><body>
+<title>Coastline Cold Chain proposal</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Prototype output of pitch-site: a sample proposal from Tidewater Studio to Coastline Cold Chain, drawn as an engineering drawing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ===== Tokens: Drafting direction ("the engineering drawing") ===== */
+  :root{
+    --ground:#2B2927; --ground-2:#393633; --paper:#F0EDE5; --card:#F9F8F4;
+    --ink:#22201E; --muted:#64605B; --line:rgba(34,32,30,.14); --line-2:rgba(34,32,30,.28);
+    --tint-1:#C6D3E2; --tint-2:#EDE0B8; --tint-3:#EBC6C0; --tint-4:#D9D2E6;
+    --marker:#F4D54E; --marker-ink:#A87410; --red:#B3322E; --cyan:#23508E;
+    --font-display:'Barlow Condensed',sans-serif; --font-body:'IBM Plex Sans',sans-serif;
+    --font-label:'IBM Plex Mono',monospace; --font-hand:'Architects Daughter',cursive;
+    --ease-out:cubic-bezier(.22,1,.36,1); --ease-draw:cubic-bezier(.45,.05,.35,1);
+    --wrap:1180px; --gutter:clamp(20px,4vw,48px);
+    --r-sheet:2px; /* drafting sheets have near-square corners; only real devices (a tablet) get a big radius */
+    color-scheme:light;
+  }
+  /* Single deliberate theme: vellum paper with graphite bands. No dark blocks; every colour is set explicitly. */
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--font-body);-webkit-font-smoothing:antialiased;overflow-x:clip}
+  /* vellum tooth: static, never animated */
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.05;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+  img,svg{max-width:100%}
+  h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-.005em;line-height:1.02;margin:0;text-wrap:balance}
+  h1{font-size:clamp(48px,6.4vw,92px)}
+  h2{font-size:clamp(38px,4.6vw,64px)}
+  h3{font-size:clamp(24px,2.2vw,30px);line-height:1.1}
+  p{margin:0;text-wrap:pretty}
+  .lede{font-size:clamp(18px,1.5vw,21px);line-height:1.5;color:var(--muted);max-width:56ch}
+  .label{font:500 11.5px/1.3 var(--font-label);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .hand{font-family:var(--font-hand);color:var(--red)}
+  .wrap{max-width:var(--wrap);margin:0 auto;padding-left:max(var(--gutter),env(safe-area-inset-left,0px));padding-right:max(var(--gutter),env(safe-area-inset-right,0px))}
+
+  /* Section colour blocks: one flat block per idea */
+  .band{position:relative;padding:clamp(88px,11vw,150px) 0;overflow-x:clip}
+  .band.paper{background:var(--paper)} .band.card{background:var(--card)}
+  .band.t1{background:var(--tint-1)} .band.t2{background:var(--tint-2)} .band.t3{background:var(--tint-3)}
+  /* contrast: muted and red re-tuned per tint so text stays at 4.5:1 or better */
+  .band.t1,.band.t3{--muted:#57534E;--red:#952622}
+  .band.dark{background:var(--ground);color:var(--paper)}
+  .band.dark .lede,.band.dark .label{color:rgba(240,237,229,.72)}
+  .band-head{display:grid;gap:18px;margin-bottom:clamp(40px,5vw,64px);max-width:760px}
+
+  /* Team chips: one tint per team, used everywhere that team appears */
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{display:inline-flex;align-items:center;gap:6px;font:500 12px/1 var(--font-label);letter-spacing:.04em;padding:6px 9px;border-radius:3px;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(34,32,30,.12)}
+  .chip.c-sensors{background:var(--tint-1)} .chip.c-app{background:var(--tint-2)}
+  .chip.c-data{background:var(--tint-3)} .chip.c-field{background:var(--tint-4)}
+
+  /* Marker: keep <mark> inside inline text, never as a grid/flex child */
+  mark{background:linear-gradient(var(--marker),var(--marker)) no-repeat 0 90%/0% 42%;color:inherit;padding:0 2px;
+    -webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-size .8s var(--ease-out) .35s}
+  .in mark, mark.in{background-size:100% 42%}
+  .band.dark mark{background-image:linear-gradient(var(--marker),var(--marker));color:var(--ink);border-radius:3px;padding:1px 5px;background-position:0 0;background-size:0% 100%}
+  .band.dark .in mark,.band.dark mark.in{background-size:100% 100%}
+
+  /* Reveal: only blocks below the fold start hidden; text plays once */
+  .js .rv{opacity:0;transform:translateY(12px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out);transition-delay:var(--d,0s)}
+  .js .rv.in{opacity:1;transform:none}
+
+  /* Drawing classes shared by every SVG (ISO-ish line weights) */
+  .ln{fill:none;stroke:var(--ink);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .ln.thin{stroke-width:.8} .ln.hid{stroke-width:1;stroke-dasharray:6 4}
+  .ln.cl{stroke-width:.7;stroke-dasharray:16 4 3 4;opacity:.7}
+  .ln.guide{stroke-width:1;stroke-dasharray:3 5;opacity:.3}
+  .ln.red{stroke:var(--red)} .ln.cyan{stroke:var(--cyan)}
+  .fill-paper{fill:var(--paper)} .fill-card{fill:var(--card)}
+  .svg-label{font:500 11px var(--font-label);letter-spacing:.06em;fill:var(--ink)}
+  .svg-hand{font:16px var(--font-hand);fill:var(--red)}
+
+  /* Buttons */
+  .btn{font:600 14px/1 var(--font-body);padding:12px 18px;border-radius:10px;border:0;background:var(--ink);color:var(--paper);cursor:pointer;
+    transition:scale .15s ease-out;-webkit-tap-highlight-color:transparent;min-width:140px}
+  .btn:not(:disabled):active{scale:.96}
+
+  /* Phone gate: short side under 540px sees only this */
+  .gate{display:none}
+  @media (max-width:539px), (pointer:coarse) and (max-height:499px){ html:not(.no-gate) main{display:none} html:not(.no-gate) .gate{display:grid} }
+  html.phone main{display:none} html.phone .gate{display:grid}
+  .gate{min-height:100svh;place-items:center;text-align:center;padding:32px;background:var(--ground);color:var(--paper)}
+  .gate p{font:600 34px/1.05 var(--font-display);max-width:12ch;margin:18px auto 10px}
+  .gate small{font:400 15px/1.5 var(--font-body);color:rgba(240,237,229,.7)}
+
+  @media (prefers-reduced-motion: reduce){ .js .rv{opacity:1;transform:none;transition:none} mark{transition:none;background-size:100% 42%} }
+</style>
+<script>
+  /* ===== Shared helpers (every section fragment may use these) ===== */
+  document.documentElement.classList.add('js');
+  try { if (navigator.maxTouchPoints > 0 && Math.min(screen.width, screen.height) < 540) document.documentElement.classList.add('phone'); } catch (e) {}
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* ?final=1 forces every finished state (screenshots; hidden panes throttle animation) */
+  const FINAL = reduce || /[?&]final=1/.test(location.search);
+  const NS = 'http://www.w3.org/2000/svg';
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+  /* Run fn once when el is threshold-visible. Under FINAL it runs at once. */
+  function onView(el, fn, threshold = .3) {
+    if (!el) return;
+    if (FINAL || !('IntersectionObserver' in window)) { fn(); return; }
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { io.disconnect(); fn(); } }), { threshold });
+    io.observe(el);
+  }
+  /* Hide paths so they can be pen-drawn later. */
+  function prepDraw(paths) {
+    paths.forEach(p => { const L = p.getTotalLength ? p.getTotalLength() : 0; p.style.strokeDasharray = L + ' ' + L; p.style.strokeDashoffset = FINAL ? 0 : L; p.dataset.len = L; });
+  }
+  /* House pen rule: duration = length / speed, clamped .6-2.2s; next stroke starts at 82% of the previous.
+     parallel:true starts every path at once. Returns the time (s) when the set is done enough to chain. */
+  function penDraw(paths, { delay = 0, speed = 600, overlap = .82, parallel = false, min = .6, max = 2.2 } = {}) {
+    let t = delay, end = delay;
+    paths.forEach(p => {
+      const L = +p.dataset.len || p.getTotalLength();
+      const d = Math.min(max, Math.max(min, L / speed));
+      if (!p.dataset.len) { p.style.strokeDasharray = L + ' ' + L; p.style.strokeDashoffset = L; p.dataset.len = L; }
+      if (FINAL) { p.style.strokeDashoffset = 0; return; }
+      p.getBoundingClientRect();
+      p.style.transition = `stroke-dashoffset ${d}s var(--ease-draw) ${parallel ? delay : t}s`;
+      requestAnimationFrame(() => { p.style.strokeDashoffset = 0; });
+      if (parallel) end = Math.max(end, delay + d * overlap); else { t += d * overlap; end = t; }
+    });
+    return end;
+  }
+  /* Reveal blocks marked .rv; the ones already on screen at load show at once. */
+  function initReveal() {
+    const els = $$('.rv');
+    if (FINAL || !('IntersectionObserver' in window)) { els.forEach(e => e.classList.add('in')); return; }
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -12% 0px' });
+    els.forEach(e => io.observe(e));
+  }
+  addEventListener('DOMContentLoaded', initReveal);
+
+  /* ===== The motif: Coastline's refrigerated truck as an engineering drawing =====
+     viewBox 0 0 900 440. Parts are named so sections can light one part (badges) or x-ray it (stage). */
+  const TRUCK = {
+    ground: 'M40 330H860',
+    cl: 'M170 252V348M585 252V348M680 252V348M118 300H732',
+    chassis: 'M70 270H786V282H70Z M300 284H384V306H300Z',
+    cab: 'M222 268V118H130Q114 118 106 132L80 184Q76 192 76 202V268Z M208 132H134L114 178H208Z M152 186V258 M192 200H204 M64 248H80V270H64Z M72 212H82V224H72Z',
+    box: 'M238 266V92H782V266Z M238 92V58H306V92 M248 68H296M248 76H296M248 84H296',
+    ribs: (() => { let d = ''; for (let x = 276; x <= 690; x += 38) d += `M${x} 96V262`; return d; })(),
+    door: 'M712 100V258H774V100Z M730 112V246M756 112V246 M705 140H712M705 220H712',
+    wheels: [170, 585, 680].map(x => `M${x - 30} 300a30 30 0 1 0 60 0a30 30 0 1 0 -60 0 M${x - 19} 300a19 19 0 1 0 38 0a19 19 0 1 0 -38 0 M${x - 6} 300a6 6 0 1 0 12 0a6 6 0 1 0 -12 0`).join(' '),
+    hatch: (() => { let d = ''; for (let y = 92; y <= 252; y += 8) d += `M238 ${y + 14}L252 ${y}`; return d; })(),
+    dim: 'M76 392H782',
+    ext: 'M76 276V402 M782 276V402',
+    tb: 'M540 404H884V438H540Z M540 421H884 M712 404V438 M806 404V438',
+    /* cargo for the x-ray: 4 x 3 crates; the warm one is index 7 (nearest the door, middle row) */
+    crates: (() => { const out = []; [108, 158, 208].forEach(y => [262, 366, 470, 574].forEach(x => out.push(`M${x} ${y}h94v44h-94Z M${x} ${y + 22}h94`))); return out; })(),
+    warm: 7,
+    sensors: { box: [470, 104], door: [712, 180], cab: [178, 150] },
+    route: { from: [76, 392], to: [782, 392] }
+  };
+  /* Build the static truck into an <svg> (or <g>). opts.parts limits which parts; opts.cls adds classes per part. */
+  function drawTruck(target, { parts = ['ground', 'cl', 'chassis', 'cab', 'box', 'ribs', 'door', 'wheels', 'ext', 'dim', 'tb'], cls = {}, labels = true } = {}) {
+    const weight = { ground: 'ln thin', cl: 'ln cl', chassis: 'ln', cab: 'ln', box: 'ln', ribs: 'ln thin', door: 'ln', wheels: 'ln', hatch: 'ln thin', dim: 'ln thin', ext: 'ln thin', tb: 'ln' };
+    const made = {};
+    parts.forEach(k => {
+      const p = document.createElementNS(NS, 'path');
+      p.setAttribute('d', TRUCK[k]); p.setAttribute('class', `${weight[k] || 'ln'} t-${k} ${cls[k] || ''}`.trim());
+      if (k === 'dim') { p.setAttribute('marker-start', 'url(#arr)'); p.setAttribute('marker-end', 'url(#arr)'); }
+      target.appendChild(p); made[k] = p;
+    });
+    if (labels && parts.includes('dim')) target.insertAdjacentHTML('beforeend', `<text class="svg-label t-dimtext" x="429" y="386" text-anchor="middle">KOCHI TO BENGALURU, ONE NIGHT</text>`);
+    if (labels && parts.includes('tb')) target.insertAdjacentHTML('beforeend',
+      `<g class="t-tbtext"><text class="svg-label" x="548" y="416" style="font-size:8.5px">CLIENT</text><text class="svg-label" x="548" y="433" style="font-size:9.5px">COASTLINE COLD CHAIN</text>
+       <text class="svg-label" x="720" y="416" style="font-size:8.5px">DRAWN BY</text><text class="svg-label" x="720" y="433" style="font-size:9.5px">TIDEWATER</text>
+       <text class="svg-label" x="814" y="416" style="font-size:8.5px">SHEET</text><text class="svg-label" x="814" y="433" style="font-size:9.5px">PROPOSAL A</text></g>`);
+    return made;
+  }
+  /* Small badge: the whole truck faint, one part ('box' | 'cab' | 'trip') in redline. Returns SVG markup. */
+  function truckBadge(part) {
+    const lit = { box: ['box', 'door'], cab: ['cab'], trip: ['dim', 'ext'] }[part] || [];
+    const keys = ['cab', 'box', 'door', 'chassis', 'wheels', 'ext', 'dim'];
+    const paths = keys.map(k => `<path d="${TRUCK[k]}" class="ln ${lit.includes(k) ? 'red' : ''}" style="stroke-width:${lit.includes(k) ? 9 : 5};opacity:${lit.includes(k) ? 1 : .35}"/>`).join('');
+    return `<svg class="badge" viewBox="40 40 790 380" role="img" aria-label="The truck drawing with the ${part} highlighted">${paths}</svg>`;
+  }
+</script>
+
+<!-- Shared SVG defs: arrowheads and the graphite pencil filter. Not display:none, or markers and filters break. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 2L10 5L0 8Z" fill="#22201E"/></marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 2L10 5L0 8Z" fill="#B3322E"/></marker>
+    <filter id="graphite" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale=".9" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="gate" role="dialog" aria-label="Open on a larger screen">
+  <div>
+    <svg viewBox="0 0 120 80" width="120" aria-hidden="true"><path class="ln" style="stroke:var(--marker)" d="M20 14h80v46H20zM8 66h104"/></svg>
+    <p>Open this on your laptop or tablet</p>
+    <small>This proposal is built for a bigger screen.</small>
+  </div>
+</div>
+
+<main>
+<!-- =====================================================================
+  ARCHITECTURE SHELL: PAGED, "the paper deck"
+  Copy to work/frag-00-arch.html so it loads before every section. Sections stay as they are.
+
+  - Every top-level <section> in <main> becomes one sheet of paper resting on the direction's dark ground,
+    one sheet at a time. The sheet keeps the section's own background (its band colour).
+  - Reader controls: Next and Previous (bottom right), arrow keys, PageUp/PageDown, Space, Home/End, swipe.
+    Counter "03 / 09". Deep links: #page-3, or #<id> of anything inside a sheet (plain anchors).
+  - Builds: an element with data-step="1".."n" inside a sheet stays hidden until Next shows it, in order,
+    before the deck turns. Back steps backwards; a sheet reached by going back shows every step.
+    (A pinned stage also writes data-step: never use a pinned stage with this shell. The sheet is the stage.)
+  - Fit: a sheet taller than the screen tries tighter type, a narrower column, then head beside visual
+    (the data-cps-fit levels below). If nothing fits, it scrolls inside itself and Next reads "More".
+    Section-specific fit rules go in their own fragment (work/frag-00-fit.html, scoped html.arch-paged #id),
+    never in this file. Set --cps-split:no on a section there to rule out head beside visual.
+  - Events, dispatched on the section and bubbling:
+      cps:enter {index, total, dir}   the sheet became current      cps:leave {index, total, dir}
+      cps:step  {step, steps}         a build step changed (also sent on enter for a sheet with steps)
+    onView and .rv work unchanged: waiting sheets sit off screen, so IntersectionObserver fires when their
+    sheet arrives. Scrolling inside a sheet is forwarded as a window scroll event.
+  - window.CPS = {arch, go(n), next(), prev(), index()}  (n is 0-based)
+  - FINAL (?final=1 or reduced motion): sheets stacked vertically on the ground, every step shown, no controls.
+    The starter's phone gate still applies. Print: one sheet per page.
+  ===================================================================== -->
+<style>
+  html.arch-paged{--pg-m:clamp(10px,1.4vw,18px);--pg-bar:64px;--pg-desk:var(--ground);
+    --pg-shadow:0 0 0 1px rgba(255,255,255,.05),0 1px 2px rgba(0,0,0,.3),0 22px 48px -24px rgba(0,0,0,.75);
+    --pg-lift:0 0 0 1px rgba(255,255,255,.05),0 3px 6px rgba(0,0,0,.25),0 40px 70px -28px rgba(0,0,0,.85)}
+  /* the desk sits a shade below the ground, so a dark sheet still reads as paper on it */
+  @supports (color:color-mix(in srgb,red,blue)){html.arch-paged{--pg-desk:color-mix(in srgb,var(--ground) 68%,#000)}}
+  html.arch-paged body{background:var(--pg-desk)}
+
+  /* ---- Every sheet, deck or stacked ---- */
+  html.arch-paged main > section{display:flex;flex-direction:column;border-radius:var(--r-sheet,3px);box-shadow:var(--pg-shadow)}
+  :where(html.arch-paged main > section){background-color:var(--paper)}
+  html.arch-paged main > section > *{flex-shrink:0}
+  html.arch-paged main > section > .wrap{width:100%}
+  /* content shorter than the sheet sits in its middle; taller content starts at the top and scrolls */
+  html.arch-paged main > section::before,html.arch-paged main > section::after{content:"";flex:1 0 0px}
+  html.arch-paged main > section.band{padding-top:clamp(32px,6vh,60px) !important;padding-bottom:clamp(32px,6vh,60px) !important}
+  html.arch-paged main > section .band-head{margin-bottom:clamp(22px,3.6vh,40px)}
+
+  /* ---- Deck: one sheet at a time ---- */
+  html.pg-deck,html.pg-deck body{overscroll-behavior:none}
+  html.pg-deck main{position:fixed;inset:0;overflow:hidden;overflow:clip}
+  html.pg-deck main > section{position:absolute !important;top:var(--pg-m) !important;left:var(--pg-m) !important;
+    right:var(--pg-m) !important;bottom:var(--pg-bar) !important;width:auto !important;height:auto !important;
+    min-height:0 !important;max-height:none !important;margin:0 !important;
+    overflow-x:hidden !important;overflow-y:auto !important;overscroll-behavior:contain;
+    scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.28) transparent;
+    z-index:1;visibility:hidden;translate:0 130vh} /* parked off screen: IntersectionObserver reports it unseen */
+  html.pg-deck main > section.pg-on,html.pg-deck main > section.pg-out,
+  html.pg-deck:not(.pg-ready) main > section:first-of-type{visibility:visible;translate:none}
+  html.pg-deck main > section.pg-on{z-index:2}
+  html.pg-deck main > section.pg-out{z-index:3;pointer-events:none} /* the old sheet lifts off on top */
+  /* the turn: the old sheet lifts and slides 24px while fading; the new one settles in underneath */
+  html.pg-deck main > section.pg-anim{transition:transform .7s var(--ease-out),opacity .55s var(--ease-out),box-shadow .7s var(--ease-out)}
+  html.pg-deck main > section.pg-in-f{transform:translate3d(24px,0,0)}
+  html.pg-deck main > section.pg-in-b{transform:translate3d(-24px,0,0)}
+  html.pg-deck main > section.pg-out-f{transform:translate3d(-24px,-6px,0);opacity:0;box-shadow:var(--pg-lift)}
+  html.pg-deck main > section.pg-out-b{transform:translate3d(24px,-6px,0);opacity:0;box-shadow:var(--pg-lift)}
+  /* builds: fade only, so a step never fights an element's own transform or translate */
+  html.pg-deck main > section [data-step]{opacity:0;visibility:hidden;transition:opacity .6s var(--ease-out),visibility 0s linear .6s}
+  html.pg-deck main > section [data-step].pg-shown{opacity:1;visibility:visible;transition:opacity .6s var(--ease-out),visibility 0s}
+
+  /* ---- Stacked (FINAL): the same sheets one under another, every step shown ---- */
+  html.arch-paged:not(.pg-deck) main{padding:var(--pg-m) var(--pg-m) 0}
+  html.arch-paged:not(.pg-deck) main > section{height:calc(100vh - var(--pg-m) - var(--pg-bar)) !important;
+    min-height:0 !important;max-height:none !important;margin:0 0 var(--pg-m) !important;overflow:hidden !important} /* hidden: the fit test counts the bottom padding, as in the deck */
+  html.arch-paged:not(.pg-deck) main > section.pg-tall{height:auto !important;min-height:calc(100vh - var(--pg-m) - var(--pg-bar)) !important}
+
+  /* ---- Fit levels, set by the script only on sheets that overflow (first level that fits wins) ----
+     1 tighter type and spacing · 2 plus a 1000px column · 3 head beside visual · 4 that, tighter
+     5 an 860px column · 6 a 760px column */
+  html.arch-paged main > section[data-cps-fit].band{padding-top:clamp(22px,4vh,40px) !important;padding-bottom:clamp(22px,4vh,40px) !important}
+  html.arch-paged main > section[data-cps-fit] h2{font-size:clamp(30px,3.3vw,46px)}
+  html.arch-paged main > section[data-cps-fit] .lede{font-size:17px}
+  html.arch-paged main > section[data-cps-fit] .band-head{gap:12px;margin-bottom:clamp(14px,2.6vh,28px)}
+  html.arch-paged main > section[data-cps-fit="2"]{--wrap:1000px}
+  html.arch-paged main > section[data-cps-fit="4"].band{padding-top:clamp(14px,2.4vh,24px) !important;padding-bottom:clamp(14px,2.4vh,24px) !important}
+  html.arch-paged main > section[data-cps-fit="4"] h2{font-size:clamp(28px,2.8vw,40px)}
+  html.arch-paged main > section[data-cps-fit="4"] h3{font-size:clamp(20px,1.8vw,24px)}
+  html.arch-paged main > section[data-cps-fit="5"]{--wrap:860px}
+  html.arch-paged main > section[data-cps-fit="6"]{--wrap:760px}
+  html.arch-paged main > section .wrap.cps-split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);column-gap:clamp(28px,4vw,64px);align-items:center}
+  html.arch-paged main > section .wrap.cps-split > *{margin-top:0 !important;margin-bottom:0 !important;min-width:0}
+
+  /* ---- Controls: on the ground under the sheet, never over it ---- */
+  .pg-bar{display:none}
+  html.pg-deck .pg-bar{position:fixed;left:var(--pg-m);right:var(--pg-m);bottom:0;height:var(--pg-bar);z-index:10;
+    display:flex;align-items:center;justify-content:space-between;gap:20px;color:var(--paper)}
+  .pg-title{margin:0;min-width:0;flex:1 1 auto;font:500 11.5px/1.3 var(--font-label);letter-spacing:.08em;text-transform:uppercase;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.62}
+  .pg-ctl{display:flex;align-items:center;gap:14px;flex:none}
+  .pg-count{margin:0;font:500 13px/1 var(--font-label);letter-spacing:.06em;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .pg-count span{opacity:.62}
+  .pg-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .pg-dots{display:flex;gap:6px}
+  .pg-dots i{width:6px;height:6px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.5);transition:background-color .3s var(--ease-out)}
+  .pg-dots i.on{background:var(--paper);box-shadow:none}
+  .pg-bar button{height:46px;border:0;border-radius:4px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    font:600 15px/1 var(--font-body);-webkit-tap-highlight-color:transparent;
+    transition:scale .15s ease-out,opacity .2s ease-out,box-shadow .3s var(--ease-out)}
+  .pg-bar button:not(:disabled):active{scale:.96}
+  .pg-bar button:disabled{opacity:.32;cursor:default}
+  .pg-bar button:focus-visible{outline:2px solid var(--paper);outline-offset:3px}
+  .pg-bar svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:rotate .25s var(--ease-out)}
+  .pg-prev{width:46px;background:transparent;color:var(--paper);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.4)}
+  .pg-next{min-width:132px;padding:0 18px 0 22px;background:var(--paper);color:var(--ink)}
+  .pg-next.pg-down svg{rotate:90deg}
+  .pg-bar button.pg-nudge{box-shadow:0 0 0 4px rgba(255,255,255,.4)}
+  .pg-prev.pg-nudge{box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.4),0 0 0 4px rgba(255,255,255,.4)}
+  @media (max-width:899px){.pg-dots{display:none}}
+
+  @media print{
+    html.pg-deck main{position:static;overflow:visible}
+    html.pg-deck main > section{position:relative !important;inset:auto !important;height:auto !important;visibility:visible;translate:none;
+      transform:none;opacity:1;overflow:visible !important;box-shadow:none;break-after:page}
+    html.pg-deck main > section [data-step]{opacity:1;visibility:visible}
+    html.pg-deck .pg-bar{display:none}
+  }
+</style>
+
+<nav class="pg-bar" aria-label="Pages">
+  <p class="pg-title" aria-hidden="true"></p>
+  <div class="pg-ctl">
+    <span class="pg-dots" aria-hidden="true"></span>
+    <p class="pg-count" aria-live="polite"><span class="pg-sr">Page </span><b class="pg-now">01</b><span> / </span><span class="pg-all">01</span></p>
+    <button class="pg-prev" type="button" aria-label="Previous page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5M11 6l-6 6 6 6"/></svg></button>
+    <button class="pg-next" type="button"><span class="pg-next-label">Next</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></button>
+  </div>
+</nav>
+
+<script>
+(() => {
+  const root = document.documentElement, deck = !FINAL;
+  root.classList.add('arch-paged');
+  if (deck) root.classList.add('pg-deck');
+
+  /* Deep link before the first paint: show sheet N instead of sheet 1 */
+  const want = /^#page-(\d+)$/.exec(location.hash);
+  if (deck && want && +want[1] > 1) {
+    const st = document.createElement('style');
+    st.textContent = `html.pg-deck:not(.pg-ready) main>section:first-of-type{visibility:hidden;translate:0 130vh}
+      html.pg-deck:not(.pg-ready) main>section:nth-of-type(${+want[1]}){visibility:visible;translate:none}`;
+    document.head.appendChild(st);
+  }
+
+  /* Reveal: the starter's observer skips the bottom 12% of the screen, where a sheet's lower edge sits.
+     On a deck the whole screen counts; waiting sheets are off screen, so blocks reveal when their sheet arrives. */
+  if (deck && typeof initReveal === 'function') {
+    removeEventListener('DOMContentLoaded', initReveal);
+    addEventListener('DOMContentLoaded', () => {
+      const els = $$('.rv');
+      if (!('IntersectionObserver' in window)) { els.forEach(e => e.classList.add('in')); return; }
+      const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }));
+      els.forEach(e => io.observe(e));
+    });
+  }
+
+  addEventListener('DOMContentLoaded', () => {
+    const main = $('main'), bar = $('.pg-bar');
+    const sheets = main ? $$(':scope > section', main) : [], N = sheets.length;
+    if (!N || !bar) return;
+    const ev = (el, name, detail) => el.dispatchEvent(new CustomEvent(name, { bubbles: true, detail }));
+    const stepOf = e => +e.dataset.step || 0;
+    const steps = sheets.map(s => $$('[data-step]', s).reduce((m, e) => Math.max(m, stepOf(e)), 0));
+    const titleOf = s => (s.dataset.title || ($('h2', s) || $('h1', s) || {}).textContent || s.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim();
+    const pad = n => String(n).padStart(2, '0');
+    const more = s => s.scrollTop + s.clientHeight < s.scrollHeight - 8;
+    const nextBtn = $('.pg-next', bar), prevBtn = $('.pg-prev', bar), nextLabel = $('.pg-next-label', bar);
+    const nowEl = $('.pg-now', bar), titleEl = $('.pg-title', bar), dots = $('.pg-dots', bar);
+    $('.pg-all', bar).textContent = pad(N);
+    dots.innerHTML = sheets.map(() => '<i></i>').join('');
+    let cur = -1, step = 0, leaving = null, timer = 0, update = () => {};
+
+    /* ---- Fit: first level that fits wins; otherwise the sheet scrolls (deck) or grows (stacked) ---- */
+    const SPLIT = [3, 4];
+    const kids = w => w ? [...w.children].filter(k => !/^(STYLE|SCRIPT|TEMPLATE)$/.test(k.tagName) && getComputedStyle(k).position !== 'absolute') : [];
+    /* head beside visual is skipped when the visual places HTML text by % (it would wrap and collide),
+       or when a fit rule sets --cps-split: no on the section */
+    const splitOk = (s, vis) => getComputedStyle(s).getPropertyValue('--cps-split').trim() !== 'no' &&
+      ![...vis.querySelectorAll('*')].some(n => !(n instanceof SVGElement) && getComputedStyle(n).position === 'absolute' && n.textContent.trim().length > 12);
+    function fitAll() {
+      const land = innerWidth / innerHeight > 1.15;
+      sheets.forEach(s => {
+        const w = s.querySelector(':scope > .wrap'), k = kids(w), canSplit = land && k.length === 2 && splitOk(s, k[1]);
+        const set = lv => { if (lv) s.dataset.cpsFit = lv; else delete s.dataset.cpsFit; if (w) w.classList.toggle('cps-split', SPLIT.includes(lv)); };
+        const fits = () => s.scrollHeight - s.clientHeight <= 2;
+        s.classList.remove('pg-tall'); set(0);
+        if (fits()) return;
+        for (const lv of [1, 2, 3, 4, 5, 6]) { if (SPLIT.includes(lv) && !canSplit) continue; set(lv); if (fits()) return; }
+        set(0); if (!deck) s.classList.add('pg-tall');
+      });
+      if (cur >= 0) update();
+    }
+
+    if (!deck) {   /* stacked: every step shown by the CSS; tell modules each sheet is in its finished state */
+      fitAll();
+      sheets.forEach((s, i) => { ev(s, 'cps:enter', { index: i, total: N, dir: 1 }); if (steps[i]) ev(s, 'cps:step', { step: steps[i], steps: steps[i] }); });
+    } else {
+      const show = (s, n) => $$('[data-step]', s).forEach(e => e.classList.toggle('pg-shown', stepOf(e) <= n));
+      const park = s => { s.classList.remove('pg-on', 'pg-out', 'pg-anim', 'pg-in-f', 'pg-in-b', 'pg-out-f', 'pg-out-b'); s.inert = true; s.setAttribute('aria-hidden', 'true'); };
+      const settle = () => { clearTimeout(timer); if (leaving) { park(leaving); leaving = null; } if (cur >= 0) sheets[cur].classList.remove('pg-anim'); };
+      const nudge = b => { if (b.classList.contains('pg-nudge')) return; b.classList.add('pg-nudge'); setTimeout(() => b.classList.remove('pg-nudge'), 900); };
+
+      update = () => {
+        const s = sheets[cur], built = step >= steps[cur], down = built && more(s);
+        nowEl.textContent = pad(cur + 1);
+        [...dots.children].forEach((d, i) => d.classList.toggle('on', i === cur));
+        titleEl.textContent = titleOf(s);
+        prevBtn.disabled = cur === 0 && step === 0 && s.scrollTop <= 8;
+        const end = cur === N - 1 && built && !down;
+        nextBtn.disabled = end;
+        nextLabel.textContent = end ? 'End' : down ? 'More' : 'Next';
+        nextBtn.classList.toggle('pg-down', down);
+      };
+
+      function go(n, { dir, built = false, instant = false, target = null } = {}) {
+        n = Math.max(0, Math.min(N - 1, n));
+        if (n === cur) return;
+        if (dir === undefined) dir = n > cur ? 1 : -1;
+        settle();
+        const from = cur >= 0 ? sheets[cur] : null, to = sheets[n];
+        if (from) ev(from, 'cps:leave', { index: cur, total: N, dir });
+        step = built ? steps[n] : 0; show(to, step);
+        to.inert = false; to.removeAttribute('aria-hidden');
+        if (from && !instant) {
+          to.classList.add('pg-on', dir > 0 ? 'pg-in-f' : 'pg-in-b');
+          from.classList.remove('pg-on'); from.classList.add('pg-out'); from.inert = true;
+          to.scrollTop = 0;
+          void to.offsetWidth;                     /* commit the start position, then let both sheets move */
+          to.classList.add('pg-anim'); from.classList.add('pg-anim');
+          to.classList.remove('pg-in-f', 'pg-in-b');
+          from.classList.add(dir > 0 ? 'pg-out-f' : 'pg-out-b');
+          leaving = from; timer = setTimeout(settle, 780);
+        } else {
+          sheets.forEach(s => { if (s !== to) park(s); });
+          to.classList.add('pg-on');
+        }
+        cur = n; to.scrollTop = 0;
+        if (target && target !== to) to.scrollTop = Math.max(0, target.getBoundingClientRect().top - to.getBoundingClientRect().top - 24);
+        ev(to, 'cps:enter', { index: n, total: N, dir });
+        if (steps[n]) ev(to, 'cps:step', { step, steps: steps[n] });
+        update();
+        if (from) try { history.replaceState(null, '', '#page-' + (n + 1)); } catch (e) {}
+        dispatchEvent(new Event('scroll'));       /* scroll-listening helpers re-measure the new sheet */
+      }
+      function setStep(n) {
+        const s = sheets[cur]; step = n; show(s, n);
+        ev(s, 'cps:step', { step: n, steps: steps[cur] });
+        const fresh = $$('[data-step]', s).filter(e => stepOf(e) === n);
+        if (fresh.length) {   /* a new step below the fold scrolls into view inside the sheet */
+          const b = Math.max(...fresh.map(e => e.getBoundingClientRect().bottom)), r = s.getBoundingClientRect();
+          if (b > r.bottom - 16) s.scrollBy({ top: b - r.bottom + 32, behavior: 'smooth' });
+        }
+        update();
+      }
+      function next(scrollFirst = true) {
+        const s = sheets[cur];
+        if (step < steps[cur]) return setStep(step + 1);
+        if (scrollFirst && more(s)) return s.scrollBy({ top: s.clientHeight * .8, behavior: 'smooth' });
+        if (cur < N - 1) go(cur + 1, { dir: 1 }); else nudge(nextBtn);
+      }
+      function prev(scrollFirst = true) {
+        const s = sheets[cur];
+        if (scrollFirst && s.scrollTop > 8) return s.scrollBy({ top: -s.clientHeight * .8, behavior: 'smooth' });
+        if (step > 0) return setStep(step - 1);
+        if (cur > 0) go(cur - 1, { dir: -1, built: true }); else nudge(prevBtn);
+      }
+      function fromHash() {
+        let h = location.hash.slice(1); try { h = decodeURIComponent(h); } catch (e) {}
+        if (!h) return null;
+        const m = /^page-(\d+)$/.exec(h);
+        if (m) return { i: Math.max(0, Math.min(N - 1, +m[1] - 1)), el: null };
+        const el = document.getElementById(h), i = el ? sheets.findIndex(s => s.contains(el)) : -1;
+        return i < 0 ? null : { i, el };
+      }
+
+      /* Start */
+      sheets.forEach(park);
+      const t0 = fromHash();
+      go(t0 ? t0.i : 0, { instant: true, target: t0 && t0.el });
+      root.classList.add('pg-ready');
+      fitAll();
+
+      nextBtn.addEventListener('click', () => next());
+      prevBtn.addEventListener('click', () => prev());
+      addEventListener('hashchange', () => { const t = fromHash(); if (t && t.i !== cur) go(t.i, { target: t.el }); });
+      addEventListener('keydown', e => {
+        if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+        const t = e.target, k = e.key;
+        if (t.closest && t.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"])')) return;
+        if ((k === ' ' || k === 'Enter') && t.closest && t.closest('button, a[href], summary')) return;
+        const s = sheets[cur];
+        let f = null;
+        if (k === 'ArrowRight' || k === 'PageDown' || (k === ' ' && !e.shiftKey)) f = () => next();
+        else if (k === 'ArrowLeft' || k === 'PageUp' || (k === ' ' && e.shiftKey)) f = () => prev();
+        else if (k === 'ArrowDown') f = () => more(s) ? s.scrollBy({ top: 64 }) : next();
+        else if (k === 'ArrowUp') f = () => s.scrollTop > 0 ? s.scrollBy({ top: -64 }) : prev();
+        else if (k === 'Home') f = () => go(0);
+        else if (k === 'End') f = () => go(N - 1, { built: true });
+        if (f) { e.preventDefault(); f(); }
+      });
+      /* swipe sideways turns the page; swiping up and down scrolls a tall sheet as usual */
+      let tx = null, ty = 0, tt = 0;
+      main.addEventListener('touchstart', e => { if (e.touches.length !== 1) { tx = null; return; } tx = e.touches[0].clientX; ty = e.touches[0].clientY; tt = Date.now(); }, { passive: true });
+      main.addEventListener('touchend', e => {
+        if (tx === null) return;
+        const p = e.changedTouches[0], dx = p.clientX - tx, dy = p.clientY - ty; tx = null;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.4 && Date.now() - tt < 900) dx < 0 ? next(false) : prev(false);
+      }, { passive: true });
+      /* the wheel never turns pages; at a sheet's end it points at the button that does */
+      main.addEventListener('wheel', e => {
+        if (Math.abs(e.deltaY) < 4) return;
+        const s = sheets[cur];
+        if (e.deltaY > 0 ? !more(s) : s.scrollTop <= 0) nudge(e.deltaY > 0 ? nextBtn : prevBtn);
+      }, { passive: true });
+      let raf = 0;
+      sheets.forEach(s => s.addEventListener('scroll', () => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => { raf = 0; update(); dispatchEvent(new Event('scroll')); });
+      }, { passive: true }));
+      window.CPS = { arch: 'paged', go: n => go(n), next: () => next(), prev: () => prev(), index: () => cur };
+    }
+
+    let rt = 0;
+    addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(fitAll, 150); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
+    addEventListener('load', fitAll);
+  });
+})();
+</script>
+
+<!-- Demo only: per-build fit rules for the Coastline sections in a sheet (paged) or a panel (horizontal).
+     Section-specific, so they live in their own fragment, never in the shell. Landscape screens only:
+     portrait tablets keep each section's own tablet layout and the shell's generic fit levels. -->
+<style>
+  @media (min-width:900px) and (min-aspect-ratio:5/4){
+    /* echo: head beside the board, the truck a little narrower, the asks a little smaller */
+    :is(html.arch-paged,html.hz-on) #echo .wrap.cps-split{grid-template-columns:minmax(0,3.2fr) minmax(0,8.8fr)}
+    :is(html.arch-paged,html.hz-on) #echo .echo-board{row-gap:clamp(12px,2vh,22px)}
+    :is(html.arch-paged,html.hz-on) #echo .echo-fig{grid-column:2/12}
+    :is(html.arch-paged,html.hz-on) #echo .echo-blk{gap:6px}
+    :is(html.arch-paged,html.hz-on) #echo .echo-blk h3{font-size:clamp(22px,1.9vw,26px)}
+    :is(html.arch-paged,html.hz-on) #echo .echo-quote{font-size:16.5px}
+    :is(html.arch-paged,html.hz-on) #echo .echo-cab,:is(html.arch-paged,html.hz-on) #echo .echo-box{padding-bottom:14px}
+    :is(html.arch-paged,html.hz-on) #echo .echo-trip{padding-top:14px}
+    /* cta: the finished drawing beside the contact card, the three steps underneath */
+    :is(html.arch-paged,html.hz-on) #cta .wrap{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);column-gap:clamp(28px,3.4vw,48px);
+      align-items:center;grid-template-areas:"head head" "draw contact" "steps steps" "foot foot"}
+    :is(html.arch-paged,html.hz-on) #cta .band-head{grid-area:head;margin-bottom:clamp(6px,1.4vh,14px)}
+    :is(html.arch-paged,html.hz-on) #cta .cta-draw{grid-area:draw;margin:0}
+    :is(html.arch-paged,html.hz-on) #cta .cta-contact{grid-area:contact;margin:0;max-width:none;grid-template-columns:92px minmax(0,1fr);gap:18px;padding:20px 22px}
+    :is(html.arch-paged,html.hz-on) #cta .cta-portrait{width:92px;height:92px;align-self:start}
+    :is(html.arch-paged,html.hz-on) #cta .cta-name{font-size:clamp(26px,2.3vw,32px);margin-top:4px}
+    :is(html.arch-paged,html.hz-on) #cta .cta-role{font-size:14.5px;margin-top:2px}
+    :is(html.arch-paged,html.hz-on) #cta .cta-send{font-size:15px;line-height:1.45;margin-top:8px}
+    :is(html.arch-paged,html.hz-on) #cta .cta-row{margin-top:12px}
+    :is(html.arch-paged,html.hz-on) #cta .cta-steps{grid-area:steps;margin-top:clamp(14px,2.6vh,26px)}
+    :is(html.arch-paged,html.hz-on) #cta .cta-body{font-size:15px}
+    :is(html.arch-paged,html.hz-on) #cta .cta-foot{grid-area:foot;margin:clamp(10px,1.8vh,18px) 0 0;max-width:none;font-size:12.5px}
+  }
+  /* p2s on a narrower landscape screen: text column a touch wider, type a touch smaller, every part kept */
+  @media (min-width:900px) and (max-width:1199px) and (min-aspect-ratio:5/4){
+    :is(html.arch-paged,html.hz-on) #p2s .wrap.cps-split{grid-template-columns:minmax(0,5.4fr) minmax(0,6.6fr);column-gap:28px}
+    :is(html.arch-paged,html.hz-on) #p2s .p2s-col{gap:12px}
+    :is(html.arch-paged,html.hz-on) #p2s .p2s-head{gap:10px}
+    :is(html.arch-paged,html.hz-on) #p2s .p2s-badge svg{width:84px}
+    :is(html.arch-paged,html.hz-on) #p2s .p2s-said{padding:12px 16px}
+    :is(html.arch-paged,html.hz-on) #p2s .p2s-quote{font-size:16px}
+    :is(html.arch-paged,html.hz-on) #p2s .p2s-body{font-size:15.5px;line-height:1.5}
+    :is(html.arch-paged,html.hz-on) #p2s .p2s-goal{font-size:19px}
+    :is(html.arch-paged,html.hz-on) #p2s .p2s-by{gap:8px}
+    :is(html.arch-paged,html.hz-on) #p2s .p2s-by p{font-size:14px}
+    :is(html.arch-paged,html.hz-on) #p2s .p2s-visual{grid-template-columns:minmax(0,1fr) 56px minmax(0,1fr);gap:10px}
+    :is(html.arch-paged,html.hz-on) #p2s .p2s-arrow-h{width:56px}
+    :is(html.arch-paged,html.hz-on) #p2s .p2s-link .label{font-size:9.5px}
+    :is(html.arch-paged,html.hz-on) #cta .cta-addr{font-size:12.5px;overflow-wrap:normal}
+  }
+  /* hero on a tall sheet: the drawing spans the sheet edge to edge, where the scroll page used 100vw */
+  @media (max-aspect-ratio:4/5){ html.arch-paged #hero .hero-draw{width:auto} }
+</style>
+
+<!-- ===== SECTION 1, HERO (prefix hero-), Builder A ===== -->
+<style>
+  #hero{position:relative;height:100vh;height:100svh;background:var(--paper);overflow:hidden}
+  #hero .hero-wrap{position:relative;height:100%;display:flex;flex-direction:column;
+    padding-top:clamp(28px,4.6vh,48px);padding-bottom:clamp(28px,5vh,48px)}
+  #hero .hero-tag{position:absolute;top:clamp(26px,4.6vh,48px);right:var(--gutter);margin:0;text-align:right}
+  #hero .hero-copy{max-width:min(800px,100%)}
+  #hero .hero-copy > .label{margin:0}
+  #hero h1{font-size:clamp(44px,5.8vw,84px);line-height:1;margin-top:clamp(14px,2.2vh,22px)}
+  #hero h1 span{display:block}
+  #hero .lede{margin-top:clamp(14px,2.4vh,22px);max-width:62ch;text-wrap:balance}
+  /* the drawing takes whatever height is left under the copy and sits bottom right, so the title block always has air below it */
+  #hero .hero-draw{position:relative;flex:1 1 0;min-height:0;margin-top:clamp(12px,2vh,22px)}
+  #hero .hero-draw svg{position:absolute;right:0;bottom:0;display:block;width:min(980px,100%);height:100%;overflow:visible}
+  /* narrower than a laptop: the corner tag drops to the bottom right, so the first words read are the proposal label */
+  @media (max-width:899px){
+    #hero .hero-wrap{padding-bottom:clamp(48px,6vh,64px)}
+    #hero .hero-tag{top:auto;bottom:clamp(16px,2.6vh,26px);right:var(--gutter);text-align:right}
+  }
+  /* tall portrait screens: copy first, the drawing runs edge to edge, no empty bands around the truck */
+  @media (max-aspect-ratio:4/5){
+    #hero{height:auto}
+    #hero .hero-wrap{height:auto}
+    #hero h1{font-size:clamp(44px,9.4vw,84px)}
+    #hero .lede{font-size:20px}
+    #hero .hero-draw{flex:none;position:static;min-height:0;margin:48px calc(-1 * var(--gutter)) 0;width:100vw}
+    #hero .hero-draw svg{position:static;width:100%;height:auto;max-width:none}
+  }
+</style>
+
+<section id="hero" aria-label="Proposal introduction">
+  <div class="wrap hero-wrap">
+    <p class="label hero-tag">Prototype, sample brief, fictional companies</p>
+
+    <div class="hero-copy">
+      <p class="label">TIDEWATER STUDIO, KOCHI, FOR COASTLINE COLD CHAIN</p>
+      <h1><span>Keep every load cold,</span> <span>and prove it.</span></h1>
+      <p class="lede">Tidewater Studio fits two sensors and a driver tablet to your trucks, and keeps a temperature record of every load. Follow one night's run from Kochi to Bengaluru to see how, then pick one route for a pilot.</p>
+    </div>
+
+    <div class="hero-draw">
+      <svg id="hero-svg" viewBox="0 0 900 440" preserveAspectRatio="xMaxYMax meet" role="img" aria-label="Engineering drawing of a refrigerated truck, drawn line by line: the box, the cab and the trip from Kochi to Bengaluru">
+        <defs>
+          <!-- Masks let dashed lines pen-draw without losing their dash pattern -->
+          <mask id="hero-m-g" maskUnits="userSpaceOnUse" x="0" y="0" width="900" height="440">
+            <path id="hero-gb" d="M40 40H884V436H40Z" fill="none" stroke="#fff" stroke-width="4"/>
+            <path id="hero-gd" d="M40 58H884" fill="none" stroke="#fff" stroke-width="4"/>
+          </mask>
+          <mask id="hero-m-cl" maskUnits="userSpaceOnUse" x="0" y="0" width="900" height="440">
+            <path id="hero-clm" d="M170 252V348M585 252V348M680 252V348M118 300H732" fill="none" stroke="#fff" stroke-width="4"/>
+          </mask>
+        </defs>
+
+        <g id="hero-g" filter="url(#graphite)">
+          <!-- 1. construction guides: faint, dashed, drawn first -->
+          <g mask="url(#hero-m-g)"><path class="ln guide" d="M40 40H884V436H40Z M40 58H884"/></g>
+          <!-- 2. centre lines (dash-dot), drawn second -->
+          <g mask="url(#hero-m-cl)"><path class="ln cl" d="M170 252V348M585 252V348M680 252V348M118 300H732"/></g>
+          <!-- 3-5. object lines, dimension and title block are appended by the script in plotter order -->
+        </g>
+
+        <!-- 6. the hand note, after the drawing is finished -->
+        <g id="hero-hand">
+          <text class="svg-hand" x="824" y="134" style="font-size:20px">what's</text>
+          <text class="svg-hand" x="824" y="157" style="font-size:20px">inside?</text>
+          <path id="hero-arrow" class="ln red" d="M821 148H795" marker-end="url(#arr-red)" style="stroke-width:1.6"/>
+        </g>
+      </svg>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(() => {
+  const svg = $('#hero-svg'), g = $('#hero-g'), hand = $('#hero-hand');
+  if (!svg || !g) return;
+  const gb = $('#hero-gb'), gd = $('#hero-gd'), clm = $('#hero-clm');
+  const arrow = $('#hero-arrow');
+
+  // Object lines, in plotter order (each call appends to the same group)
+  const cab = drawTruck(g, { parts: ['cab'], labels: false });
+  const chassis = drawTruck(g, { parts: ['ground', 'chassis'], labels: false });
+  const box = drawTruck(g, { parts: ['box', 'hatch'], labels: false });
+  const ribs = drawTruck(g, { parts: ['ribs'], labels: false });
+  const door = drawTruck(g, { parts: ['door', 'wheels'], labels: false });
+  // Dimension line + its text, then the title block (labels come from drawTruck)
+  const dim = drawTruck(g, { parts: ['ext', 'dim'], labels: true });
+  const tb = drawTruck(g, { parts: ['tb'], labels: true });
+  const dimText = g.querySelector('.t-dimtext'), tbText = g.querySelector('.t-tbtext');
+
+  const objectLines = [cab.cab, chassis.ground, chassis.chassis, box.box, box.hatch, ribs.ribs, door.door, door.wheels];
+  const dimLine = dim.dim, extLine = dim.ext, tbLine = tb.tb;
+  // Dashed guides and centre lines stay dashed: only their solid mask copies are pen-drawn.
+  prepDraw([gb, gd, clm, ...objectLines, extLine, dimLine, tbLine, arrow]);
+
+  // Text and arrowheads fade in with their lines
+  const fade = (el, delay = 0, dur = .6) => {
+    if (!el) return;
+    if (FINAL) { el.style.opacity = 1; return; }
+    el.style.opacity = 0;
+    el.style.transition = `opacity ${dur}s var(--ease-out) ${delay}s`;
+    requestAnimationFrame(() => requestAnimationFrame(() => { el.style.opacity = 1; }));
+  };
+  if (dimText) { dimText.style.opacity = FINAL ? 1 : 0; }
+  if (tbText) { tbText.style.opacity = FINAL ? 1 : 0; }
+  if (hand) { hand.style.opacity = FINAL ? 1 : 0; }
+
+  const at = (paths, delay, speed = 1300, min = .6, max = 2) =>
+    penDraw(paths, { delay, parallel: true, speed, min, max });
+
+  const run = () => {
+    at([gb, gd], 0, 3000, .35, .7);                  // guides, fast
+    at([clm], .45, 1100, .5, .9);                     // centre lines
+    at([cab.cab], 1.0, 1300, .5, .8);                 // cab
+    at([box.box, box.hatch], 1.2, 1500, .6, 1.1);     // box
+    at([ribs.ribs], 1.5, 1600, .6, 1.2);              // ribs
+    at([chassis.ground, chassis.chassis], 1.35, 1500, .6, 1.2); // chassis
+    at([door.door, door.wheels], 1.6, 1300, .6, .9);  // door, wheels
+    at([extLine, dimLine], 2.45, 1000, .6, .9);       // dimension line
+    fade(dimLine, 2.45, .2);
+    fade(dimText, 2.9, .5);
+    at([tbLine], 2.9, 1600, .5, .7);                  // title block last
+    fade(tbText, 3.25, .5);
+    fade(hand, 3.6, .6);                              // hand note once drawing is done
+    at([arrow], 3.7, 1400, .4, .6);
+  };
+  run();
+})();
+</script>
+
+<!-- ===== SECTION 2, ECHO (prefix echo-), Builder A ===== -->
+<style>
+  #echo.band{padding-bottom:clamp(48px,6vw,80px)}
+  #echo .band-head{margin-bottom:clamp(36px,4.4vw,56px)}
+  #echo .band-head .lede{text-wrap:balance}
+  #echo .echo-teams{font-size:17px;line-height:1.55;color:var(--muted);max-width:none}
+  #echo .echo-teams .chip{font-size:12px;padding:3px 7px;vertical-align:1px}
+
+  /* One 12-column board: row 1 two ask blocks, row 2 the truck, row 3 the third ask block */
+  #echo .echo-board{position:relative;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));
+    column-gap:clamp(12px,1.6vw,20px);row-gap:clamp(40px,5vw,60px)}
+  #echo .echo-fig{grid-column:1/-1;grid-row:2}
+  #echo .echo-cab{grid-column:1/5;grid-row:1}
+  #echo .echo-box{grid-column:7/12;grid-row:1}
+  #echo .echo-trip{grid-column:4/10;grid-row:3}
+
+  /* The drawing: everything faint, three parts lit in red */
+  #echo .echo-svg{display:block;width:100%;height:auto;overflow:visible}
+  #echo .echo-svg .ln{opacity:.45;vector-effect:non-scaling-stroke}
+  #echo .echo-svg .ln.red{opacity:1;stroke-width:2.2;stroke:var(--ink)}
+  #echo .echo-svg .t-dimtext{fill:var(--red);font-size:10.5px}
+
+  /* Ask blocks: plain text, no panel. The red leader line and its shoulder are drawn in the overlay */
+  #echo .echo-blk{display:flex;flex-direction:column;gap:10px;min-width:0}
+  #echo .echo-cab,#echo .echo-box{padding-bottom:20px}
+  #echo .echo-trip{padding-top:20px}
+  #echo .echo-blk .label{margin:0;color:var(--red)}
+  #echo .echo-blk h3{font-size:clamp(26px,2.4vw,32px);line-height:1.08}
+  #echo .echo-quote{margin:0;font:italic 400 19px/1.4 var(--font-body);color:var(--ink)}
+  #echo .echo-by{margin-top:auto;padding-top:6px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+  #echo .echo-by b{font:500 10.5px/1.3 var(--font-label);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  #echo .echo-badge{display:none}
+  #echo .echo-badge svg{display:block;width:100%;height:auto;overflow:visible}
+
+  /* Leader overlay: one SVG over the whole board, measured from the blocks and the drawing */
+  #echo .echo-leaders{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+  #echo .echo-leaders .ln{stroke:var(--red);stroke-width:1.2}
+  #echo .echo-leaders .echo-dot{fill:var(--card);stroke:var(--red);stroke-width:1.6;opacity:0;transition:opacity .3s var(--ease-out)}
+
+  /* Tablet and below: the full-width drawing first, then the three asks stacked, each with its badge */
+  @media (max-width:899px){
+    #echo .echo-board{display:flex;flex-direction:column;gap:clamp(30px,5vw,40px)}
+    #echo .echo-leaders{display:none}
+    #echo .echo-cab,#echo .echo-box,#echo .echo-trip{padding:0}
+    #echo .echo-blk{display:grid;grid-template-columns:96px minmax(0,1fr);column-gap:22px;row-gap:8px;align-items:start}
+    #echo .echo-blk > *{grid-column:2}
+    #echo .echo-blk > .echo-badge{display:block;grid-column:1;grid-row:1 / span 4;padding-top:2px}
+    #echo .echo-by{margin-top:6px}
+  }
+</style>
+
+<section class="band card" id="echo" aria-labelledby="echo-h2">
+  <div class="wrap">
+    <header class="band-head">
+      <h2 id="echo-h2">What you told us</h2>
+      <p class="lede">Three problems, in your words, from our meeting in Kochi.</p>
+    </header>
+
+    <div class="echo-board">
+      <div class="echo-fig">
+        <svg id="echo-svg" class="echo-svg" viewBox="52 56 746 364" role="img" aria-label="Side view of a refrigerated truck. Three parts are lit in red, one for each ask: the box, the cab and the trip from Kochi to Bengaluru.">
+          <defs><marker id="echo-arr" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0 2L10 5L0 8Z" fill="#B3322E"/></marker></defs>
+        </svg>
+      </div>
+
+      <article class="echo-blk echo-box rv" style="--d:0s">
+        <div class="echo-badge" data-badge="box"></div>
+        <p class="label">THE BOX</p>
+        <h3>See inside every truck</h3>
+        <p class="echo-quote">"We lose fish we can't see going bad."</p>
+        <div class="echo-by">
+          <b>ANSWERED BY</b>
+          <div class="chips"><span class="chip c-sensors">Sensors</span><span class="chip c-data">Data</span></div>
+        </div>
+      </article>
+
+      <article class="echo-blk echo-cab rv" style="--d:.1s">
+        <div class="echo-badge" data-badge="cab"></div>
+        <p class="label">THE CAB</p>
+        <h3>Put the logbook on a screen</h3>
+        <p class="echo-quote">"Drivers write temperatures on paper, and nobody reads it."</p>
+        <div class="echo-by">
+          <b>ANSWERED BY</b>
+          <div class="chips"><span class="chip c-app">App</span><span class="chip c-field">Field</span></div>
+        </div>
+      </article>
+
+      <article class="echo-blk echo-trip rv" style="--d:.2s">
+        <div class="echo-badge" data-badge="trip"></div>
+        <p class="label">THE TRIP</p>
+        <h3>Prove every trip</h3>
+        <p class="echo-quote">"When a buyer complains, we can't prove what happened."</p>
+        <div class="echo-by">
+          <b>ANSWERED BY</b>
+          <div class="chips"><span class="chip c-data">Data</span><span class="chip c-app">App</span></div>
+        </div>
+      </article>
+
+      <svg class="echo-leaders" aria-hidden="true"></svg>
+    </div>
+  </div>
+</section>
+
+<script>
+(() => {
+  const section = $('#echo');
+  if (!section) return;
+  const board = $('.echo-board', section), svg = $('#echo-svg'), ov = $('.echo-leaders', section);
+  if (!board || !svg || !ov) return;
+
+  // ---- The drawing: the truck, with box + door, cab, and ext + dim lit in red
+  const g = document.createElementNS(NS, 'g');
+  svg.appendChild(g);
+  const parts = drawTruck(g, { parts: ['cab', 'box', 'door', 'chassis', 'wheels', 'ext', 'dim'], labels: true });
+  ['box', 'door', 'cab', 'ext', 'dim'].forEach(k => parts[k].classList.add('red'));
+  parts.dim.setAttribute('marker-start', 'url(#echo-arr)');
+  parts.dim.setAttribute('marker-end', 'url(#echo-arr)');
+
+  // ---- Badges (used only when the board is stacked): the red part pen-draws as its block arrives
+  $$('[data-badge]', section).forEach(el => { el.innerHTML = truckBadge(el.dataset.badge); });
+  $$('.echo-blk', section).forEach(blk => {
+    const reds = $$('.echo-badge .red', blk);
+    prepDraw(reds);
+    const go = () => penDraw(reds, { delay: .15 });
+    if (FINAL || blk.classList.contains('in')) { go(); return; }
+    const mo = new MutationObserver(() => { if (blk.classList.contains('in')) { mo.disconnect(); go(); } });
+    mo.observe(blk, { attributes: true, attributeFilter: ['class'] });
+  });
+
+  // ---- Leader lines: one callout per ask. part = a point that lies exactly on the lit line (drawing units),
+  //      x0..x1 = the stretch of that line a leader may land on, dir = which way the block sits (-1 above, 1 below)
+  const VB = svg.viewBox.baseVal;
+  const callouts = [
+    { blk: $('.echo-box', section), y: 92,  x0: 312, x1: 776, dir: -1 },   // top edge of the box
+    { blk: $('.echo-cab', section), y: 118, x0: 136, x1: 216, dir: -1 },   // cab roof
+    { blk: $('.echo-trip', section), y: 392, x0: 84,  x1: 774, dir: 1 }    // the dimension line
+  ];
+  const el = (tag, cls) => { const n = document.createElementNS(NS, tag); if (cls) n.setAttribute('class', cls); ov.appendChild(n); return n; };
+  callouts.forEach(c => {
+    c.ld = el('path', 'ln'); c.sl = el('path', 'ln'); c.sr = el('path', 'ln');   // leader, shoulder left, shoulder right
+    c.dot = el('circle', 'echo-dot'); c.dot.setAttribute('r', 4);
+    c.paths = [c.ld, c.sl, c.sr];
+    c.blkIn = FINAL || c.blk.classList.contains('in');
+    c.drawn = false; c.placed = false;
+  });
+  const wide = matchMedia('(max-width:899px)');
+  const num = n => Math.round(n * 100) / 100;
+
+  // Block box inside the board, ignoring the reveal's 12px lift so the lines land on the final position
+  const boxOf = (node, br) => {
+    const r = node.getBoundingClientRect(), tr = getComputedStyle(node).transform;
+    const dy = tr && tr !== 'none' ? new DOMMatrix(tr).m42 : 0;
+    return { l: r.left - br.left, r: r.right - br.left, t: r.top - br.top - dy, b: r.bottom - br.top - dy };
+  };
+
+  function layout() {
+    if (wide.matches) return;
+    const br = board.getBoundingClientRect(), sr = svg.getBoundingClientRect();
+    if (!sr.width || !sr.height) return;   /* hidden (phone gate): nothing to measure */
+    const k = Math.min(sr.width / VB.width, sr.height / VB.height);
+    const ox = sr.left - br.left + (sr.width - VB.width * k) / 2, oy = sr.top - br.top + (sr.height - VB.height * k) / 2;
+    callouts.forEach(c => {
+      const b = boxOf(c.blk, br);
+      // the leader meets the block at its middle, as long as that point is on the lit line
+      const ux = Math.min(c.x1, Math.max(c.x0, VB.x + ((b.l + b.r) / 2 - ox) / k));
+      const px = num(ox + (ux - VB.x) * k), py = num(oy + (c.y - VB.y) * k);
+      const sy = num(c.dir < 0 ? b.b : b.t);
+      c.ld.setAttribute('d', `M${px} ${py}V${sy}`);
+      c.sl.setAttribute('d', `M${px} ${sy}H${num(b.l)}`);
+      c.sr.setAttribute('d', `M${px} ${sy}H${num(b.r)}`);
+      c.dot.setAttribute('cx', px); c.dot.setAttribute('cy', py);
+      // lengths changed: undrawn lines get a fresh dash length, drawn lines stay whole
+      if (c.drawn) c.paths.forEach(p => { p.style.transition = 'none'; p.style.strokeDasharray = 'none'; p.style.strokeDashoffset = 0; });
+      else prepDraw(c.paths);
+      c.placed = true;
+    });
+    run();
+  }
+
+  // ---- Pen-draw: the leader first (lit part to block), then the shoulder under the text, one ask after another
+  let figIn = false;
+  function run() {
+    if (!figIn || wide.matches) return;
+    callouts.forEach((c, i) => {
+      if (c.drawn || !c.blkIn || !c.placed) return;
+      c.drawn = true;
+      const base = FINAL ? 0 : i * .3;
+      c.dot.style.transitionDelay = base + 's'; c.dot.style.opacity = 1;
+      const t = penDraw([c.ld], { delay: base + .1 });
+      penDraw([c.sl, c.sr], { delay: t, parallel: true });
+    });
+  }
+  callouts.forEach(c => {
+    if (c.blkIn) return;
+    const mo = new MutationObserver(() => { if (c.blk.classList.contains('in')) { mo.disconnect(); c.blkIn = true; run(); } });
+    mo.observe(c.blk, { attributes: true, attributeFilter: ['class'] });
+  });
+  onView($('.echo-fig', section), () => { figIn = true; run(); }, .5);
+
+  // ---- Keep the lines exact when the layout moves
+  layout();
+  if ('ResizeObserver' in window) new ResizeObserver(layout).observe(board);
+  addEventListener('resize', layout);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+  addEventListener('load', layout);
+})();
+</script>
+
+<!-- ===== SECTION 4 · frag-4-paper · prefix p2s- · Builder C ===== -->
+<style>
+  /* Paper vs screen (CHG-09) with strike and replace (EMP-16). Band t2 = trace yellow. */
+  .p2s-col{display:grid;gap:22px;justify-items:start;max-width:720px}
+  .p2s-head{display:grid;gap:18px;justify-items:start;margin-bottom:6px}
+  .p2s-badge svg{display:block;width:120px;height:auto}
+
+  /* You told us (PPL-16) */
+  .p2s-said{max-width:58ch;padding:20px 24px;border-radius:var(--r-sheet);background:rgba(255,255,255,.42);box-shadow:0 0 0 1px var(--line-2)}
+  .p2s-said .label{display:block;margin-bottom:10px}
+  .p2s-quote{font:italic 400 20px/1.4 var(--font-body);color:var(--ink)}
+
+  .p2s-body{max-width:52ch;font-size:18px;line-height:1.6}
+
+  /* Strike and replace (EMP-16): the old words are struck, the new words arrive */
+  .p2s-goal{max-width:30ch;font:500 clamp(22px,2vw,26px)/1.35 var(--font-body);color:var(--ink)}
+  .p2s-goal del{position:relative;text-decoration:none;transition:opacity .3s ease-out .35s}
+  .p2s-goal del::after{content:"";position:absolute;left:-3px;right:-3px;top:55%;height:2px;background:currentColor;rotate:-2deg;transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease-draw) .1s}
+  .p2s-goal.in del{opacity:.4}
+  .p2s-goal.in del::after{transform:scaleX(1)}
+  .p2s-goal ins{display:inline-block;text-decoration:none;opacity:0;transform:translateY(8px);transition:opacity .6s var(--ease-out) .55s,transform .6s var(--ease-out) .55s}
+  .p2s-goal.in ins{opacity:1;transform:none}
+  .p2s-goal ins mark{transition-delay:1.2s}
+
+  .p2s-by{display:grid;gap:12px}
+  .p2s-by p{max-width:44ch;font-size:16px;line-height:1.5;color:var(--muted)}
+
+  /* Visual: paper sheet, arrow, the tablet drawn in the same line */
+  .p2s-visual{display:grid;grid-template-columns:minmax(0,1fr) 120px minmax(0,1fr);gap:20px;align-items:center;max-width:980px;margin-top:clamp(44px,5.5vw,72px)}
+
+  .p2s-sheet{position:relative;rotate:-1.2deg;padding:24px 26px 14px;border-radius:var(--r-sheet);background:var(--card);box-shadow:0 1px 0 var(--line),0 14px 30px -18px rgba(34,32,30,.45)}
+  .p2s-sheet-title{margin:0 0 8px;font:600 13px/1 var(--font-label);letter-spacing:.14em;color:var(--ink)}
+  .p2s-row{display:grid;grid-template-columns:minmax(0,1fr) 72px;align-items:center;min-height:52px;border-bottom:1px solid var(--line)}
+  .p2s-row:last-child{border-bottom:0}
+  .p2s-hd{min-height:34px;border-bottom:2px solid var(--ink)}
+  .p2s-hd .label{justify-self:center;font-size:10.5px}
+  .p2s-stop{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:8px;row-gap:4px;font:500 13px/1.2 var(--font-label);color:var(--muted)}
+  .p2s-stop b{font:600 21px/1 var(--font-display);letter-spacing:.02em;color:var(--ink)}
+  .p2s-tick{justify-self:center;width:30px;height:26px;overflow:visible;opacity:0}
+  .p2s-tick path{fill:none;stroke:var(--cyan);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+  .p2s-q{justify-self:center;font:34px/1 var(--font-hand);color:var(--red);rotate:-8deg;opacity:0}
+  .p2s-note{display:inline-block;margin-left:4px;font:18px/1 var(--font-hand);color:var(--red);rotate:-3deg;opacity:0}
+
+  .p2s-link{display:grid;justify-items:center;gap:12px}
+  .p2s-link .label{text-align:center;font-size:11px;line-height:1.3}
+  .p2s-arrow-h{display:block;width:120px;height:24px;overflow:visible}
+  .p2s-arrow-v{display:none;width:24px;height:60px;overflow:visible}
+  .p2s-arrow-h path,.p2s-arrow-v path{fill:none;stroke:var(--ink);stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .9s var(--ease-draw) .3s}
+  .p2s-visual.go .p2s-arrow-h path,.p2s-visual.go .p2s-arrow-v path{stroke-dashoffset:0}
+
+  .p2s-screen{position:relative;padding:12px 22px;border:1.5px solid var(--ink);border-radius:12px;background:var(--card);color:var(--ink);opacity:0;translate:0 12px;transition:opacity .75s var(--ease-out) 1.75s,translate .75s var(--ease-out) 1.75s}
+  .p2s-visual.go .p2s-screen{opacity:1;translate:0 0}
+  .p2s-srow{display:grid;grid-template-columns:minmax(0,96px) minmax(0,1fr) 74px;gap:14px;align-items:center;min-height:50px;border-top:1px solid var(--line)}
+  .p2s-srow:first-child{border-top:0}
+  .p2s-sname{font:500 11px/1.3 var(--font-label);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .p2s-sname b{display:block;font:600 17px/1.1 var(--font-display);letter-spacing:.03em;color:var(--ink)}
+  .p2s-trace{width:100%;height:18px;overflow:visible}
+  .p2s-trace path{fill:none;stroke:var(--muted);stroke-width:1.4;stroke-linecap:round}
+  .p2s-srow.warm .p2s-trace path{stroke:var(--red);stroke-width:2}
+  .p2s-stat{display:inline-flex;align-items:center;gap:7px;font:500 12px/1 var(--font-label);letter-spacing:.06em;color:var(--red)}
+  .p2s-dot{width:9px;height:9px;border-radius:50%;border:1.6px solid var(--red)}
+
+  /* Motion, once, in the house order: ticks, note, screen, traces */
+  .p2s-visual.go .p2s-tick,.p2s-visual.go .p2s-q{animation:p2s-in .25s var(--ease-out) both;animation-delay:calc(var(--i)*.2s)}
+  .p2s-visual.go .p2s-note{animation:p2s-fade .4s ease-out 1.45s both}
+  @keyframes p2s-in{from{opacity:0;scale:.6}to{opacity:1;scale:1}}
+  @keyframes p2s-fade{from{opacity:0}to{opacity:1}}
+
+  /* Final state: every piece shown finished, no motion */
+  #p2s.is-final *{transition:none!important;animation:none!important}
+  #p2s.is-final .p2s-tick,#p2s.is-final .p2s-q,#p2s.is-final .p2s-note{opacity:1}
+  #p2s.is-final .p2s-goal del{opacity:.4}
+
+  @media (max-width:1000px){
+    .p2s-sheet{padding:22px 20px 12px}
+    .p2s-row{grid-template-columns:minmax(0,1fr) 64px}
+    .p2s-tick{width:26px}
+    .p2s-hd .label{white-space:nowrap;font-size:10px}
+  }
+  @media (max-width:819px){
+    .p2s-visual{grid-template-columns:minmax(0,1fr);justify-items:start;gap:22px;max-width:560px}
+    .p2s-sheet{rotate:0deg}
+    .p2s-sheet,.p2s-screen{width:100%}
+    .p2s-link{justify-items:start;padding-left:4px}
+    .p2s-arrow-h{display:none}
+    .p2s-arrow-v{display:block}
+  }
+</style>
+
+<section class="band t2" id="p2s">
+  <div class="wrap">
+    <div class="p2s-col">
+      <div class="p2s-head">
+        <div class="p2s-badge"></div>
+        <p class="label">THE CAB</p>
+        <h2>Put the logbook on a screen</h2>
+      </div>
+      <div class="p2s-said rv">
+        <span class="label">YOU TOLD US</span>
+        <p class="p2s-quote">“Drivers write temperatures on paper, and nobody reads it.”</p>
+      </div>
+      <p class="p2s-body rv" style="--d:.08s">The sensors report on their own. The tablet replaces the paper log your drivers already keep: at each stop they tap the reading instead of writing it, and the office sees it the same minute.</p>
+      <p class="p2s-goal rv" style="--d:.16s">The goal: a warm reading gets noticed <del>the next morning</del> <ins><mark>the same minute</mark></ins>.</p>
+      <div class="p2s-by rv" style="--d:.24s">
+        <div class="chips"><span class="chip c-app">App</span><span class="chip c-field">Field</span></div>
+        <p>Our Field team shows each driver the tablet on their own route.</p>
+      </div>
+    </div>
+
+    <div class="p2s-visual">
+      <div class="p2s-sheet">
+        <p class="p2s-sheet-title">DRIVER LOG, EXAMPLE NIGHT</p>
+        <div class="p2s-row p2s-hd"><span></span><span class="label">TEMP OK?</span></div>
+        <div class="p2s-row">
+          <span class="p2s-stop"><b>KOCHI</b> 6 PM</span>
+          <svg class="p2s-tick" viewBox="0 0 30 26" style="--i:0" aria-hidden="true"><path d="M3 14C8 16 11 20 13 23C16 15 21 7 28 3"/></svg>
+        </div>
+        <div class="p2s-row">
+          <span class="p2s-stop"><b>COIMBATORE</b> 10 PM</span>
+          <svg class="p2s-tick" viewBox="0 0 30 26" style="--i:1" aria-hidden="true"><path d="M3 14C8 16 11 20 13 23C16 15 21 7 28 3"/></svg>
+        </div>
+        <div class="p2s-row">
+          <span class="p2s-stop"><b>SALEM</b> 2 AM <span class="p2s-note">door stuck?</span></span>
+          <span class="p2s-q" style="--i:2" aria-hidden="true">?</span>
+        </div>
+        <div class="p2s-row">
+          <span class="p2s-stop"><b>HOSUR</b> 5 AM</span>
+          <svg class="p2s-tick" viewBox="0 0 30 26" style="--i:3" aria-hidden="true"><path d="M3 14C8 16 11 20 13 23C16 15 21 7 28 3"/></svg>
+        </div>
+        <div class="p2s-row">
+          <span class="p2s-stop"><b>BENGALURU</b> 7 AM</span>
+          <svg class="p2s-tick" viewBox="0 0 30 26" style="--i:4" aria-hidden="true"><path d="M3 14C8 16 11 20 13 23C16 15 21 7 28 3"/></svg>
+        </div>
+      </div>
+
+      <div class="p2s-link">
+        <span class="label">same rows, live</span>
+        <svg class="p2s-arrow-h" viewBox="0 0 120 24" aria-hidden="true"><path pathLength="1" d="M2 12H110"/><path pathLength="1" d="M100 4L111 12L100 20"/></svg>
+        <svg class="p2s-arrow-v" viewBox="0 0 24 60" aria-hidden="true"><path pathLength="1" d="M12 2V50"/><path pathLength="1" d="M4 42L12 53L20 42"/></svg>
+      </div>
+
+      <div class="p2s-screen">
+        <div class="p2s-srow">
+          <span class="p2s-sname"><b>KOCHI</b>6 PM</span>
+          <svg class="p2s-trace" viewBox="0 0 160 18" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12H160"/></svg>
+        </div>
+        <div class="p2s-srow">
+          <span class="p2s-sname"><b>COIMBATORE</b>10 PM</span>
+          <svg class="p2s-trace" viewBox="0 0 160 18" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12H160"/></svg>
+        </div>
+        <div class="p2s-srow warm">
+          <span class="p2s-sname"><b>SALEM</b>2 AM</span>
+          <svg class="p2s-trace" viewBox="0 0 160 18" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12H58C68 12 72 3 80 3C88 3 92 12 102 12H160"/></svg>
+          <span class="p2s-stat"><i class="p2s-dot"></i>WARM</span>
+        </div>
+        <div class="p2s-srow">
+          <span class="p2s-sname"><b>HOSUR</b>5 AM</span>
+          <svg class="p2s-trace" viewBox="0 0 160 18" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12H160"/></svg>
+        </div>
+        <div class="p2s-srow">
+          <span class="p2s-sname"><b>BENGALURU</b>7 AM</span>
+          <svg class="p2s-trace" viewBox="0 0 160 18" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12H160"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(() => {
+  const root = $('#p2s'); if (!root) return;
+  if (FINAL) root.classList.add('is-final');
+  $('.p2s-badge', root).innerHTML = truckBadge('cab');
+  const vis = $('.p2s-visual', root);
+  const traces = $$('.p2s-trace path', vis);
+  prepDraw(traces);
+  onView(vis, () => { vis.classList.add('go'); penDraw(traces, { delay: 1.9 }); }, .45);
+})();
+</script>
+
+<section class="band t3" id="road" aria-labelledby="road-h2">
+  <style>
+    /* Road section: CHG-37 two roads from today. Overlay texts sit in % of the stage, which matches the 900x420 viewBox. */
+    #road .road-badge{width:120px;margin:0 0 6px}
+    #road .road-badge svg{display:block;width:120px;height:auto;overflow:visible}
+    #road .road-stage{position:relative;margin-top:clamp(40px,5vw,72px)}
+    #road .road-svg{display:block;width:100%;height:auto;overflow:visible}
+
+    /* Road lines: the shared .ln sets the stroke width, so the overrides live here */
+    #road .road-stem{stroke-width:2.2}
+    #road .road-pilot{stroke-width:2.6}
+    #road .road-ring{stroke-width:2.6}
+    #road .road-arrow{stroke-width:1.8}
+    #road .road-hand{font-size:21px}
+    /* road ends: the wait road ends on an empty dashed sheet, the pilot road on a drawn trip record */
+    #road .road-sheet-hid{opacity:0;transition:opacity .6s ease-out 1.5s}
+    #road .road-stage.on .road-sheet-hid{opacity:.8}
+    #road .road-rec .ln{stroke-width:1.6}
+    #road .road-rec .ln.thin{stroke-width:.9}
+    #road .road-rec .road-trace{stroke-width:1.8}
+    #road .road-hand-g{opacity:0;transition:opacity .6s ease-out 4.7s}
+    #road .road-stage.on .road-hand-g{opacity:1}
+
+    /* Road end texts: beside each road end, centred on its y */
+    #road .road-end{position:absolute;left:71%;width:28.5%;translate:0 -50%;opacity:0;transform:translateY(10px);
+      transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+    #road .road-end-wait{top:22.9%}
+    #road .road-end-pilot{top:77.1%}
+    #road .road-end p{font:400 clamp(16px,1.5vw,19px)/1.45 var(--font-body);max-width:32ch}
+    #road .road-end p.label{font:500 11.5px/1.3 var(--font-label);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;max-width:none}
+    #road .road-end-wait p:not(.label){color:var(--muted)}
+    #road .road-end-pilot .chips{margin-top:16px}
+    #road .road-stage.on .road-end-wait{opacity:1;transform:none;transition-delay:1.5s}
+    #road .road-stage.on .road-end-pilot{opacity:1;transform:none;transition-delay:2.7s}
+    /* Marker sweep (EMP-01) lands after the pilot road is drawn */
+    #road .road-end-pilot mark{background-size:0% 42%;transition:background-size .8s var(--ease-out) 3s}
+    #road .road-stage.on .road-end-pilot mark{background-size:100% 42%}
+
+    /* Under 768px: the same two texts become stacked cards (dashed, then ink) */
+    @media (max-width:767px){
+      #road .road-badge,#road .road-badge svg{width:96px}
+      #road .road-svg{display:none}
+      #road .road-stage{display:grid;gap:14px;margin-top:32px}
+      #road .road-end{position:static;translate:none;width:auto;opacity:1;transform:none;transition:none;padding:20px 22px;border-radius:var(--r-sheet)}
+      #road .road-end p{max-width:none}
+      #road .road-end-wait{border:1.5px dashed var(--line-2);background:rgba(249,248,244,.45)}
+      #road .road-end-pilot{border:1.5px solid var(--ink);background:var(--card)}
+    }
+    #road.fin *{transition:none !important}
+  </style>
+
+  <div class="wrap">
+    <div class="band-head">
+      <div class="road-badge" data-badge="trip"></div>
+      <p class="label">THE TRIP</p>
+      <h2 id="road-h2">Two ways the next complaint can go</h2>
+      <p class="lede">Last summer, some buyers turned away loads they said arrived warm.</p>
+    </div>
+
+    <div class="road-stage">
+      <svg class="road-svg" viewBox="0 0 900 420" role="img" aria-label="Two roads leave today. The upper road fades out and ends on an empty sheet. The lower road, the pilot, is drawn like a dimension line and ends on a trip record with a temperature trace. A red ring marks the split.">
+        <defs>
+          <linearGradient id="road-fade" gradientUnits="userSpaceOnUse" x1="250" y1="0" x2="540" y2="0">
+            <stop offset="0" stop-color="#22201E" stop-opacity=".8"/>
+            <stop offset="1" stop-color="#22201E" stop-opacity=".12"/>
+          </linearGradient>
+          <clipPath id="road-c1"><rect x="0" y="0" width="390" height="420"/></clipPath>
+          <clipPath id="road-c2"><rect x="390" y="0" width="80" height="420"/></clipPath>
+          <clipPath id="road-c3"><rect x="470" y="0" width="430" height="420"/></clipPath>
+          <!-- the wait road is dashed, so the pen draw reveals it through this mask -->
+          <mask id="road-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="900" height="420">
+            <path class="road-reveal" d="M250 210C360 210 420 96 540 96" fill="none" stroke="#fff" stroke-width="34" stroke-linecap="round"/>
+          </mask>
+        </defs>
+
+        <!-- shared stem from today to the split -->
+        <path class="ln road-stem" d="M70 210H250"/>
+        <circle cx="70" cy="210" r="7" fill="var(--ink)"/>
+        <text class="svg-label" x="70" y="184" text-anchor="middle">TODAY</text>
+
+        <!-- upper road: if nothing changes. Dashed, thinning and fading toward its end -->
+        <g mask="url(#road-mask)">
+          <path d="M250 210C360 210 420 96 540 96" fill="none" stroke="url(#road-fade)" stroke-width="2.6" stroke-dasharray="7 6" clip-path="url(#road-c1)"/>
+          <path d="M250 210C360 210 420 96 540 96" fill="none" stroke="url(#road-fade)" stroke-width="1.9" stroke-dasharray="5 7" clip-path="url(#road-c2)"/>
+          <path d="M250 210C360 210 420 96 540 96" fill="none" stroke="url(#road-fade)" stroke-width="1.2" stroke-dasharray="2 8" stroke-linecap="round" clip-path="url(#road-c3)"/>
+        </g>
+        <!-- end of the wait road: an empty dashed sheet, nothing to show -->
+        <path class="ln hid road-sheet-hid" d="M548 68H620V124H548Z"/>
+
+        <!-- lower road: with the pilot. Solid ink -->
+        <!-- the pilot road reads as the drawing's dimension line: arrowheads at both ends -->
+        <path class="ln road-pilot" d="M250 210C360 210 420 324 540 324" marker-end="url(#arr)"/>
+        <!-- end of the pilot road: a small drawn trip record (sheet, title strip, temperature trace) -->
+        <g class="road-rec">
+          <path class="ln road-sheet" d="M548 296H620V352H548Z"/>
+          <path class="ln thin road-strip" d="M548 340H620M590 340V352"/>
+          <path class="ln road-trace" d="M556 324C566 320 572 326 582 322S600 320 612 323"/>
+        </g>
+
+        <!-- the split point: a hand-drawn red ring and its label -->
+        <path class="ln red road-ring" d="M212.2 182.3C214.3 181 220.3 176.3 225 174.2C229.7 172.2 235.2 170.7 240.4 170.1C245.7 169.4 251.3 169.5 256.5 170.2C261.7 170.8 266.9 172.3 271.6 174.2C276.3 176 280.7 178.6 284.5 181.5C288.3 184.3 291.7 187.8 294.3 191.4C297 195.1 299 199.3 300.2 203.4C301.3 207.6 301.7 212.2 301.2 216.5C300.6 220.8 299.1 225.4 296.7 229.3C294.4 233.3 291 237.2 287.1 240.3C283.1 243.5 278.2 246.2 273.2 248.1C268.2 249.9 262.5 251.1 257 251.6C251.6 252 245.8 251.7 240.5 250.8C235.1 249.9 229.8 248.2 225.1 246C220.4 243.9 216 241.1 212.2 237.9C208.5 234.8 205.2 231.1 202.7 227.2C200.3 223.3 198.4 218.9 197.5 214.5C196.7 210.1 196.6 205.4 197.5 200.9C198.4 196.5 200.3 191.9 203.1 187.9C205.8 183.9 209.6 180 213.9 177C218.2 174 223.5 171.4 228.8 169.7C234.1 168 242.9 167.3 245.7 166.8"/>
+        <g class="road-hand-g">
+          <path class="ln red road-arrow" d="M194 292C204 284 214 270 224 251" marker-end="url(#arr-red)"/>
+          <text class="svg-hand road-hand" x="180" y="302" text-anchor="end">you choose here</text>
+        </g>
+      </svg>
+
+      <!-- road ends: text beside each end, never on the line -->
+      <div class="road-end road-end-wait">
+        <p class="label">IF NOTHING CHANGES</p>
+        <p>Loads still get turned away at the door, and there is still no record to show what happened.</p>
+      </div>
+      <div class="road-end road-end-pilot">
+        <p class="label">WITH A ONE-ROUTE PILOT</p>
+        <p><mark>Every load on that route arrives with its own temperature record,</mark> ready to show any buyer.</p>
+        <div class="chips"><span class="chip c-data">Data</span><span class="chip c-app">App</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const sec = $('#road'); if (!sec) return;
+      $$('[data-badge]', sec).forEach(el => { el.innerHTML = truckBadge(el.dataset.badge); });
+      const stage = $('.road-stage', sec);
+      const stem = $('.road-stem', sec), reveal = $('.road-reveal', sec), pilot = $('.road-pilot', sec);
+      const ring = $('.road-ring', sec), arrow = $('.road-arrow', sec);
+      const rec = $$('.road-sheet, .road-strip, .road-trace', sec);
+      // Arrowheads are drawn on the path ends even while the line is hidden, so they are added when the pen arrives
+      const marks = ['marker-end'].map(a => [a, pilot.getAttribute(a)]);
+      if (!FINAL) marks.forEach(([a]) => pilot.removeAttribute(a));
+      prepDraw([stem, reveal, pilot, ring, arrow, ...rec]);
+      onView(stage, () => {
+        stage.classList.add('on');
+        if (FINAL) { sec.classList.add('fin'); return; }
+        // Order: today's stem, the wait road (through the mask), the pilot road and its record, then the ring
+        penDraw([stem], { speed: 420 });
+        penDraw([reveal], { delay: .5, speed: 280 });
+        const done = penDraw([pilot], { delay: 1.8, speed: 340 });
+        setTimeout(() => marks.forEach(([a, v]) => pilot.setAttribute(a, v)), (done + .15) * 1000);
+        penDraw(rec, { delay: done, parallel: true, speed: 300 });
+        penDraw([ring], { delay: 3.5, speed: 300 });
+        penDraw([arrow], { delay: 4.6, speed: 420 });
+      }, .3);
+    })();
+  </script>
+</section>
+
+<section class="band dark" id="cta" aria-labelledby="cta-h2">
+  <style>
+    /* Closing band: the truck drawing returns in paper-coloured line, three plain steps sit under it, then the contact card */
+    #cta .cta-draw{margin-top:clamp(0px,1vw,12px)}
+    #cta .cta-svg{display:block;width:100%;height:auto;overflow:visible}
+
+    /* the drawing language on the dark band: paper line, yellow for the route and the sign-off */
+    #cta .ln{stroke:var(--paper)}
+    #cta .svg-label{fill:var(--paper)}
+    #cta .cta-boxfill{fill:var(--tint-1);fill-opacity:.18}
+    #cta .cta-sensor{fill:var(--ground);stroke:var(--paper);stroke-width:1.8}
+    #cta .t-dim{stroke:var(--marker);stroke-width:1.4}
+    #cta .t-dimtext{fill:var(--marker);font-size:14px}
+    /* title-block field names a touch larger than the hero's, so PILOT ROUTE reads on the dark band */
+    #cta .t-tbtext text:nth-child(odd),#cta .cta-appr{font-size:10px !important}
+    #cta .cta-ring{fill:none;stroke:var(--marker);stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
+
+    /* The three steps: plain text, one column under each third of the drawing */
+    #cta .cta-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,44px);margin-top:clamp(20px,2.4vw,32px)}
+    #cta .cta-step{display:grid;gap:8px;align-content:start}
+    #cta .cta-num{font:500 12px/1 var(--font-label);letter-spacing:.08em;color:var(--marker);margin:0}
+    #cta .cta-step h3{color:var(--paper)}
+    #cta .cta-body{font-size:16px;line-height:1.55;color:rgba(240,237,229,.82);max-width:36ch}
+
+    /* Contact card: light, drawing-sheet corners */
+    #cta .cta-contact{max-width:820px;margin:clamp(56px,7vw,88px) auto 0;display:grid;grid-template-columns:150px minmax(0,1fr);
+      gap:32px;align-items:center;padding:30px 34px;border-radius:var(--r-sheet);background:var(--card);color:var(--ink);
+      box-shadow:0 30px 60px -40px rgba(0,0,0,.6)}
+    #cta .cta-portrait{width:150px;height:150px}
+    #cta .cta-portrait svg{display:block;width:100%;height:100%;overflow:visible}
+    #cta .cta-detail{fill:none;stroke:var(--ink);stroke-width:1.2}
+    #cta .cta-ticks{fill:none;stroke:var(--ink);stroke-width:1;opacity:.55}
+    #cta .cta-detail-label{font:500 16px var(--font-label);letter-spacing:.08em;fill:var(--ink)}
+    #cta .cta-face path{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+    #cta .cta-name{font:600 clamp(32px,3.4vw,44px)/1.05 var(--font-display);letter-spacing:-.005em;margin-top:8px}
+    #cta .cta-role{font-size:16px;color:var(--muted);margin-top:6px}
+    #cta .cta-send{font-size:17px;line-height:1.5;margin-top:14px;max-width:48ch}
+    #cta .cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:20px}
+    #cta .cta-addr{font:500 15px/1.2 var(--font-label);padding:10px 14px;border-radius:3px;background:var(--paper);
+      box-shadow:inset 0 0 0 1px var(--line);user-select:all;-webkit-user-select:all;overflow-wrap:anywhere;color:var(--ink)}
+    #cta .cta-copy{min-width:140px;border-radius:3px}
+    #cta .cta-foot{font-size:14px;line-height:1.5;color:rgba(240,237,229,.6);max-width:820px;margin:28px auto 0}
+    /* the card is light, so its label must not inherit the dark band's label colour */
+    #cta .cta-contact .label{color:var(--muted)}
+
+    /* Tablet: the drawing's small type grows a little, the steps and the card go to one column */
+    @media (max-width:1023px){
+      #cta .t-dimtext{font-size:17px}
+    }
+    @media (max-width:819px){
+      #cta .cta-steps{grid-template-columns:minmax(0,1fr);gap:24px}
+      #cta .cta-body{max-width:52ch}
+      #cta .cta-contact{grid-template-columns:minmax(0,1fr);gap:22px;padding:24px}
+    }
+    #cta.fin *{transition:none !important}
+  </style>
+
+  <div class="wrap">
+    <div class="band-head">
+      <h2 id="cta-h2">Start with one route</h2>
+      <p class="lede">Pick the route. Meera sends the one-page plan within a week.</p>
+    </div>
+
+    <div class="cta-draw">
+      <svg id="cta-svg" class="cta-svg" viewBox="40 38 966 434" role="img" aria-label="The Coastline truck as an engineering drawing, with its two sensors, the Kochi to Bengaluru route marked in yellow, and an empty PILOT ROUTE box in the title block circled in yellow, waiting for your sign-off.">
+        <defs>
+          <!-- yellow arrowheads: the shared one is ink and would vanish on the dark band -->
+          <marker id="cta-arr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 2L10 5L0 8Z" style="fill:var(--marker)"/></marker>
+          <!-- the dash-dot centre lines pen-draw through this mask so they keep their dashes -->
+          <mask id="cta-m-cl" maskUnits="userSpaceOnUse" x="0" y="0" width="1010" height="480">
+            <path id="cta-clm" d="" fill="none" stroke="#fff" stroke-width="4"/>
+          </mask>
+        </defs>
+
+        <!-- the cold box, lightly tinted -->
+        <path class="cta-boxfill" id="cta-boxfill" d="M238 92H782V266H238Z"/>
+        <!-- the truck is drawn here by drawTruck(); crisp, no pencil filter -->
+        <g id="cta-g"></g>
+        <!-- the two sensors from the stage: inside the box and on the door -->
+        <g id="cta-sensors">
+          <circle class="cta-sensor" id="cta-s-box" cx="470" cy="104" r="7"/>
+          <circle class="cta-sensor" id="cta-s-door" cx="712" cy="180" r="7"/>
+        </g>
+        <!-- a fourth title-block cell for the reader's sign-off, left empty -->
+        <path class="ln cta-tb4" id="cta-tb4" d="M884 404H984V438H884Z M884 421H984"/>
+        <text class="svg-label cta-appr" id="cta-appr" x="892" y="416">PILOT ROUTE</text>
+        <!-- EMP-10 pen ring around the empty cell, drawn last -->
+        <path class="cta-ring" id="cta-ring" d="M936 396.1C901.9 394.4 875.4 403 875.4 421.9C875.4 440.7 905.3 447.6 937.7 445.9C970.1 444.1 998.3 439 997.4 420.1C996.6 401.3 965.9 394.4 926.6 399.6"/>
+      </svg>
+    </div>
+
+    <div class="cta-steps">
+      <article class="cta-step">
+        <p class="cta-num">1</p>
+        <h3>Pick one route</h3>
+        <p class="cta-body">We suggest Kochi to Bengaluru, the run this page follows. Chennai or Coimbatore work too.</p>
+      </article>
+      <article class="cta-step">
+        <p class="cta-num">2</p>
+        <h3>Talk to one person</h3>
+        <p class="cta-body">Meera Nair, our project lead, is your one point of contact.</p>
+      </article>
+      <article class="cta-step">
+        <p class="cta-num">3</p>
+        <h3>Get a one-page plan</h3>
+        <p class="cta-body">Within a week she sends a one-page plan for that route, including what the pilot costs.</p>
+      </article>
+    </div>
+
+    <div class="cta-contact">
+      <div class="cta-portrait">
+        <svg viewBox="0 0 260 260" role="img" aria-label="Line drawing of Meera Nair inside a drafting circle">
+          <defs><clipPath id="cta-face-clip"><circle cx="130" cy="130" r="94"/></clipPath></defs>
+          <path class="cta-detail" d="M34 130A96 96 0 1 0 226 130A96 96 0 1 0 34 130"/>
+          <path class="cta-ticks" d="M226.0 130.0L238.0 130.0M225.6 138.4L230.6 138.8M224.5 146.7L229.5 147.5M222.7 154.8L227.6 156.1M220.2 162.8L224.9 164.5M217.0 170.6L221.5 172.7M213.1 178.0L223.5 184.0M208.6 185.1L212.7 187.9M203.5 191.7L207.4 194.9M197.9 197.9L201.4 201.4M191.7 203.5L194.9 207.4M185.1 208.6L187.9 212.7M178.0 213.1L184.0 223.5M170.6 217.0L172.7 221.5M162.8 220.2L164.5 224.9M154.8 222.7L156.1 227.6M146.7 224.5L147.5 229.5M138.4 225.6L138.8 230.6M130.0 226.0L130.0 238.0M121.6 225.6L121.2 230.6M113.3 224.5L112.5 229.5M105.2 222.7L103.9 227.6M97.2 220.2L95.5 224.9M89.4 217.0L87.3 221.5M82.0 213.1L76.0 223.5M74.9 208.6L72.1 212.7M68.3 203.5L65.1 207.4M62.1 197.9L58.6 201.4M56.5 191.7L52.6 194.9M51.4 185.1L47.3 187.9M46.9 178.0L36.5 184.0M43.0 170.6L38.5 172.7M39.8 162.8L35.1 164.5M37.3 154.8L32.4 156.1M35.5 146.7L30.5 147.5M34.4 138.4L29.4 138.8M34.0 130.0L22.0 130.0M34.4 121.6L29.4 121.2M35.5 113.3L30.5 112.5M37.3 105.2L32.4 103.9M39.8 97.2L35.1 95.5M43.0 89.4L38.5 87.3M46.9 82.0L36.5 76.0M51.4 74.9L47.3 72.1M56.5 68.3L52.6 65.1M62.1 62.1L58.6 58.6M68.3 56.5L65.1 52.6M74.9 51.4L72.1 47.3M82.0 46.9L76.0 36.5M89.4 43.0L87.3 38.5M97.2 39.8L95.5 35.1M105.2 37.3L103.9 32.4M113.3 35.5L112.5 30.5M121.6 34.4L121.2 29.4M130.0 34.0L130.0 22.0M138.4 34.4L138.8 29.4M146.7 35.5L147.5 30.5M154.8 37.3L156.1 32.4M162.8 39.8L164.5 35.1M170.6 43.0L172.7 38.5M178.0 46.9L184.0 36.5M185.1 51.4L187.9 47.3M191.7 56.5L194.9 52.6M197.9 62.1L201.4 58.6M203.5 68.3L207.4 65.1M208.6 74.9L212.7 72.1M213.1 82.0L223.5 76.0M217.0 89.4L221.5 87.3M220.2 97.2L224.9 95.5M222.7 105.2L227.6 103.9M224.5 113.3L229.5 112.5M225.6 121.6L230.6 121.2"/>
+          <g clip-path="url(#cta-face-clip)">
+            <g class="cta-face" transform="translate(30 26)">
+              <path class="f-head" d="M72 90C72 70 84 62 100 62C116 62 128 70 128 90C128 114 116 128 100 128C84 128 72 114 72 90Z"/>
+              <path class="f-hair" d="M50 172C54 150 58 130 58 110C58 62 76 40 100 40"/>
+              <path class="f-hair" d="M150 172C146 150 142 130 142 110C142 62 124 40 100 40"/>
+              <path class="f-hair" d="M88 46C72 58 66 82 66 108"/>
+              <path class="f-eye" d="M82 92Q88 98 94 92"/>
+              <path class="f-eye" d="M106 92Q112 98 118 92"/>
+              <path class="f-nose" d="M100 98Q103 104 99 108"/>
+              <path class="f-mouth" d="M92 118Q100 123 108 118"/>
+              <path class="f-neck" d="M90 126C90 134 88 140 86 150"/>
+              <path class="f-neck" d="M110 126C110 134 112 140 114 150"/>
+              <path class="f-body" d="M30 210C36 176 60 160 86 152L100 166L114 152C140 160 164 176 170 210"/>
+            </g>
+          </g>
+          <text class="cta-detail-label" x="130" y="254" text-anchor="middle">MEERA NAIR</text>
+        </svg>
+      </div>
+      <div class="cta-who">
+        <p class="label">YOUR TIDEWATER CONTACT</p>
+        <p class="cta-name">Meera Nair</p>
+        <p class="cta-role">Project lead, Tidewater Studio, Kochi</p>
+        <p class="cta-send">Send her the route you pick. Within a week she replies with a one-page plan for that route, including what the pilot costs.</p>
+        <div class="cta-row">
+          <span class="cta-addr">meera.nair@tidewater.example</span>
+          <button class="btn cta-copy" type="button">Copy email</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="cta-foot">Sample proposal made with the pitch-site prototype. Coastline Cold Chain, Tidewater Studio and Meera Nair are fictional.</p>
+  </div>
+
+  <script>
+    (() => {
+      const sec = $('#cta'); if (!sec) return;
+
+      // 1. The truck, built from the shared drawing data (all parts, labels on)
+      const g = $('#cta-g', sec), svg = $('#cta-svg', sec);
+      const T = drawTruck(g, { labels: true });
+      // the dash-dot centre lines move into a masked group so their dashes survive the pen draw
+      const clm = $('#cta-clm', sec); clm.setAttribute('d', TRUCK.cl);
+      const clg = document.createElementNS(NS, 'g'); clg.setAttribute('mask', 'url(#cta-m-cl)');
+      g.insertBefore(clg, T.cl); clg.appendChild(T.cl);
+      // the dimension line gets yellow arrowheads (kept off while the line is hidden, put on when the pen reaches it)
+      const dim = T.dim, dimMarks = ['marker-start', 'marker-end'];
+      dimMarks.forEach(a => dim.setAttribute(a, 'url(#cta-arr)'));
+      if (!FINAL) dimMarks.forEach(a => dim.removeAttribute(a));
+      // "PROPOSAL A" ends close to the new cell: start the SHEET column a little to the left so the ring clears it
+      $$('.t-tbtext text', g).forEach(t => { if (t.getAttribute('x') === '814') t.setAttribute('x', '810'); });
+
+      // 2. Targets for the draw
+      const boxfill = $('#cta-boxfill', sec), sensors = $('#cta-sensors', sec);
+      const dimText = $('.t-dimtext', g), tbText = $('.t-tbtext', g), appr = $('#cta-appr', sec);
+      const tb4 = $('#cta-tb4', sec), ring = $('#cta-ring', sec);
+      prepDraw([clm, T.ground, T.chassis, T.cab, T.box, T.ribs, T.door, T.wheels, T.ext, T.dim, T.tb, tb4, ring]);
+      const hide = el => { if (el) el.style.opacity = FINAL ? 1 : 0; };
+      [boxfill, sensors, dimText, tbText, appr].forEach(hide);
+      const fade = (el, delay = 0, dur = .6) => {
+        if (!el || FINAL) return;
+        el.style.transition = `opacity ${dur}s var(--ease-out) ${delay}s`;
+        requestAnimationFrame(() => requestAnimationFrame(() => { el.style.opacity = 1; }));
+      };
+      const at = (paths, delay, speed = 1300, min = .6, max = 2) => penDraw(paths, { delay, parallel: true, speed, min, max });
+
+      // 3. Plotter order when the drawing scrolls into view: centre lines, object lines, dimension, title block, then the ring
+      onView($('.cta-draw', sec), () => {
+        if (FINAL) { sec.classList.add('fin'); return; }
+        at([clm], 0, 1100, .5, .9);                                   // centre lines
+        at([T.ground, T.chassis], .35, 1500, .6, 1.1);                // ground, chassis
+        at([T.cab], .45, 1300, .5, .8);                               // cab
+        at([T.box], .6, 1500, .6, 1.1); fade(boxfill, 1.0, .8);       // box and its tint
+        at([T.ribs], .85, 1600, .6, 1.2);                             // ribs
+        at([T.door, T.wheels], 1.0, 1300, .6, .9);                    // door, wheels
+        fade(sensors, 1.7, .5);                                       // the two sensors
+        const dEnd = at([T.ext, T.dim], 1.8, 1000, .6, .9);           // dimension line
+        setTimeout(() => dimMarks.forEach(a => dim.setAttribute(a, 'url(#cta-arr)')), (dEnd + .1) * 1000);
+        fade(dimText, 2.2, .5);
+        at([T.tb, tb4], 2.3, 1600, .5, .7);                           // title block, with the new cell
+        fade(tbText, 2.6, .5); fade(appr, 2.6, .5);
+        penDraw([ring], { delay: 2.9, speed: 320 });                  // the sign-off ring, last
+      }, .35);
+
+      // 4. Portrait: circle, then the face in order (groups draw together, each after the last)
+      const card = $('.cta-contact', sec), circle = $('.cta-portrait .cta-detail', sec);
+      const faceGroups = [
+        '.cta-portrait .f-head',
+        '.cta-portrait .f-hair',
+        '.cta-portrait .f-eye, .cta-portrait .f-nose, .cta-portrait .f-mouth',
+        '.cta-portrait .f-neck, .cta-portrait .f-body'
+      ].map(sel => $$(sel, sec));
+      prepDraw([circle, ...faceGroups.flat()]);
+      onView(card, () => {
+        if (FINAL) return;
+        let t = penDraw([circle], { speed: 600 });
+        faceGroups.forEach(group => { t = penDraw(group, { delay: t, parallel: true, min: .6 }); });
+      }, .5);
+
+      // 5. Copy email: "Copied" for 1.8s; the timer is cleared before a new one starts
+      const btn = $('.cta-copy', sec), addr = $('.cta-addr', sec);
+      let timer = 0;
+      const flash = label => {
+        clearTimeout(timer);
+        btn.textContent = label;
+        timer = setTimeout(() => { btn.textContent = 'Copy email'; }, 1800);
+      };
+      btn.addEventListener('click', async () => {
+        let ok = false;
+        try { await navigator.clipboard.writeText(addr.textContent.trim()); ok = true; } catch (e) {}
+        if (!ok) {
+          try {
+            const r = document.createRange(); r.selectNodeContents(addr);
+            const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+            ok = document.execCommand('copy');
+          } catch (e) {}
+        }
+        flash(ok ? 'Copied' : 'Select and copy');
+      });
+    })();
+  </script>
+</section>
+
+</main>
+
+</body></html>
