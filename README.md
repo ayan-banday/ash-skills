@@ -79,8 +79,7 @@ Cloud sessions don't install plugins from a repo's settings, so a cloud environm
 
 ```bash
 #!/bin/bash
-claude plugin marketplace add ayan-banday/ash-skills >/dev/null 2>&1
-claude plugin marketplace update ash-skills >/dev/null 2>&1
+claude plugin marketplace add ayan-banday/ash-skills || claude plugin marketplace update ash-skills
 bash "$HOME/.claude/plugins/marketplaces/ash-skills/cloud/setup.sh" || echo "ash-skills: setup failed"
 exit 0
 ```

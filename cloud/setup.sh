@@ -4,11 +4,12 @@
 # so every change here reaches the next fresh cloud session with no new paste.
 
 MP="$HOME/.claude/plugins/marketplaces/ash-skills"
+[ -d "$MP/plugins" ] || { echo "ash-skills: marketplace not found at $MP" >&2; exit 0; }
 
 # 1. Install every plugin in the marketplace, so /write, /visualize, /plan, /build and /learn load.
 for d in "$MP"/plugins/*/; do
   p=$(basename "$d")
-  claude plugin install "$p@ash-skills" --scope user >/dev/null 2>&1 || echo "ash-skills: could not install $p"
+  claude plugin install "$p@ash-skills" --scope user || echo "ash-skills: could not install $p" >&2
 done
 
 # 2. Tell Claude where to find a skill that didn't load, or one newer than this session's copy.
