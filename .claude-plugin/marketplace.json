@@ -11,6 +11,11 @@
       "name": "plan",
       "source": "./plugins/plan",
       "description": "Decide what to build before building it."
+    },
+    {
+      "name": "build",
+      "source": "./plugins/build",
+      "description": "How do I build and fix code in Charlotte or the micro-SaaS, and the tools Claude uses?"
     }
   ]
 }
