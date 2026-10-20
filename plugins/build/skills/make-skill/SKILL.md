@@ -26,7 +26,7 @@ Make or fix one skill in Ash's plugin repo, `D:\ash-skills`, so it is **filed, n
    Done when every test prompt gets what the skill promises.
 5. **Ship it** by "Saving and shipping a skill" in CONVENTIONS.md: new plugin files if needed, version bump, validate, marketplace update, install or update.
    Done when `claude plugin details <plugin>@ash-skills` lists the skill.
-6. **Commit** only the files this run touched, named one by one: `git -C D:/ash-skills add <paths>` then `git -C D:/ash-skills commit`. Message: `Add <plugin>:<name>: <question>`.
+6. **Commit** only the files this run touched, named one by one: `git -C D:/ash-skills add <paths>` then `git -C D:/ash-skills commit`, then `git -C D:/ash-skills push` so cloud sessions and other laptops get it. Message: `Add <plugin>:<name>: <question>`.
 7. **Tell Ash** the command to type, `/<plugin>:<name>`, and that it shows in sessions started after the install, or after `/reload-plugins`.
 
 ## Fix a skill
@@ -40,4 +40,4 @@ Make or fix one skill in Ash's plugin repo, `D:\ash-skills`, so it is **filed, n
 ## Guardrails
 
 - **Edit only `D:\ash-skills`.** Installed copies under `~/.claude/plugins/cache/` and skills in `~/.claude/skills/` stay as they are.
-- **Commit locally and leave pushing to Ash.**
+- **Commit and push every change.** Ash wants each skill available everywhere, including cloud sessions.

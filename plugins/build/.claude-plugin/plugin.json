@@ -1,6 +1,6 @@
 {
   "name": "build",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "How do I build and fix code in Charlotte or the micro-SaaS, and the tools Claude uses?",
   "author": {
     "name": "Ash Banday"
