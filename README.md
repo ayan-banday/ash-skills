@@ -23,8 +23,9 @@ Ash's Claude skills, packed into five plugins by the action you're in. **Type `/
 | `polished-doc` | clear-documents | How do I turn my draft into a clean PDF or Word file? |
 | `brief-page-udyaan` | clear-visual-html | How do I brief a teammate so they arrive knowing what we're deciding? |
 | `pitch-site-udyaan` | clear-proposal-site | How do I make an outside reader say "Hell yeah, let's do this"? |
+| `post-page-online` | new | How do I put a page I made online so friends outside Claude can open it? |
 
-**Which one?** A draft you hand over as a file: `polished-doc`. Notes a teammate must understand alone: `brief-page-udyaan`. An outsider must say yes: `pitch-site-udyaan`. Abstract or list-like: `story-plan` first.
+**Which one?** A draft you hand over as a file: `polished-doc`. Notes a teammate must understand alone: `brief-page-udyaan`. An outsider must say yes: `pitch-site-udyaan`. Abstract or list-like: `story-plan` first. Finished and should be seen outside Claude: `post-page-online`.
 
 ## /plan: How do I decide what to build before building it?
 
