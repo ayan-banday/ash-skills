@@ -73,6 +73,21 @@ Ash's Claude skills, packed into five plugins by the action you're in. **Type `/
 - **Left out of Matt's set:** ask-matt (which-skill replaces it), triage, teach (study covers it).
 - **Later:** `post-draft-substack`, once three or four posts exist for it to learn your voice from.
 
+## On your phone and in cloud sessions
+
+Cloud sessions don't install plugins from a repo's settings, so a cloud environment's setup script does it. **Paste this once** into the environment's **Setup script** (claude.ai/code → environment selector under the message box → edit), and pick that environment for new sessions:
+
+```bash
+#!/bin/bash
+claude plugin marketplace add ayan-banday/ash-skills >/dev/null 2>&1
+claude plugin marketplace update ash-skills >/dev/null 2>&1
+bash "$HOME/.claude/plugins/marketplaces/ash-skills/cloud/setup.sh" || echo "ash-skills: setup failed"
+exit 0
+```
+
+- **The real work is in [cloud/setup.sh](cloud/setup.sh),** so changes there need no new paste. It installs every plugin and tells Claude where to find a skill that didn't load.
+- **A skill pushed today can lag up to about 7 days,** because cloud environments cache the setup. Until then, ask for it by name: Claude pulls this repo and reads the skill's SKILL.md.
+
 ## How this repo is built
 
 - **The rules:** [CONVENTIONS.md](CONVENTIONS.md). **The plan it was built from:** [docs/BUILD-PLAN.md](docs/BUILD-PLAN.md).
