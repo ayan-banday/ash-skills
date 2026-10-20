@@ -22,7 +22,7 @@ Make or fix one skill in Ash's plugin repo, `D:\ash-skills`, so it is **filed, n
    - For anything longer than a page, or with scripts or reference files, call the Skill tool with "anthropic-skills:skill-creator" to draft, write test prompts and tune the description. Override its defaults: save to the repo path above, keep the frontmatter from step 2, and skip its packaging step.
    - Copied from a known source: keep the original body, add the licence file and the README credit.
    Done when the description is 200 to 450 characters, its question makes sense with the name hidden, and every step in the body ends on a done test.
-4. **Test it.** Write two or three prompts Ash would really type. For each, hand a subagent the SKILL.md path and the prompt, and read what it does. Fix the body where a run goes wrong. For a skill Claude can fire, also check one prompt that should fire it and one look-alike prompt that should go to another skill.
+4. **Test it.** Write two or three prompts Ash would really type. For each, hand a subagent the SKILL.md path and the prompt, tell it to stay read-only, and ask for its final answer plus every step that was unclear or failed. Fix the body where a run goes wrong. For a skill Claude can fire, also check one prompt that should fire it and one look-alike prompt that should go to another skill.
    Done when every test prompt gets what the skill promises.
 5. **Ship it** by "Saving and shipping a skill" in CONVENTIONS.md: new plugin files if needed, version bump, validate, marketplace update, install or update.
    Done when `claude plugin details <plugin>@ash-skills` lists the skill.
