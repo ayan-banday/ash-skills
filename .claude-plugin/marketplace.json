@@ -1,0 +1,16 @@
+{
+  "name": "ash-skills",
+  "owner": {
+    "name": "Ash Banday"
+  },
+  "metadata": {
+    "description": "Ash's skills, packed by action: write, visualize, plan, build, learn."
+  },
+  "plugins": [
+    {
+      "name": "plan",
+      "source": "./plugins/plan",
+      "description": "Decide what to build before building it."
+    }
+  ]
+}
