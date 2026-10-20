@@ -19,5 +19,5 @@ Read `CLAUDE.md` at the Shasta root first. Write only inside Shasta, never into 
 
 1. **The evening, up to an approved learning brief:** follow `_rules\Menus and Learning Briefs.md`, after reading `_reference\Evening Example (Half Marathon).md`. Done when Ash says yes to the brief.
 2. **The study page:** follow `_rules\Clusters.md`, after reading `_reference\Study Page Example (Your SaaS's Own Look).md`. Build the HTML straight from the approved brief. Done when `python _reference\check_study_page.py <page>` prints no FAIL and the page passes the desktop and phone checks.
-3. **The fresh check:** follow `_rules\Fresh Check.md`. A sub-agent that has never seen the brief reads the page and answers each question itself. Done when it comes back clean. Only then show Ash.
+3. **The fresh check:** follow `_rules\Fresh Check.md`. Two fresh sub-agents check the page: a reader answers each question itself, and a rule checker goes through every judgement rule in `Clusters.md`. Done when both come back clean. Only then show Ash.
 4. **After he studies:** Ash explains the key takeaways back in his own words, Claude points out the gaps, and one line goes in `study log.md`.
