@@ -16,22 +16,33 @@ The one rulebook for every skill in this repo. `/build:make-skill` reads it befo
 
 **A sixth plugin needs three skills that fit none of these.** Until then, file the skill in the closest one.
 
-## The name: verb + object, saying what it makes
+## The name: what it does, then a tag for who it's for
 
-- **Lowercase words joined by hyphens,** at most 64 characters: `write-spec`, `try-prototype`, `split-tickets`.
-- **Start with a verb** Ash would say out loud: write, make, try, split, grill, chart, gather, ask, draw, check.
-- **The object is the thing it makes or works on:** `-spec`, `-tickets`, `-prototype`, `-skill`.
-- **Keep a memorable source name as one word in the name,** when the skill comes from a known source with a name people remember: `chart-project-wayfinder` (from Matt's `wayfinder`). The `/` menu only matches words in the name, so the name must hold every word Ash will type to find it.
+Ash finds skills only by typing words of the name in the `/` menu (see "How Ash finds a skill"). So **every word he'd search for goes in the name.**
+
+**The pattern** (Ash is still confirming it; change it here and nowhere else):
+
+> `<what-it-does>-<tag>`
+
+- **What it does:** a verb and an object, saying what it makes: `write-spec`, `try-prototype`, `brief-page`. Start with a verb Ash would say out loud: write, make, try, split, grill, chart, ask, draw, check.
+- **The tag:** one word for who it's for or where it came from: `udyaan`, `shasta`, `substack`, `matt`.
+- **A memorable original name goes before the tag:** `chart-project-wayfinder-matt` (from Matt's `wayfinder`), so `/wayf` and `/matt` both find it.
+- **No tag when nothing fits:** `story-plan`, `which-skill`, `make-skill`.
+
+**Examples:** `/plan:chart-project-wayfinder-matt`, `/visualize:brief-page-udyaan`, `/write:headline-angles-substack`, `/learn:study-shasta`.
+
+**Also:**
+- **Lowercase words joined by hyphens,** at most 64 characters. Aim for four words or fewer before the tag.
 - **No two skills share a name,** across all five plugins. Check with the listing command under "Shipping".
 
-**Bad:** `wayfinder` (no verb), `domain-modeling` (names a field, with no verb), `matt-setup-tracker` (starts with the source).
-**Good:** `chart-project-wayfinder`, `write-spec`, `make-skill`.
+**Bad:** `wayfinder` (no verb, no tag), `domain-modeling` (names a field, with no verb), `matt-setup-tracker` (the tag comes first).
+**Good:** `chart-project-wayfinder-matt`, `brief-page-udyaan`, `make-skill`.
 
 ## The description: four parts, in this order
 
 Written as one YAML line in double quotes. Use single quotes inside it.
 
-1. **A bracket saying who it's for or where it came from.**
+1. **A bracket saying who it's for or where it came from.** It's for reading in the menu; search runs on the name's tag.
    - Ash's own skills name the place they serve: `(Udyaan course)`, `(Substack)`, `(Shasta)`, `(skill guide)`.
    - Copied skills name the source and the original name: `(Matt: to-spec)`.
    - Add a tag after ` · ` when it helps: `(Matt: grilling · helper)` for a skill other skills call, `(skill maker · uses skill-creator)` for one that leans on another skill.
@@ -64,8 +75,9 @@ description: "(Matt: to-spec) How do I turn what we just decided into one writte
 
 ## How Ash finds a skill (from the Claude Code docs)
 
-- **The `/` menu matches the name only,** from the start of the name or of any word in it. Typing `/wayf` finds `chart-project-wayfinder`. The description shows beside the name, and the menu picks its top match from names.
-- **`/skills` filters by name, description and source.** Typing "matt" or "Udyaan" there finds every skill with that word in its bracket. This is why the bracket matters.
+- **The `/` menu matches the name only,** from the start of the name or of any word in it. Typing `/wayf` finds `chart-project-wayfinder-matt`. The description shows beside the name, and the menu picks its top match from names.
+- **The plugin name counts too.** Typing `/plan` lists every plan skill.
+- **`/skills` doesn't work in Ash's app,** so description words are never a way to find a skill. The docs say `/skills` filters by name, description and source, but Ash can't use it.
 - **Skills can't have aliases.** The name is the only handle in the `/` menu, so it carries every word Ash would type.
 - **The full name is `/plugin:skill`,** like `/plan:write-spec`.
 
