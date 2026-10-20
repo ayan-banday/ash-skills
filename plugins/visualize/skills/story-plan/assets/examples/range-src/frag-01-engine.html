@@ -1,0 +1,211 @@
+<style>
+  /* ===== The trail lane: the climber and the mountain markers ===== */
+  .hz-ground .trail-dots{fill:var(--floor-ink);opacity:.22}
+  .hz-ground .lane-m{transition:opacity .6s var(--ease-out)}
+  .hz-ground .lane-m path{opacity:.95}
+  .hz-ground .lane-t{font:600 9px/1 var(--f-label);letter-spacing:.18em;text-transform:uppercase;fill:var(--floor-ink);opacity:.55}
+  .hz-ground .climber{transition:none}
+  .hz-ground .climber .cl-ink{fill:none;stroke:var(--floor-ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .hz-ground .climber .cl-fill{fill:var(--floor-ink)}
+  .hz-ground .climber .cl-hat{fill:#E3A21A}
+  .hz-ground .climber .leg-b{display:none}
+  .hz-ground .climber.step .leg-a{display:none}
+  .hz-ground .climber.step .leg-b{display:inline}
+</style>
+<script>
+(() => {
+  /* ===== Silhouettes: one per stop on the trail, used by the rail and the lane ===== */
+  const SIL = {
+    range:'M0 16L5 10 8 12 13 4 17 9 20 7 28 16Z',
+    mk:'M1 16C5 11 8 9 11 9h1c0-1.4 2-1.4 2 0h1c3 0 7 2 12 7Z',
+    my:'M3 16C8 12 12 6 14 2c2 4 6 10 11 14Z',
+    kz:'M2 16L8 9 10 10 14 2 17 7 19 6 26 16Z',
+    va:'M0 16L4 7 9 13 14 11 19 13 24 7 28 16Z',
+    rn:'M1 16C6 11 9 5 13 3c2 0 3 0 4 1 3 3 6 8 10 12Z',
+    ar:'M1 16C5 11 8 5 10 3c1 0 2 1 3 3l3 5 3-3c1-1 2 0 3 1l5 7Z',
+    fj:'M2 16C7 13 10 8 12 3h4c2 5 5 10 10 13Z',
+    ev:'M1 16L7 9 10 8 14 1 17 5 19 4 27 16Z',
+    om:'M0 16C6 12 9 10 12 10h4c3 0 6 2 12 6Z'
+  };
+  window.RANGE_SIL = SIL;
+
+  /* ===== Words written into the scene: one word at a time, each word whole ===== */
+  const LEAD = { k: 0, q: 33, t: 29 };
+  function write(g, ins, { now = false, delay = 0 } = {}) {
+    g.innerHTML = '';
+    const words = [], timers = [];
+    let y = ins.y;
+    ins.lines.forEach(([cls, line], i) => {
+      if (i) y += LEAD[cls] || 30;
+      if (i && ins.lines[i - 1][0] === 'k') y += 4;
+      const tx = document.createElementNS(NS, 'text');
+      tx.setAttribute('x', ins.x); tx.setAttribute('y', y); tx.setAttribute('class', 'i-' + cls);
+      tx.setAttribute('text-anchor', ins.anchor || 'start');
+      line.split(' ').forEach((w, j) => { const s = document.createElementNS(NS, 'tspan'); s.textContent = (j ? ' ' : '') + w; s.setAttribute('class', 'w'); tx.appendChild(s); words.push(s); });
+      g.appendChild(tx);
+    });
+    if (now || FINAL) words.forEach(s => s.classList.add('in'));
+    else words.forEach((s, i) => timers.push(setTimeout(() => s.classList.add('in'), delay + i * 42)));
+    return { cancel() { timers.forEach(clearTimeout); } };
+  }
+  const plain = ins => ins.lines.map(l => l[1]).join(' ');
+
+  /* ===== Stops: numbered, in story order. Opening one dims the scene around it (attention is a flashlight),
+     the object does its own small act, then its words are written beside it. ===== */
+  const panels = [];
+  function initPanel(sec, stops) {
+    const scene = $('.scene', sec), svg = $('svg.art', scene), id = sec.id;
+    const P = { sec, svg, scene, stops, open: -1, w: null };
+    panels.push(P);
+    svg.insertAdjacentHTML('beforeend',
+      `<defs><radialGradient id="${id}-vg"><stop offset=".55" stop-color="#000"/><stop offset="1" stop-color="#fff"/></radialGradient>
+       <mask id="${id}-vm" maskUnits="userSpaceOnUse" x="-400" y="-400" width="2400" height="2800"><rect x="-400" y="-400" width="2400" height="2800" fill="#fff"/><ellipse class="vm-h" fill="url(#${id}-vg)"/></mask></defs>
+       <rect class="veil" x="-400" y="-400" width="2400" height="2800" mask="url(#${id}-vm)"/><g class="stops"></g><g class="ins"></g>`);
+    P.ins = $('g.ins', svg); P.hole = $('.vm-h', svg);
+    const sg = $('g.stops', svg);
+    stops.forEach((s, i) => {
+      const [bx, by] = s.at, side = s.side || 'r';
+      const lx = side === 'l' ? bx - 20 : side === 'b' ? bx : bx + 20, ly = side === 'b' ? by + 30 : by + 4.2, la = side === 'l' ? 'end' : side === 'b' ? 'middle' : 'start';
+      const [hx, hy, hr] = s.hit || [bx, by, 0];
+      sg.insertAdjacentHTML('beforeend', `<g class="stop" data-i="${i}" tabindex="0" role="button" aria-label="${i + 1}. ${s.name || s.label}">
+        ${hr ? `<circle class="st-hit" cx="${hx}" cy="${hy}" r="${hr}"/>` : ''}<circle class="st-hit" cx="${bx}" cy="${by}" r="20"/>
+        <circle class="st-ring" cx="${bx}" cy="${by}" r="17.5"/><circle class="st-dot" cx="${bx}" cy="${by}" r="12"/>
+        <text class="st-num" x="${bx}" y="${by + 4.6}" text-anchor="middle">${i + 1}</text>
+        <text class="st-lab" x="${lx}" y="${ly}" text-anchor="${la}">${s.label}</text></g>`);
+    });
+    P.els = $$('.stop', sg);
+    P.els.forEach((g, i) => {
+      g.addEventListener('click', e => { e.stopPropagation(); P.open === i ? close(P) : open(P, i); });
+      g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); P.open === i ? close(P) : open(P, i); } });
+    });
+    P.ins.addEventListener('click', e => { e.stopPropagation(); close(P); });
+    svg.addEventListener('click', e => { if (P.open >= 0 && !P.stops[P.open].sticky && !e.target.closest('.stop,.lamp')) close(P); });
+
+    /* the route control, in the panel head */
+    const head = $('.pn-head', sec), live = document.createElement('p');
+    live.className = 'sr'; live.setAttribute('aria-live', 'polite');
+    const rt = document.createElement('div');
+    rt.className = 'route'; rt.setAttribute('role', 'group'); rt.setAttribute('aria-label', 'The route through this mountain');
+    rt.innerHTML = `<button type="button" class="rt-p" aria-label="Previous stop">‹</button><span class="rt-c"></span><button type="button" class="rt-n" aria-label="Next stop">›</button><span class="rt-l"></span><span class="rt-lamps"></span>`;
+    head.appendChild(rt); head.appendChild(live);
+    P.rt = rt; P.live = live;
+    $('.rt-n', rt).addEventListener('click', () => step(P, 1));
+    $('.rt-p', rt).addEventListener('click', () => step(P, -1));
+    route(P);
+    initLamps(sec, $('.rt-lamps', rt));
+    return P;
+  }
+  function route(P, sub) {
+    const n = P.stops.length, i = P.open;
+    $('.rt-c', P.rt).textContent = i < 0 ? `${n} stops` : `${i + 1} / ${n}`;
+    $('.rt-l', P.rt).textContent = i < 0 ? 'Start the route' : sub || P.stops[i].label;
+  }
+  function step(P, d) {
+    const i = P.open, s = i >= 0 && P.stops[i];
+    if (s && s.next && s.next(d)) return;           /* a stop with inner steps (the dive) moves first */
+    const j = i < 0 ? (d > 0 ? 0 : P.stops.length - 1) : i + d;
+    if (j < 0 || j >= P.stops.length) close(P); else open(P, j);
+  }
+  function open(P, i) {
+    panels.forEach(q => q !== P && close(q));
+    if (P.open >= 0) close(P, false, true);
+    const s = P.stops[i]; P.open = i;
+    P.els[i].classList.add('on');
+    if (!s.noVeil) {
+      const [cx, cy, rx, ry] = s.spot || [s.at[0], s.at[1], 160, 120];
+      ['cx', 'cy', 'rx', 'ry'].forEach((k, j) => P.hole.setAttribute(k, [cx, cy, rx, ry][j]));
+      P.sec.classList.add('opened');
+    }
+    P.sec.dataset.stop = s.id;
+    const wait = s.act ? s.act(true) : 0;
+    if (s.ins) { P.w = write(P.ins, s.ins, { delay: FINAL ? 0 : (wait ?? 300) }); P.live.textContent = plain(s.ins); }
+    route(P);
+    /* small screens: pan the picture so the words are in view */
+    const sc = $('.pn-scroll', P.sec);
+    if (s.ins && sc && sc.scrollWidth > sc.clientWidth + 2) {
+      const vb = P.svg.viewBox.baseVal, k = P.svg.clientWidth / vb.width, fx = (s.ins.anchor === 'end' ? s.ins.x - 200 : s.ins.anchor === 'middle' ? s.ins.x : s.ins.x + 200);
+      sc.scrollTo({ left: Math.max(0, fx * k - sc.clientWidth / 2), behavior: FINAL ? 'auto' : 'smooth' });
+    }
+  }
+  function close(P, refocus, quiet) {
+    if (P.open < 0) return;
+    const s = P.stops[P.open], el = P.els[P.open];
+    el.classList.remove('on'); if (refocus) el.focus({ preventScroll: true });
+    if (P.w) P.w.cancel(); P.ins.innerHTML = '';
+    if (s.act) s.act(false);
+    P.sec.classList.remove('opened'); delete P.sec.dataset.stop;
+    P.open = -1;
+    if (!quiet) { route(P); P.live.textContent = ''; }
+  }
+  addEventListener('keydown', e => { if (e.key === 'Escape') panels.forEach(P => close(P, true)); });
+  addEventListener('scroll', () => {   /* on the track, a stop whose panel has left the screen closes */
+    panels.forEach(P => { if (P.open < 0 || !root.classList.contains('hz-on')) return; const r = P.sec.getBoundingClientRect(); if (r.right < 0 || r.left > innerWidth) close(P); });
+  }, { passive: true });
+
+  /* ===== Lamps: tap one and it lights. By day, a tap brings the night and lights it. ===== */
+  function initLamps(sec, tally) {
+    const lamps = $$('.lamp', sec); if (!lamps.length) return;
+    const paint = () => { if (!tally) return; const on = lamps.filter(l => l.classList.contains('on')).length;
+      tally.innerHTML = NIGHT ? `Lights ${on} of ${lamps.length} ${lamps.map(l => `<i class="${l.classList.contains('on') ? 'on' : ''}"></i>`).join('')}` : `${lamps.length} lights to find after dark`; };
+    const light = (l, on) => {
+      l.classList.toggle('on', on); l.setAttribute('aria-pressed', on);
+      $$(`.lit[data-lamp="${l.dataset.lamp}"]`, sec).forEach(g => { g.classList.toggle('on', on); g.classList.remove('flick'); if (on && !FINAL) { void g.getBBox(); g.classList.add('flick'); } });
+      paint();
+    };
+    lamps.forEach(l => {
+      l.setAttribute('tabindex', '0'); l.setAttribute('role', 'button'); l.setAttribute('aria-pressed', 'false');
+      l.setAttribute('aria-label', 'Lamp: ' + (l.dataset.name || 'a light'));
+      const hit = e => { e.stopPropagation(); if (!NIGHT) { setNight(true, true); light(l, true); } else light(l, !l.classList.contains('on')); };
+      l.addEventListener('click', hit);
+      l.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); hit(e); } });
+      if (FINAL) light(l, true);
+    });
+    document.addEventListener('range:night', paint); paint();
+  }
+
+  /* ===== The trail: one line along the bottom of the whole track, the climber at its head ===== */
+  window.CPS_GROUND = ({ W, H, x, y, panels }) => {
+    const total = panels.reduce((a, p) => a + p.span * 100, 0);
+    const centres = panels.filter(p => p.id && p.id !== 'range').map(p => ({ id: p.id, c: p.left + p.span * 50 }));
+    const v = u => { let t = 74 + 5 * Math.sin(u * .13) + 3 * Math.sin(u * .41 + 1); centres.forEach(m => { t -= 40 * Math.exp(-Math.pow((u - m.c) / 10, 2)); }); return Math.max(16, Math.min(90, t)); };
+    let d = '';
+    for (let u = 2; u <= total - 1; u += 1.5) d += (d ? 'L' : 'M') + x(u) + ' ' + y(v(u));
+    const R = rng(11); let dots = '';
+    for (let u = 2; u < total; u += 2.2) dots += `<circle cx="${x(u + R() * 2)}" cy="${y(Math.min(98, v(u) + 10 + R() * 14))}" r="${f1(.6 + R() * .9)}"/>`;
+    const marks = centres.map(m => { const p = panels.find(q => q.id === m.id), sec = document.getElementById(m.id);
+      const sil = sec && sec.dataset.sil, pop = sec && sec.dataset.pop; if (!sil) return '';
+      return `<g class="lane-m" data-x="${m.c - 6}" transform="translate(${x(m.c) - 21},${y(v(m.c)) - 26}) scale(1.5)"><path d="${sil}" style="fill:${pop}"/></g>`; }).join('');
+    const climber = `<g class="climber" transform="translate(${x(14)},${y(v(14))})">
+      <path class="cl-fill" d="M-5.5 -15.5h4.6v7.6h-4.6z" opacity=".55"/>
+      <path class="cl-ink" d="M-1 -16.5L.6 -8.2"/>
+      <circle class="cl-fill" cx="-.9" cy="-19.6" r="2.6"/><path class="cl-hat" d="M-3.8 -20.4c.2-2.6 1.6-3.8 3-3.8s2.8 1.2 2.9 3.8z"/>
+      <path class="cl-ink" d="M-.4 -14.4l4.2 3.4M3.8 -11l1.6 11"/>
+      <path class="cl-ink leg-a" d="M.6 -8.2L-2.4 0M.6 -8.2L3 -.2"/>
+      <path class="cl-ink leg-b" d="M.6 -8.2L-.6 0M.6 -8.2L1.6 -4.4 .8 0"/></g>`;
+    return `<g class="trail-dots">${dots}</g><path class="hz-guide" d="${d}"/><path class="hz-draw trail" d="${d}"/>` +
+      `<text class="lane-t" x="${x(2.2)}" y="${y(v(2)) - 9}">Trailhead</text>${marks}${climber}`;
+  };
+  let tr = null, samp = [];
+  window.CPS_HEAD = head => {
+    const t = $('.hz-ground .trail'), c = $('.hz-ground .climber'); if (!t || !c) return;
+    if (t !== tr) { tr = t; samp = []; const L = t.getTotalLength(); for (let k = 0; k <= 400; k++) { const p = t.getPointAtLength(L * k / 400); samp.push([p.x, p.y]); } }
+    let lo = 0, hi = samp.length - 1;
+    if (head <= samp[0][0]) hi = 0; else if (head >= samp[hi][0]) lo = hi;
+    else { while (hi - lo > 1) { const m = (lo + hi) >> 1; if (samp[m][0] < head) lo = m; else hi = m; } }
+    const a = samp[lo], b = samp[hi], k = b[0] > a[0] ? (head - a[0]) / (b[0] - a[0]) : 0;
+    c.setAttribute('transform', `translate(${f1(a[0] + (b[0] - a[0]) * k)},${f1(a[1] + (b[1] - a[1]) * k)})`);
+    c.classList.toggle('step', Math.floor(head / 11) % 2 === 1);
+  };
+
+  /* ===== Lantern button ===== */
+  addEventListener('DOMContentLoaded', () => {
+    setNight(NIGHT, false);
+    const b = $('.lantern'); if (b) b.addEventListener('click', () => setNight(!NIGHT, true));
+    /* small screens pan the picture: start each one centred on its subject */
+    const centre = () => $$('.pn-scroll').forEach(s => { if (s.scrollWidth > s.clientWidth + 2 && !s.dataset.c) { s.scrollLeft = (s.scrollWidth - s.clientWidth) * (+(s.dataset.focus || .5)); s.dataset.c = 1; } });
+    centre(); addEventListener('load', centre);
+  });
+
+  window.Range = { initPanel, initLamps, open, close, write };
+})();
+</script>

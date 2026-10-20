@@ -1,0 +1,1345 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"></head><body>
+<title>Northwind Foods proposal</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+  /* ===== Tokens: filled from the Kolam direction (references/directions/01-kolam.md) for the module gallery. ===== */
+  :root{
+    --ground:#3A2B22; --ground-2:#47362B; --paper:#F1EDE4; --card:#FAF7F0;
+    --ink:#241D18; --muted:#6B6158; --line:rgba(36,29,24,.14); --line-2:rgba(36,29,24,.28);
+    --tint-1:#ECD9A6; --tint-2:#C6CFDA; --tint-3:#DDB09A; --tint-4:#DCCDEB;
+    --marker:#F2C94C; --marker-ink:#A87410; --red:#9E3B2A; --cyan:#3F4A7A;
+    --font-display:'Newsreader',Georgia,serif; --font-body:'Hanken Grotesk',system-ui,sans-serif;
+    --font-label:'JetBrains Mono',ui-monospace,Consolas,monospace; --font-hand:'Caveat',cursive;
+    --accent-1:var(--red); --accent-2:var(--cyan);
+    --ease-out:cubic-bezier(.22,1,.36,1); --ease-draw:cubic-bezier(.45,.05,.35,1);
+    --wrap:1180px; --gutter:clamp(20px,4vw,48px);
+    --r-sheet:16px; /* kolam: soft cards, as on the TVS site (16-18px) */
+    color-scheme:light;
+  }
+  /* Single deliberate theme: rice-white paper with dark wood bands; every colour is set explicitly. */
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--font-body);-webkit-font-smoothing:antialiased;overflow-x:clip}
+  /* vellum tooth: static, never animated */
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.05;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+  img,svg{max-width:100%}
+  h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-.005em;line-height:1.02;margin:0;text-wrap:balance}
+  h1{font-size:clamp(48px,6.4vw,92px)}
+  h2{font-size:clamp(38px,4.6vw,64px)}
+  h3{font-size:clamp(24px,2.2vw,30px);line-height:1.1}
+  p{margin:0;text-wrap:pretty}
+  .lede{font-size:clamp(18px,1.5vw,21px);line-height:1.5;color:var(--muted);max-width:56ch}
+  .label{font:500 11.5px/1.3 var(--font-label);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .hand{font-family:var(--font-hand);color:var(--red)}
+  .wrap{max-width:var(--wrap);margin:0 auto;padding-left:max(var(--gutter),env(safe-area-inset-left,0px));padding-right:max(var(--gutter),env(safe-area-inset-right,0px))}
+
+  /* Section colour blocks: one flat block per idea */
+  .band{position:relative;padding:clamp(88px,11vw,150px) 0;overflow-x:clip}
+  .band.paper{background:var(--paper)} .band.card{background:var(--card)}
+  .band.t1{background:var(--tint-1)} .band.t2{background:var(--tint-2)} .band.t3{background:var(--tint-3)}
+  /* contrast: muted and red re-tuned per tint so text stays at 4.5:1 or better */
+  .band.t1,.band.t2{--muted:#57534E} .band.t2{--red:#8A2F20} .band.t1{--red:#952622} .band.t3{--muted:#4F463F;--red:#7A281B}
+  .band.dark{background:var(--ground);color:var(--paper)}
+  .band.dark .lede,.band.dark .label{color:rgba(241,237,228,.72)}
+  .band-head{display:grid;gap:18px;margin-bottom:clamp(40px,5vw,64px);max-width:760px}
+
+  /* Team chips: one tint per team, used everywhere that team appears */
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{display:inline-flex;align-items:center;gap:6px;font:500 12px/1 var(--font-label);letter-spacing:.04em;padding:6px 9px;border-radius:3px;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(36,29,24,.12)}
+  .chip.c-sensors{background:var(--tint-1)} .chip.c-app{background:var(--tint-2)}
+  .chip.c-data{background:var(--tint-3)} .chip.c-field{background:var(--tint-4)}
+
+  /* Marker: keep <mark> inside inline text, never as a grid/flex child */
+  mark{background:linear-gradient(var(--marker),var(--marker)) no-repeat 0 90%/0% 42%;color:inherit;padding:0 2px;
+    -webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-size .8s var(--ease-out) .35s}
+  .in mark, mark.in{background-size:100% 42%}
+  .band.dark mark{background-image:linear-gradient(var(--marker),var(--marker));color:var(--ink);border-radius:3px;padding:1px 5px;background-position:0 0;background-size:0% 100%}
+  .band.dark .in mark,.band.dark mark.in{background-size:100% 100%}
+
+  /* Reveal: only blocks below the fold start hidden; text plays once */
+  .js .rv{opacity:0;transform:translateY(12px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out);transition-delay:var(--d,0s)}
+  .js .rv.in{opacity:1;transform:none}
+
+  /* Drawing classes shared by every SVG (ISO-ish line weights) */
+  .ln{fill:none;stroke:var(--ink);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .ln.thin{stroke-width:.8} .ln.hid{stroke-width:1;stroke-dasharray:6 4}
+  .ln.cl{stroke-width:.7;stroke-dasharray:16 4 3 4;opacity:.7}
+  .ln.guide{stroke-width:1;stroke-dasharray:3 5;opacity:.3}
+  .ln.red{stroke:var(--red)} .ln.cyan{stroke:var(--cyan)}
+  .fill-paper{fill:var(--paper)} .fill-card{fill:var(--card)}
+  .svg-label{font:500 11px var(--font-label);letter-spacing:.06em;fill:var(--ink)}
+  .svg-hand{font:16px var(--font-hand);fill:var(--red)}
+
+  /* Buttons */
+  .btn{font:600 14px/1 var(--font-body);padding:12px 18px;border-radius:10px;border:0;background:var(--ink);color:var(--paper);cursor:pointer;
+    transition:scale .15s ease-out;-webkit-tap-highlight-color:transparent;min-width:140px}
+  .btn:not(:disabled):active{scale:.96}
+
+  /* Phone gate: short side under 540px sees only this */
+  .gate{display:none}
+  @media (max-width:539px), (pointer:coarse) and (max-height:499px){ html:not(.no-gate) main{display:none} html:not(.no-gate) .gate{display:grid} }
+  html.phone main{display:none} html.phone .gate{display:grid}
+  .gate{min-height:100svh;place-items:center;text-align:center;padding:32px;background:var(--ground);color:var(--paper)}
+  .gate p{font:600 34px/1.05 var(--font-display);max-width:12ch;margin:18px auto 10px}
+  .gate small{font:400 15px/1.5 var(--font-body);color:rgba(241,237,228,.7)}
+
+  @media (prefers-reduced-motion: reduce){ .js .rv{opacity:1;transform:none;transition:none} mark{transition:none;background-size:100% 42%} }
+</style>
+<script>
+  /* ===== Shared helpers (every section fragment may use these) ===== */
+  document.documentElement.classList.add('js');
+  try { if (navigator.maxTouchPoints > 0 && Math.min(screen.width, screen.height) < 540) document.documentElement.classList.add('phone'); } catch (e) {}
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* ?final=1 forces every finished state (screenshots; hidden panes throttle animation) */
+  const FINAL = reduce || /[?&]final=1/.test(location.search);
+  const NS = 'http://www.w3.org/2000/svg';
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+  /* Run fn once when el is threshold-visible. Under FINAL it runs at once. */
+  function onView(el, fn, threshold = .3) {
+    if (!el) return;
+    if (FINAL || !('IntersectionObserver' in window)) { fn(); return; }
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { io.disconnect(); fn(); } }), { threshold });
+    io.observe(el);
+  }
+  /* Hide paths so they can be pen-drawn later. */
+  function prepDraw(paths) {
+    paths.forEach(p => { const L = p.getTotalLength ? p.getTotalLength() : 0; p.style.strokeDasharray = L + ' ' + L; p.style.strokeDashoffset = FINAL ? 0 : L; p.dataset.len = L; });
+  }
+  /* House pen rule: duration = length / speed, clamped .6-2.2s; next stroke starts at 82% of the previous.
+     parallel:true starts every path at once. Returns the time (s) when the set is done enough to chain. */
+  function penDraw(paths, { delay = 0, speed = 600, overlap = .82, parallel = false, min = .6, max = 2.2 } = {}) {
+    let t = delay, end = delay;
+    paths.forEach(p => {
+      const L = +p.dataset.len || p.getTotalLength();
+      const d = Math.min(max, Math.max(min, L / speed));
+      if (!p.dataset.len) { p.style.strokeDasharray = L + ' ' + L; p.style.strokeDashoffset = L; p.dataset.len = L; }
+      if (FINAL) { p.style.strokeDashoffset = 0; return; }
+      p.getBoundingClientRect();
+      p.style.transition = `stroke-dashoffset ${d}s var(--ease-draw) ${parallel ? delay : t}s`;
+      requestAnimationFrame(() => { p.style.strokeDashoffset = 0; });
+      if (parallel) end = Math.max(end, delay + d * overlap); else { t += d * overlap; end = t; }
+    });
+    return end;
+  }
+  /* Reveal blocks marked .rv; the ones already on screen at load show at once. */
+  function initReveal() {
+    const els = $$('.rv');
+    if (FINAL || !('IntersectionObserver' in window)) { els.forEach(e => e.classList.add('in')); return; }
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -12% 0px' });
+    els.forEach(e => io.observe(e));
+  }
+  addEventListener('DOMContentLoaded', initReveal);
+
+  /* ===== The motif =====
+     Paste the motif kit (assets/motifs/kit.js) and the direction's generator (assets/motifs/<direction>.js) here,
+     or draw the client's own object by hand as a TRUCK-style object of named parts (see assets/examples/coastline.html).
+     Name every part, so sections can light one part (badges) or change one part per step (the pinned stage). */
+  /*MOTIF*/
+</script>
+
+<!-- Shared SVG defs: arrowheads and the graphite pencil filter. Not display:none, or markers and filters break. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 2L10 5L0 8Z" fill="#241D18"/></marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 2L10 5L0 8Z" fill="#9E3B2A"/></marker>
+    <filter id="graphite" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale=".9" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="gate" role="dialog" aria-label="Open on a larger screen">
+  <div>
+    <svg viewBox="0 0 120 80" width="120" aria-hidden="true"><path class="ln" style="stroke:var(--marker)" d="M20 14h80v46H20zM8 66h104"/></svg>
+    <p>Open this on your laptop or tablet</p>
+    <small>This proposal is built for a bigger screen.</small>
+  </div>
+</div>
+
+<main>
+<section class="band card gal" id="gal-01"><div class="wrap"><p class="label">Module 1 of 8 · assets/modules/kolam-hero.html</p><h2>Module: kolam-hero, WRD-01</h2></div></section>
+<style>.band.gal{padding:36px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)} .gal h2{font-size:clamp(24px,2.4vw,32px)} .gal .label{margin-bottom:8px}</style>
+
+<!--
+  MODULE kolam-hero.html · catalogue WRD-01 (self-drawing motif hero), kolam direction · prefix kol-
+  Serves: the opening screen: one promise (h1 + lede) while the client's motif draws itself, plus a key that says
+          what three parts of the drawing stand for (the three needs the page answers).
+  Adapt:
+    1. Edit the hero copy in the markup (label, h1 under ~50 characters, lede under ~40 words).
+    2. Edit DATA only: one key item per strand (s1, s2, s3), label + what it stands for in 2-4 words.
+    3. Parts you can light anywhere: 'core' (the cube at the centre), 's1' 's2' 's3' (the three bands), 'design' (all six flowers).
+    4. A mini badge in any later section: <span class="kol-mini"><svg data-kol-mini="s2"></svg></span>. It is drawn
+       finished with that part lit. window.kolDraw(svg, {badge}) returns {play, finish, focus(part)} for custom uses.
+  Data: DATA.key [{part, label, means}].
+-->
+<section id="kol" class="band dark kol" aria-labelledby="kol-h">
+  <div class="wrap kol-grid">
+    <div class="kol-copy">
+      <p class="label">Field &amp; Form · a proposal for Northwind Foods</p>
+      <h1 id="kol-h">Fresh food on every Northwind shelf, all week.</h1>
+      <p class="lede">You told us three things your stores need. The drawing holds all three, woven together; this page takes them one at a time.</p>
+      <div class="kol-key" id="kol-key" role="group" aria-label="What the drawing stands for"></div>
+    </div>
+    <div class="kol-art" aria-hidden="true"><svg id="kol-hero"></svg></div>
+  </div>
+  <p class="kol-cue" aria-hidden="true">Scroll<i></i></p>
+</section>
+<style>
+  /* Kolam hero: the motif draws itself on a dark threshold; the key lights one strand at a time.
+     Motif colour slots (kit style): --bgc = the local ground (casings and over/under gaps), --m1 = the powder line. */
+  .band.kol{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:96px 0 72px;--bgc:var(--ground);--m1:var(--paper)}
+  .kol-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center;width:100%}
+  .kol-copy{display:grid;gap:22px;align-content:center}
+  .kol h1{font-size:clamp(44px,5.2vw,74px);line-height:1.02;max-width:14ch}
+  .kol .lede{max-width:40ch}
+  .kol-art{width:100%;max-width:min(600px,74svh);aspect-ratio:1/1;justify-self:center}
+  .kol-art svg{width:100%;height:100%;display:block}
+  .kol-key{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:6px 0 0 -10px;max-width:570px}
+  .kol-kb{appearance:none;border:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer;display:grid;justify-items:start;align-content:start;
+    gap:6px;padding:10px;border-radius:12px;transition:background-color .2s ease;-webkit-tap-highlight-color:transparent}
+  .kol-kb[aria-pressed="true"]{background:color-mix(in srgb,var(--paper) 9%,transparent)}
+  @media (hover:hover){ .kol-kb:hover{background:color-mix(in srgb,var(--paper) 6%,transparent)} }
+  .kol-kb:focus-visible{outline:2px solid var(--paper);outline-offset:2px}
+  .kol-means{font:500 17px/1.25 var(--font-display);color:var(--paper)}
+  /* mini badge: usable in any section */
+  .kol-mini{display:block;width:72px;height:72px;flex:none;border-radius:50%;overflow:hidden;--bgc:var(--ground-2);--m1:var(--paper);background:var(--bgc);
+    box-shadow:0 0 0 1px color-mix(in srgb,var(--ink) 10%,transparent);margin-bottom:4px}
+  .kol-mini svg{width:100%;height:100%;display:block;transform:scale(1.18)}
+  .kol-cue{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;
+    font:500 11px/1 var(--font-label);letter-spacing:.12em;text-transform:uppercase;color:color-mix(in srgb,var(--paper) 72%,transparent)}
+  .kol-cue i{display:block;width:1px;height:30px;background:linear-gradient(currentColor,transparent)}
+  @media (max-width:820px){
+    .band.kol{padding:64px 0 88px}
+    .kol-grid{grid-template-columns:minmax(0,1fr);gap:28px}
+    .kol-art{max-width:min(420px,46svh);order:-1}
+  }
+</style>
+<script>
+(() => {
+  const DATA = {
+    key: [
+      { part: 's1', label: 'Strand one', means: 'Order the right amount' },
+      { part: 's2', label: 'Strand two', means: 'Keep it cold' },
+      { part: 's3', label: 'Strand three', means: 'Waste less' }
+    ]
+  };
+
+  /* ---- the kolam generator (from the TVS site, kolam.js), in motif-kit style: colour slots, named parts ----
+     A cube of three rhombi with curls at the centre, three interlaced triple-strand bands at 120 degrees that weave
+     over and under, and six petal flowers with lattice and fringe, all under one rice-powder filter. */
+  window.kolDraw = window.kolDraw || (() => {
+    let uidN = 0; const weaveCache = {};
+    return function kolDraw(svg, opt = {}) {
+      const el = (tag, a = {}, p) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; };
+      const uid = 'kol' + (++uidN);
+      svg.setAttribute('viewBox', '-380 -380 760 760');
+      const defs = el('defs', {}, svg);
+      // rice-powder filter: hand wobble, then grit, then a soft bloom under the gritty line (static; never animated)
+      const f = el('filter', { id: uid + 'p', x: '-5%', y: '-5%', width: '110%', height: '110%' }, defs);
+      el('feTurbulence', { type: 'fractalNoise', baseFrequency: '.035', numOctaves: 2, seed: 7, result: 'w' }, f);
+      el('feDisplacementMap', { in: 'SourceGraphic', in2: 'w', scale: 5, xChannelSelector: 'R', yChannelSelector: 'G', result: 'hand' }, f);
+      el('feTurbulence', { type: 'fractalNoise', baseFrequency: '1.1', numOctaves: 1, seed: 3, result: 'g' }, f);
+      el('feDisplacementMap', { in: 'hand', in2: 'g', scale: 2.4, xChannelSelector: 'R', yChannelSelector: 'G', result: 'grit' }, f);
+      el('feGaussianBlur', { in: 'grit', stdDeviation: 1.1, result: 'soft' }, f);
+      const fm = el('feMerge', {}, f); el('feMergeNode', { in: 'soft' }, fm); el('feMergeNode', { in: 'grit' }, fm);
+      const root = el('g', { filter: `url(#${uid}p)` }, svg);
+      const all = [];
+      // ink strokes paint with --m1 (powder), casings with --bgc (the ground they sit on)
+      const stroke = (d, w, ink, parent, part, group) => {
+        const p = el('path', { d, fill: 'none', 'stroke-width': w, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, parent);
+        p.style.stroke = ink ? 'var(--m1)' : 'var(--bgc)';
+        if (ink && opt.badge && w < 10) p.setAttribute('stroke-width', w * 1.7);   // badges: thicker threads so one lit part reads at 72px
+        if (ink) p.classList.add('kol-ink');
+        p.dataset.part = part; if (group) p.dataset.group = group;
+        all.push(p); return p;
+      };
+
+      /* three bands: one path stroked four times (wide casing, powder, inner casing, thin powder) = a hollow double line with a thread */
+      const E = opt.e ?? 38, S = opt.s ?? 92, LL = opt.l ?? 112;
+      const BAND = `M ${E - S} 40 L ${E - S} ${-LL} A ${S} ${S} 0 0 1 ${E + S} ${-LL} L ${E + S} 40 Q ${E + S} 110 ${E + S - 70} 104 L 6 78`;
+      const layers = [[46, false], [34, true], [25, false], [4.2, true]];
+      const drawBand = (parent, k) => { const g = el('g', { transform: `rotate(${k * 120})` }, parent); layers.forEach(([w, ink]) => stroke(BAND, w, ink, g, 's' + (k + 1))); return g; };
+      const bandsG = el('g', {}, root);
+      for (let k = 0; k < 3; k++) drawBand(bandsG, k);
+
+      // weave: find where the bands cross (sampled once per geometry, then cached), alternate over and under along each band
+      const key = `${E},${S},${LL}`;
+      if (!weaveCache[key]) {
+        const probe = el('path', { d: BAND }, svg); probe.style.visibility = 'hidden';
+        const L = probe.getTotalLength(), N = Math.ceil(L / 2), local = [];
+        for (let i = 0; i <= N; i++) { const p = probe.getPointAtLength(i / N * L); local.push([p.x, p.y]); }
+        probe.remove();
+        const rot = (p, a) => { const r = a * Math.PI / 180, c = Math.cos(r), s = Math.sin(r); return [p[0] * c - p[1] * s, p[0] * s + p[1] * c]; };
+        const pts = [0, 1, 2].map(k => local.map(p => rot(p, k * 120)));
+        const crossings = [];
+        for (let a = 0; a < 3; a++) for (let b = a + 1; b < 3; b++) for (let i = 0; i < pts[a].length; i++) for (let j = 0; j < pts[b].length; j++) {
+          const [x1, y1] = pts[a][i], [x2, y2] = pts[b][j];
+          if (Math.abs(x1 - x2) > 2.2 || Math.abs(y1 - y2) > 2.2 || Math.hypot(x1, y1) < 100) continue;
+          if (!crossings.some(c => Math.hypot(c.x - x1, c.y - y1) < 30)) crossings.push({ a, b, ta: i, tb: j, x: x1, y: y1 });
+        }
+        const parity = [null, null, null];
+        for (let band = 0; band < 3; band++) {
+          const mine = crossings.filter(c => c.a === band || c.b === band).map(c => ({ c, t: c.a === band ? c.ta : c.tb })).sort((u, v) => u.t - v.t);
+          mine.forEach((m, idx) => {
+            if (m.c.over == null) { if (parity[band] == null) parity[band] = 0; m.c.over = (idx % 2 === parity[band]) ? band : (m.c.a === band ? m.c.b : m.c.a); }
+            else if (parity[band] == null) parity[band] = (m.c.over === band) === (idx % 2 === 0) ? 0 : 1;
+          });
+        }
+        weaveCache[key] = crossings.map(c => ({ x: c.x, y: c.y, over: c.over, under: c.over === c.a ? c.b : c.a }));
+      }
+      weaveCache[key].forEach((c, i) => {
+        if (c.over > c.under) return;                       // drawn later already, so it already sits on top
+        const cp = el('clipPath', { id: `${uid}c${i}` }, defs); el('circle', { cx: c.x, cy: c.y, r: 30 }, cp);
+        drawBand(el('g', { 'clip-path': `url(#${uid}c${i})` }, root), c.over);
+      });
+
+      /* centre: a cube of three rhombi, six curls, six short spokes */
+      const centre = el('g', {}, root);
+      const R = 96, hex = [];
+      for (let i = 0; i < 6; i++) { const a = (-90 + 60 * i) * Math.PI / 180; hex.push([R * Math.cos(a), R * Math.sin(a)]); }
+      const hexD = 'M' + hex.map(p => p.map(v => v.toFixed(1)).join(' ')).join(' L') + ' Z';
+      el('path', { d: hexD, style: 'fill:var(--bgc);stroke:none' }, centre);
+      stroke(hexD, 4.2, true, centre, 'core');
+      [0, 2, 4].forEach(i => stroke(`M0 0 L${hex[i][0].toFixed(1)} ${hex[i][1].toFixed(1)}`, 4.2, true, centre, 'core'));
+      const spiral = (cx, cy, r0, turns, dir) => {
+        let d = ''; const n = 60;
+        for (let i = 0; i <= n; i++) { const t = i / n, a = dir * t * turns * 2 * Math.PI, r = r0 * (1 - t * .85); d += (i ? 'L' : 'M') + (cx + r * Math.cos(a)).toFixed(1) + ' ' + (cy + r * Math.sin(a)).toFixed(1); }
+        return d;
+      };
+      [-30, 90, 210].forEach(ang => { const a = ang * Math.PI / 180; for (const side of [-1, 1]) { const b = a + side * .5; stroke(spiral(Math.cos(b) * 52, Math.sin(b) * 52, 15, 1.6, side), 3.6, true, centre, 'core'); } });
+      for (let i = 0; i < 6; i++) { const a = (-60 + 60 * i) * Math.PI / 180; stroke(`M0 0 L${(Math.cos(a) * 26).toFixed(1)} ${(Math.sin(a) * 26).toFixed(1)}`, 3, true, centre, 'core'); }
+
+      /* six flowers: four lobes on an arc, a lattice at the base, a fringe between */
+      const P = (r, deg) => { const a = (deg - 90) * Math.PI / 180; return [r * Math.cos(a), r * Math.sin(a)]; };
+      const RF = 58, lobes = 4, span = 150, f2 = n => n.toFixed(1);
+      let petal = '';
+      for (let i = 0; i <= lobes; i++) { const [x, y] = P(RF, -span / 2 + span * i / lobes); petal += i ? ` A 19 19 0 0 1 ${f2(x)} ${f2(y)}` : `M ${f2(x)} ${f2(y)}`; }
+      const [sx, sy] = P(RF, -span / 2);
+      petal += ` Q 0 ${f2(-RF * .15)} ${f2(sx)} ${f2(sy)}`;
+      let lattice = '';
+      for (let i = -2; i <= 2; i++) lattice += `M ${i * 11} -26 L ${i * 11} 4 `;
+      for (let j = 0; j < 3; j++) lattice += `M -24 ${-22 + j * 11} L 24 ${-22 + j * 11} `;
+      let fringe = '';
+      for (let i = -3; i <= 3; i++) { const [x1, y1] = P(30, i * 17), [x2, y2] = P(46, i * 19); fringe += `M ${f2(x1)} ${f2(y1 - 6)} L ${f2(x2)} ${f2(y2 - 6)} `; }
+      const flowers = el('g', {}, root);
+      const arcAng = Math.atan2(-LL, E) * 180 / Math.PI, reach = Math.hypot(E, LL) + S;
+      for (let k = 0; k < 6; k++) {
+        const phi = arcAng + 60 * k, D = k % 2 ? reach - 4 : reach + 26;
+        const g = el('g', { transform: `rotate(${phi + 90}) translate(0 ${-D}) scale(1.22)` }, flowers);
+        [petal, lattice, fringe].forEach((d, i) => stroke(d, i ? 3.4 : 4.2, true, g, 'p' + (k + 1), 'design'));
+      }
+
+      /* draw-on: centre, then each band, then the flowers; finishes inside 3.5s (house rule for a hero) */
+      const timing = p => p === 'core' ? [0, 1.1] : p[0] === 's' ? [.6 + (+p[1] - 1) * .25, 1.6] : [2.2 + (+p[1] - 1) * .07, .9];
+      all.forEach(p => { const L = p.getTotalLength(); p.style.strokeDasharray = `${L} ${L}`; p.style.strokeDashoffset = L; });
+      const play = () => all.forEach(p => { const [d, dur] = timing(p.dataset.part); p.style.transition = `stroke-dashoffset ${dur}s var(--ease-draw) ${d}s, opacity .6s ease`; p.style.strokeDashoffset = 0; });
+      const finish = () => all.forEach(p => { p.style.transition = 'opacity .6s ease'; p.style.strokeDashoffset = 0; });
+      // light one part and dim the rest: 'core', 's1'..'s3', 'p1'..'p6', 'design' (all flowers); null shows everything
+      const focus = part => all.forEach(p => { if (p.classList.contains('kol-ink')) p.style.opacity = !part || p.dataset.part === part || p.dataset.group === part ? 1 : .16; });
+      return { play, finish, focus };
+    };
+  })();
+
+  /* ---- mechanics: hero draw-on, the key row, and every mini badge on the page ---- */
+  const keyRow = $('#kol-key');
+  keyRow.innerHTML = DATA.key.map(k => `<button type="button" class="kol-kb" aria-pressed="false" data-part="${k.part}"><span class="kol-mini" aria-hidden="true"><svg data-kol-mini="${k.part}"></svg></span><span class="label">${k.label}</span><span class="kol-means">${k.means}</span></button>`).join('');
+  const hero = kolDraw($('#kol-hero'));
+  if (FINAL) hero.finish(); else onView($('#kol-hero'), () => requestAnimationFrame(() => requestAnimationFrame(hero.play)), .2);
+  const minis = () => $$('svg[data-kol-mini]').forEach(s => { if (s.dataset.kolDone) return; s.dataset.kolDone = '1'; const k = kolDraw(s, { badge: true }); k.finish(); k.focus(s.dataset.kolMini); });
+  minis();
+  if (document.readyState === 'loading') addEventListener('DOMContentLoaded', minis);
+  // the key: tap pins one strand on the hero (tap again to clear); hover previews it on hover devices
+  let pinned = null;
+  const btns = $$('.kol-kb', keyRow);
+  btns.forEach(b => {
+    b.addEventListener('click', () => { pinned = pinned === b.dataset.part ? null : b.dataset.part; btns.forEach(x => x.setAttribute('aria-pressed', x.dataset.part === pinned)); hero.focus(pinned); });
+    if (matchMedia('(hover:hover)').matches) { b.addEventListener('mouseenter', () => hero.focus(b.dataset.part)); b.addEventListener('mouseleave', () => hero.focus(pinned)); }
+  });
+})();
+</script>
+
+<section class="band card gal" id="gal-02"><div class="wrap"><p class="label">Module 2 of 8 · assets/modules/snake.html</p><h2>Module: snake, SEQ-01</h2></div></section>
+
+
+<!--
+  MODULE snake.html · catalogue SEQ-01 (snake: a scroll-drawn path through problem stops) · prefix snk-
+  Serves: a chain of 3-6 problems, each taken on by one team with one concrete outcome, ending in one result.
+  Adapt:
+    1. Edit the heading copy in the markup (label, h2, lede) and the band colour class on the section.
+    2. Edit DATA only: one stop per problem, in reading order. Keep each problem to one sentence.
+    3. chip is a starter chip class (c-sensors, c-app, c-data, c-field); team is the name printed on it.
+    4. gets and end.text may hold one <mark> each for the takeaway. Mechanics below DATA stay as they are.
+  Data: DATA.problemLabel, DATA.getsLabel, DATA.stops [{problem, team, chip, does, gets}], DATA.end {label, text}.
+-->
+<section id="snk" class="band paper" aria-labelledby="snk-h">
+  <div class="wrap">
+    <div class="band-head rv">
+      <p class="label">What goes wrong today</p>
+      <h2 id="snk-h">Four problems, and the team that takes on each one</h2>
+      <p class="lede">Follow the line down. Each stop is a problem Northwind Foods named, the team that fixes it, and what changes in the stores.</p>
+    </div>
+    <div class="snk" id="snk-path">
+      <svg class="snk-line" aria-hidden="true"><path class="snk-base"/><path class="snk-ink"/></svg>
+    </div>
+  </div>
+</section>
+<style>
+  /* Snake: problem-first stops zig-zag down; one line weaves through their knots as you scroll */
+  .snk{position:relative;display:flex;flex-direction:column;gap:30px}
+  .snk-line{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:0}
+  .snk-line path{fill:none;stroke-linecap:round}
+  .snk-base{stroke:var(--ink);stroke-opacity:.24;stroke-width:2;stroke-dasharray:1 8}
+  .snk-ink{stroke:var(--ink);stroke-width:2.4}
+  .snk-stop{position:relative;z-index:1;width:calc(50% - 70px);background:var(--card);border-radius:var(--r-sheet);padding:26px 28px 24px;
+    box-shadow:0 0 0 1px var(--line),0 16px 30px -26px color-mix(in srgb,var(--ink) 55%,transparent)}
+  .snk-stop.snk-r{align-self:flex-end}
+  .snk-knot{position:absolute;top:30px;width:36px;height:36px;border-radius:50%;background:var(--paper);box-shadow:0 0 0 2px var(--ink);
+    display:grid;place-items:center;font:500 13px/1 var(--font-label);color:var(--ink);transition:background-color .4s var(--ease-out),color .4s var(--ease-out)}
+  .snk-l .snk-knot{right:-18px} .snk-r .snk-knot{left:-18px}
+  .snk-stop.snk-lit .snk-knot{background:var(--ink);color:var(--paper)}   /* lit = ink; the marker is kept for what the reader gets */
+  .snk-k{color:var(--accent-1)}
+  .snk-prob{font:500 clamp(22px,2vw,27px)/1.22 var(--font-display);letter-spacing:-.01em;margin:6px 0 16px}
+  .snk-stop .chip{font-size:13px;padding:7px 11px}
+  .snk-does{font-size:15px;line-height:1.5;color:var(--muted);margin-top:10px}
+  .snk-gets{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+  .snk-gets .label{display:block;margin-bottom:6px}
+  .snk-gets p{font:500 19.5px/1.45 var(--font-display)}
+  .snk-end{position:relative;z-index:1;align-self:center;text-align:center;max-width:560px;background:var(--ground);color:var(--paper);
+    border-radius:var(--r-sheet);padding:24px 30px}
+  .snk-end .label{color:color-mix(in srgb,var(--paper) 72%,transparent)}
+  .snk-end p{font:500 23px/1.3 var(--font-display);margin-top:6px}
+  .snk-end mark{background-image:linear-gradient(var(--marker),var(--marker));background-position:0 0;background-size:0% 100%;color:var(--ink);border-radius:3px;padding:1px 5px}
+  .snk-end.in mark{background-size:100% 100%}
+  @media (max-width:820px){
+    .snk .snk-stop,.snk .snk-end{width:auto;margin-left:46px;align-self:stretch}
+    .snk .snk-end{text-align:left}
+    .snk .snk-stop .snk-knot{left:-64px;right:auto}
+  }
+</style>
+<script>
+(() => {
+  const DATA = {
+    problemLabel: 'The problem',
+    getsLabel: 'What Northwind gets',
+    stops: [
+      { problem: 'Store managers order by feel, so fresh lines run out by Thursday.', team: 'Data team', chip: 'c-data',
+        does: 'Builds a weekly order forecast from two years of till data.', gets: '<mark>Shelves that stay full</mark> through the weekend.' },
+      { problem: 'Chilled vans keep no record of how cold they stayed.', team: 'Sensors team', chip: 'c-sensors',
+        does: 'Fits a small logger in each van that reports every five minutes.', gets: 'A <mark>temperature trail for every delivery</mark>.' },
+      { problem: 'Waste is counted on paper and typed up a week late.', team: 'App team', chip: 'c-app',
+        does: 'Puts the waste count on the store tablet, two taps per item.', gets: '<mark>Same-day waste numbers</mark> for every store.' },
+      { problem: 'Head office cannot see which stores need help first.', team: 'Field team', chip: 'c-field',
+        does: 'Visits the five worst-hit stores and fixes the routine on the floor.', gets: 'A <mark>fix the store staff keep doing</mark>.' }
+    ],
+    end: { label: 'Where this leads', text: 'Less food thrown away, and <mark>full shelves on Saturday</mark>.' }
+  };
+
+  /* ---- mechanics: build the stops, then draw the line from measured knot centres ---- */
+  const root = $('#snk-path'), svg = $('.snk-line', root), base = $('.snk-base', root), ink = $('.snk-ink', root);
+  DATA.stops.forEach((s, i) => {
+    const a = document.createElement('article');
+    a.className = 'snk-stop rv ' + (i % 2 ? 'snk-r' : 'snk-l');
+    a.innerHTML = `<span class="snk-knot" aria-hidden="true">${i + 1}</span><p class="label snk-k">${DATA.problemLabel}</p>` +
+      `<h3 class="snk-prob">${s.problem}</h3><p class="chips"><span class="chip ${s.chip}">${s.team}</span></p>` +
+      `<p class="snk-does">${s.does}</p><div class="snk-gets"><span class="label">${DATA.getsLabel}</span><p>${s.gets}</p></div>`;
+    root.appendChild(a);
+  });
+  const end = document.createElement('div');
+  end.className = 'snk-end rv';
+  end.innerHTML = `<span class="label">${DATA.end.label}</span><p>${DATA.end.text}</p>`;
+  root.appendChild(end);
+
+  const stops = $$('.snk-stop', root), narrowMQ = matchMedia('(max-width:820px)');
+  let L = 0, h = 1, lut = [], ys = [], active = !('IntersectionObserver' in window), queued = false;
+  // offsets ignore the .rv translate, so the path is measured where the cards will settle
+  const centreOf = el => { let x = el.offsetWidth / 2, y = el.offsetHeight / 2, n = el; while (n && n !== root) { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent; } return [x, y]; };
+  function build() {
+    const W = root.offsetWidth; h = root.offsetHeight;
+    if (!W || !h) return;
+    svg.setAttribute('viewBox', `0 0 ${W} ${h}`);
+    const narrow = narrowMQ.matches;
+    const pts = stops.map(s => centreOf($('.snk-knot', s)));
+    pts.push(narrow ? [pts[0][0], end.offsetTop + 28] : [end.offsetLeft + end.offsetWidth / 2, end.offsetTop]);
+    let d = `M${pts[0][0]} ${pts[0][1] - 40}L${pts[0][0]} ${pts[0][1]}`;
+    for (let i = 1; i < pts.length; i++) {
+      const [x0, y0] = pts[i - 1], [x1, y1] = pts[i], dy = y1 - y0, w = narrow ? (i % 2 ? 14 : -14) : 0;
+      d += `C${x0 + w} ${y0 + dy * .55} ${x1 - w} ${y1 - dy * .55} ${x1} ${y1}`;
+    }
+    base.setAttribute('d', d); ink.setAttribute('d', d);
+    L = ink.getTotalLength(); ink.style.strokeDasharray = `${L} ${L}`;
+    // y -> length table, so the ink tip sits exactly at the reach line and knots light as it passes them
+    lut = []; for (let i = 0; i <= 240; i++) { const l = L * i / 240; lut.push([ink.getPointAtLength(l).y, l]); }
+    ys = pts.slice(0, stops.length).map(p => p[1]);
+    draw();
+  }
+  const lenAt = y => {
+    if (y <= lut[0][0]) return 0;
+    for (let i = 1; i < lut.length; i++) if (lut[i][0] >= y) { const [y0, l0] = lut[i - 1], [y1, l1] = lut[i]; return l0 + (l1 - l0) * (y1 > y0 ? (y - y0) / (y1 - y0) : 1); }
+    return L;
+  };
+  function draw() {
+    queued = false;
+    if (!L) return;
+    if (FINAL) { ink.style.strokeDashoffset = 0; stops.forEach(s => s.classList.add('snk-lit')); return; }
+    const top = root.getBoundingClientRect().top;                       // the one layout read per frame
+    const reach = Math.max(0, Math.min(h, innerHeight * .62 - top));    // reach = clamp(0, h, innerHeight*.62 - top)
+    ink.style.strokeDashoffset = L - lenAt(reach);
+    stops.forEach((s, i) => s.classList.toggle('snk-lit', reach >= ys[i] - 4));
+  }
+  const request = () => { if (active && !queued) { queued = true; requestAnimationFrame(draw); } };
+  addEventListener('scroll', request, { passive: true });
+  if ('IntersectionObserver' in window) new IntersectionObserver(([e]) => { active = e.isIntersecting; request(); }, { rootMargin: '25% 0px' }).observe(root);
+  if ('ResizeObserver' in window) new ResizeObserver(() => requestAnimationFrame(build)).observe(root);
+  else { addEventListener('resize', build); addEventListener('load', build); }
+  build();
+})();
+</script>
+
+<section class="band card gal" id="gal-03"><div class="wrap"><p class="label">Module 3 of 8 · assets/modules/constellation.html</p><h2>Module: constellation, STR-01</h2></div></section>
+
+
+<!--
+  MODULE constellation.html · catalogue STR-01 (constellation mind map) · prefix cst-
+  Serves: one idea at the centre, 3-5 branches, 2-4 leaves each (16 leaves at most), each leaf tagged with the team that owns it.
+  Adapt:
+    1. Edit the heading copy in the markup and the band colour class; text halos follow the band colour on their own.
+    2. Edit DATA only. Keep the centre under ~22 characters, branch names under ~14, leaf text under ~28.
+    3. chip (starter chip class) colours the branch disc on the map and the branch heading in the list twin.
+    4. The layout is computed (radial fan, then overlap relaxation); no coordinates to place by hand.
+    5. Hover a branch (tap on touch) to dim the others and run one slow pulse along that branch; nothing moves at rest.
+  Data: DATA.centre, DATA.branches [{name, chip, leaves: [{text, team}]}].
+-->
+<section id="cst" class="band t2" aria-labelledby="cst-h">
+  <div class="wrap">
+    <div class="band-head rv">
+      <p class="label">The whole offer</p>
+      <h2 id="cst-h">Every team, and the part of the job it owns</h2>
+      <p class="lede">Four aims grow out of one goal. Each leaf names one piece of work and the Field &amp; Form team that does it.</p>
+    </div>
+    <svg class="cst-map cst-pre" id="cst-map" viewBox="0 0 1100 700" aria-hidden="true"></svg>
+    <div class="cst-list" id="cst-list"></div>
+  </div>
+</section>
+<style>
+  /* Constellation: a radial map that grows outward from the centre */
+  .cst-map{width:100%;height:auto;display:block;overflow:visible;--cst-halo:var(--paper)}
+  .cst-ln{fill:none;stroke:var(--ink);stroke-width:1.2;stroke-opacity:.55;stroke-dasharray:1;stroke-dashoffset:0;transition:stroke-dashoffset .9s var(--ease-draw)}
+  .cst-map text{paint-order:stroke;stroke:var(--cst-halo);stroke-width:12px;stroke-linejoin:round;fill:var(--ink);
+    transition:opacity .5s ease,transform 1.1s cubic-bezier(.19,1,.22,1)}
+  .cst-map .cst-tc{font:500 34px var(--font-display);letter-spacing:-.01em}
+  .cst-map .cst-tb{font:500 26px var(--font-display);letter-spacing:-.01em}
+  .cst-map .cst-tl{font:500 16px var(--font-body)}
+  .cst-map .cst-tt{font:500 11px var(--font-label);letter-spacing:.06em;text-transform:uppercase;fill:var(--muted)}
+  .cst-dot{fill:var(--ink);transition:opacity .5s ease}
+  .cst-dot.cst-db{stroke:var(--ink);stroke-width:1.6}
+  .cst-dot.cst-dc{fill:var(--ink);stroke:var(--cst-halo);stroke-width:3}
+  .cst-pulse{fill:var(--accent-1);pointer-events:none}
+  .cst-g{transition:opacity .3s ease}
+  .cst-pre .cst-ln{stroke-dashoffset:1}
+  .cst-pre text{opacity:0;transform:translateY(12px)}
+  .cst-pre .cst-dot{opacity:0}
+  .cst-dim .cst-g:not(.cst-hot){opacity:.22}
+  /* list twin: visually hidden on wide screens (screen readers still read it), the visible map below 820px */
+  .cst-list{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  @media (max-width:820px){
+    .cst-map{display:none}
+    .cst-list{position:static;width:auto;height:auto;overflow:visible;clip-path:none;white-space:normal;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .cst-list-c{grid-column:1/-1;font:500 30px/1.15 var(--font-display);display:flex;align-items:center;gap:12px}
+    .cst-list-c::before{content:"";width:18px;height:18px;border-radius:50%;background:var(--ink);flex:none}
+    .cst-list section{background:color-mix(in srgb,var(--card) 55%,transparent);border-radius:var(--r-sheet);padding:18px 20px;box-shadow:0 0 0 1px var(--line)}
+    .cst-list h3{margin-bottom:12px}
+    .cst-list h3 .chip{font-size:13px;padding:7px 11px}
+    .cst-list ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+    .cst-list li{font-size:16px;line-height:1.35}
+    .cst-list li .label{display:block;margin-top:2px;font-size:10.5px}
+  }
+</style>
+<script>
+(() => {
+  const DATA = {
+    centre: 'Fresh on every shelf',
+    branches: [
+      { name: 'Order right', chip: 'c-data', leaves: [
+        { text: 'Weekly order forecast', team: 'Data team' },
+        { text: 'Targets for each store', team: 'Data team' },
+        { text: 'Order screen on the tablet', team: 'App team' } ] },
+      { name: 'Keep it cold', chip: 'c-sensors', leaves: [
+        { text: 'A logger in every van', team: 'Sensors team' },
+        { text: 'Alerts before stock spoils', team: 'App team' },
+        { text: 'Depot fridge checks', team: 'Field team' } ] },
+      { name: 'Waste less', chip: 'c-app', leaves: [
+        { text: 'Two-tap waste count', team: 'App team' },
+        { text: 'Evening waste report', team: 'Data team' },
+        { text: 'Markdowns before expiry', team: 'Field team' },
+        { text: 'Food bank pick-ups', team: 'Field team' } ] },
+      { name: 'Teach it', chip: 'c-field', leaves: [
+        { text: 'Shift-start huddles', team: 'Field team' },
+        { text: 'Short videos for new staff', team: 'App team' },
+        { text: 'A playbook for store leads', team: 'Field team' } ] }
+    ]
+  };
+
+  /* ---- mechanics ---- */
+  const sec = $('#cst'), svg = $('#cst-map'), list = $('#cst-list');
+  const W = 1100, H = 700, C = { x: 550, y: 350 };
+  const mk = (tag, a, p) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; };
+
+  // list twin, built from the same data (also what screen readers read)
+  list.innerHTML = `<p class="cst-list-c">${DATA.centre}</p>` + DATA.branches.map(b =>
+    `<section><h3><span class="chip ${b.chip}">${b.name}</span></h3><ul>${b.leaves.map(l => `<li>${l.text}<span class="label">${l.team}</span></li>`).join('')}</ul></section>`).join('');
+  const tints = $$('h3 .chip', list).map(c => getComputedStyle(c).backgroundColor);
+  svg.style.setProperty('--cst-halo', getComputedStyle(sec).backgroundColor);
+
+  // layout: branches on an inner ellipse, leaves fanned on an outer one, then label boxes pushed apart
+  const n = DATA.branches.length, boxes = [], est = (s, px) => s.length * px;
+  boxes.push({ x: C.x, y: C.y, oy: -22, w: est(DATA.centre, 17) + 24, h: 72, fixed: true });
+  const B = DATA.branches.map((b, i) => {
+    const th = (-90 + 360 * (i + .5) / n) * Math.PI / 180, m = b.leaves.length;
+    const o = { id: 'b' + i, b, x: C.x + 250 * Math.cos(th), y: C.y + 160 * Math.sin(th), oy: -16, w: est(b.name, 13.5) + 24, h: 52, fixed: true };
+    boxes.push(o);
+    const step = Math.min(30, .85 * 360 / n / m) * Math.PI / 180;
+    o.leaves = b.leaves.map((lf, j) => {
+      const ph = th + (j - (m - 1) / 2) * step;
+      const q = { lf, ix: C.x + 440 * Math.cos(ph), iy: C.y + 272 * Math.sin(ph), oy: -1, w: Math.max(est(lf.text, 8.2), est(lf.team, 7.6)) + 20, h: 50 };
+      q.x = q.ix; q.y = q.iy; boxes.push(q); return q;
+    });
+    return o;
+  });
+  for (let it = 0; it < 320; it++) {
+    for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) {
+      const a = boxes[i], b = boxes[j]; if (a.fixed && b.fixed) continue;
+      const dx = a.x - b.x, dy = (a.y + a.oy) - (b.y + b.oy);
+      const ox = (a.w + b.w) / 2 + 8 - Math.abs(dx), oy = (a.h + b.h) / 2 + 4 - Math.abs(dy);
+      if (ox <= 0 || oy <= 0) continue;
+      const sa = a.fixed ? 0 : b.fixed ? 1 : .5, sb = 1 - sa;
+      if (oy <= ox) { const s = Math.sign(dy) || 1; a.y += s * oy * sa; b.y -= s * oy * sb; }
+      else { const s = Math.sign(dx) || 1; a.x += s * ox * sa; b.x -= s * ox * sb; }
+    }
+    boxes.forEach(o => {
+      if (o.fixed) return;
+      if (it < 260) { o.x += (o.ix - o.x) * .03; o.y += (o.iy - o.y) * .03; }
+      o.x = Math.min(W - o.w / 2 - 4, Math.max(o.w / 2 + 4, o.x));
+      o.y = Math.min(H - o.h / 2 - 4 - o.oy, Math.max(o.h / 2 + 4 - o.oy, o.y));
+    });
+  }
+
+  // draw: three layers (lines, dots, text) so text sits on top; one group per branch in each layer
+  const maxD = Math.max(...boxes.map(o => Math.hypot(o.x - C.x, o.y - C.y)));
+  const delay = (x, y) => .08 + .72 * Math.hypot(x - C.x, y - C.y) / maxD;   // labels land from the centre outward
+  const layers = ['cst-lines', 'cst-dots', 'cst-text'].map(c => mk('g', { class: c }, svg)), groups = {};
+  const grp = id => groups[id] || (groups[id] = layers.map(l => mk('g', { class: 'cst-g', 'data-g': id }, l)));
+  const line = (x1, y1, x2, y2, id) => { const p = mk('path', { d: `M${x1.toFixed(1)} ${y1.toFixed(1)}L${x2.toFixed(1)} ${y2.toFixed(1)}`, pathLength: 1, class: 'cst-ln' }, grp(id)[0]); p.style.transitionDelay = (delay(x1, y1) * .8).toFixed(2) + 's'; };
+  const dot = (x, y, r, cls, id) => { const c = mk('circle', { cx: x.toFixed(1), cy: y.toFixed(1), r, class: 'cst-dot ' + cls }, grp(id)[1]); c.style.transitionDelay = delay(x, y).toFixed(2) + 's'; return c; };
+  const text = (x, y, s, cls, id, extra = 0) => { const t = mk('text', { x: x.toFixed(1), y: y.toFixed(1), 'text-anchor': 'middle', 'dominant-baseline': 'middle', class: cls }, grp(id)[2]); t.textContent = s; t.style.transitionDelay = (delay(x, y) + extra).toFixed(2) + 's'; };
+  B.forEach((o, i) => {
+    line(C.x, C.y, o.x, o.y, o.id);
+    o.leaves.forEach(q => { line(o.x, o.y, q.x, q.y, o.id); dot(q.x, q.y, 3, '', o.id); text(q.x, q.y - 15, q.lf.text, 'cst-tl', o.id, .05); text(q.x, q.y + 15, q.lf.team, 'cst-tt', o.id, .12); });
+    dot(o.x, o.y, 9, 'cst-db', o.id).style.fill = tints[i];
+    text(o.x, o.y - 28, o.b.name, 'cst-tb', o.id);
+  });
+  dot(C.x, C.y, 12, 'cst-dc', 'c'); text(C.x, C.y - 40, DATA.centre, 'cst-tc', 'c');
+
+  // hover dims the other branches (hover devices only); tap toggles on touch
+  let hot = null, cur = null, wake = () => {};
+  const setHot = id => { hot = id; cur = null; wake(); svg.classList.toggle('cst-dim', !!id); $$('.cst-g', svg).forEach(g => g.classList.toggle('cst-hot', g.dataset.g === id || g.dataset.g === 'c')); };
+  if (matchMedia('(hover:hover)').matches) $$('.cst-g', svg).forEach(g => { if (g.dataset.g === 'c') return; g.addEventListener('mouseenter', () => setHot(g.dataset.g)); g.addEventListener('mouseleave', () => setHot(null)); });
+  else svg.addEventListener('click', e => { const g = e.target.closest('.cst-g'), id = g && g.dataset.g !== 'c' ? g.dataset.g : null; setHot(id && id !== hot ? id : null); });
+
+  onView(svg, () => svg.classList.remove('cst-pre'), .3);   // under FINAL this runs at once: drawn, every label shown
+  if (FINAL) return;
+  // one slow pulse, only on the branch being hovered or tapped (none at rest); it sleeps off-screen
+  const pulse = mk('circle', { r: 3.4, class: 'cst-pulse', opacity: 0 }, layers[1]);
+  const routes = B.flatMap(o => o.leaves.map(q => ({ id: o.id, pts: [[C.x, C.y], [o.x, o.y], [q.x, q.y]] })));
+  const TRAVEL = 2600, REST = 900;
+  let ri = 0, t0 = 0, raf = 0, vis = false;
+  function frame(now) {
+    if (!vis || !hot) { raf = 0; cur = null; pulse.setAttribute('opacity', 0); return; }
+    if (!cur || now - t0 > TRAVEL + REST) { const pool = routes.filter(r => r.id === hot); cur = pool[ri++ % pool.length]; t0 = now; }
+    const u = Math.min(1, (now - t0) / TRAVEL), [p0, p1, p2] = cur.pts;
+    const l1 = Math.hypot(p1[0] - p0[0], p1[1] - p0[1]), l2 = Math.hypot(p2[0] - p1[0], p2[1] - p1[1]);
+    let d = u * (l1 + l2), a = p0, b = p1, len = l1;
+    if (d > l1) { d -= l1; a = p1; b = p2; len = l2; }
+    pulse.setAttribute('cx', (a[0] + (b[0] - a[0]) * d / len).toFixed(1));
+    pulse.setAttribute('cy', (a[1] + (b[1] - a[1]) * d / len).toFixed(1));
+    pulse.setAttribute('opacity', u < 1 ? (Math.sin(Math.PI * u) * .9).toFixed(2) : 0);
+    raf = requestAnimationFrame(frame);
+  }
+  wake = () => { if (vis && hot && !raf) raf = requestAnimationFrame(frame); };
+  new IntersectionObserver(([e]) => { vis = e.isIntersecting; wake(); }).observe(svg);
+})();
+</script>
+
+<section class="band card gal" id="gal-04"><div class="wrap"><p class="label">Module 4 of 8 · assets/modules/translator.html</p><h2>Module: translator, WRD-08</h2></div></section>
+
+
+<!--
+  MODULE translator.html · catalogue WRD-08 (jargon translator card) · prefix trn-
+  Serves: 3-8 technical terms the reader must understand, each tied to one concrete result at the client.
+  Adapt:
+    1. Edit the intro copy in the markup (label, h2, lede) and the band colour class.
+    2. Edit DATA only: client is the short client name used in "So at ...", step is the time per term in ms.
+    3. Keep term under ~30 characters, means to one plain sentence (8-14 words), soAt to one sentence of visible change.
+    4. Terms play in turn while the card is on screen: the term appears, its meaning fades in, then the result is swept
+       with the marker. The bars are buttons, so the reader can jump to any term.
+  Data: DATA.client, DATA.step, DATA.terms [{term, means, soAt}].
+-->
+<section id="trn" class="band card" aria-labelledby="trn-h">
+  <div class="wrap trn">
+    <div class="trn-intro rv">
+      <p class="label">In plain words</p>
+      <h2 id="trn-h">Four words we use, and what each one means for you</h2>
+      <p class="lede">Each term plays in turn: the name, what it means, then what changes. Tap a bar to jump to any term.</p>
+    </div>
+    <div class="trn-card rv" id="trn-card">
+      <p class="label" id="trn-count">1 of 4 · We call it</p>
+      <p class="trn-term" id="trn-term" aria-hidden="true"></p>
+      <p class="label">It means</p>
+      <p class="trn-means" id="trn-means" aria-hidden="true"></p>
+      <p class="label" id="trn-solabel">So at the client</p>
+      <p class="trn-so" id="trn-so" aria-hidden="true"><span class="trn-hl"></span></p>
+      <p class="trn-sr" id="trn-sr" aria-live="polite"></p>
+      <div class="trn-bars" id="trn-bars" role="group" aria-label="Choose a term"></div>
+    </div>
+  </div>
+</section>
+<style>
+  /* Translator: one term at a time, typed, explained, then tied to a result */
+  .trn{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:48px;align-items:start}
+  .trn-intro{display:grid;gap:18px}
+  .trn-intro h2{font-size:clamp(32px,3.4vw,46px)}
+  .trn-card{background:var(--paper);border-radius:var(--r-sheet);padding:28px;box-shadow:0 0 0 1.5px var(--ink);min-height:360px;display:flex;flex-direction:column;gap:8px}
+  .trn-term{font:400 20px/1.5 var(--font-label);min-height:1.6em;color:var(--ink);margin-bottom:6px}
+  .trn-means{font:500 clamp(24px,2.3vw,31px)/1.2 var(--font-display);letter-spacing:-.01em;min-height:2.45em;margin-bottom:6px;opacity:0;transition:opacity .3s var(--ease-out)}
+  .trn-means.on{opacity:1}
+  .trn-so{font:500 clamp(20px,1.8vw,24px)/1.32 var(--font-display);min-height:2.7em;opacity:0;transform:translateY(8px);transition:opacity .5s var(--ease-out),transform .75s var(--ease-out)}
+  .trn-so.on{opacity:1;transform:none}
+  .trn-hl{background:linear-gradient(var(--marker),var(--marker)) no-repeat 0 90%/0% 42%;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-size .8s var(--ease-out) .35s}
+  .trn-so.on .trn-hl{background-size:100% 42%}
+  .trn-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .trn-bars{display:flex;gap:6px;margin-top:auto;padding-top:14px}
+  .trn-bar{appearance:none;border:0;background:none;padding:0;margin:0;flex:1;height:24px;cursor:pointer;position:relative;border-radius:3px;-webkit-tap-highlight-color:transparent}
+  .trn-bar span{position:absolute;left:0;right:0;top:50%;height:3px;margin-top:-1.5px;border-radius:2px;background:var(--line-2);overflow:hidden}
+  .trn-bar span::after{content:"";position:absolute;inset:0;background:var(--ink);transform:scaleX(0);transform-origin:left}
+  .trn-bar.done span::after{transform:scaleX(1)}
+  .trn-bar.now span::after{transform:scaleX(1);transition:transform var(--dur,6s) linear}
+  .trn-bar:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  @media (hover:hover){ .trn-bar:hover span{background:color-mix(in srgb,var(--ink) 45%,transparent)} }
+  @media (max-width:820px){ .trn{grid-template-columns:minmax(0,1fr);gap:32px} }
+</style>
+<script>
+(() => {
+  const DATA = {
+    client: 'Northwind',
+    step: 6000,
+    terms: [
+      { term: 'Demand forecast', means: 'A best guess of what each store will sell next week.', soAt: 'Stores order the milk they will sell, not a crate extra.' },
+      { term: 'Cold-chain logging', means: 'A small sensor writes down the van temperature every five minutes.', soAt: 'Every delivery arrives with proof it stayed cold.' },
+      { term: 'Shrink', means: 'Stock that was paid for but never sold.', soAt: 'Each store sees its own waste number every evening.' },
+      { term: 'Root-cause visit', means: 'Someone stays on the shop floor until the real reason is clear.', soAt: 'Fixes come from the people who stack the shelves.' }
+    ]
+  };
+
+  /* ---- mechanics: a cancellable async loop, one term at a time, sleeping off-screen ---- */
+  const N = DATA.terms.length, card = $('#trn-card');
+  const $term = $('#trn-term'), $means = $('#trn-means'), $so = $('#trn-so'), $hl = $('.trn-hl', $so), $count = $('#trn-count'), $sr = $('#trn-sr');
+  $('#trn-solabel').textContent = `So at ${DATA.client}`;
+  const bars = DATA.terms.map((t, i) => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'trn-bar';
+    b.setAttribute('aria-label', `Term ${i + 1} of ${N}: ${t.term}`); b.innerHTML = '<span></span>';
+    $('#trn-bars').appendChild(b); return b;
+  });
+  // every wait carries the generation it was started in; cancelAll() bumps it and rejects the pending waits at once
+  let gen = 0, running = false, visible = false, next = 0;
+  const cancels = new Set();
+  const wait = (ms, g) => new Promise((res, rej) => {
+    if (g !== gen) return rej('skip');
+    const stop = () => { clearTimeout(id); cancels.delete(stop); rej('skip'); };
+    const id = setTimeout(() => { cancels.delete(stop); g === gen ? res() : rej('skip'); }, ms);
+    cancels.add(stop);
+  });
+  const cancelAll = () => { gen++; [...cancels].forEach(f => f()); };
+  const head = i => {
+    const t = DATA.terms[i];
+    $count.textContent = `${i + 1} of ${N} · We call it`;
+    $sr.textContent = `${t.term}. It means: ${t.means} So at ${DATA.client}: ${t.soAt}`;
+    bars.forEach((b, k) => { b.classList.remove('now'); b.classList.toggle('done', k < i); if (k === i) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); });
+  };
+  const showStatic = i => {
+    const t = DATA.terms[i]; head(i); bars[i].classList.add('done');
+    $term.textContent = t.term; $means.textContent = t.means; $means.classList.add('on'); $hl.textContent = t.soAt; $so.classList.add('on');
+  };
+  async function play(i, g) {
+    const t = DATA.terms[i], t0 = performance.now();
+    head(i);
+    bars[i].style.setProperty('--dur', DATA.step + 'ms');
+    requestAnimationFrame(() => requestAnimationFrame(() => { if (g === gen) bars[i].classList.add('now'); }));
+    $means.classList.remove('on'); $so.classList.remove('on'); $hl.textContent = '';
+    $term.textContent = t.term;                                                        // the term, at once, in mono
+    $means.textContent = t.means;
+    await wait(300, g);
+    $means.classList.add('on');                                                        // the meaning fades in whole (.3s)
+    await wait(900, g);
+    $hl.textContent = t.soAt; $so.classList.add('on');                                  // marker sweep
+    await wait(Math.max(800, DATA.step - (performance.now() - t0)), g);
+  }
+  async function loop() {
+    if (running) return; running = true;
+    while (visible) { const g = gen, i = next; try { await play(i, g); next = (i + 1) % N; } catch (e) { /* jumped or left the screen */ } }
+    running = false;
+  }
+  const jump = i => { next = i; cancelAll(); if (FINAL || !visible) showStatic(i); else loop(); };
+  bars.forEach((b, i) => b.addEventListener('click', () => jump(i)));
+  if (FINAL || !('IntersectionObserver' in window)) { showStatic(0); return; }
+  showStatic(0);
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) loop(); else cancelAll(); }, { threshold: .4 }).observe(card);
+})();
+</script>
+
+<section class="band card gal" id="gal-05"><div class="wrap"><p class="label">Module 5 of 8 · assets/modules/orbit-fork.html</p><h2>Module: orbit-fork, SEQ-22 + CHG-36</h2></div></section>
+
+
+<!--
+  MODULE orbit-fork.html · catalogue SEQ-22 (orbit of steps around one project) + CHG-36 (fork of choices) · prefix orb-
+  Serves: one worked project walked through 4-6 steps that circle it, then a decision with 2-4 mutually exclusive options.
+  Adapt:
+    1. Edit the heading copy in the markup and the band colour class; label halos follow the band colour on their own.
+    2. Edit DATA only: project (the centre disc), steps in order (first step sits at the top, then clockwise), options.
+       When the ring enters the screen a dot walks it once, lighting each step, and stops with every step lit.
+    3. Keep step text to one line of 8-12 words; chips are [starter chip class, team name] pairs.
+    4. 2-4 options; the fork is measured from the cards, so its branches always land on their centres.
+  Data: DATA.project {label, title}, DATA.steps [{title, text, chips}], DATA.decide {label, title}, DATA.options [{title, text}].
+-->
+<section id="orb" class="band paper" aria-labelledby="orb-h">
+  <div class="wrap">
+    <div class="band-head rv">
+      <p class="label">A first project</p>
+      <h2 id="orb-h">What a first pilot looks like</h2>
+      <p class="lede">One store group, five steps, about ten weeks. Every step serves the same pilot, and at the end Northwind chooses what comes next.</p>
+    </div>
+    <div class="orb rv" id="orb-stage">
+      <svg class="orb-svg" viewBox="0 0 1000 640" aria-hidden="true"><ellipse class="orb-ring" cx="500" cy="320" rx="230" ry="215"/><circle class="orb-dot" r="8" cx="500" cy="105"/></svg>
+      <div class="orb-centre"><span class="label" id="orb-plabel"></span><b id="orb-ptitle"></b></div>
+    </div>
+    <ol class="orb-list" id="orb-list"></ol>
+    <div class="orb-decide" id="orb-decide">
+      <div class="orb-dhead rv"><span class="label" id="orb-dlabel"></span><h3 id="orb-dtitle"></h3></div>
+      <svg class="orb-fork" id="orb-fork" aria-hidden="true"><path/></svg>
+      <div class="orb-opts" id="orb-opts"></div>
+    </div>
+  </div>
+</section>
+<style>
+  /* Orbit: steps on a ring around one project; a dot walks the ring and lights each step */
+  .orb{position:relative;width:100%;max-width:1000px;margin:0 auto;aspect-ratio:1000/640;--orb-halo:var(--paper)}
+  .orb-svg{position:absolute;inset:0;width:100%;height:100%}
+  .orb-ring{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-dasharray:2 9;stroke-linecap:round}
+  .orb-dot{fill:var(--accent-1)}
+  .orb-centre{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:27%;aspect-ratio:1/1;border-radius:50%;background:var(--tint-1);
+    display:grid;place-content:center;text-align:center;gap:6px;padding:22px;box-shadow:0 0 0 1px var(--line)}
+  .orb-centre b{font:500 clamp(18px,2vw,25px)/1.15 var(--font-display);letter-spacing:-.01em}
+  .orb-node{position:absolute;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:var(--paper);box-shadow:0 0 0 2px var(--ink);
+    display:grid;place-items:center;font:500 18px/1 var(--font-label);color:var(--ink);transition:background-color .4s var(--ease-out),color .4s var(--ease-out);z-index:2}
+  .orb-node.orb-lit{background:var(--ink);color:var(--paper)}   /* lit = ink; the marker is kept for what the reader gets */
+  .orb-lab{position:absolute;width:22%;transform:translateY(-50%);background:var(--orb-halo);box-shadow:0 0 0 6px var(--orb-halo);padding:6px 8px;border-radius:12px;z-index:1}
+  .orb-lab.orb-left{text-align:right}
+  .orb-lab h3,.orb-list h3{font:500 clamp(19px,1.9vw,23px)/1.15 var(--font-display);margin:0 0 4px}
+  .orb-lab p{font-size:14.5px;line-height:1.45}
+  .orb-lab .chips,.orb-list .chips{margin-top:8px}
+  .orb-lab.orb-left .chips{justify-content:flex-end}
+  .orb-list{display:none}
+  /* Fork: a trunk that splits onto the option cards, revealed top-down with clip-path */
+  .orb-decide{margin-top:56px}
+  .orb-dhead{text-align:center;display:grid;gap:6px;justify-items:center}
+  .orb-dhead h3{font-size:clamp(26px,2.4vw,32px)}
+  .orb-fork{display:block;width:100%;height:70px;margin-top:12px;overflow:visible;clip-path:inset(0 0 100% 0);transition:clip-path 1.1s var(--ease-draw) .2s}
+  .orb-fork path{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round}
+  .orb-decide.on .orb-fork{clip-path:inset(0 0 0 0)}
+  .orb-opts{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:16px}
+  .orb-opt{background:var(--card);border-radius:var(--r-sheet);padding:22px;box-shadow:0 0 0 1px var(--line);text-align:center;
+    opacity:0;transform:translateY(12px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out);transition-delay:var(--d,0s)}
+  .orb-decide.on .orb-opt{opacity:1;transform:none}
+  .orb-opt h4{font:500 25px/1.1 var(--font-display);margin:0 0 6px}
+  .orb-opt p{font-size:15px;color:var(--muted)}
+  @media (max-width:820px){
+    .orb,.orb-fork{display:none}
+    .orb-list{display:grid;gap:14px;list-style:none;padding:0;margin:0}
+    .orb-list li{display:grid;grid-template-columns:48px minmax(0,1fr);gap:14px;background:var(--card);border-radius:var(--r-sheet);padding:18px;box-shadow:0 0 0 1px var(--line)}
+    .orb-list .orb-node{position:relative;transform:none;width:44px;height:44px;font-size:15px;background:var(--ink);color:var(--paper)}
+    .orb-list p{font-size:15px}
+    .orb-dhead{margin-bottom:22px}
+    .orb-opts{grid-template-columns:minmax(0,1fr)}
+  }
+</style>
+<script>
+(() => {
+  const DATA = {
+    project: { label: 'One pilot', title: 'Ten weeks with the city centre stores' },
+    steps: [
+      { title: 'Listen', text: 'Two days on the shop floor with the morning shift.', chips: [['c-field', 'Field team']] },
+      { title: 'Find', text: 'Pick the three product lines that waste the most.', chips: [['c-data', 'Data team']] },
+      { title: 'Build', text: 'A forecast and a tablet screen for those lines.', chips: [['c-data', 'Data team'], ['c-app', 'App team']] },
+      { title: 'Prove', text: 'Six weeks side by side with the old way.', chips: [['c-sensors', 'Store staff']] },
+      { title: 'Teach', text: 'Store leads show the next group how it works.', chips: [['c-field', 'Field team']] }
+    ],
+    decide: { label: 'Step 6', title: 'Northwind decides what happens next' },
+    options: [
+      { title: 'Scale it', text: 'Roll it out to every store in the region.' },
+      { title: 'Extend it', text: 'Add more product lines in the same stores.' },
+      { title: 'Stop it', text: 'Keep what worked and close the pilot.' }
+    ]
+  };
+
+  /* ---- mechanics ---- */
+  const sec = $('#orb'), stage = $('#orb-stage'), list = $('#orb-list'), dot = $('.orb-dot', stage);
+  const OX = 500, OY = 320, RX = 230, RY = 215, n = DATA.steps.length;
+  $('#orb-plabel').textContent = DATA.project.label; $('#orb-ptitle').textContent = DATA.project.title;
+  stage.style.setProperty('--orb-halo', getComputedStyle(sec).backgroundColor);   // label halos mask the ring in any band colour
+  const chipsHtml = cs => `<span class="chips">${cs.map(([c, t]) => `<span class="chip ${c}">${t}</span>`).join('')}</span>`;
+  const nodes = DATA.steps.map((s, i) => {
+    const a = -90 + 360 * i / n, r = a * Math.PI / 180, x = OX + RX * Math.cos(r), y = OY + RY * Math.sin(r);
+    const node = document.createElement('span'); node.className = 'orb-node'; node.textContent = i + 1; node.setAttribute('aria-hidden', 'true');
+    node.style.left = x / 10 + '%'; node.style.top = y / 6.4 + '%';
+    const lab = document.createElement('div'), right = Math.cos(r) > -.2;
+    lab.className = 'orb-lab ' + (right ? 'orb-right' : 'orb-left'); lab.dataset.top = y / 6.4; lab.style.top = y / 6.4 + '%';
+    if (right) lab.style.left = Math.min(x / 10 + 4.4, 77.5) + '%'; else lab.style.right = Math.min(100 - x / 10 + 4.4, 77.5) + '%';
+    lab.innerHTML = `<h3>${s.title}</h3><p>${s.text}</p>${chipsHtml(s.chips)}`;
+    stage.append(node, lab);
+    list.insertAdjacentHTML('beforeend', `<li><span class="orb-node" aria-hidden="true">${i + 1}</span><div><h3>${s.title}</h3><p>${s.text}</p>${chipsHtml(s.chips)}</div></li>`);
+    return { node, a, lab };
+  });
+  // labels on the same side that would touch are nudged apart (the lower one moves down), then re-checked on resize
+  const spread = () => {
+    const H = stage.clientHeight; if (!H) return;
+    ['orb-right', 'orb-left'].forEach(side => {
+      const ls = nodes.map(o => o.lab).filter(l => l.classList.contains(side));
+      ls.forEach(l => { l.style.top = l.dataset.top + '%'; });
+      ls.sort((p, q) => p.offsetTop - q.offsetTop);
+      for (let i = 1; i < ls.length; i++) {
+        const p = ls[i - 1], q = ls[i];
+        if (q.offsetLeft >= p.offsetLeft + p.offsetWidth || p.offsetLeft >= q.offsetLeft + q.offsetWidth) continue;
+        const gap = (q.offsetTop - q.offsetHeight / 2) - (p.offsetTop + p.offsetHeight / 2) - 14;
+        if (gap < 0) q.style.top = (q.offsetTop - gap) / H * 100 + '%';
+      }
+    });
+  };
+  if ('ResizeObserver' in window) new ResizeObserver(spread).observe(stage); spread();
+  if (document.fonts) document.fonts.ready.then(spread);
+  // one lap when the ring enters the screen (linear, 7s), then it stops with every step lit; it pauses while off-screen
+  const done = () => { nodes.forEach(o => o.node.classList.add('orb-lit')); dot.style.display = 'none'; };
+  if (FINAL) done();
+  else {
+    const LAP = 7000; let phase = 0, last = null, raf = 0, vis = false, go = false, finished = false;
+    const spin = now => {
+      if (!vis) { raf = 0; last = null; return; }
+      if (last !== null) phase = Math.min(1, phase + (now - last) / LAP); last = now;
+      const deg = -90 + 360 * phase, rad = deg * Math.PI / 180;
+      dot.setAttribute('cx', (OX + RX * Math.cos(rad)).toFixed(1)); dot.setAttribute('cy', (OY + RY * Math.sin(rad)).toFixed(1));
+      nodes.forEach(o => o.node.classList.toggle('orb-lit', deg >= o.a - 2));
+      if (phase >= 1) { finished = true; raf = 0; done(); return; }
+      raf = requestAnimationFrame(spin);
+    };
+    const wake = () => { if (vis && go && !finished && !raf) raf = requestAnimationFrame(spin); };
+    new IntersectionObserver(([e]) => { vis = e.isIntersecting; wake(); }).observe(stage);
+    onView(stage, () => { go = true; wake(); }, .3);
+  }
+
+  // the fork: options from data, branches measured from the cards' centres
+  const decide = $('#orb-decide'), fork = $('#orb-fork'), opts = $('#orb-opts');
+  $('#orb-dlabel').textContent = DATA.decide.label; $('#orb-dtitle').textContent = DATA.decide.title;
+  opts.style.setProperty('--n', DATA.options.length);
+  DATA.options.forEach((o, i) => opts.insertAdjacentHTML('beforeend', `<div class="orb-opt" style="--d:${(.9 + i * .1).toFixed(1)}s"><h4>${o.title}</h4><p>${o.text}</p></div>`));
+  const buildFork = () => {
+    const W = fork.clientWidth; if (!W) return;
+    const fr = fork.getBoundingClientRect(), mid = W / 2;
+    const xs = $$('.orb-opt', opts).map(c => { const r = c.getBoundingClientRect(); return r.left + r.width / 2 - fr.left; });
+    fork.setAttribute('viewBox', `0 0 ${W} 70`);
+    $('path', fork).setAttribute('d', `M${mid} 0V24` + xs.map(x => Math.abs(x - mid) < 1 ? `M${mid} 24V70` : `M${mid} 24C${mid} 46 ${x.toFixed(1)} 30 ${x.toFixed(1)} 70`).join(''));
+  };
+  if ('ResizeObserver' in window) new ResizeObserver(buildFork).observe(opts); else addEventListener('resize', buildFork);
+  buildFork();
+  onView(decide, () => decide.classList.add('on'), .4);
+})();
+</script>
+
+<section class="band card gal" id="gal-06"><div class="wrap"><p class="label">Module 6 of 8 · assets/modules/ring.html</p><h2>Module: ring, teaching circle</h2></div></section>
+
+
+<!--
+  MODULE ring.html · the TVS teaching circle (hub and ring, four corner callouts) · prefix rng-
+  Serves: one person or core that feeds a group (4-8 people), with four stages that happen around it, and one result.
+  Adapt:
+    1. Edit the heading copy in the markup and the band colour class.
+    2. Edit DATA only: centre labels the central figure, people is how many sit on the ring (4-8).
+    3. Exactly four callouts, clockwise from top left; chip is [starter chip class, team name]. Keep text to one line.
+    4. gets is the one result (one <mark> for what the reader gets); set it to '' to drop the dark payoff card.
+    On entry the lines draw out from the centre, the callouts step through once, then all four hold on.
+    Tapping a callout highlights it (tap it again to show all four).
+  Data: DATA.centre, DATA.people, DATA.callouts [{title, text, chip}] (4), DATA.gets {label, text}.
+-->
+<section id="rng" class="band t1" aria-labelledby="rng-h">
+  <div class="wrap">
+    <div class="band-head rv">
+      <p class="label">How the skill spreads</p>
+      <h2 id="rng-h">One store lead teaches the whole shift</h2>
+      <p class="lede">The lead sits at the centre. Each new hire learns in four stages, and by the last one they teach the next person.</p>
+    </div>
+    <div class="rng rv" id="rng-box">
+      <div class="rng-fig" aria-hidden="true">
+        <svg class="rng-svg" id="rng-svg" viewBox="0 0 1000 640"></svg>
+        <span class="rng-centre" id="rng-centre"></span>
+      </div>
+    </div>
+    <div class="rng-gets rv" id="rng-gets"></div>
+  </div>
+</section>
+<style>
+  /* Ring: a central figure, a ring of people, four corner callouts */
+  .rng{position:relative;width:100%;max-width:1000px;margin:0 auto;aspect-ratio:1000/640}
+  .rng-fig{position:absolute;inset:0}
+  .rng-svg{position:absolute;inset:0;width:100%;height:100%}
+  .rng-out{fill:none;stroke:var(--ink);stroke-width:1.4;stroke-dasharray:2 9;stroke-linecap:round}
+  .rng-in{fill:color-mix(in srgb,var(--card) 45%,transparent);stroke:var(--ink);stroke-width:1.4}
+  .rng-lead{fill:none;stroke:var(--ink);stroke-width:1.3;stroke-dasharray:3 5;stroke-opacity:.55;transition:stroke-opacity .4s ease}
+  .rng-lead.on{stroke-dasharray:none;stroke-opacity:1;stroke-width:1.6}
+  .rng-hub{fill:var(--ink)}
+  .rng-hub-head{fill:var(--paper)}
+  .rng-hub-body{fill:var(--paper)}
+  .rng-p{fill:var(--paper);stroke:var(--ink);stroke-width:2;transition:fill .5s ease}
+  .rng-ph{fill:var(--ink);transition:fill .5s ease}
+  .rng-pg.on .rng-p{fill:var(--ink)} .rng-pg.on .rng-ph{fill:var(--paper)}   /* lit = ink */
+  .rng-t{fill:none;stroke:var(--accent-1);stroke-width:2.2;stroke-linecap:round}
+  .rng-centre{position:absolute;left:50%;top:36.9%;transform:translate(-50%,-50%);font:500 17px/1.1 var(--font-display);white-space:nowrap;
+    padding:1px 6px;border-radius:6px;background:color-mix(in srgb,var(--card) 45%,var(--rng-halo,transparent))}   /* same colour as the inner disc */
+  .rng-call{appearance:none;border:0;font:inherit;color:inherit;text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent;
+    position:absolute;width:30%;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;
+    background:var(--card);border-radius:var(--r-sheet);padding:18px 20px;box-shadow:0 0 0 1px var(--line);transition:box-shadow .4s var(--ease-out)}
+  .rng-call.on{box-shadow:0 0 0 2.5px var(--ink)}
+  .rng-call:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  .rng-num{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--paper);font:500 12px/1 var(--font-label);margin-bottom:8px}
+  .rng-h{display:block;font:500 clamp(19px,1.8vw,22px)/1.15 var(--font-display);margin:0 0 6px}
+  .rng-tx{display:block;font-size:14.5px;line-height:1.45;margin-bottom:10px}
+  .rng-q1{left:0;top:1%} .rng-q2{right:0;top:1%} .rng-q3{right:0;bottom:1%} .rng-q4{left:0;bottom:1%}
+  .rng-gets{margin:36px auto 0;background:var(--ground);color:var(--paper);border-radius:var(--r-sheet);padding:24px 30px;display:grid;gap:6px;max-width:780px;text-align:center}
+  .rng-gets:empty{display:none}
+  .rng-gets .label{color:color-mix(in srgb,var(--paper) 72%,transparent)}
+  .rng-gets p{font:500 23px/1.35 var(--font-display)}
+  .rng-gets mark{background-image:linear-gradient(var(--marker),var(--marker));background-position:0 0;background-size:0% 100%;color:var(--ink);border-radius:3px;padding:1px 5px}
+  .rng-gets.in mark{background-size:100% 100%}
+  @media (max-width:980px){ .rng-call{width:31%} .rng-tx{font-size:13.5px} }
+  @media (max-width:820px){
+    .rng{aspect-ratio:auto;display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .rng-fig{position:relative;inset:auto;height:260px;grid-column:1/-1}
+    .rng-lead{display:none}
+    .rng-centre{top:auto;bottom:0;transform:translateX(-50%);background:none}
+    .rng-call{position:relative;inset:auto;width:auto}
+  }
+</style>
+<script>
+(() => {
+  const DATA = {
+    centre: 'Store lead',
+    people: 6,
+    callouts: [
+      { title: 'Watch', text: 'New staff shadow the store lead for one full shift.', chip: ['c-field', 'Field team'] },
+      { title: 'Try', text: 'They place the morning order with the lead beside them.', chip: ['c-app', 'App team'] },
+      { title: 'Check', text: 'The forecast shows them how close their order came.', chip: ['c-data', 'Data team'] },
+      { title: 'Teach', text: 'After a month, they teach the next new hire.', chip: ['c-field', 'Field team'] }
+    ],
+    gets: { label: 'What Northwind gets', text: '<mark>New staff who run the order alone</mark> within a month.' }
+  };
+
+  /* ---- mechanics ---- */
+  const box = $('#rng-box'), svg = $('#rng-svg'), sec = $('#rng');
+  const mk = (tag, a, p = svg) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; };
+  const CX = 500, CY = 320;
+  $('#rng-centre').textContent = DATA.centre;
+  $('#rng-centre').style.setProperty('--rng-halo', getComputedStyle(sec).backgroundColor);
+  if (DATA.gets && DATA.gets.text) $('#rng-gets').innerHTML = `<span class="label">${DATA.gets.label}</span><p>${DATA.gets.text}</p>`;
+  mk('circle', { class: 'rng-out', cx: CX, cy: CY, r: 190 });
+  mk('circle', { class: 'rng-in', cx: CX, cy: CY, r: 120 });
+  const leads = ['M370 240L230 150', 'M630 240L770 150', 'M630 400L770 490', 'M370 400L230 490'].map(d => mk('path', { class: 'rng-lead', d }));
+  const count = Math.max(4, Math.min(8, DATA.people));
+  const people = [...Array(count)].map((_, i) => {
+    const r = (-90 + (count % 2 ? 180 : 180 / count) + 360 * i / count) * Math.PI / 180,   // nobody straight above the hub, so its label stays clear
+          c = Math.cos(r), s = Math.sin(r), x = CX + 120 * c, y = CY + 120 * s;
+    const t = mk('path', { class: 'rng-t', d: `M${(CX + 58 * c).toFixed(1)} ${(CY + 58 * s).toFixed(1)}L${(CX + 98 * c).toFixed(1)} ${(CY + 98 * s).toFixed(1)}` });
+    const g = mk('g', { class: 'rng-pg' });
+    mk('circle', { class: 'rng-p', cx: x.toFixed(1), cy: y.toFixed(1), r: 17 }, g);
+    mk('circle', { class: 'rng-ph', cx: x.toFixed(1), cy: (y - 4).toFixed(1), r: 5 }, g);
+    return { t, g };
+  });
+  mk('circle', { class: 'rng-hub', cx: CX, cy: CY, r: 54 });
+  mk('circle', { class: 'rng-hub-head', cx: CX, cy: CY - 14, r: 13 });
+  mk('path', { class: 'rng-hub-body', d: `M${CX - 27} ${CY + 38}C${CX - 27} ${CY + 14} ${CX - 15} ${CY + 4} ${CX} ${CY + 4}S${CX + 27} ${CY + 14} ${CX + 27} ${CY + 38}Z` });
+  const calls = DATA.callouts.slice(0, 4).map((c, i) => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = `rng-call rng-q${i + 1}`;
+    b.innerHTML = `<span class="rng-num">${i + 1}</span><span class="rng-h">${c.title}</span><span class="rng-tx">${c.text}</span><span class="chip ${c.chip[0]}">${c.chip[1]}</span>`;
+    box.appendChild(b); return b;
+  });
+  // k = index to highlight, or 'all'
+  const setOn = k => calls.forEach((c, i) => { const on = k === 'all' || i === k; c.classList.toggle('on', on); c.setAttribute('aria-pressed', k !== 'all' && on); leads[i].classList.toggle('on', on); });
+
+  // lines draw out from the centre once, each person turns ink as their line arrives
+  const ts = people.map(o => o.t);
+  prepDraw(ts);
+  let held = false;
+  if (FINAL) { people.forEach(o => o.g.classList.add('on')); setOn('all'); }
+  else onView(box, () => {
+    let t = .12;
+    ts.forEach((p, i) => { penDraw([p], { delay: t, min: .5, max: .6 }); setTimeout(() => people[i].g.classList.add('on'), (t + .45) * 1000); t += .26; });
+    // the callouts step through once (1.6s each), then all four hold on; a tap ends the walk-through
+    calls.forEach((_, i) => setTimeout(() => { if (!held) setOn(i); }, 600 + i * 1600));
+    setTimeout(() => { if (!held) setOn('all'); }, 600 + calls.length * 1600);
+  }, .35);
+  let current = 'all';
+  calls.forEach((c, i) => c.addEventListener('click', () => { held = true; current = current === i ? 'all' : i; setOn(current); }));
+})();
+</script>
+
+<section class="band card gal" id="gal-07"><div class="wrap"><p class="label">Module 7 of 8 · assets/modules/ladder.html</p><h2>Module: ladder, STR-17</h2></div></section>
+
+
+<!--
+  MODULE ladder.html · catalogue STR-17 (layers ladder) · prefix lad-
+  Serves: one offer that differs by level (3-5 ordered levels, senior at the top), saying what each level gets.
+  Adapt:
+    1. Edit the heading copy in the markup and the band colour class.
+    2. Edit DATA only: levels top first. level is a short role name; gets is one line with one <mark> on what they get.
+    3. On entry a spine rises from the bottom level and each level turns ink as the spine reaches it, then its
+       marker sweeps. Under ?final=1 every level is lit and swept.
+  Data: DATA.heads [who, what], DATA.levels [{level, gets}].
+-->
+<section id="lad" class="band t3" aria-labelledby="lad-h">
+  <div class="wrap">
+    <div class="band-head rv">
+      <p class="label">Who gets what</p>
+      <h2 id="lad-h">Built from the shop floor up</h2>
+      <p class="lede">Every level of Northwind gets something it can use on Monday. The work starts with the people who stack the shelves.</p>
+    </div>
+    <div class="lad" id="lad">
+      <span class="lad-spine" id="lad-spine" aria-hidden="true"></span>
+      <p class="lad-heads" id="lad-heads" aria-hidden="true"></p>
+      <ol class="lad-rows" id="lad-rows"></ol>
+    </div>
+  </div>
+</section>
+<style>
+  /* Ladder: a spine rises and lights each level from the bottom */
+  .lad{position:relative;max-width:880px;padding-left:46px}
+  .lad-spine{position:absolute;left:14px;width:2px;background:var(--ink);transform-origin:bottom;transform:scaleY(1)}
+  .lad-heads{display:grid;grid-template-columns:200px minmax(0,1fr);gap:24px;padding:0 22px 10px}
+  .lad-heads span{font:500 11px/1.3 var(--font-label);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .lad-rows{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+  .lad-row{position:relative;display:grid;grid-template-columns:200px minmax(0,1fr);gap:24px;align-items:center;padding:18px 22px;border-radius:var(--r-sheet);
+    background:color-mix(in srgb,var(--card) 55%,transparent);box-shadow:0 0 0 1px var(--line)}
+  .lad-row::before{content:"";position:absolute;left:-38px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;background:var(--paper);
+    box-shadow:0 0 0 2px var(--ink);transition:background-color .4s var(--ease-out)}
+  .lad-row.lad-lit::before{background:var(--ink)}   /* lit = ink; the marker is kept for what the level gets */
+  .lad-who{font:500 12px/1.35 var(--font-label);letter-spacing:.06em;text-transform:uppercase}
+  .lad-what{font:500 20px/1.35 var(--font-display)}
+  @media (max-width:820px){ .lad-heads{display:none} .lad-row{grid-template-columns:minmax(0,1fr);gap:4px} }
+</style>
+<script>
+(() => {
+  const DATA = {
+    heads: ['Who', 'What they get'],
+    levels: [
+      { level: 'Regional directors', gets: 'A <mark>one-page waste view</mark> for every region, every Monday.' },
+      { level: 'Store managers', gets: 'An order list that <mark>fills itself in</mark> each morning.' },
+      { level: 'Shift leads', gets: 'A <mark>five-minute huddle plan</mark> for the start of each shift.' },
+      { level: 'Shelf staff', gets: '<mark>Two taps</mark> to log anything thrown away.' }
+    ]
+  };
+
+  /* ---- mechanics ---- */
+  const lad = $('#lad'), spine = $('#lad-spine'), list = $('#lad-rows');
+  $('#lad-heads').innerHTML = DATA.heads.map(h => `<span>${h}</span>`).join('');
+  list.innerHTML = DATA.levels.map(l => `<li class="lad-row"><span class="lad-who">${l.level}</span><span class="lad-what">${l.gets}</span></li>`).join('');
+  const rows = $$('.lad-row', list);
+  // the spine runs exactly from the top dot to the bottom dot (offsets ignore transforms)
+  const centreY = r => r.offsetTop + r.offsetHeight / 2;   // rows are positioned, so offsetTop is measured from .lad
+  const place = () => { if (!rows.length) return; spine.style.top = centreY(rows[0]) + 'px'; spine.style.height = Math.max(0, centreY(rows[rows.length - 1]) - centreY(rows[0])) + 'px'; };
+  if ('ResizeObserver' in window) new ResizeObserver(place).observe(list); place();
+  const light = r => r.classList.add('lad-lit', 'in');      // .in plays the starter's marker sweep
+  if (FINAL) { rows.forEach(light); return; }
+  spine.style.transform = 'scaleY(0)';
+  onView(lad, () => {
+    spine.style.transition = 'transform 2.4s var(--ease-draw) .3s';
+    requestAnimationFrame(() => { spine.style.transform = 'scaleY(1)'; });
+    light(rows[rows.length - 1]);
+    // read the spine's live scale once per frame and light each level as the spine passes its dot
+    const H = spine.offsetHeight || 1, top = spine.offsetTop;
+    const fr = rows.map(r => (top + H - centreY(r)) / H);
+    const tick = () => {
+      const m = getComputedStyle(spine).transform, sy = m.startsWith('matrix(') ? +m.slice(7, -1).split(',')[3] : 1;
+      rows.forEach((r, i) => { if (sy >= fr[i] - .01) light(r); });
+      if (sy < .999) requestAnimationFrame(tick); else rows.forEach(light);
+    };
+    requestAnimationFrame(tick);
+  }, .4);
+})();
+</script>
+
+<section class="band card gal" id="gal-08"><div class="wrap"><p class="label">Module 8 of 8 · assets/modules/start-portrait.html</p><h2>Module: start-portrait, PPL-28 + PPL-01 + PPL-27</h2></div></section>
+
+
+<!--
+  MODULE start-portrait.html · catalogue PPL-28 (pictured start steps) + PPL-01 (portrait in the motif's line) + PPL-27 (contact card with copy) · prefix srt-
+  Serves: the close: three small first steps (pick one option, meet one person, get one draft), then one named person to write to.
+  Adapt:
+    1. Edit the heading copy in the markup; keep the band dark (the portrait is a powder line on the ground colour).
+    2. Edit DATA only. Step 1 needs options (3-4 short lines) and picked (the index the pen ring circles);
+       steps 2 and 3 use the person and doc pictures as they are. Keep each step text to two lines.
+    3. contact: the person's name, one line on what to send, and the email (shown as selectable text and copied by the button).
+    4. The portrait is a generic line face inside a two-strand braid of dots; swap the PORTRAIT path list only if the
+       person has approved a likeness.
+  Data: DATA.steps [{kicker, title, text, pic, caption?, options?, picked?}] (3), DATA.contact {kicker, name, line, email, copy, copied, fallback}.
+-->
+<section id="srt" class="band dark" aria-labelledby="srt-h">
+  <div class="wrap">
+    <div class="band-head rv">
+      <p class="label">How we start</p>
+      <h2 id="srt-h">Three steps to working together</h2>
+      <p class="lede">It starts with one store group and one person. Here is what happens after you pick.</p>
+    </div>
+    <div class="srt-steps" id="srt-steps"></div>
+    <div class="srt-card rv" id="srt-card">
+      <div class="srt-face" aria-hidden="true"><svg id="srt-portrait" viewBox="0 0 200 200"></svg></div>
+      <div class="srt-who">
+        <span class="label" id="srt-kicker"></span>
+        <h3 id="srt-name"></h3>
+        <p id="srt-line"></p>
+        <div class="srt-mail"><span class="srt-addr" id="srt-addr"></span><button type="button" class="btn srt-copy" id="srt-copy"></button></div>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  /* Start: three pictured steps on the dark band */
+  .srt-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  .srt-step{background:color-mix(in srgb,var(--paper) 6%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--paper) 14%,transparent);border-radius:var(--r-sheet);padding:26px}
+  .srt-step h3{font:500 26px/1.12 var(--font-display);margin:10px 0 8px;color:var(--paper)}
+  .srt-step > p{color:color-mix(in srgb,var(--paper) 82%,transparent);font-size:16px}
+  .srt-pic{height:160px;border-radius:12px;background:color-mix(in srgb,var(--paper) 6%,transparent);margin-bottom:20px;display:grid;place-items:center;align-content:center;padding:14px;text-align:center}
+  .srt-pic svg{width:130px;height:96px;overflow:visible}
+  .srt-pic .label{margin-top:6px}
+  .srt-pick{justify-items:start;text-align:left;gap:7px;padding:14px 30px}
+  .srt-pick p{font-size:13.5px;color:color-mix(in srgb,var(--paper) 72%,transparent);position:relative}
+  .srt-pick .srt-picked{color:var(--paper);font-weight:600}
+  .srt-picked svg{position:absolute;left:-16px;top:-13px;overflow:visible;max-width:none}
+  .srt-ring{fill:none;stroke:var(--paper);stroke-width:2.6;stroke-linecap:round}
+  .srt-person .srt-bg{fill:var(--tint-1)}
+  .srt-person path,.srt-person circle:not(.srt-bg){fill:none;stroke:var(--ink);stroke-width:2.6;stroke-linecap:round}
+  .srt-person .srt-sig{stroke:var(--paper)}
+  .srt-doc path{fill:none;stroke:var(--paper);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+  .srt-doc .srt-tick{stroke:var(--marker);stroke-width:3}   /* the draft is what the reader gets, so it alone takes the marker */
+  /* Contact card: portrait, name, one line, the email and a copy button */
+  .srt-card{margin-top:44px;display:grid;grid-template-columns:150px minmax(0,1fr);gap:32px;align-items:center;background:var(--card);color:var(--ink);
+    border-radius:calc(var(--r-sheet) + 6px);padding:30px 34px;max-width:820px}
+  .srt-face svg{width:150px;height:150px;display:block;border-radius:50%;box-shadow:0 0 0 1px var(--line),0 14px 30px -18px color-mix(in srgb,var(--ink) 60%,transparent)}
+  .band.dark .srt-card .label{color:var(--muted)}
+  .srt-card h3{font-size:clamp(32px,3.4vw,44px);margin:4px 0 6px}
+  .srt-card p{font-size:17px}
+  .srt-mail{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:16px}
+  .srt-addr{font:400 15px/1.3 var(--font-label);-webkit-user-select:all;user-select:all;background:var(--paper);padding:10px 13px;border-radius:10px;box-shadow:0 0 0 1px var(--line);overflow-wrap:anywhere}
+  .srt-copy:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  @media (max-width:820px){ .srt-steps{grid-template-columns:minmax(0,1fr)} .srt-card{grid-template-columns:minmax(0,1fr);padding:24px} }
+</style>
+<script>
+(() => {
+  const DATA = {
+    steps: [
+      { kicker: 'Step 1', title: 'Choose one store group', text: 'Pick the group where waste hurts most. For example, the city centre stores.',
+        pic: 'pick', options: ['Coastal stores', 'City centre stores', 'Out-of-town stores'], picked: 1 },
+      { kicker: 'Step 2', title: 'Meet one person', text: 'Field & Form gives you one contact who visits your stores and listens first.', pic: 'person', caption: 'One person, one to one' },
+      { kicker: 'Step 3', title: 'Get a draft plan', text: 'Your contact sends a short plan and the changes it needs. You shape it from there.', pic: 'doc', caption: 'Draft plan' }
+    ],
+    contact: { kicker: 'Your Field & Form contact', name: 'Sam Ortiz', line: 'Write to Sam with the one store group you want to start with.',
+      email: 'sam.ortiz@fieldandform.example', copy: 'Copy email', copied: 'Copied', fallback: 'Select and copy' }
+  };
+
+  /* ---- mechanics: the steps ---- */
+  const RING = 'M150 6C70 4 8 14 8 36s70 30 146 28 142-8 140-30S220 4 128 10';   // an open pen loop that overshoots its start
+  const PICS = {
+    pick: s => s.options.map((o, i) => i === s.picked ? `<p class="srt-picked">${o}<svg aria-hidden="true"><path class="srt-ring"/></svg></p>` : `<p>${o}</p>`).join(''),
+    person: s => `<svg viewBox="0 0 160 120"><circle class="srt-bg" cx="80" cy="60" r="52"/><circle cx="80" cy="48" r="17"/><path d="M48 104c4-22 16-32 32-32s28 10 32 32"/><path class="srt-sig" d="M140 30l10-8M144 46h12M140 62l10 8"/></svg><p class="label">${s.caption}</p>`,
+    doc: s => `<svg viewBox="0 0 160 120"><path d="M46 10h52l18 18v84H46z"/><path d="M98 10v18h18"/><path d="M58 40h36M58 54h46M58 68h40M58 82h28"/><path class="srt-tick" d="M62 98l6 6 12-12"/></svg><p class="label">${s.caption}</p>`
+  };
+  $('#srt-steps').innerHTML = DATA.steps.map((s, i) =>
+    `<div class="srt-step rv" style="--d:${(i * .1).toFixed(1)}s"><div class="srt-pic srt-${s.pic}" aria-hidden="true">${PICS[s.pic](s)}</div>` +
+    `<span class="label">${s.kicker}</span><h3>${s.title}</h3><p>${s.text}</p></div>`).join('');
+  // the pen ring is rebuilt at the chosen line's real size, so it never stretches and its length is exact
+  const picked = $('.srt-picked');
+  if (picked) {
+    const rs = $('svg', picked), ring = $('path', rs);
+    let drawn = FINAL;
+    const size = () => {
+      const w = picked.offsetWidth + 32, h = picked.offsetHeight + 26; if (w < 40) return;
+      let k = 0; ring.setAttribute('d', RING.replace(/-?\d*\.?\d+/g, n => (+n * (k++ % 2 ? h / 70 : w / 300)).toFixed(1)));
+      rs.setAttribute('viewBox', `0 0 ${w} ${h}`); rs.style.width = w + 'px'; rs.style.height = h + 'px';
+      const L = ring.getTotalLength(); ring.dataset.len = L; ring.style.strokeDasharray = `${L} ${L}`;
+      if (drawn) ring.style.strokeDashoffset = 0; else if (!ring.style.transition) ring.style.strokeDashoffset = L;
+    };
+    size();
+    if ('ResizeObserver' in window) new ResizeObserver(size).observe(picked);
+    onView(picked.closest('.srt-step'), () => { drawn = true; penDraw([ring], { delay: .3, min: 1.1 }); }, .5);
+  }
+
+  /* ---- the contact card ---- */
+  const C = DATA.contact, btn = $('#srt-copy'), addr = $('#srt-addr');
+  $('#srt-kicker').textContent = C.kicker; $('#srt-name').textContent = C.name; $('#srt-line').textContent = C.line;
+  addr.textContent = C.email; btn.textContent = C.copy;
+  let reset = 0;
+  const say = ok => { btn.textContent = ok ? C.copied : C.fallback; clearTimeout(reset); reset = setTimeout(() => { btn.textContent = C.copy; }, 1800); };
+  const select = () => { const r = document.createRange(); r.selectNodeContents(addr); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+  btn.addEventListener('click', () => {
+    try { navigator.clipboard.writeText(C.email).then(() => say(true), () => { select(); say(false); }); }
+    catch (e) { select(); say(false); }
+  });
+
+  /* ---- the portrait: one powder line inside a two-strand braid of dots, drawn on like the hero ---- */
+  const s = $('#srt-portrait');
+  const mk = (tag, a, p = s) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; };
+  const f = mk('filter', { id: 'srt-powder', x: '-5%', y: '-5%', width: '110%', height: '110%' }, mk('defs', {}));
+  mk('feTurbulence', { type: 'fractalNoise', baseFrequency: '.05', numOctaves: 2, seed: 9, result: 'w' }, f);
+  mk('feDisplacementMap', { in: 'SourceGraphic', in2: 'w', scale: 2.6, xChannelSelector: 'R', yChannelSelector: 'G', result: 'h' }, f);
+  mk('feTurbulence', { type: 'fractalNoise', baseFrequency: '1.2', numOctaves: 1, seed: 4, result: 'g' }, f);
+  mk('feDisplacementMap', { in: 'h', in2: 'g', scale: 1.4, xChannelSelector: 'R', yChannelSelector: 'G', result: 'gr' }, f);
+  mk('feGaussianBlur', { in: 'gr', stdDeviation: .55, result: 'so' }, f);
+  const fm = mk('feMerge', {}, f); mk('feMergeNode', { in: 'so' }, fm); mk('feMergeNode', { in: 'gr' }, fm);
+  mk('circle', { cx: 100, cy: 100, r: 99, style: 'fill:var(--ground)' });
+  const g = mk('g', { filter: 'url(#srt-powder)', fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round', style: 'stroke:var(--paper)' });
+  const lines = [], line = (d, w) => { lines.push(mk('path', { d, 'stroke-width': w }, g)); };
+  const N = 12, R = 84, A = 7;                       // braid: r = 84 + 7 sin(12t + phase), phase 0 and pi
+  for (const ph of [0, Math.PI]) {
+    let d = '';
+    for (let i = 0; i <= 240; i++) { const t = i / 240 * Math.PI * 2, r = R + A * Math.sin(N * t + ph); d += (i ? 'L' : 'M') + (100 + r * Math.cos(t)).toFixed(1) + ' ' + (100 + r * Math.sin(t)).toFixed(1); }
+    line(d + 'Z', 2);
+  }
+  for (let i = 0; i < N; i++) { const t = (i + .5) / N * Math.PI * 2 + Math.PI / (2 * N); mk('circle', { cx: (100 + R * Math.cos(t)).toFixed(1), cy: (100 + R * Math.sin(t)).toFixed(1), r: 1.8, style: 'fill:var(--paper);stroke:none' }, g); }
+  const PORTRAIT = [
+    ['M50 170C56 140 76 128 100 128S144 140 150 170', 3], ['M91 113V128M109 113V128', 3], ['M88 131L100 145L112 131', 2.4],
+    ['M100 117C86 117 77 104 77 88C77 72 87 61 100 61S123 72 123 88C123 104 114 117 100 117Z', 3], ['M78 82C82 66 95 59 110 62C118 64 123 71 123 80', 2.6],
+    ['M101 61C97 67 91 71 84 73', 2.2], ['M76 90C72 90 72 99 77 100M124 90C128 90 128 99 123 100', 2.2], ['M87 89Q91.5 86 96 89M104 89Q108.5 86 113 89', 2],
+    ['M100 92L98 99L101 100', 1.8], ['M94 106Q100 109 106 106', 2]
+  ];
+  PORTRAIT.forEach(([d, w]) => line(d, w));
+  mk('circle', { cx: 100, cy: 157, r: 6, style: 'fill:var(--accent-1);stroke:var(--paper);stroke-width:1.5' });   // the knot at the chest
+  prepDraw(lines);
+  if (!FINAL) onView(s, () => lines.forEach((p, i) => {
+    p.style.transition = `stroke-dashoffset ${i < 2 ? 2.2 : 1.1}s var(--ease-draw) ${i < 2 ? i * .25 : .6 + (i - 2) * .22}s`;
+    requestAnimationFrame(() => { p.style.strokeDashoffset = 0; });
+  }), .5);
+})();
+</script>
+
+</main>
+
+</body></html>

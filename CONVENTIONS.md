@@ -20,7 +20,7 @@ The one rulebook for every skill in this repo. `/build:make-skill` reads it befo
 
 Ash finds skills only by typing words of the name in the `/` menu (see "How Ash finds a skill"). So **every word he'd search for goes in the name.**
 
-**The pattern** (Ash is still confirming it; change it here and nowhere else):
+**The pattern** (confirmed by Ash on 2026-10-20; change it here and nowhere else):
 
 > `<what-it-does>-<tag>`
 
@@ -42,10 +42,11 @@ Ash finds skills only by typing words of the name in the `/` menu (see "How Ash 
 
 Written as one YAML line in double quotes. Use single quotes inside it.
 
-1. **A bracket saying who it's for or where it came from.** It's for reading in the menu; search runs on the name's tag.
-   - Ash's own skills name the place they serve: `(Udyaan course)`, `(Substack)`, `(Shasta)`, `(skill guide)`.
-   - Copied skills name the source and the original name: `(Matt: to-spec)`.
-   - Add a tag after ` · ` when it helps: `(Matt: grilling · helper)` for a skill other skills call, `(skill maker · uses skill-creator)` for one that leans on another skill.
+1. **A square bracket saying who it's for, and what it used to be called.** It's for reading in the menu; search runs on the name.
+   - Ash's own skills name the place they serve: `[Udyaan course]`, `[Substack]`, `[Shasta]`, `[skill guide]`.
+   - **A renamed skill keeps its old name after `was`:** `[was clear-documents]`, `[Udyaan teammates · was clear-visual-html]`, so Ash recognises the skill he used before.
+   - Copied skills name the source and the original name: `[Matt: to-spec]`.
+   - Add a tag after ` · ` when it helps: `[Matt: grilling · helper]` for a skill other skills call, `[skill maker · uses skill-creator]` for one that leans on another skill.
 2. **The question it answers, in Ash's voice.** Usually "How do I ...?". "Which", "Where" or "What" are fine when they read more naturally.
    - **It names the topic and the situation,** so it makes sense read alone, with the skill name hidden.
    - Bad: "How do I plan it?" / "How do I get unstuck?"
@@ -63,7 +64,7 @@ Written as one YAML line in double quotes. Use single quotes inside it.
 **Full example:**
 
 ```yaml
-description: "(Matt: to-spec) How do I turn what we just decided into one written plan? Turns the current conversation into a spec and publishes it to the project's issue tracker. No interview, just what was already discussed."
+description: "[Matt: to-spec] How do I turn what we just decided into one written plan? Turns the current conversation into a spec and publishes it to the project's issue tracker. No interview, just what was already discussed."
 ```
 
 ## Who can start it: Claude, or only Ash

@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Skills Into Plugins</title>
+<meta name="description" content="A brief for Mohit: how Ash will pack his Claude skills into five plugins, and what Mohit decides in the next session.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Kalam:wght@400&family=Public+Sans:wght@400;600;700&display=swap">
+<style>
+/* Page concept: a brief Mohit reads alone. Each section asks his next question and answers it with one drawing:
+   copies (isotype), an opened crate, a switchboard, struck names, a sieve, a terminal sheet, a route, decision slips.
+   Type pairing: Workshop. Palette: kraft card (hue 62), analogous. */
+/* PALETTE START */
+/* palette seed 41, analogous, brand hue 62.0, accent hue 97.0 (scripts/palette.py) */
+:root { --bg: #fdf8f3; --surface: #fffdfa; --ink: #261e18; --muted: #69615a; --line: #e0d5cc; --soft: #f2e7de; --brand: #804800; --brand-ink: #ffffff; --accent: #a68e00; --accent-soft: #efe9ce; --alert: #8f4346; --ok: #457556; --marker: #ebda8c; --tint-1: #fae3d0; --tint-2: #e6e0c4; --tint-3: #e7ddf9; color-scheme: light; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #181410; --surface: #221d19; --ink: #ebe7e4; --muted: #c4b3a4; --line: #443a31; --soft: #2c221a; --brand: #e1ac7e; --brand-ink: #181410; --accent: #cebb68; --accent-soft: #373321; --alert: #db8283; --ok: #89bf9b; --marker: #534810; --tint-1: #3f2e1f; --tint-2: #34301e; --tint-3: #312740; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #181410; --surface: #221d19; --ink: #ebe7e4; --muted: #c4b3a4; --line: #443a31; --soft: #2c221a; --brand: #e1ac7e; --brand-ink: #181410; --accent: #cebb68; --accent-soft: #373321; --alert: #db8283; --ok: #89bf9b; --marker: #534810; --tint-1: #3f2e1f; --tint-2: #34301e; --tint-3: #312740; color-scheme: dark; }
+/* PALETTE END */
+:root {
+  --f-display: "Barlow Condensed", "Arial Narrow", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Public Sans", "Segoe UI", system-ui, sans-serif;
+  --f-hand: "Kalam", "Segoe Print", "Comic Sans MS", cursive;
+  --f-mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 17px/1.58 var(--f-body);
+  padding-inline: max(16px, env(safe-area-inset-left, 0px)); overflow-x: clip; }
+.wrap { max-width: 1080px; margin-inline: auto; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 700; line-height: 1.05; margin: 0; text-wrap: balance; letter-spacing: -0.005em; }
+h1 { font-size: clamp(2.5rem, 6.2vw, 4.6rem); max-width: 19ch; }
+h2 { font-size: clamp(1.75rem, 4vw, 2.6rem); max-width: 28ch; }
+h3 { font-size: 1.35rem; }
+p { margin: 0; max-width: 66ch; text-wrap: pretty; }
+b, strong { font-weight: 700; }
+code { font-family: var(--f-mono); font-size: 0.86em; background: var(--soft); padding: 1px 5px; border-radius: 3px; }
+a { color: var(--brand); }
+a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+mark { background: linear-gradient(var(--marker), var(--marker)) no-repeat 0 88% / 100% 46%; color: inherit; padding: 0 2px;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.hand { font-family: var(--f-hand); font-size: 1.12rem; line-height: 1.3; }
+.eyebrow { font: 500 0.74rem/1.3 var(--f-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.answer { font-size: 1.16rem; line-height: 1.5; max-width: 62ch; }
+.means { color: var(--muted); font-size: 0.95rem; max-width: 70ch; }
+.open { font-size: 0.95rem; max-width: 70ch; }
+.open::before { content: "Still open"; font: 500 0.7rem/1 var(--f-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--alert);
+  border: 1px solid var(--alert); border-radius: 3px; padding: 3px 6px; margin-right: 10px; vertical-align: 2px; }
+.pill { font: 500 0.66rem/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 7px; border-radius: 3px;
+  border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.pill.set { border-color: var(--ok); color: var(--ok); }
+svg text { font-family: var(--f-body); }
+
+/* drawn line kit */
+.ln { fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ln.thin { stroke-width: 0.9; }
+.ln.guide { stroke-width: 1; stroke-dasharray: 3 5; opacity: 0.35; }
+.ln.hid { stroke-dasharray: 6 4; }
+.ln.acc { stroke: var(--accent); }
+.ln.alert { stroke: var(--alert); }
+.fill-surface { fill: var(--surface); } .fill-soft { fill: var(--soft); } .fill-tint { fill: var(--tint-1); }
+.fill-marker { fill: var(--marker); } .fill-bg { fill: var(--bg); }
+
+/* bands */
+section.band { padding-block: 64px; border-top: 1px solid var(--line); }
+section.band > .wrap { display: grid; gap: 26px; }
+.band.soft { background: var(--soft); margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding-inline: max(16px, env(safe-area-inset-left, 0px)); }
+.head { display: grid; gap: 12px; }
+
+/* top screen */
+.top { padding-block: clamp(56px, 10vw, 112px) clamp(48px, 7vw, 80px); border-top: 0 !important; }
+.top .wrap { display: grid; gap: 26px; }
+.top .lede { font-size: 1.2rem; max-width: 56ch; }
+.stencils { display: flex; flex-wrap: wrap; gap: 10px; }
+.stencils span { font: 700 1.05rem/1 var(--f-display); letter-spacing: 0.18em; text-transform: uppercase; padding: 9px 12px 8px;
+  border: 1.5px solid var(--ink); border-radius: 2px; background: var(--tint-1); }
+.decide { background: var(--accent-soft); border-radius: 4px; padding: 20px 22px; display: grid; gap: 10px; max-width: 720px; }
+.decide ol { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; }
+.decide a { font-weight: 600; }
+
+/* short answer */
+.short p { font-size: 1.22rem; line-height: 1.55; max-width: 64ch; }
+
+/* 1 isotype copies */
+.copies { display: grid; gap: 10px; }
+.cp-row { display: grid; grid-template-columns: 170px repeat(8, minmax(0, 1fr)); gap: 8px; align-items: center; }
+.cp-row .where { font-weight: 600; font-size: 0.95rem; line-height: 1.2; }
+.cp-row .where small { display: block; font: 500 0.68rem/1.3 var(--f-mono); color: var(--muted); letter-spacing: 0.04em; }
+.cp-row svg { width: 100%; max-width: 56px; height: auto; justify-self: center; display: block; overflow: visible; }
+.cp-head { display: grid; grid-template-columns: 170px repeat(8, minmax(0, 1fr)); gap: 8px; }
+.cp-note { grid-column: 6 / -1; display: flex; align-items: flex-end; gap: 6px; padding-left: 10%; }
+.cp-note p { color: var(--ink); }
+.cp-note svg { width: 34px; height: 30px; flex: none; order: -1; margin-bottom: -10px; }
+.sheet-ok .body { fill: var(--surface); stroke: var(--ink); }
+.sheet-new .body { fill: var(--marker); stroke: var(--ink); }
+.sheet-old .body { fill: var(--bg); stroke: var(--alert); stroke-dasharray: 4 3; }
+.sheet-old .lines { stroke: var(--alert); opacity: 0.6; }
+.cp-legend { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 0.92rem; color: var(--muted); }
+.cp-legend i { display: inline-block; width: 14px; height: 17px; border-radius: 1px; margin-right: 7px; vertical-align: -3px; border: 1.5px solid var(--ink); background: var(--surface); }
+.cp-legend i.n { background: var(--marker); }
+.cp-legend i.o { border: 1.5px dashed var(--alert); background: transparent; }
+
+/* 2 opened crate */
+.crate-wrap { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 36px; align-items: center; }
+.crate { width: 100%; height: auto; display: block; overflow: visible; }
+.crate .stencil { font: 700 46px var(--f-display); letter-spacing: 9px; fill: var(--ink); text-anchor: middle; }
+.crate .sheet-name { font: 500 13px var(--f-mono); fill: var(--ink); text-anchor: middle; }
+.crate .num circle { fill: var(--ink); }
+.crate .num text { fill: var(--bg); font: 700 17px var(--f-body); text-anchor: middle; dominant-baseline: central; }
+.key { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; counter-reset: k; }
+.key li { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 12px; align-items: start; counter-increment: k; }
+.key li::before { content: counter(k); width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: var(--bg);
+  display: grid; place-items: center; font-weight: 700; font-size: 0.9rem; margin-top: 1px; }
+
+/* 3 switchboard */
+.board { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 18%; }
+.board-cords { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.plugs, .sockets { display: grid; gap: 10px; align-content: space-between; position: relative; z-index: 1; }
+.plug { font: 500 0.86rem/1.2 var(--f-mono); padding: 8px 12px; border: 1.5px solid var(--ink); border-radius: 3px; background: var(--surface);
+  justify-self: end; text-align: right; position: relative; }
+.plug.out { border-style: dashed; color: var(--muted); }
+.plug::after { content: ""; position: absolute; right: -7px; top: 50%; width: 10px; height: 10px; margin-top: -5px; border-radius: 50%; background: var(--ink); }
+.socket { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 4px 12px; align-items: center; padding: 10px 0; }
+.socket .hole { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--ink); background: var(--bg); grid-row: span 2; }
+.socket.empty .hole { border-style: dashed; border-color: var(--muted); }
+.socket b { font: 700 1.35rem/1 var(--f-display); letter-spacing: 0.14em; text-transform: uppercase; }
+.socket span { font-size: 0.9rem; color: var(--muted); grid-column: 2; }
+.cord { fill: none; stroke: var(--ink); stroke-width: 1.7; stroke-linecap: round; }
+.cord.out { stroke-dasharray: 5 4; }
+.twin { display: none; }
+.twin dl { margin: 0; display: grid; gap: 14px; }
+.twin dt { font: 700 1.2rem/1 var(--f-display); letter-spacing: 0.14em; text-transform: uppercase; border-bottom: 1.5px solid var(--ink); padding-bottom: 6px; }
+.twin dd { margin: 6px 0 0; font: 500 0.86rem/1.6 var(--f-mono); }
+.twin dd .out { color: var(--muted); }
+.notes3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.notes3 > div { border-top: 2px solid var(--ink); padding-top: 12px; min-width: 0; }
+
+/* 4 strike and replace */
+.renames { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.rn-group { display: grid; gap: 12px; align-content: start; min-width: 0; }
+.rn-group h3 { font-size: 1.15rem; letter-spacing: 0.16em; text-transform: uppercase; border-bottom: 1.5px solid var(--ink); padding-bottom: 6px; }
+.rn { display: grid; gap: 4px; }
+.rn .was { font: 500 0.88rem/1.3 var(--f-mono); color: var(--muted); position: relative; width: fit-content; text-decoration: none; }
+.rn .was::after { content: ""; position: absolute; left: -3px; right: -3px; top: 50%; height: 8px; margin-top: -4px; background: var(--alert);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'%3E%3Cpath d='M1 5 C 15 2, 25 7, 40 4 S 70 2, 99 4' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'%3E%3Cpath d='M1 5 C 15 2, 25 7, 40 4 S 70 2, 99 4' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center / 100% 100% no-repeat; }
+.rn .now { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.rn .now span:first-child { font: 500 1rem/1.3 var(--f-mono); overflow-wrap: anywhere; }
+
+/* 5 sieve */
+.sieve { display: grid; gap: 0; }
+.sv-top, .sv-bottom { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 0; }
+.sv-tile { font: 500 0.8rem/1.2 var(--f-mono); padding: 7px 10px; border-radius: 3px; border: 1px solid var(--line); color: var(--muted); background: var(--surface); position: relative; }
+.sv-tile.gone::after { content: ""; position: absolute; right: 6px; top: 50%; width: 9px; height: 9px; margin-top: -5px;
+  background: linear-gradient(45deg, transparent 43%, var(--alert) 43% 57%, transparent 57%), linear-gradient(-45deg, transparent 43%, var(--alert) 43% 57%, transparent 57%); }
+.sv-tile.gone { padding-right: 24px; }
+.sv-tile.hole { border: 1.5px dashed var(--ink); color: transparent; background: transparent; }
+.sv-tile.kept { border: 1.5px solid var(--ink); color: var(--ink); font-size: 0.9rem; padding: 9px 12px; background: var(--marker); }
+.sv-mesh { position: relative; height: 34px; display: grid; place-items: center;
+  background: repeating-linear-gradient(45deg, transparent 0 9px, color-mix(in srgb, var(--ink) 30%, transparent) 9px 10px),
+              repeating-linear-gradient(-45deg, transparent 0 9px, color-mix(in srgb, var(--ink) 30%, transparent) 9px 10px);
+  border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+.sv-mesh span { background: var(--bg); padding: 2px 12px; font-family: var(--f-hand); font-size: 1.08rem; }
+.sv-bottom { align-items: center; }
+.sv-arrow { font-family: var(--f-hand); font-size: 1.1rem; display: inline-flex; align-items: center; gap: 8px; }
+.sv-arrow svg { width: 56px; height: 20px; }
+.kept-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.kept-two > div { border-top: 2px solid var(--ink); padding-top: 12px; min-width: 0; }
+.kept-two code { background: var(--marker); }
+
+/* 6 terminal sheet */
+.look { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 34px; align-items: start; }
+.sheet { background: var(--surface); border: 1.5px solid var(--ink); border-radius: 4px; overflow: hidden; box-shadow: 6px 6px 0 var(--tint-1); }
+.sheet-bar { display: flex; justify-content: space-between; gap: 10px; padding: 8px 14px; border-bottom: 1.5px solid var(--ink); font: 500 0.7rem/1.2 var(--f-mono);
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.term { padding: 16px 14px 18px; font: 500 0.86rem/1.65 var(--f-mono); display: grid; gap: 2px; }
+.term .l { display: grid; grid-template-columns: 26px minmax(0, 1fr); align-items: start; }
+.term .l > span:last-child { overflow-wrap: anywhere; }
+.term .p::before { content: "> "; color: var(--brand); }
+.term .o { color: var(--muted); padding-left: 1.2em; }
+.term .gap { height: 10px; }
+.term .menu { margin: 2px 0 0 26px; border: 1px solid var(--line); border-radius: 3px; padding: 6px 0; background: var(--bg); }
+.term .menu div { display: grid; grid-template-columns: minmax(150px, auto) minmax(0, 1fr); gap: 4px 16px; padding: 2px 10px; }
+.term .menu div:first-child { background: var(--marker); }
+.term .menu em { font-style: normal; color: var(--muted); font-family: var(--f-body); font-size: 0.84rem; }
+.cn { width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: var(--bg); display: inline-grid; place-items: center; font: 700 0.75rem/1 var(--f-body); margin-top: 2px; }
+.look .key li::before { background: var(--ink); }
+
+/* 7 route */
+.route { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; padding-top: 6px; }
+.route-road { position: absolute; left: 0; top: 0; width: 100%; height: 120px; overflow: visible; pointer-events: none; }
+.stop { display: grid; gap: 8px; align-content: start; min-width: 0; position: relative; }
+.stop .knot { width: 34px; height: 34px; border-radius: 50%; background: var(--bg); border: 2px solid var(--ink); display: grid; place-items: center;
+  font: 700 1.1rem/1 var(--f-display); position: relative; z-index: 1; }
+.stop .obj { height: 70px; display: flex; align-items: flex-end; gap: 10px; }
+.stop .obj svg { height: 62px; width: auto; overflow: visible; }
+.stop .drop { font-family: var(--f-hand); font-size: 1.02rem; line-height: 1.2; }
+.stop h3 { font-size: 1.2rem; }
+.stop p { font-size: 0.95rem; }
+
+/* still open */
+.open-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; max-width: 760px; }
+.open-list li { padding-left: 26px; position: relative; }
+.open-list li::before { content: ""; position: absolute; left: 0; top: 0.45em; width: 12px; height: 12px; border: 2px dashed var(--alert); border-radius: 50%; }
+
+/* close: decision slips */
+.slips { display: grid; gap: 22px; }
+.slip { background: var(--surface); border: 1.5px solid var(--ink); border-radius: 3px; padding: 22px 24px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 18px 34px; }
+.slip h3 { font-size: 1.45rem; }
+.slip .n { font: 500 0.72rem/1 var(--f-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 8px; }
+.opts { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.opts li { position: relative; padding-left: 28px; width: fit-content; max-width: 100%; }
+.opts li::before { content: ""; position: absolute; left: 0; top: 0.35em; width: 14px; height: 14px; border: 1.5px solid var(--ink); border-radius: 2px; }
+.opts li.pick { font-weight: 700; }
+.opts li.pick::before { background: var(--ink); box-shadow: inset 0 0 0 3px var(--surface); }
+.ringed { position: relative; display: inline-block; }
+.pen-ring { position: absolute; left: -24px; top: -10px; width: calc(100% + 46px); height: calc(100% + 20px); overflow: visible; pointer-events: none; }
+.pen-ring path { fill: none; stroke: var(--accent); stroke-width: 2.4; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.why { display: block; font-family: var(--f-hand); font-weight: 400; font-size: 1.04rem; line-height: 1.3; color: var(--brand); margin-top: 14px; }
+.after { font-size: 1rem; }
+
+footer { padding-block: 40px 64px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.9rem; }
+
+@media (max-width: 900px) {
+  .crate-wrap, .look { grid-template-columns: minmax(0, 1fr); }
+  .renames { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .notes3 { grid-template-columns: minmax(0, 1fr); }
+  .slip { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 700px) {
+  .board { display: none; }
+  .twin { display: block; }
+  .route { grid-template-columns: minmax(0, 1fr); gap: 26px; padding-left: 0; }
+  .route-road { display: none; }
+  .stop { grid-template-columns: 34px minmax(0, 1fr); gap: 4px 14px; }
+  .stop > *:not(.knot) { grid-column: 2; }
+  .stop .knot { grid-row: 1 / span 4; }
+  .stop::before { content: ""; position: absolute; left: 16px; top: 34px; bottom: -26px; border-left: 2px dashed color-mix(in srgb, var(--ink) 40%, transparent); }
+  .stop:last-child::before { display: none; }
+  .kept-two { grid-template-columns: minmax(0, 1fr); }
+  .cp-row { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 5px; }
+  .cp-row .where { grid-column: 1 / -1; margin-top: 8px; }
+  .cp-head { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 5px; }
+  .cp-note { grid-column: 5 / -1; padding-left: 4px; }
+}
+@media (max-width: 560px) {
+  section.band { padding-block: 46px; }
+  .renames { grid-template-columns: minmax(0, 1fr); }
+  .term .menu div { grid-template-columns: minmax(0, 1fr); gap: 0; padding-block: 4px; }
+}
+</style>
+</head>
+<body>
+
+<section class="band top" id="top">
+  <div class="wrap">
+    <p class="eyebrow">Brief for Mohit · read before our next session · about 6 minutes</p>
+    <h1>How will Ash pack his Claude skills into five plugins, and what changes for Mohit?</h1>
+    <p class="lede">By the end you'll know <b>why Ash is doing this</b>, what goes where, how it will look in Claude Code, and what he needs from you.</p>
+    <div class="stencils" aria-label="The five plugins">
+      <span>Write</span><span>Visual</span><span>Plan</span><span>Build</span><span>Learn</span>
+    </div>
+    <div class="decide">
+      <p class="eyebrow">You'll decide in the session</p>
+      <ol>
+        <li>Whether the micro-SaaS repo installs Ash's build plugin.</li>
+        <li>Which of the draft skill names confuse you.</li>
+        <li>Where the master copy of the skills lives.</li>
+      </ol>
+      <p><a href="#decide">Jump to the decisions</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="band soft short" id="short">
+  <div class="wrap">
+    <h2>The short answer</h2>
+    <p>Ash keeps <b>one master copy of each skill</b> in a single repo, packed into five plugins named for the job: write, visual, plan, build and learn. Each skill gets <b>a name that says what it does</b>, and Superpowers, an outside pack that loads into every session, <b>is removed</b> apart from two skills Ash copies into build. For you, <mark>the micro-SaaS repo installs a plugin with one command</mark>, and Claude stops interrupting small jobs to brainstorm.</p>
+  </div>
+</section>
+
+<section class="band" id="copies">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">1 of 7</p>
+      <h2>Why does Ash have 32 copies of 8 skills, and why does that cause trouble?</h2>
+      <p class="answer"><b>Each of Ash's 8 skills sits in four folders,</b> one global and one inside each project, so a fix made in one folder never reaches the other three.</p>
+    </div>
+    <div class="copies" data-pattern="isotype-rows" role="img" aria-label="Four rows of eight sheets: 32 copies. In the fifth column only the global copy is new; the three project copies are old.">
+      <div class="cp-head">
+        <div class="cp-note"><p class="hand">brief-page-udyaan, upgraded today</p>
+          <svg viewBox="0 0 34 30" aria-hidden="true"><path class="ln" d="M28 2 C 22 10, 12 14, 6 26 M6 26 L4 17 M6 26 L14 22"/></svg></div>
+      </div>
+      <div class="cp-row" data-row="Global folder|every project reads it"></div>
+      <div class="cp-row" data-row="Shasta|learning library"></div>
+      <div class="cp-row" data-row="Charlotte|Ash's AI system"></div>
+      <div class="cp-row" data-row="Jain-BBA|college work"></div>
+    </div>
+    <div class="cp-legend"><span><i></i>One copy of one skill</span><span><i class="n"></i>Copy with today's fix</span><span><i class="o"></i>Copy still on the old version</span></div>
+    <p>This is happening right now: <b>the page-building skill was upgraded today in the global folder,</b> and the copies inside Shasta, Charlotte and Jain-BBA still hold the old version. Nothing warns anyone, so work in those projects can run on outdated rules.</p>
+    <p class="means">A plugin fixes this by keeping each skill in one place that every project installs from.</p>
+  </div>
+</section>
+
+<section class="band" id="plugin">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">2 of 7</p>
+      <h2>What is a Claude Code plugin, in plain words?</h2>
+      <p class="answer"><b>A plugin is a box of skills that a project installs in one step.</b> The skills live once, inside the box, and every project that installs it gets the same version.</p>
+    </div>
+    <div class="crate-wrap" data-pattern="opened-crate">
+      <svg class="crate" viewBox="0 0 560 400" role="img" aria-label="An opened crate labelled visual, with four skill sheets lifting out, a label tag, and a shelf of other crates.">
+        <!-- shelf with other crates as construction lines -->
+        <path class="ln guide" d="M20 372 H540"/>
+        <rect class="ln guide" x="30" y="300" width="78" height="72"/>
+        <rect class="ln guide" x="452" y="300" width="78" height="72"/>
+        <path class="ln" d="M14 374 H546"/>
+        <!-- crate body -->
+        <rect class="ln fill-tint" x="140" y="210" width="280" height="162"/>
+        <path class="ln thin" d="M140 264 H420 M140 318 H420"/>
+        <path class="ln thin" d="M162 210 V372 M398 210 V372"/>
+        <text class="stencil" x="280" y="300">VISUAL</text>
+        <!-- lid, tilted open -->
+        <path class="ln fill-tint" d="M140 210 L96 138 L80 146 L124 214 Z"/>
+        <!-- label tag -->
+        <path class="ln thin" d="M176 240 L126 262"/>
+        <rect class="ln fill-surface" x="20" y="246" width="106" height="34" rx="3" transform="rotate(-8 73 263)"/>
+        <text class="sheet-name" x="73" y="268" transform="rotate(-8 73 263)">plugin.json</text>
+        <!-- four sheets lifting out -->
+        <g transform="translate(150 70) rotate(-7)"><path class="ln fill-surface" d="M0 0 H62 L76 14 V88 H0 Z M62 0 V14 H76"/><path class="ln thin" d="M12 34 H62 M12 46 H62 M12 58 H50"/></g>
+        <g transform="translate(232 40) rotate(-2)"><path class="ln fill-surface" d="M0 0 H62 L76 14 V88 H0 Z M62 0 V14 H76"/><path class="ln thin" d="M12 34 H62 M12 46 H62 M12 58 H50"/></g>
+        <g transform="translate(316 48) rotate(4)"><path class="fill-marker" d="M0 0 H62 L76 14 V88 H0 Z"/><path class="ln" d="M0 0 H62 L76 14 V88 H0 Z M62 0 V14 H76"/><path class="ln thin" d="M12 34 H62 M12 46 H62 M12 58 H50"/></g>
+        <g transform="translate(396 92) rotate(10)"><path class="ln fill-surface" d="M0 0 H62 L76 14 V88 H0 Z M62 0 V14 H76"/><path class="ln thin" d="M12 34 H62 M12 46 H62 M12 58 H50"/></g>
+        <text class="sheet-name" x="352" y="30">brief-page</text>
+        <path class="ln guide" d="M190 168 L210 210 M270 140 L272 210 M352 168 L340 210 M424 186 L404 210"/>
+        <!-- numbers -->
+        <g class="num"><circle cx="128" cy="340" r="15"/><text x="128" y="340">1</text></g>
+        <g class="num"><circle cx="214" cy="30" r="15"/><text x="214" y="30">2</text></g>
+        <g class="num"><circle cx="34" cy="222" r="15"/><text x="34" y="222">3</text></g>
+        <g class="num"><circle cx="520" cy="352" r="15"/><text x="520" y="352">4</text></g>
+      </svg>
+      <ol class="key">
+        <li><p><b>The crate is the plugin:</b> one folder, named for its job, here <code>visual</code>.</p></li>
+        <li><p><b>The sheets are the skills inside it.</b> Each is a folder with an instructions file, the same skills Ash uses today.</p></li>
+        <li><p><b>The tag is <code>plugin.json</code>,</b> a small file with the plugin's name and version, so Claude Code knows what it installed.</p></li>
+        <li><p><b>The shelf is the marketplace:</b> a list in Ash's repo of every crate on offer. A project picks the crates it wants.</p></li>
+      </ol>
+    </div>
+    <p class="means">What changes for you: you type <code>/visual:brief-page</code> where Ash types <code>/brief-page-udyaan</code> today. The word before the colon is the plugin's name.</p>
+  </div>
+</section>
+
+<section class="band" id="sort">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">3 of 7</p>
+      <h2>Which of Ash's skills go into which of the five plugins?</h2>
+      <p class="answer"><b>Skills are grouped by the job you're doing when you reach for one,</b> so the four visual skills stay together and plan starts empty.</p>
+      <p class="means">Each cord is one skill; its socket is the plugin it moves into. Dashed plugs are the two skills kept from Superpowers.</p>
+    </div>
+    <div class="board" id="board" data-pattern="switchboard" role="img" aria-label="Ten skills on the left connected by cords to five plugins on the right. Plan has no cords.">
+      <svg class="board-cords" id="cords" aria-hidden="true"></svg>
+      <div class="plugs">
+        <span class="plug" data-to="write">course-lesson-udyaan</span>
+        <span class="plug" data-to="write">headline-angles-substack</span>
+        <span class="plug" data-to="visual">story-plan</span>
+        <span class="plug" data-to="visual">polished-doc</span>
+        <span class="plug" data-to="visual">brief-page-udyaan</span>
+        <span class="plug" data-to="visual">pitch-site-udyaan</span>
+        <span class="plug out" data-to="build">verification-before-completion</span>
+        <span class="plug out" data-to="build">using-git-worktrees</span>
+        <span class="plug" data-to="learn">study</span>
+        <span class="plug" data-to="learn">graphify</span>
+      </div>
+      <div class="sockets">
+        <div class="socket" id="s-write"><i class="hole"></i><b>Write</b><span>words for people to read</span></div>
+        <div class="socket" id="s-visual"><i class="hole"></i><b>Visual</b><span>pages, files and pictures that explain</span></div>
+        <div class="socket empty" id="s-plan"><i class="hole"></i><b>Plan</b><span>empty for now</span></div>
+        <div class="socket" id="s-build"><i class="hole"></i><b>Build</b><span>checks while writing code</span></div>
+        <div class="socket" id="s-learn"><i class="hole"></i><b>Learn</b><span>studying and mapping notes</span></div>
+      </div>
+    </div>
+    <div class="twin" aria-hidden="true">
+      <dl>
+        <div><dt>Write</dt><dd>course-lesson-udyaan<br>headline-angles-substack</dd></div>
+        <div><dt>Visual</dt><dd>story-plan<br>polished-doc<br>brief-page-udyaan<br>pitch-site-udyaan</dd></div>
+        <div><dt>Plan</dt><dd class="out">empty for now</dd></div>
+        <div><dt>Build</dt><dd><span class="out">verification-before-completion<br>using-git-worktrees</span></dd></div>
+        <div><dt>Learn</dt><dd>study<br>graphify</dd></div>
+      </dl>
+    </div>
+    <div class="notes3">
+      <div><p><b>Visual keeps all four together</b> because their instructions point at each other's folders 14 times. Split them and those links break.</p></div>
+      <div><p><b>Plan starts empty.</b> Ash has no planning skill of his own yet. Matt Pocock's pack, which stays installed, covers planning until he writes one.</p></div>
+      <div><p><b>Build starts with two skills kept from Superpowers.</b> Question 5 says which two and why.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="names">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">4 of 7</p>
+      <h2>Why does each of Ash's skills get a new name, and what are the new names?</h2>
+      <p class="answer"><b>Today's names describe a style:</b> polished-doc and brief-page-udyaan sound alike, yet one makes a printable file and the other a web page. Each new name says what the skill makes, and the plugin in front names the job.</p>
+      <p class="means">Struck names are today's. Written names are the new ones, typed with the plugin in front.</p>
+    </div>
+    <div class="renames" data-pattern="strike-and-replace">
+      <div class="rn-group"><h3>Write</h3>
+        <div class="rn"><s class="was">course-lesson-udyaan</s><div class="now"><span>/write:course-lesson</span><span class="pill">draft</span></div></div>
+        <div class="rn"><s class="was">headline-angles-substack</s><div class="now"><span>/write:headlines</span><span class="pill">draft</span></div></div>
+      </div>
+      <div class="rn-group"><h3>Visual</h3>
+        <div class="rn"><s class="was">story-plan</s><div class="now"><span>/visual:story-plan</span><span class="pill">draft</span></div></div>
+        <div class="rn"><s class="was">polished-doc</s><div class="now"><span>/visual:clean-document</span><span class="pill">draft</span></div></div>
+        <div class="rn"><s class="was">brief-page-udyaan</s><div class="now"><span><mark>/visual:brief-page</mark></span><span class="pill set">settled</span></div></div>
+        <div class="rn"><s class="was">pitch-site-udyaan</s><div class="now"><span>/visual:pitch-site</span><span class="pill">draft</span></div></div>
+      </div>
+      <div class="rn-group"><h3>Learn</h3>
+        <div class="rn"><s class="was">study</s><div class="now"><span>/learn:study</span><span class="pill">same word</span></div></div>
+        <div class="rn"><s class="was">graphify</s><div class="now"><span>/learn:knowledge-graph</span><span class="pill">draft</span></div></div>
+      </div>
+    </div>
+    <p>Only <b>brief-page is settled.</b> The rest are Ash's drafts, and you read them cold, which makes you the right person to say which ones confuse you.</p>
+    <p class="open">Whether graphify keeps its name, because Ash types <code>/graphify</code> out of habit and his own setup file points at it.</p>
+  </div>
+</section>
+
+<section class="band" id="superpowers">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">5 of 7</p>
+      <h2>Why is Ash removing the Superpowers pack, and which two of its skills does he keep?</h2>
+      <p class="answer"><b>Superpowers loads into every session and starts its own routines,</b> such as a brainstorm before small jobs, which Ash has asked Claude to skip. Matt Pocock's pack does the same jobs only when you type them, so Superpowers goes, except the two skills Matt's pack lacks.</p>
+      <p class="means">Each tile is one Superpowers skill. The question on the mesh decides what falls through into build.</p>
+    </div>
+    <div class="sieve" data-pattern="sieve" role="img" aria-label="Fifteen Superpowers skills above a mesh. Thirteen stay above, crossed out. Two fall through into the build plugin.">
+      <div class="sv-top">
+        <span class="sv-tile gone">brainstorming</span><span class="sv-tile gone">writing-plans</span><span class="sv-tile gone">executing-plans</span>
+        <span class="sv-tile gone">subagent-driven-development</span><span class="sv-tile gone">dispatching-parallel-agents</span><span class="sv-tile hole">using-git-worktrees</span>
+        <span class="sv-tile gone">test-driven-development</span><span class="sv-tile gone">systematic-debugging</span><span class="sv-tile hole">verification-before-completion</span>
+        <span class="sv-tile gone">requesting-code-review</span><span class="sv-tile gone">receiving-code-review</span><span class="sv-tile gone">finishing-a-development-branch</span>
+        <span class="sv-tile gone">writing-skills</span><span class="sv-tile gone">using-superpowers</span><span class="sv-tile gone">diagnosing-superpowers</span>
+      </div>
+      <div class="sv-mesh"><span>Does Matt Pocock's pack already do this?</span></div>
+      <div class="sv-bottom">
+        <span class="sv-tile kept">verification-before-completion</span><span class="sv-tile kept">using-git-worktrees</span>
+        <span class="sv-arrow"><svg viewBox="0 0 56 20" aria-hidden="true"><path class="ln" d="M2 12 C 18 4, 34 16, 52 9 M52 9 L44 4 M52 9 L46 16"/></svg>into build</span>
+      </div>
+    </div>
+    <div class="kept-two">
+      <div><p><code>verification-before-completion</code> makes Claude <b>run the check before it says "done"</b>, so a broken build never gets reported as finished.</p></div>
+      <div><p><code>using-git-worktrees</code> gives <b>each build its own copy of the code,</b> so the main copy stays clean while Claude works.</p></div>
+    </div>
+    <p class="means">What changes for you: in the micro-SaaS repo, <b>Claude stops proposing designs before small fixes.</b> Planning and test-first building still exist, through Matt's <code>to-tickets</code> and <code>tdd</code>.</p>
+    <p class="open">Copied skills stop getting Superpowers' updates, so Ash re-copies them by hand if the originals improve.</p>
+  </div>
+</section>
+
+<section class="band" id="look">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">6 of 7</p>
+      <h2>How will Ash's skills look in Claude Code once the plugins are installed?</h2>
+      <p class="answer"><b>You add Ash's shelf once, install the plugins you want, and each skill shows up under its plugin's name</b> when you type a slash.</p>
+    </div>
+    <div class="look" data-pattern="real-thing-built">
+      <div class="sheet" role="img" aria-label="Example Claude Code session: adding Ash's marketplace, installing two plugins, and typing /visual: to see four skills.">
+        <div class="sheet-bar"><span>Claude Code · micro-SaaS repo</span><span>Example view</span></div>
+        <div class="term">
+          <div class="l"><span class="cn">1</span><span class="p">/plugin marketplace add ayan-banday/ash-skills</span></div>
+          <div class="l"><span></span><span class="o">Added marketplace ash-skills, 5 plugins</span></div>
+          <div class="gap"></div>
+          <div class="l"><span class="cn">2</span><span class="p">/plugin install build@ash-skills</span></div>
+          <div class="l"><span></span><span class="o">Installed build: 2 skills</span></div>
+          <div class="l"><span></span><span class="p">/plugin install visual@ash-skills</span></div>
+          <div class="l"><span></span><span class="o">Installed visual: 4 skills</span></div>
+          <div class="gap"></div>
+          <div class="l"><span class="cn">3</span><span class="p">/visual:</span></div>
+          <div class="menu">
+            <div><span>/visual:brief-page</span><em>Turn an idea into a page that briefs a teammate</em></div>
+            <div><span>/visual:clean-document</span><em>Make a draft clearer, export PDF or Word</em></div>
+            <div><span>/visual:pitch-site</span><em>A pitch site for readers who won't read</em></div>
+            <div><span>/visual:story-plan</span><em>Plan a visual story before building it</em></div>
+          </div>
+        </div>
+      </div>
+      <ol class="key">
+        <li><p><b>Once per computer:</b> tell Claude Code where Ash's shelf is. The shelf is a repo on Ash's GitHub.</p></li>
+        <li><p><b>Once per project:</b> pick crates off the shelf. Ash's own projects take all five; the micro-SaaS repo may need only build.</p></li>
+        <li><p><b>Every day:</b> type the plugin's name and a colon to see what's inside, with one line on what each skill does.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="route">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">7 of 7</p>
+      <h2>How does Ash move from 32 copies to one master copy without breaking his projects?</h2>
+      <p class="answer"><b>In four steps, each leaving something he can check,</b> and the old copies go only after the plugins work in every project.</p>
+    </div>
+    <div class="route" data-pattern="route-drops">
+      <svg class="route-road" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true">
+        <path class="ln guide" d="M17 17 C 120 0, 200 40, 270 17 S 420 0, 523 17 S 680 40, 776 17 S 920 0, 1000 17" vector-effect="non-scaling-stroke"/>
+      </svg>
+      <div class="stop"><span class="knot">1</span>
+        <div class="obj"><svg viewBox="0 0 70 56" aria-hidden="true"><path class="ln fill-tint" d="M2 10 H26 L32 18 H68 V54 H2 Z"/><path class="ln thin" d="M2 22 H68"/></svg><span class="drop">the ash-skills repo</span></div>
+        <h3>Build the repo</h3><p>Ash copies the global version of each skill into one repo, sorted into the five plugins, with the new names.</p></div>
+      <div class="stop"><span class="knot">2</span>
+        <div class="obj"><svg viewBox="0 0 50 60" aria-hidden="true"><path class="ln fill-surface" d="M2 2 H36 L48 14 V58 H2 Z M36 2 V14 H48"/><path class="ln acc" d="M12 34 L21 43 L38 24" style="stroke-width:3"/></svg><span class="drop">one install per project</span></div>
+        <h3>Install in each project</h3><p>Shasta, Charlotte and Jain-BBA each install the plugins they use, and Ash checks that every skill still runs.</p></div>
+      <div class="stop"><span class="knot">3</span>
+        <div class="obj"><svg viewBox="0 0 70 56" aria-hidden="true"><path class="ln hid" d="M2 10 H26 L32 18 H68 V54 H2 Z"/></svg><span class="drop">empty skills folders</span></div>
+        <h3>Delete the old copies</h3><p>Only after step 2 works everywhere do the 32 loose copies go, so nothing is lost if a plugin fails.</p></div>
+      <div class="stop"><span class="knot">4</span>
+        <div class="obj"><svg viewBox="0 0 64 56" aria-hidden="true"><path class="ln fill-surface" d="M4 6 H60 V38 H26 L12 52 V38 H4 Z"/><path class="ln thin" d="M14 22 H50"/></svg><span class="drop">quieter sessions</span></div>
+        <h3>Switch Superpowers off</h3><p>Superpowers is uninstalled, and the two kept skills now run from the build plugin.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band soft" id="open">
+  <div class="wrap">
+    <h2>Still open</h2>
+    <ul class="open-list">
+      <li><b>What goes into plan first.</b> Ash hasn't picked a first planning skill to write.</li>
+      <li><b>Copied Superpowers skills stop updating.</b> Ash re-copies them by hand when needed.</li>
+      <li><b>The draft names.</b> Only brief-page is settled; the rest wait for your read.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="band" id="decide">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">For the session</p>
+      <h2>What does Ash need Mohit to decide in our next session?</h2>
+      <p class="answer"><b>Three choices, each with Ash's pick circled.</b> Bring your answer or a better option, and Ash sets up the repo the day after we talk.</p>
+    </div>
+    <div class="slips" data-pattern="decision-slips">
+      <div class="slip">
+        <div><span class="n">Decision 1</span><h3>Should the micro-SaaS repo install Ash's build plugin?</h3></div>
+        <ul class="opts">
+          <li class="pick"><span class="ringed">Yes, build only<svg class="pen-ring" viewBox="0 0 200 60" preserveAspectRatio="none" aria-hidden="true"><path d="M24 50 C 6 40, 8 16, 46 9 C 92 1, 160 3, 188 18 C 204 30, 186 52, 128 56 C 84 59, 40 57, 20 44"/></svg></span><span class="why">Ash's pick: every build gets checked and runs on its own copy</span></li>
+          <li>Yes, build and plan</li>
+          <li>No, keep the repo plain</li>
+        </ul>
+      </div>
+      <div class="slip">
+        <div><span class="n">Decision 2</span><h3>Which of the draft skill names confuse you?</h3></div>
+        <ul class="opts">
+          <li>None, keep the drafts</li>
+          <li class="pick"><span class="ringed">Mark the ones that confuse you<svg class="pen-ring" viewBox="0 0 200 60" preserveAspectRatio="none" aria-hidden="true"><path d="M24 50 C 6 40, 8 16, 46 9 C 92 1, 160 3, 188 18 C 204 30, 186 52, 128 56 C 84 59, 40 57, 20 44"/></svg></span><span class="why">Ash's pick: you read them cold, which Ash can't</span></li>
+          <li>Rename them all together in the session</li>
+        </ul>
+      </div>
+      <div class="slip">
+        <div><span class="n">Decision 3</span><h3>Where should the master copy of the skills live?</h3></div>
+        <ul class="opts">
+          <li class="pick"><span class="ringed">Ash's GitHub, with you added<svg class="pen-ring" viewBox="0 0 200 60" preserveAspectRatio="none" aria-hidden="true"><path d="M24 50 C 6 40, 8 16, 46 9 C 92 1, 160 3, 188 18 C 204 30, 186 52, 128 56 C 84 59, 40 57, 20 44"/></svg></span><span class="why">Ash's pick: one owner, and you can still install and suggest changes</span></li>
+          <li>A shared account for both of you</li>
+          <li>Only on Ash's computer</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Draft skill names, the repo name and the example screen show how the plan would work. Ash Banday · brief for Mohit · built with the brief-page skill.</div>
+</footer>
+
+<script>
+(function () {
+  /* 1. isotype rows: 8 sheets per folder; column 5 is the upgraded skill */
+  var SHEET = '<path class="body" d="M3 3 H31 L41 13 V51 H3 Z" stroke-width="1.6" stroke-linejoin="round"/>' +
+              '<path class="lines" d="M10 24 H33 M10 32 H33 M10 40 H26" stroke="var(--ink)" stroke-width="1" fill="none"/>';
+  document.querySelectorAll('.cp-row').forEach(function (row, r) {
+    var parts = row.getAttribute('data-row').split('|');
+    var html = '<span class="where">' + parts[0] + '<small>' + parts[1] + '</small></span>';
+    for (var c = 0; c < 8; c++) {
+      var cls = c === 4 ? (r === 0 ? 'sheet-new' : 'sheet-old') : 'sheet-ok';
+      html += '<svg viewBox="0 0 44 54" class="' + cls + '" aria-hidden="true">' + SHEET + '</svg>';
+    }
+    row.innerHTML = html;
+  });
+
+  /* 3. switchboard cords, measured from the plugs and sockets */
+  var board = document.getElementById('board'), svg = document.getElementById('cords');
+  function drawCords() {
+    if (!board || getComputedStyle(board).display === 'none') return;
+    var b = board.getBoundingClientRect(), out = '';
+    board.querySelectorAll('.plug').forEach(function (p) {
+      var s = document.querySelector('#s-' + p.getAttribute('data-to') + ' .hole');
+      if (!s) return;
+      var a = p.getBoundingClientRect(), z = s.getBoundingClientRect();
+      var x1 = a.right + 2 - b.left, y1 = a.top + a.height / 2 - b.top;
+      var x2 = z.left + z.width / 2 - b.left, y2 = z.top + z.height / 2 - b.top;
+      var mx = (x2 - x1) * 0.5;
+      out += '<path class="cord' + (p.classList.contains('out') ? ' out' : '') + '" d="M' + x1 + ' ' + y1 +
+             ' C ' + (x1 + mx) + ' ' + y1 + ', ' + (x2 - mx) + ' ' + y2 + ', ' + x2 + ' ' + y2 + '"/>';
+    });
+    svg.setAttribute('viewBox', '0 0 ' + b.width + ' ' + b.height);
+    svg.innerHTML = out;
+  }
+  var t;
+  window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(drawCords, 120); });
+  drawCords();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawCords);
+})();
+</script>
+</body>
+</html>

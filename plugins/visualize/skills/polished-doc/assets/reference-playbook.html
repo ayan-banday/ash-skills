@@ -1,0 +1,944 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Clear Documents Playbook</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Patrick+Hand&display=swap">
+<style>
+/* PALETTE START */
+:root{
+  --bg:#f3f8f9; --surface:#ffffff; --ink:#1a2428; --muted:#4c585d; --line:#d4dcde;
+  --primary:#376979; --primary-soft:#e0edf1; --accent:#b07829; --accent-soft:#fbebd9;
+  --alert:#8d433d; --ok:#3c6148;
+}
+/* PALETTE END */
+:root{
+  --serif:"Source Serif 4",Georgia,serif; --sans:"Source Sans 3","Segoe UI",sans-serif; --hand:"Patrick Hand","Segoe Print",cursive;
+}
+@page{size:A4;margin:16mm 17mm 18mm}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;font-family:var(--sans);font-size:10.6pt;line-height:1.5;color:var(--ink);background:#fff}
+p{margin:0 0 8pt;max-width:68ch}
+h1,h2,h3{font-family:var(--serif);margin:0;color:var(--ink);text-wrap:balance;break-after:avoid}
+h1{font-size:28pt;line-height:1.08;letter-spacing:-0.01em;max-width:18ch;margin-bottom:12pt}
+h2{font-size:19pt;line-height:1.15;margin:0 0 10pt;max-width:30ch;color:var(--ink)}
+h3{font-size:12.5pt;line-height:1.25;margin:16pt 0 6pt;color:var(--primary)}
+strong{font-weight:700}
+.eyebrow{font-size:7.6pt;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6pt;break-after:avoid}
+.lede{font-size:12.5pt;color:var(--muted);max-width:60ch}
+.lede strong{color:var(--ink)}
+.part{margin-top:22pt;padding-top:14pt;border-top:3px solid var(--primary)}
+.cover + .part{break-before:page;margin-top:0;border-top:0;padding-top:0}
+.keep{break-inside:avoid}
+.muted{color:var(--muted)}
+ul,ol{margin:0 0 8pt;padding-left:16pt}
+li{margin-bottom:3pt}
+figure{margin:8pt 0 12pt;break-inside:avoid}
+figcaption{font-size:8.6pt;color:var(--muted);margin-top:5pt}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12pt 14pt}
+.soft{background:var(--primary-soft);border-radius:8px;padding:11pt 14pt}
+.note{background:var(--accent-soft);border-radius:8px;padding:10pt 14pt;border-left:3px solid var(--accent)}
+table{border-collapse:collapse;width:100%;font-size:9.6pt;margin:4pt 0 10pt}
+tr{break-inside:avoid}
+.colhead{break-after:avoid}
+th{text-align:left;font-size:7.4pt;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);border-bottom:1.5px solid var(--primary);padding:5pt 7pt}
+td{padding:5pt 7pt;border-bottom:1px solid var(--line);vertical-align:top}
+td.bad{color:var(--alert)}
+td.good{color:var(--ink)}
+.num{font-family:var(--serif);font-weight:700;color:var(--primary)}
+
+/* cover */
+.cover{min-height:245mm;display:flex;flex-direction:column;gap:14pt}
+.cover .band{height:6pt;width:64pt;background:var(--primary);border-radius:3pt}
+.toc{list-style:none;padding:0;margin:6pt 0 0;display:grid;gap:5pt}
+.toc li{display:grid;grid-template-columns:22pt 1fr;gap:6pt;margin:0;padding-bottom:5pt;border-bottom:1px solid var(--line)}
+.toc .n{font-family:var(--serif);font-weight:700;color:var(--primary)}
+.cover .foot{margin-top:auto;font-size:8.6pt;color:var(--muted)}
+
+/* flow chips */
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:5pt}
+.flow .st{border:1.3px solid var(--line);background:#fff;border-radius:6px;padding:4pt 8pt;font-size:9.2pt;line-height:1.25}
+.flow .st small{display:block;font-size:7.6pt;font-weight:700}
+.flow .ar{color:var(--muted)}
+.flow .st.hot{border-color:var(--alert);background:#f8ebe9}
+.flow .st.hot small{color:var(--alert)}
+.flow .st.key{border-color:var(--primary);background:var(--primary-soft)}
+.flow .st.key small{color:var(--primary)}
+.flowrow{display:grid;grid-template-columns:50pt 1fr;gap:8pt;align-items:center;margin:4pt 0}
+.flowrow .lab{font-size:7.4pt;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+
+/* pipeline */
+.pipe{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;counter-reset:p}
+.pipe div{position:relative;padding:8pt 8pt 8pt;border-top:3px solid var(--primary);font-size:9pt;line-height:1.3}
+.pipe div:first-child{border-top-color:var(--muted)}
+.pipe b{display:block;font-family:var(--serif);font-size:10.5pt;margin-bottom:2pt}
+.pipe div:last-child{border-top-color:var(--accent)}
+.pipe .k{font-size:7.2pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3pt}
+
+/* two columns */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14pt}
+.cols > div{min-width:0}
+.colhead{font-size:7.6pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding-bottom:4pt;border-bottom:2px solid var(--line);margin-bottom:6pt}
+.colhead.keep-c{border-bottom-color:var(--primary);color:var(--primary)}
+.colhead.chg-c{border-bottom-color:var(--accent);color:var(--accent)}
+
+/* rules */
+.rule{display:grid;grid-template-columns:20pt 1fr;gap:8pt;padding:8pt 0;border-bottom:1px solid var(--line);break-inside:avoid}
+.rule .n{font-family:var(--serif);font-weight:700;font-size:14pt;color:var(--primary);line-height:1.1}
+.rule h4{margin:0 0 4pt;font-size:10.8pt;font-family:var(--sans);font-weight:700}
+.ba{display:grid;grid-template-columns:44pt 1fr;gap:2pt 8pt;font-size:9.4pt;margin-bottom:3pt}
+.ba .t{font-size:7.2pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding-top:2pt}
+.ba .t.b{color:var(--alert)} .ba .t.a{color:var(--ok)}
+.rule .why{font-size:8.8pt;color:var(--muted);margin:2pt 0 0}
+
+/* catalogue item */
+.vis{break-inside:avoid;margin:0 0 14pt;padding-top:10pt;border-top:1px solid var(--line)}
+.vis h3{margin-top:0}
+.uses{display:grid;grid-template-columns:1fr 1fr;gap:4pt 14pt;font-size:8.9pt;margin:0 0 6pt}
+.uses span b{font-size:7.2pt;letter-spacing:.08em;text-transform:uppercase;display:block}
+.uses .u b{color:var(--ok)} .uses .s b{color:var(--alert)}
+
+/* sketches */
+.sk{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10pt 12pt 6pt}
+.sk svg{display:block;width:100%;height:auto;overflow:visible}
+.sk text{font-family:var(--hand);fill:var(--ink);font-size:21px}
+.sk text.small{font-size:16px}
+.ln{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.ln.soft{stroke:#a9b3b6}.ln.red{stroke:var(--alert)}.ln.green{stroke:var(--ok)}.ln.blue{stroke:var(--primary)}
+.ln.dash{stroke-dasharray:7 7}.ln.thin{stroke-width:2}
+.fp{fill:#fff}.fr{fill:var(--alert)}.fg{fill:var(--ok)}
+.sk text.red{fill:var(--alert)}.sk text.green{fill:var(--ok)}.sk text.soft{fill:var(--muted)}.sk text.blue{fill:var(--primary)}
+.hd{fill:#fff}
+use.ghost{color:#a9b3b6}
+use.ink{color:var(--ink)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10pt}
+.pair .sk p{font-size:9.2pt;margin:6pt 0 6pt}
+.pill{display:inline-block;font-size:7.2pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:1.5px solid currentColor;border-radius:99px;padding:1pt 8pt;margin-bottom:4pt}
+.pill.yes{color:var(--ok)}.pill.no{color:var(--alert)}
+
+/* dots */
+.dots{display:flex;flex-wrap:wrap;gap:5px;max-width:330px}
+.dots i{width:13px;height:13px;border-radius:50%;border:1.4px solid #9aa5a9}
+.dots i.b{background:var(--primary);border-color:var(--primary)}
+.dotwrap{display:grid;grid-template-columns:120pt 1fr;gap:14pt;align-items:center}
+.big{font-family:var(--serif);font-weight:700;font-size:26pt;line-height:1;color:var(--primary)}
+
+/* funnel */
+.fun{display:grid;gap:4pt}
+.fun .r{display:grid;grid-template-columns:70pt 1fr 40pt;gap:8pt;align-items:center;font-size:9.2pt}
+.fun .bar{height:18pt;display:flex;justify-content:center}
+.fun .bar i{display:block;height:100%;background:var(--primary);border-radius:3px;min-width:5px}
+.fun .r:nth-child(2) .bar i{opacity:.8}.fun .r:nth-child(3) .bar i{opacity:.65}.fun .r:nth-child(4) .bar i{background:var(--accent);opacity:1}
+.fun .v{font-family:var(--serif);font-weight:700;text-align:right}
+
+/* bars */
+.bars{display:grid;gap:6pt}
+.bars .r{display:grid;grid-template-columns:80pt 1fr;gap:8pt;align-items:center;font-size:9.2pt}
+.bars .b{height:16pt;border-radius:3px;display:flex;align-items:center;padding-left:6pt;color:#fff;font-weight:700;font-size:8.6pt}
+
+/* decision box */
+.decide{background:var(--primary);color:#fff;border-radius:10px;padding:16pt 18pt;break-inside:avoid}
+.decide h2,.decide h3{color:#fff;margin:0 0 6pt}
+.decide p{color:#fff;opacity:.94;margin:0}
+
+/* swatches */
+.pal{display:grid;grid-template-columns:96pt 1fr;gap:8pt;align-items:center;padding:5pt 0;border-bottom:1px solid var(--line);break-inside:avoid}
+.pal .name{font-size:8.6pt;line-height:1.25}
+.pal .name b{display:block;font-size:9.2pt}
+.strip{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));height:26pt;border-radius:5px;overflow:hidden;border:1px solid var(--line)}
+.strip i{display:block}
+.roles{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));font-size:6.6pt;color:var(--muted);text-align:center;margin-top:2pt}
+.wheels{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8pt;text-align:center;font-size:8.6pt}
+.wheels svg{width:100%;max-width:92pt;height:auto;display:block;margin:0 auto 4pt}
+.ratio{display:flex;height:24pt;border-radius:5px;overflow:hidden;border:1px solid var(--line);font-size:8.4pt;font-weight:700}
+.ratio div{display:flex;align-items:center;padding-left:7pt}
+
+/* before/after memo */
+.memo{font-size:9.2pt;line-height:1.45}
+.memo .subj{font-weight:700;margin-bottom:6pt}
+.memo h5{font-family:var(--serif);font-size:10.5pt;margin:8pt 0 3pt}
+.memo.before{background:#fafafa;border:1px dashed #b9c1c4;border-radius:8px;padding:10pt 12pt;color:#3d474b}
+.memo.after{background:#fff;border:1px solid var(--primary);border-radius:8px;padding:10pt 12pt}
+.memo.after h5{color:var(--primary)}
+mark{background:var(--accent-soft);color:inherit;padding:0 2pt;border-radius:2px}
+s{color:var(--alert)}
+.anno{font-size:8.8pt}
+.anno li{margin-bottom:4pt}
+
+/* v2: groups, tree, ladder, outline, mind map */
+.grp{break-after:avoid;margin:14pt 0 4pt;padding-bottom:4pt;border-bottom:2px solid var(--primary)}
+.grp .k{font-size:7.4pt;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.grp h3{margin:2pt 0 0;color:var(--ink);font-size:14pt}
+.grp p{margin:2pt 0 0;font-size:9.2pt;color:var(--muted)}
+.grp.newpage{break-before:page}
+.tree-root{text-align:center}
+.tree-root span{display:inline-block;background:var(--primary);color:#fff;font-family:var(--serif);font-weight:700;font-size:11pt;padding:6pt 14pt;border-radius:8px}
+.tree-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10pt}
+.tree-col{min-width:0}
+.tree-col .h{background:var(--primary-soft);border:1.5px solid var(--primary);border-radius:8px;padding:6pt 8pt;text-align:center;font-weight:700;font-size:9.6pt;margin-bottom:6pt}
+.tree-col .q{display:grid;grid-template-columns:1fr;gap:1pt;padding:5pt 0 5pt 9pt;border-left:2px solid var(--line);margin-left:10pt;font-size:8.8pt;line-height:1.3}
+.tree-col .q span{color:var(--muted)}
+.tree-col .q b{font-size:9.2pt}
+.tree-col .q b i{font-style:normal;font-family:var(--serif);color:var(--primary);margin-left:4pt}
+.ladder{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8pt;align-items:end}
+.ladder > div{border:1.5px solid var(--line);border-radius:8px;background:#fff;padding:8pt;display:grid;gap:4pt;align-content:start;min-width:0}
+.ladder > div:nth-child(1){min-height:96pt}.ladder > div:nth-child(2){min-height:112pt}.ladder > div:nth-child(3){min-height:128pt}.ladder > div:nth-child(4){min-height:144pt;border-color:var(--primary)}
+.ladder .size{font-size:7.4pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.ladder b{font-family:var(--serif);font-size:10.5pt;line-height:1.2}
+.ladder span.d{font-size:8.6pt;color:var(--muted);line-height:1.3}
+.ladder svg{width:54pt;height:34pt;display:block}
+.flat{font-size:8.8pt;line-height:1.35;margin:0;padding-left:14pt}
+.flat li{margin:0 0 2pt}
+.gbox{display:grid;gap:8pt}
+.gbox .g{border-left:3px solid var(--primary);padding:2pt 0 2pt 9pt}
+.gbox .g b{display:block;font-size:9.4pt;margin-bottom:3pt}
+.chips{display:flex;flex-wrap:wrap;gap:4pt}
+.chips span{font-size:8.4pt;background:var(--primary-soft);border-radius:99px;padding:1pt 8pt}
+.outline{columns:2;column-gap:18pt;font-size:9pt}
+.outline .l1{break-inside:avoid;margin-bottom:8pt}
+.outline .l1 > b{display:block;font-family:var(--serif);font-size:11pt;color:var(--primary);border-bottom:1.5px solid var(--primary);padding-bottom:2pt;margin-bottom:4pt}
+.outline .l2{margin:0 0 4pt 4pt;padding-left:9pt;border-left:2px solid var(--line)}
+.outline .l2 > b{display:block;font-size:9pt}
+.outline .l3{color:var(--muted);font-size:8.6pt;line-height:1.35}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;column-gap:16pt}
+.dgrid .rule{grid-template-columns:24pt 1fr}
+.dgrid .rule p{font-size:9.6pt;margin:0}
+caption.tcap{caption-side:top;text-align:left;font-family:var(--serif);font-weight:700;font-size:12.5pt;color:var(--primary);padding:0 0 6pt}
+tr.tier td{background:var(--primary-soft);font-size:7.6pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);padding:4pt 7pt}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="fig" viewBox="0 0 40 90"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21V55M20 31L8 48M20 31L32 48M20 55L9 86M20 55L31 86"/><circle class="hd" cx="20" cy="12" r="9"/></g></symbol>
+    <symbol id="fig-up" viewBox="0 0 40 90"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21V55M20 31L7 16M20 31L33 16M20 55L9 86M20 55L31 86"/><circle class="hd" cx="20" cy="12" r="9"/></g></symbol>
+    <symbol id="fig-hold" viewBox="0 0 40 90"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21V55M20 31L36 40M20 31L37 34M20 55L9 86M20 55L31 86"/><circle class="hd" cx="20" cy="12" r="9"/></g></symbol>
+    <marker id="arr" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#1a2428"/></marker>
+    <marker id="arr-soft" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#a9b3b6"/></marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#3c6148"/></marker>
+  </defs>
+</svg>
+
+<!-- COVER -->
+<section class="cover">
+  <div class="band"></div>
+  <div class="eyebrow">Draft for feedback · 15 October 2026</div>
+  <h1>Clear Documents: a skill that makes any document easier to read</h1>
+  <p class="lede">The skill takes a document you already have, <strong>keeps its structure, and makes it clearer</strong>: plainer words, a calmer layout, a harmonious palette, and pictures where they explain faster than text. This PDF was built with those same rules, so every page doubles as an example.</p>
+  <div class="soft keep">
+    <p style="margin:0"><strong>How to give feedback.</strong> Every part and visual has a number. Reply with the number and the change you want, for example "5.10: the funnel labels are too small" or "9.2: keep hand-lettered labels".</p>
+  </div>
+  <ol class="toc">
+    <li><span class="n">1</span><span>The skill starts from the document you already have</span></li>
+    <li><span class="n">2</span><span>Ten writing rules, each shown on a real sentence</span></li>
+    <li><span class="n">3</span><span>A visual earns its place when the content has a shape</span></li>
+    <li><span class="n">4</span><span>Long lists get grouped, nested, or mapped</span></li>
+    <li><span class="n">5</span><span>Twelve visuals in three groups, and when each one helps</span></li>
+    <li><span class="n">6</span><span>Each document gets its own harmonious palette</span></li>
+    <li><span class="n">7</span><span>Design basics decide what the reader sees first</span></li>
+    <li><span class="n">8</span><span>A memo made clearer without changing its shape</span></li>
+    <li><span class="n">9</span><span>Six decisions I need from you</span></li>
+  </ol>
+  <p class="foot">Palette for this PDF: seed 9, split-complementary, slate teal with an ochre accent. Generated by the palette script in Part 6.</p>
+</section>
+
+<!-- PART 1 -->
+<section class="part">
+  <div class="eyebrow">Part 1 · What the skill does</div>
+  <h2>The skill starts from the document you already have</h2>
+  <p>You hand it a document: a draft report, a course page, a proposal, meeting notes. It hands back <strong>the same document, with the same sections in the same order</strong>, written plainer and laid out so a busy reader gets it on the first pass.</p>
+
+  <figure class="panel">
+    <div class="pipe">
+      <div><span class="k">In</span><b>Your document</b>Any length, any format, any topic</div>
+      <div><span class="k">Step 1</span><b>Keep the shape</b>Same sections, same order, same facts</div>
+      <div><span class="k">Step 2</span><b>Rewrite the words</b>The ten rules in Part 2</div>
+      <div><span class="k">Step 3</span><b>Add visuals</b>Only where the content has a shape</div>
+      <div><span class="k">Out</span><b>Pick a format</b>PDF by default, or Word, Google Docs, HTML</div>
+    </div>
+    <figcaption>1.1 · The skill changes how the document reads and looks. What the document says stays yours.</figcaption>
+  </figure>
+
+  <h3>What stays and what changes</h3>
+  <div class="cols keep">
+    <div>
+      <div class="colhead keep-c">Stays</div>
+      <ul>
+        <li><strong>Section order</strong> and what each section covers</li>
+        <li><strong>Every fact and number</strong> you gave</li>
+        <li><strong>Your voice</strong>, including the strange, vivid lines</li>
+        <li>Roughly <strong>the same length</strong></li>
+      </ul>
+    </div>
+    <div>
+      <div class="colhead chg-c">Changes</div>
+      <ul>
+        <li><strong>Heading wording</strong>, so each heading states its point</li>
+        <li><strong>Hedges, filler, and repeats</strong>, cut</li>
+        <li><strong>Layout, spacing, and colour</strong>, set by Parts 6 and 7</li>
+        <li><strong>Long lists</strong>, grouped, nested, or mapped as in Part 4</li>
+        <li><strong>Visuals</strong>, added where they explain faster than words</li>
+      </ul>
+    </div>
+  </div>
+  <p>When the skill wants to add something the writer never said, such as a deadline or a reason, it marks the addition and asks. Part 8 shows one.</p>
+
+  <h3>How it differs from the brief-page-udyaan skill</h3>
+  <table>
+    <thead><tr><th></th><th>Clear Documents</th><th>brief-page-udyaan</th></tr></thead>
+    <tbody>
+      <tr><td class="muted">Starts from</td><td>Your existing document</td><td>Content and a structure you give it</td></tr>
+      <tr><td class="muted">Built for</td><td>Reading on a page, printing, sending</td><td>Scrolling on a screen</td></tr>
+      <tr><td class="muted">Visuals</td><td>Where they explain faster than words</td><td>One per section, some animated</td></tr>
+      <tr><td class="muted">Colour</td><td>A new harmonious palette per document</td><td>One fixed brand palette</td></tr>
+      <tr><td class="muted">Output</td><td>PDF, Word, Google Docs, or HTML</td><td>One HTML file</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- PART 2 -->
+<section class="part">
+  <div class="eyebrow">Part 2 · Writing</div>
+  <h2>Ten writing rules in three groups, each shown on a real sentence</h2>
+  <p>Every rule came from an edit to a real draft. <strong>The guardrail is meaning and feeling</strong>: if an edit makes a line plainer but the writer would no longer say it, the edit is wrong.</p>
+
+  <div class="grp"><div class="k">Group A</div><h3>Cut what carries no weight</h3><p>Hedges, untrue framings, setup lines, and decoration.</p></div>
+  <div class="rule"><span class="n">1</span><div><h4>Cut hedges the claim does not need</h4>
+    <div class="ba"><span class="t b">Before</span><span>"For you, it's probably the project."</span><span class="t a">After</span><span>"For you, it's the project."</span></div>
+    <p class="why">Keep a hedge when cutting it makes the line false: "Sometimes, the most useful step looks like a step in a different direction."</p></div></div>
+  <div class="rule"><span class="n">2</span><div><h4>Say what is true instead of what is untrue</h4>
+    <div class="ba"><span class="t b">Before</span><span>"Changing direction isn't always about doing something different. It's to do what you love for a different reason."</span><span class="t a">After</span><span>"Sometimes changing direction means doing what you already love, for a different reason."</span></div>
+    <p class="why">One deliberate use at an emotional peak is allowed. As a habit, it makes the reader hold a wrong idea first.</p></div></div>
+  <div class="rule"><span class="n">3</span><div><h4>Cut setup lines and repeats</h4>
+    <div class="ba"><span class="t b">Before</span><span>"The thing I want you to take away from that is that I have excellent lungs."</span><span class="t a">After</span><span>"What I want you to take away is that I have excellent lungs."</span></div>
+    <p class="why">Also cut "Here's the thing", "It's worth noting", and a second sentence that says the first one again.</p></div></div>
+  <div class="rule"><span class="n">4</span><div><h4>Cut detail that serves no point, and keep detail that pays off later</h4>
+    <div class="ba"><span class="t b">Before</span><span>A paragraph deriving loop-the-loop height from energy conservation.</span><span class="t a">After</span><span>Cut. "I didn't know what torque was" stays, because the ending calls back to it.</span></div>
+    <p class="why">Test: delete it. If nothing later stops working, it was decoration.</p></div></div>
+  <div class="grp"><div class="k">Group B</div><h3>Make it specific</h3><p>Named things, one running example, and a visible result.</p></div>
+  <div class="rule"><span class="n">5</span><div><h4>Name the specific thing</h4>
+    <div class="ba"><span class="t b">Before</span><span>"whenever I got curious about anything that wasn't on the syllabus"</span><span class="t a">After</span><span>"when I asked my teachers about quantum field theory"</span></div>
+    <p class="why">A category asks the reader to imagine. A named thing lets them see it.</p></div></div>
+  <div class="rule"><span class="n">6</span><div><h4>Carry one example all the way through</h4>
+    <div class="ba"><span class="t b">Before</span><span>Four examples across three steps: masters abroad, 10 countries, no experience, product-market fit.</span><span class="t a">After</span><span>One example, "a job in a field you're not in yet", followed through every step.</span></div></div></div>
+  <div class="rule"><span class="n">7</span><div><h4>Show what changes for the reader</h4>
+    <div class="ba"><span class="t b">Before</span><span>"I bought a course to learn how to open a conversation with a stranger." The paragraph ends there.</span><span class="t a">After</span><span>"…with a stranger. That's how I built my first business."</span></div>
+    <p class="why">Impact can be a result, a feeling, or a next step. It needs no statistic.</p></div></div>
+  <div class="grp"><div class="k">Group C</div><h3>Connect it and keep the voice</h3><p>Sections that hand off, headings that answer, and lines that still sound like the writer.</p></div>
+  <div class="rule"><span class="n">8</span><div><h4>End a section on the question the next one answers</h4>
+    <div class="ba"><span class="t b">Before</span><span>"Arnold Schwarzenegger is a good example."</span><span class="t a">After</span><span>"But I didn't know what to do today. The answer came from the last person I expected: Arnold Schwarzenegger."</span></div></div></div>
+  <div class="rule"><span class="n">9</span><div><h4>Make every heading give the answer</h4>
+    <div class="ba"><span class="t b">Before</span><span>"Remaining issues"</span><span class="t a">After</span><span>"Point 4 is the one the reviewer will raise again"</span></div>
+    <p class="why">Test: read only the headings. The reader should get the whole argument.</p></div></div>
+  <div class="rule"><span class="n">10</span><div><h4>Keep the writer's voice</h4>
+    <div class="ba"><span class="t b">Keep</span><span>"That thought made my bones wanna leave my body."</span><span class="t a">Also</span><span>Mix long and short sentences, use contractions, and swap em dashes for commas or colons.</span></div></div></div>
+</section>
+
+<!-- PART 3 -->
+<section class="part">
+  <div class="eyebrow">Part 3 · When to draw</div>
+  <h2>A visual earns its place when the content has a shape</h2>
+  <p><strong>The test: would a reader get this faster from a picture than from the sentence?</strong> If yes, draw it.</p>
+  <p>If two sentences already do the job, keep the sentences. Clarity decides, never decoration.</p>
+  <h3>Pick a visual by answering two questions</h3>
+  <figure class="panel">
+    <div class="tree-root"><span>What is the content about?</span></div>
+    <svg viewBox="0 0 600 30" preserveAspectRatio="none" style="width:100%;height:20pt;display:block" aria-hidden="true"><path d="M300 0V14M100 14H500M100 14V30M300 14V30M500 14V30" stroke="#376979" stroke-width="2" fill="none" vector-effect="non-scaling-stroke"/></svg>
+    <div class="tree-cols">
+      <div class="tree-col"><div class="h">People and situations</div>
+        <div class="q"><span>One person, many pressures?</span><b>Stick-figure scene<i>5.1</i></b></div>
+        <div class="q"><span>A mistake that unfolds?</span><b>Story strip<i>5.2</i></b></div>
+        <div class="q"><span>Two cases, one difference?</span><b>Contrast pair<i>5.3</i></b></div>
+        <div class="q"><span>One thing, many parts?</span><b>Hub<i>5.4</i></b></div></div>
+      <div class="tree-col"><div class="h">Steps, time, and action</div>
+        <div class="q"><span>Order, with one slow step?</span><b>Flow<i>5.5</i></b></div>
+        <div class="q"><span>Dates or durations?</span><b>Timeline<i>5.6</i></b></div>
+        <div class="q"><span>Levels that build?</span><b>Stairs<i>5.7</i></b></div>
+        <div class="q"><span>One thing to do, by a date?</span><b>Decision box<i>5.8</i></b></div></div>
+      <div class="tree-col"><div class="h">Amounts and choices</div>
+        <div class="q"><span>A share of a small group?</span><b>Dot split<i>5.9</i></b></div>
+        <div class="q"><span>A group that narrows?</span><b>Funnel<i>5.10</i></b></div>
+        <div class="q"><span>Two or three amounts?</span><b>Bars<i>5.11</i></b></div>
+        <div class="q"><span>Two factors at once?</span><b>Matrix<i>5.12</i></b></div></div>
+    </div>
+    <figcaption>3.1 · The first question picks the group. The second picks the visual. This tree replaced a twelve-row table.</figcaption>
+  </figure>
+  <h3>Keep the words when</h3>
+  <ul>
+    <li><strong>A short story already works.</strong> In the lead-reply demo, the customer's story stayed as two sentences.</li>
+    <li><strong>There is one number.</strong> Bold it inside the sentence.</li>
+    <li><strong>The picture only decorates.</strong> Every shape must stand for something the text says.</li>
+    <li><strong>The reader needs to look things up.</strong> Use a table instead.</li>
+  </ul>
+  <div class="note keep"><p style="margin:0"><strong>Sketches and charts can share a page.</strong> Stick figures show people and situations, and clean charts show amounts and order. A page can hold one of each when both help.</p></div>
+</section>
+
+<!-- PART 4 LISTS -->
+<section class="part">
+  <div class="eyebrow">Part 4 · Long lists</div>
+  <h2>Long lists get grouped, nested, or mapped</h2>
+  <p>A flat list of twelve items asks the reader to hold twelve things. <strong>Three groups of four ask them to hold three.</strong> The skill picks a structure by how long the list is and whether its items connect.</p>
+
+  <figure>
+    <div class="ladder">
+      <div><span class="size">Up to 7 items</span>
+        <svg viewBox="0 0 54 34" aria-hidden="true"><g fill="#376979"><circle cx="5" cy="6" r="3"/><circle cx="5" cy="17" r="3"/><circle cx="5" cy="28" r="3"/></g><g stroke="#9aa5a9" stroke-width="3" stroke-linecap="round"><path d="M13 6H48M13 17H42M13 28H46"/></g></svg>
+        <b>Keep the list</b><span class="d">Bullets with a bold lead each.</span></div>
+      <div><span class="size">8 to 15 items</span>
+        <svg viewBox="0 0 54 34" aria-hidden="true"><g fill="#376979"><rect x="1" y="2" width="15" height="5" rx="1"/><rect x="19.5" y="2" width="15" height="5" rx="1"/><rect x="38" y="2" width="15" height="5" rx="1"/></g><g stroke="#9aa5a9" stroke-width="2.5" stroke-linecap="round"><path d="M2 14H15M2 21H13M2 28H15M20.5 14H33M20.5 21H31M20.5 28H33M39 14H52M39 21H50M39 28H52"/></g></svg>
+        <b>Group into three</b><span class="d">Each group gets a name that says what its items share.</span></div>
+      <div><span class="size">16 to 30 items</span>
+        <svg viewBox="0 0 54 34" aria-hidden="true"><g stroke="#376979" stroke-width="3" stroke-linecap="round"><path d="M2 4H24"/></g><g stroke="#b07829" stroke-width="2.5" stroke-linecap="round"><path d="M10 13H32M10 26H32"/></g><g stroke="#9aa5a9" stroke-width="2" stroke-linecap="round" fill="none"><path d="M5 6V26H9M5 13H9M14 15V21H18M18 19H44M14 28V33"/></g></svg>
+        <b>Nest groups in groups</b><span class="d">Two or three levels, the way a table of contents works.</span></div>
+      <div><span class="size">Over 30, or linked</span>
+        <svg viewBox="0 0 54 34" aria-hidden="true"><g stroke="#9aa5a9" stroke-width="2"><path d="M27 17L8 5M27 17L46 5M27 17L6 29M27 17L48 29M27 17V32"/></g><circle cx="27" cy="17" r="6" fill="#376979"/><g fill="#fff" stroke="#376979" stroke-width="2"><circle cx="8" cy="5" r="3.5"/><circle cx="46" cy="5" r="3.5"/><circle cx="6" cy="29" r="3.5"/><circle cx="48" cy="29" r="3.5"/></g></svg>
+        <b>Draw a map or tree</b><span class="d">A mind map shows the whole at once. A tree helps the reader pick one item.</span></div>
+    </div>
+    <figcaption>4.1 · The longer the list, the more structure it gets. Items that connect to each other get a map at any length.</figcaption>
+  </figure>
+
+  <h3>4.2 · Grouped: twelve visuals become three groups of four</h3>
+  <div class="cols">
+    <div>
+      <div class="colhead">Before: one flat list</div>
+      <div class="memo before" style="padding:9pt 10pt">
+        <ul class="flat">
+          <li>Stick-figure scene for people in a situation</li>
+          <li>Story strip for a mistake in steps</li>
+          <li>Contrast pair for two similar cases</li>
+          <li>Flow for steps in order</li>
+          <li>Timeline for dates and durations</li>
+          <li>Dot split for a share of a small group</li>
+          <li>Funnel for a group that narrows</li>
+          <li>Stairs for levels that build</li>
+          <li>Matrix for two factors at once</li>
+          <li>Hub for one thing with many parts</li>
+          <li>Bars for two or three amounts</li>
+          <li>Decision box for one action</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="colhead keep-c">After: three named groups</div>
+      <div class="gbox">
+        <div class="g"><b>People and situations</b><div class="chips"><span>Scene</span><span>Story strip</span><span>Contrast pair</span><span>Hub</span></div></div>
+        <div class="g"><b>Steps, time, and action</b><div class="chips"><span>Flow</span><span>Timeline</span><span>Stairs</span><span>Decision box</span></div></div>
+        <div class="g"><b>Amounts and choices</b><div class="chips"><span>Dot split</span><span>Funnel</span><span>Bars</span><span>Matrix</span></div></div>
+      </div>
+      <p style="margin-top:9pt;font-size:9.2pt">The reader remembers <strong>three ideas instead of twelve names</strong>. Parts 2, 3, 5, and 7 of this playbook now use the same move.</p>
+    </div>
+  </div>
+
+  <h3>4.3 · Nested: the whole skill, about 40 parts, in three levels</h3>
+  <p>Grouping alone would leave 40 items in a handful of long groups. Nesting puts groups inside groups, so the reader scans the top level first and opens only what they need.</p>
+  <div class="panel outline">
+    <div class="l1"><b>Writing</b>
+      <div class="l2"><b>Cut</b><div class="l3">Hedges, untrue framings, setup lines, decoration</div></div>
+      <div class="l2"><b>Sharpen</b><div class="l3">Named things, one running example, a visible result</div></div>
+      <div class="l2"><b>Connect</b><div class="l3">Hand-offs between sections, answer headings, the writer's voice</div></div></div>
+    <div class="l1"><b>Lists</b>
+      <div class="l2"><b>By size</b><div class="l3">Keep up to 7, group up to 15, nest up to 30, map the rest</div></div></div>
+    <div class="l1"><b>Visuals</b>
+      <div class="l2"><b>People</b><div class="l3">Scene, story strip, contrast pair, hub</div></div>
+      <div class="l2"><b>Steps</b><div class="l3">Flow, timeline, stairs, decision box</div></div>
+      <div class="l2"><b>Amounts</b><div class="l3">Dot split, funnel, bars, matrix</div></div></div>
+    <div class="l1"><b>Colour</b>
+      <div class="l2"><b>Harmony</b><div class="l3">Monochromatic, analogous, complementary, split, triadic</div></div>
+      <div class="l2"><b>Roles</b><div class="l3">Ink, muted, line, primary, accent, alert, ok, and their tints</div></div>
+      <div class="l2"><b>Checks</b><div class="l3">Contrast on every text colour, a seed to rebuild it</div></div></div>
+    <div class="l1"><b>Design</b>
+      <div class="l2"><b>Can they read it?</b><div class="l3">Headings, body text, spacing, one left edge</div></div>
+      <div class="l2"><b>Does the key part stand out?</b><div class="l3">Rare emphasis, strong contrast, styles reused</div></div>
+      <div class="l2"><b>Does it feel finished?</b><div class="l3">White space, colour with a word, size by importance</div></div></div>
+    <div class="l1"><b>Export</b>
+      <div class="l2"><b>Formats</b><div class="l3">PDF by default, Word, Google Docs, HTML</div></div></div>
+  </div>
+
+  <h3>4.4 · Mapped: the same skill on one page</h3>
+  <p>A mind map trades detail for the whole picture. <strong>Use it when the reader needs to see how the parts relate</strong>, and keep the nested version nearby for detail.</p>
+  <figure class="sk">
+    <svg viewBox="0 0 680 440" role="img" aria-label="A mind map with Clear Documents in the centre and six branches: Writing (cut, sharpen, connect), Visuals (people, steps, amounts), Colour (harmony, roles, contrast), Design (read it, notice it, finish it), Lists (keep, group, nest, map), and Export (PDF, Word, Docs, HTML).">
+      <g fill="none" stroke-width="3" stroke-linecap="round">
+        <path d="M262 205Q215 140 200 112" stroke="#376979"/>
+        <path d="M262 235Q215 300 200 330" stroke="#376979"/>
+        <path d="M418 205Q465 140 480 112" stroke="#376979"/>
+        <path d="M418 235Q465 300 480 330" stroke="#376979"/>
+        <path d="M340 186V102" stroke="#b07829"/>
+        <path d="M340 254V338" stroke="#b07829"/>
+      </g>
+      <g stroke="#a9b3b6" stroke-width="2" fill="none" stroke-linecap="round">
+        <path d="M127 95L100 44M127 95H100M127 95L100 134"/>
+        <path d="M127 345L100 294M127 345H100M127 345L100 384"/>
+        <path d="M553 95L580 44M553 95H580M553 95L580 134"/>
+        <path d="M553 345L580 294M553 345H580M553 345L580 384"/>
+      </g>
+      <g fill="#a9b3b6"><circle cx="100" cy="44" r="3.5"/><circle cx="100" cy="95" r="3.5"/><circle cx="100" cy="134" r="3.5"/><circle cx="100" cy="294" r="3.5"/><circle cx="100" cy="345" r="3.5"/><circle cx="100" cy="384" r="3.5"/><circle cx="580" cy="44" r="3.5"/><circle cx="580" cy="95" r="3.5"/><circle cx="580" cy="134" r="3.5"/><circle cx="580" cy="294" r="3.5"/><circle cx="580" cy="345" r="3.5"/><circle cx="580" cy="384" r="3.5"/></g>
+      <ellipse cx="340" cy="220" rx="96" ry="36" fill="#376979"/>
+      <text x="340" y="228" text-anchor="middle" style="fill:#fff;font-size:24px">Clear Documents</text>
+      <g fill="#e0edf1" stroke="#376979" stroke-width="2">
+        <rect x="127" y="79" width="100" height="32" rx="16"/><rect x="127" y="329" width="100" height="32" rx="16"/>
+        <rect x="453" y="79" width="100" height="32" rx="16"/><rect x="453" y="329" width="100" height="32" rx="16"/>
+      </g>
+      <g fill="#fbebd9" stroke="#b07829" stroke-width="2"><rect x="292" y="70" width="96" height="32" rx="16"/><rect x="292" y="338" width="96" height="32" rx="16"/></g>
+      <g style="font-size:20px" text-anchor="middle">
+        <text x="177" y="101" class="blue">Writing</text><text x="177" y="351" class="blue">Visuals</text>
+        <text x="503" y="101" class="blue">Colour</text><text x="503" y="351" class="blue">Design</text>
+        <text x="340" y="92">Lists</text><text x="340" y="360">Export</text>
+      </g>
+      <g style="font-size:19px" text-anchor="end">
+        <text x="92" y="50">Cut</text><text x="92" y="101">Sharpen</text><text x="92" y="140">Connect</text>
+        <text x="92" y="300">People</text><text x="92" y="351">Steps</text><text x="92" y="390">Amounts</text>
+      </g>
+      <g style="font-size:19px" text-anchor="start">
+        <text x="588" y="50">Harmony</text><text x="588" y="101">Roles</text><text x="588" y="140">Contrast</text>
+        <text x="588" y="300">Read it</text><text x="588" y="351">Notice it</text><text x="588" y="390">Finish it</text>
+      </g>
+      <g style="font-size:18px" text-anchor="middle" class="soft">
+        <text x="340" y="50" class="soft">keep · group · nest · map</text>
+        <text x="340" y="400" class="soft">PDF · Word · Docs · HTML</text>
+      </g>
+    </svg>
+    <figcaption>4.4 · Six branches, 18 groups, one glance. The nested version in 4.3 holds the detail.</figcaption>
+  </figure>
+
+  <h3>4.5 · Three more shapes for a long list</h3>
+  <ul>
+    <li><strong>Decision tree</strong>, when the reader must pick one item. Part 3 turns twelve visuals into two questions.</li>
+    <li><strong>Tiered table</strong>, when items rank by importance. Part 7 splits ten design rules into three tiers.</li>
+    <li><strong>Matrix</strong>, when items differ on two traits at once. See 5.12.</li>
+  </ul>
+</section>
+
+<!-- PART 5 -->
+<section class="part">
+  <div class="eyebrow">Part 5 · The visual catalogue</div>
+  <h2>Twelve visuals in three groups, and when each one helps</h2>
+  <p>Each entry shows when to use the visual, when to skip it, and a working example. The numbers inside the examples are illustrative.</p>
+
+  <div class="grp"><div class="k">Group A</div><h3>People and situations</h3><p>Stick figures show who is involved and what happens to them.</p></div>
+  <div class="vis">
+    <h3>5.1 · Stick-figure scene: show who is involved and what pulls at them</h3>
+    <div class="uses"><span class="u"><b>Use when</b>The reader needs to picture a person and the forces on them.</span><span class="s"><b>Skip when</b>A name and a role say enough.</span></div>
+    <figure class="sk">
+      <svg viewBox="0 0 640 270" role="img" aria-label="A team lead with arms up, pulled three ways by email, chat, and calls.">
+        <line class="ln soft" x1="20" y1="256" x2="620" y2="256"/>
+        <rect class="ln" x="64" y="48" width="92" height="60" rx="3"/><path class="ln" d="M64 50L110 84L156 50"/>
+        <rect class="ln fp" x="272" y="40" width="74" height="42" rx="14"/><rect class="ln fp" x="298" y="66" width="74" height="42" rx="14"/>
+        <path class="ln thin soft" d="M286 56H330M286 66H318"/>
+        <rect class="ln" x="502" y="34" width="42" height="76" rx="8"/><path class="ln thin" d="M516 100H530"/>
+        <path class="ln red thin" d="M556 48Q566 60 556 72M566 40Q582 60 566 80"/>
+        <use href="#fig-up" class="ink" x="300" y="166" width="40" height="90"/>
+        <path class="ln soft dash thin" d="M306 180L150 140M320 164V142M334 180L496 140"/>
+        <text x="110" y="134" text-anchor="middle">Email</text>
+        <text x="322" y="134" text-anchor="middle">Chat</text>
+        <text x="523" y="134" text-anchor="middle">Calls</text>
+        <text x="320" y="270" text-anchor="middle" class="small soft">Team lead</text>
+      </svg>
+    </figure>
+  </div>
+
+  <div class="vis">
+    <h3>5.2 · Story strip: show a mistake unfolding, step by step</h3>
+    <div class="uses"><span class="u"><b>Use when</b>Each step leads to the next and the last one costs something.</span><span class="s"><b>Skip when</b>The steps carry no cost or surprise.</span></div>
+    <figure class="sk">
+      <svg viewBox="0 0 640 230" role="img" aria-label="A writer produces a 40-page report. Readers stand around it with question marks and stop at page 2.">
+        <line class="ln soft" x1="20" y1="190" x2="625" y2="190"/>
+        <use href="#fig-hold" class="ink" x="50" y="100" width="40" height="90"/>
+        <rect class="ln fp" x="88" y="118" width="26" height="34" rx="2"/><path class="ln thin" d="M94 128H108M94 136H108M94 144H104"/>
+        <path class="ln" d="M150 150H240" marker-end="url(#arr)"/>
+        <rect class="ln fp" x="286" y="106" width="70" height="84" rx="3"/>
+        <rect class="ln fp" x="278" y="114" width="70" height="76" rx="3"/>
+        <rect class="ln fp" x="270" y="122" width="70" height="68" rx="3"/>
+        <path class="ln thin soft" d="M280 136H330M280 148H330M280 160H322M280 172H330"/>
+        <text x="305" y="96" text-anchor="middle" class="small">40 pages</text>
+        <path class="ln" d="M380 150H460" marker-end="url(#arr)"/>
+        <use class="ghost" href="#fig" x="480" y="100" width="40" height="90"/>
+        <use class="ghost" href="#fig" x="525" y="100" width="40" height="90"/>
+        <use class="ghost" href="#fig" x="570" y="100" width="40" height="90"/>
+        <text x="545" y="82" text-anchor="middle" class="red" style="font-size:34px">?</text>
+        <text x="70" y="220" text-anchor="middle">Writer</text>
+        <text x="312" y="220" text-anchor="middle">The report</text>
+        <text x="545" y="220" text-anchor="middle" class="red">Readers stop at page 2</text>
+      </svg>
+    </figure>
+  </div>
+
+  <div class="vis">
+    <h3>5.3 · Contrast pair: two cases that look alike, with one deciding difference</h3>
+    <div class="uses"><span class="u"><b>Use when</b>One detail decides the outcome and the reader keeps missing it.</span><span class="s"><b>Skip when</b>The cases differ in many ways at once.</span></div>
+    <div class="pair">
+      <figure class="sk" style="margin:0">
+        <svg viewBox="0 58 300 122" role="img" aria-label="Dr Rao at her clinic. Late lab results block a second clinic she wants to open.">
+          <line class="ln soft" x1="8" y1="165" x2="294" y2="165"/>
+          <path class="ln" d="M14 112L50 82L86 112"/><rect class="ln" x="22" y="112" width="56" height="53"/><path class="ln red thin" d="M50 120V140M40 130H60"/>
+          <use href="#fig-hold" class="ink" x="88" y="75" width="40" height="90"/>
+          <rect class="ln fp" x="120" y="98" width="22" height="26" rx="2"/>
+          <path class="ln dash" d="M152 142H210" marker-end="url(#arr)"/>
+          <path class="ln red" d="M174 134L190 150M190 134L174 150"/>
+          <text x="182" y="124" text-anchor="middle" class="red small">late</text>
+          <path class="ln green dash" d="M220 105L255 80L290 105"/><rect class="ln green dash" x="226" y="105" width="58" height="60"/>
+          <text x="255" y="72" text-anchor="middle" class="green small">2nd clinic</text>
+        </svg>
+        <span class="pill yes">Would pay</span>
+        <p><strong>Dr Rao</strong> wants a second clinic across town. Late lab results already cost her patients, so she would pay to fix them.</p>
+      </figure>
+      <figure class="sk" style="margin:0">
+        <svg viewBox="0 58 300 122" role="img" aria-label="Dr Sen at her clinic with the same late results, happy serving her regular patients.">
+          <line class="ln soft" x1="8" y1="165" x2="294" y2="165"/>
+          <path class="ln" d="M14 112L50 82L86 112"/><rect class="ln" x="22" y="112" width="56" height="53"/><path class="ln red thin" d="M50 120V140M40 130H60"/>
+          <use href="#fig-hold" class="ink" x="88" y="75" width="40" height="90"/>
+          <rect class="ln fp" x="120" y="98" width="22" height="26" rx="2"/>
+          <path class="ln dash" d="M152 142H196" marker-end="url(#arr)"/>
+          <path class="ln red" d="M166 134L182 150M182 134L166 150"/>
+          <text x="174" y="124" text-anchor="middle" class="red small">late</text>
+          <use href="#fig" class="ink" x="208" y="101" width="30" height="66"/>
+          <use href="#fig" class="ink" x="248" y="101" width="30" height="66"/>
+          <text x="245" y="88" text-anchor="middle" class="small">regulars</text>
+        </svg>
+        <span class="pill no">Won't pay</span>
+        <p><strong>Dr Sen</strong> has the same delays. She wants to stay small, so the delay blocks nothing she wants.</p>
+      </figure>
+    </div>
+  </div>
+
+  <div class="vis">
+    <h3>5.4 · Hub: one thing connected to many parts</h3>
+    <div class="uses"><span class="u"><b>Use when</b>The reader needs to see everyone or everything one item touches.</span><span class="s"><b>Skip when</b>The parts connect to each other in a chain. Use a flow.</span></div>
+    <figure class="sk">
+      <svg style="max-width:500px;margin:0 auto" viewBox="0 0 640 250" role="img" aria-label="A proposal in the centre with lines out to the five teams that must sign it off: finance, legal, sales, operations, and the client.">
+        <path class="ln soft thin" d="M320 125L130 50M320 125L510 50M320 125L110 200M320 125L530 200M320 125L320 225"/>
+        <rect class="ln fp" x="262" y="98" width="116" height="54" rx="6"/>
+        <path class="ln thin soft" d="M276 114H362M276 126H362M276 138H340"/>
+        <text x="320" y="88" text-anchor="middle" class="blue">Proposal</text>
+        <circle class="ln fp" cx="130" cy="50" r="28"/><text x="130" y="57" text-anchor="middle" class="small">Finance</text>
+        <circle class="ln fp" cx="510" cy="50" r="28"/><text x="510" y="57" text-anchor="middle" class="small">Legal</text>
+        <circle class="ln fp" cx="110" cy="200" r="28"/><text x="110" y="207" text-anchor="middle" class="small">Sales</text>
+        <circle class="ln fp" cx="530" cy="200" r="28"/><text x="530" y="207" text-anchor="middle" class="small">Ops</text>
+        <circle class="ln green fp" cx="320" cy="225" r="24"/><text x="320" y="231" text-anchor="middle" class="small green">Client</text>
+      </svg>
+    </figure>
+  </div>
+
+  <div class="grp"><div class="k">Group B</div><h3>Steps, time, and action</h3><p>Shapes that show order, duration, and the one thing to do.</p></div>
+  <div class="vis">
+    <h3>5.5 · Flow: steps in order, with the slow step marked</h3>
+    <div class="uses"><span class="u"><b>Use when</b>Order matters and one step causes the trouble.</span><span class="s"><b>Skip when</b>There are two steps, or every step is fine.</span></div>
+    <figure class="panel">
+      <div class="flowrow"><span class="lab">Today</span><div class="flow"><span class="st">Request</span><span class="ar">→</span><span class="st">Inbox</span><span class="ar">→</span><span class="st hot">Waits for Monday<small>Up to 7 days</small></span><span class="ar">→</span><span class="st">Approved</span><span class="ar">→</span><span class="st">Refund sent</span></div></div>
+      <div class="flowrow"><span class="lab">Proposed</span><div class="flow"><span class="st">Request</span><span class="ar">→</span><span class="st">Agent approves under ₹2,000</span><span class="ar">→</span><span class="st key">Refund sent<small>Same day</small></span></div></div>
+    </figure>
+  </div>
+
+  <div class="vis">
+    <h3>5.6 · Timeline: when things happen, and where time is lost</h3>
+    <div class="uses"><span class="u"><b>Use when</b>Dates or durations carry the point.</span><span class="s"><b>Skip when</b>Only the order matters. Use a flow.</span></div>
+    <figure class="panel">
+      <svg viewBox="0 0 640 170" role="img" aria-label="A six-week launch plan. Research in week 1, build in weeks 2 and 3, a two-week wait for legal review in weeks 3 to 5, testing in week 5, launch at the end of week 6." style="width:100%;height:auto;display:block">
+        <g font-family="Source Sans 3, Segoe UI, sans-serif" font-size="12" fill="#4c585d">
+          <text x="130" y="16">Wk 1</text><text x="210" y="16">Wk 2</text><text x="290" y="16">Wk 3</text><text x="370" y="16">Wk 4</text><text x="450" y="16">Wk 5</text><text x="530" y="16">Wk 6</text>
+        </g>
+        <g stroke="#d4dcde" stroke-width="1"><path d="M120 24V160M200 24V160M280 24V160M360 24V160M440 24V160M520 24V160M600 24V160"/></g>
+        <g font-family="Source Sans 3, Segoe UI, sans-serif" font-size="13" fill="#1a2428">
+          <text x="0" y="46">Research</text><text x="0" y="78">Build</text><text x="0" y="110">Legal review</text><text x="0" y="142">Test and launch</text>
+        </g>
+        <rect x="120" y="32" width="80" height="20" rx="4" fill="#376979"/>
+        <rect x="200" y="64" width="160" height="20" rx="4" fill="#376979"/>
+        <rect x="320" y="96" width="160" height="20" rx="4" fill="#f8ebe9" stroke="#8d433d" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <text x="400" y="110" text-anchor="middle" font-family="Source Sans 3, Segoe UI, sans-serif" font-size="11.5" font-weight="700" fill="#8d433d">Waiting, nothing moves</text>
+        <rect x="480" y="128" width="120" height="20" rx="4" fill="#376979"/>
+        <path d="M600 124V156" stroke="#b07829" stroke-width="3"/><circle cx="600" cy="124" r="5" fill="#b07829"/>
+      </svg>
+    </figure>
+  </div>
+
+  <div class="vis">
+    <h3>5.7 · Stairs: levels that build on each other</h3>
+    <div class="uses"><span class="u"><b>Use when</b>Each level needs the one below it.</span><span class="s"><b>Skip when</b>The items can happen in any order.</span></div>
+    <figure class="sk">
+      <svg viewBox="0 0 640 230" role="img" aria-label="Four steps rising left to right: plain sentences, headings that answer, sections that connect, visuals that explain. A stick figure stands on the top step with arms raised.">
+        <path class="ln" d="M20 210H170V160H320V110H470V60H620"/>
+        <path class="ln soft thin" d="M170 210V160M320 210V110M470 210V60M620 210V60"/>
+        <text x="114" y="196" text-anchor="middle">Plain words</text>
+        <text x="245" y="146" text-anchor="middle">Answer headings</text>
+        <text x="395" y="96" text-anchor="middle">Linked sections</text>
+        <text x="545" y="46" text-anchor="middle" class="blue">Visuals that explain</text>
+        <use href="#fig-up" class="ink" x="20" y="120" width="40" height="90"/>
+        <text x="40" y="112" text-anchor="middle" class="small soft">you</text>
+      </svg>
+    </figure>
+  </div>
+
+  <div class="vis">
+    <h3>5.8 · Decision box: the one action, at the end</h3>
+    <div class="uses"><span class="u"><b>Use when</b>The reader must decide or act, once, by a date.</span><span class="s"><b>Skip when</b>Nothing is asked of the reader.</span></div>
+    <div class="decide">
+      <h3>Approve the rota by Friday 23 October</h3>
+      <p>If you approve, Sara sets up the form routing on Monday 26 October and lead duty starts that afternoon. If you want a different rota, reply with the days you can't cover.</p>
+    </div>
+  </div>
+  <div class="grp"><div class="k">Group C</div><h3>Amounts and choices</h3><p>Clean charts for shares, drops, and trade-offs.</p></div>
+  <div class="vis">
+    <h3>5.9 · Dot split: a share the reader can count</h3>
+    <div class="uses"><span class="u"><b>Use when</b>The group is small enough to draw one dot per person.</span><span class="s"><b>Skip when</b>The total runs into the thousands. Use bars.</span></div>
+    <figure class="panel">
+      <div class="dotwrap">
+        <div><div class="big">12 of 40</div><p class="muted" style="margin:4pt 0 0;font-size:9pt">readers reached the last page of the old report</p></div>
+        <div class="dots" id="dots40"></div>
+      </div>
+    </figure>
+  </div>
+
+  <div class="vis">
+    <h3>5.10 · Funnel: a group that narrows stage by stage</h3>
+    <div class="uses"><span class="u"><b>Use when</b>People drop out at each stage and the drop is the story.</span><span class="s"><b>Skip when</b>The stages do not shrink.</span></div>
+    <figure class="panel">
+      <div class="fun">
+        <div class="r"><span>Applied</span><span class="bar"><i style="width:100%"></i></span><span class="v">200</span></div>
+        <div class="r"><span>Screened</span><span class="bar"><i style="width:30%"></i></span><span class="v">60</span></div>
+        <div class="r"><span>Interviewed</span><span class="bar"><i style="width:7.5%"></i></span><span class="v">15</span></div>
+        <div class="r"><span>Hired</span><span class="bar"><i style="width:2%"></i></span><span class="v">4</span></div>
+      </div>
+      <figcaption>Bar width shows the share of applicants left at each stage.</figcaption>
+    </figure>
+  </div>
+
+  <div class="vis">
+    <h3>5.11 · Bars: two or three amounts side by side</h3>
+    <div class="uses"><span class="u"><b>Use when</b>The difference between amounts is the point.</span><span class="s"><b>Skip when</b>There is one amount. Bold it in the sentence.</span></div>
+    <figure class="panel">
+      <div class="bars">
+        <div class="r"><span>Original report</span><span class="b" style="width:100%;background:#9aa5a9">9 minutes to find the decision</span></div>
+        <div class="r"><span>Clear version</span><span class="b" style="width:22%;background:var(--primary)">2 min</span></div>
+      </div>
+    </figure>
+  </div>
+
+  <div class="vis">
+    <h3>5.12 · Matrix: a choice decided by two factors</h3>
+    <div class="uses"><span class="u"><b>Use when</b>Items differ on effort and impact at the same time.</span><span class="s"><b>Skip when</b>One factor decides. Use a ranked list.</span></div>
+    <figure class="panel">
+      <svg viewBox="0 0 640 300" role="img" aria-label="A two by two matrix of effort against impact. Rewriting headings is low effort and high impact. Adding visuals is high effort and high impact. Changing fonts is low effort and low impact. A full redesign is high effort and low impact." style="width:100%;height:auto;display:block">
+        <g font-family="Source Sans 3, Segoe UI, sans-serif">
+          <rect x="140" y="20" width="200" height="120" fill="#e0edf1"/><rect x="340" y="20" width="200" height="120" fill="#ffffff" stroke="#d4dcde"/>
+          <rect x="140" y="140" width="200" height="120" fill="#ffffff" stroke="#d4dcde"/><rect x="340" y="140" width="200" height="120" fill="#ffffff" stroke="#d4dcde"/>
+          <text x="150" y="40" font-size="11" font-weight="700" fill="#376979" letter-spacing="1">DO FIRST</text>
+          <text x="350" y="40" font-size="11" font-weight="700" fill="#4c585d" letter-spacing="1">PLAN IT</text>
+          <text x="150" y="160" font-size="11" font-weight="700" fill="#4c585d" letter-spacing="1">QUICK POLISH</text>
+          <text x="350" y="160" font-size="11" font-weight="700" fill="#8d433d" letter-spacing="1">SKIP</text>
+          <circle cx="190" cy="88" r="7" fill="#376979"/><text x="204" y="93" font-size="14" fill="#1a2428">Rewrite headings</text>
+          <circle cx="390" cy="88" r="7" fill="#376979"/><text x="404" y="93" font-size="14" fill="#1a2428">Add visuals</text>
+          <circle cx="200" cy="215" r="7" fill="#9aa5a9"/><text x="214" y="220" font-size="14" fill="#1a2428">Change fonts</text>
+          <circle cx="390" cy="215" r="7" fill="#9aa5a9"/><text x="404" y="220" font-size="14" fill="#1a2428">Full redesign</text>
+          <path d="M140 268H540" stroke="#4c585d" stroke-width="1.5" marker-end="url(#arr-soft)"/>
+          <text x="340" y="290" text-anchor="middle" font-size="12" fill="#4c585d">More effort</text>
+          <path d="M128 260V24" stroke="#4c585d" stroke-width="1.5" marker-end="url(#arr-soft)"/>
+          <text x="118" y="140" text-anchor="end" font-size="12" fill="#4c585d">More</text><text x="118" y="155" text-anchor="end" font-size="12" fill="#4c585d">impact</text>
+        </g>
+      </svg>
+    </figure>
+  </div>
+
+</section>
+
+<!-- PART 6 -->
+<section class="part">
+  <div class="eyebrow">Part 6 · Colour</div>
+  <h2>Each document gets its own harmonious palette</h2>
+  <p>A small script picks a <strong>random base hue and a harmony type</strong>, then builds eleven colour roles inside muted, professional limits. Every text colour is checked for contrast before the palette is used, and the seed is recorded so the same palette can be rebuilt.</p>
+
+  <h3>Five harmony types, each a rule on the colour wheel</h3>
+  <figure class="panel">
+    <div class="wheels" id="wheels"></div>
+    <figcaption>6.1 · The filled dot is the primary colour. The ringed dot is the accent. Monochromatic uses one hue at two lightness levels.</figcaption>
+  </figure>
+  <p>Analogous and split-complementary are the quiet defaults. Complementary and triadic appear less often, because they only stay professional when the accent is kept small.</p>
+
+  <h3>The palette covers 60-30-10 of the page</h3>
+  <figure>
+    <div class="ratio"><div style="flex:60;background:#fff;color:var(--ink)">60% page and text</div><div style="flex:30;background:var(--primary-soft);color:var(--ink)">30% quiet layer</div><div style="flex:10;background:var(--primary);color:#fff;padding-left:4pt">10%</div></div>
+    <figcaption>6.2 · Page and body text take most of the page. Rules, soft fills, and captions form the quiet layer. Primary and accent stay under a tenth: headings, key bars, and at most one or two accents per page.</figcaption>
+  </figure>
+
+  <h3>Eleven roles, each with a job</h3>
+  <table>
+    <thead><tr><th>Role</th><th>Job</th><th>Limit</th></tr></thead>
+    <tbody>
+      <tr><td><b>Ink</b></td><td>Body text, tinted toward the primary hue</td><td>7:1 contrast on the page</td></tr>
+      <tr><td><b>Muted</b></td><td>Captions, labels, footers</td><td>4.5:1 contrast</td></tr>
+      <tr><td><b>Line</b></td><td>Rules and table borders</td><td>Light enough to stay quiet</td></tr>
+      <tr><td><b>Primary</b> and <b>primary soft</b></td><td>Headings, key shapes, and their tinted fills</td><td>4.5:1, muted chroma</td></tr>
+      <tr><td><b>Accent</b> and <b>accent soft</b></td><td>One or two highlights per page</td><td>3:1 for shapes</td></tr>
+      <tr><td><b>Alert</b> and <b>ok</b></td><td>Cost and success, always with a word as well</td><td>Kept apart in hue and lightness</td></tr>
+      <tr><td><b>Background</b> and <b>surface</b></td><td>Page and panels, near white</td><td>White for print</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Six palettes from the script</h3>
+  <div id="pals"></div>
+  <p class="muted" style="font-size:8.8pt;margin-top:6pt">Strip order: background, ink, muted, line, primary, primary soft, accent, accent soft, alert, ok.</p>
+
+  <h3>What the palette never does</h3>
+  <ul>
+    <li><strong>No neon and no gradients.</strong> Flat, muted fills print cleanly and read calmly.</li>
+    <li><strong>No colour as the only signal.</strong> Red and green always come with a word, an icon, or a position.</li>
+    <li><strong>No equal-strength opposites.</strong> In a complementary palette, one colour leads and the other stays small.</li>
+    <li><strong>No grey text on a tinted fill</strong> without a contrast check.</li>
+  </ul>
+</section>
+
+<!-- PART 6 -->
+<section class="part" id="design">
+  <div class="eyebrow">Part 7 · Design basics</div>
+  <h2>Design basics decide what the reader sees first</h2>
+  <p>Twelve principles from Figma's design library, translated from screens to pages. <strong>Six of them do most of the work on a document</strong>, and the page below marks where each one shows.</p>
+
+  <figure class="panel" style="display:grid;grid-template-columns:200pt 1fr;gap:16pt;align-items:center">
+    <svg viewBox="0 0 260 340" role="img" aria-label="A sketch of a document page with six numbered markers: a large title, a heading set close to its paragraph, a shared left edge, one bold phrase, wide margins, and a tinted callout." style="width:100%;height:auto;display:block">
+      <rect x="10" y="10" width="220" height="320" rx="4" fill="#fff" stroke="#d4dcde" stroke-width="1.5"/>
+      <path d="M38 22V318" stroke="#b07829" stroke-width="1.2" stroke-dasharray="4 4"/>
+      <rect x="38" y="36" width="150" height="16" rx="2" fill="#1a2428"/>
+      <rect x="38" y="56" width="110" height="16" rx="2" fill="#1a2428"/>
+      <rect x="38" y="82" width="164" height="5" rx="2" fill="#9aa5a9"/><rect x="38" y="92" width="140" height="5" rx="2" fill="#9aa5a9"/>
+      <rect x="38" y="122" width="120" height="9" rx="2" fill="#376979"/>
+      <rect x="38" y="137" width="164" height="5" rx="2" fill="#c3cbce"/><rect x="38" y="146" width="40" height="5" rx="2" fill="#1a2428"/><rect x="82" y="146" width="120" height="5" rx="2" fill="#c3cbce"/><rect x="38" y="155" width="150" height="5" rx="2" fill="#c3cbce"/>
+      <rect x="38" y="176" width="164" height="70" rx="4" fill="#fff" stroke="#d4dcde"/>
+      <path d="M50 232L80 210L110 220L140 196L170 204L190 190" fill="none" stroke="#376979" stroke-width="2.5"/>
+      <rect x="38" y="250" width="100" height="4" rx="2" fill="#9aa5a9"/>
+      <rect x="38" y="266" width="164" height="40" rx="4" fill="#e0edf1"/>
+      <rect x="48" y="276" width="140" height="5" rx="2" fill="#1a2428"/><rect x="48" y="286" width="110" height="5" rx="2" fill="#4c585d"/>
+      <g font-family="Source Sans 3, sans-serif" font-size="11" font-weight="700" fill="#fff">
+        <circle cx="214" cy="48" r="9" fill="#376979"/><text x="214" y="52" text-anchor="middle">1</text>
+        <circle cx="214" cy="126" r="9" fill="#376979"/><text x="214" y="130" text-anchor="middle">2</text>
+        <circle cx="38" cy="330" r="9" fill="#b07829"/><text x="38" y="334" text-anchor="middle">3</text>
+        <circle cx="58" cy="166" r="9" fill="#376979"/><text x="58" y="170" text-anchor="middle">4</text>
+        <circle cx="244" cy="200" r="9" fill="#376979"/><text x="244" y="204" text-anchor="middle">5</text>
+        <circle cx="214" cy="286" r="9" fill="#376979"/><text x="214" y="290" text-anchor="middle">6</text>
+      </g>
+    </svg>
+    <ol class="anno" style="margin:0">
+      <li><strong>Hierarchy.</strong> The title is the largest thing on the page, then section headings, then body. Three levels at most.</li>
+      <li><strong>Proximity.</strong> A heading sits closer to its own paragraph than to the one above, so it reads as part of its section.</li>
+      <li><strong>Alignment.</strong> Title, text, figure, caption, and callout share one left edge.</li>
+      <li><strong>Emphasis.</strong> One short bold phrase in the paragraph. When everything is bold, nothing stands out.</li>
+      <li><strong>White space.</strong> Real margins and clear gaps between blocks. The skill never shrinks type to save a page.</li>
+      <li><strong>Contrast.</strong> One tinted callout per page, with dark text that still reads in greyscale.</li>
+    </ol>
+  </figure>
+
+  <h3>Ten rules the skill enforces, in three tiers</h3>
+  <table>
+    <thead><tr><th style="width:18pt">#</th><th>Rule</th><th>Check on the finished page</th></tr></thead>
+    <tbody>
+      <tr class="tier"><td colspan="3">Can the reader find and read it?</td></tr>
+      <tr><td class="num">1</td><td><strong>Headings in three levels or fewer</strong>, each one stating its point</td><td>Read only the headings: is the argument there?</td></tr>
+      <tr><td class="num">2</td><td><strong>Comfortable body text</strong>: 10 to 12 pt, loose leading, 50 to 75 characters a line</td><td>Count the characters in a typical line</td></tr>
+      <tr><td class="num">3</td><td><strong>Spacing matches structure</strong>: captions tight to figures, no heading alone at a page bottom</td><td>For each heading, ask which block it belongs to</td></tr>
+      <tr><td class="num">4</td><td><strong>One shared left edge</strong>, with numbers right-aligned in tables</td><td>Draw a line down the left margin</td></tr>
+      <tr class="tier"><td colspan="3">Do the key parts stand out?</td></tr>
+      <tr><td class="num">5</td><td><strong>Rare emphasis</strong>: one bold phrase a paragraph, one callout a page</td><td>Count the bold phrases</td></tr>
+      <tr><td class="num">6</td><td><strong>Strong text contrast</strong> that survives greyscale</td><td>Print or view the page in greyscale</td></tr>
+      <tr><td class="num">7</td><td><strong>Styles defined once and reused</strong>: two typefaces, one palette</td><td>Compare the first, middle, and last pages</td></tr>
+      <tr class="tier"><td colspan="3">Does it feel finished?</td></tr>
+      <tr><td class="num">8</td><td><strong>Generous white space</strong> in margins, tables, and between sections</td><td>Hold the page at arm's length</td></tr>
+      <tr><td class="num">9</td><td><strong>Colour is backed by a word</strong>, label, or position</td><td>Greyscale again: is every difference still readable?</td></tr>
+      <tr><td class="num">10</td><td><strong>Size follows importance</strong>: big figures for big points</td><td>Does the heaviest thing on the page match the main idea?</td></tr>
+    </tbody>
+  </table>
+
+  <div class="soft keep">
+    <p style="margin:0 0 4pt"><strong>Before delivery, the skill runs four checks on every page:</strong></p><ul style="margin:0"><li><strong>Squint:</strong> are the top three things obvious?</li><li><strong>Greyscale:</strong> does everything still read?</li><li><strong>Left edge:</strong> does everything line up?</li><li><strong>Orphans:</strong> is any heading or caption cut off from its block?</li></ul>
+  </div>
+
+</section>
+
+<!-- PART 7 -->
+<section class="part">
+  <div class="eyebrow">Part 8 · Before and after</div>
+  <h2>A memo made clearer without changing its shape</h2>
+  <p>The memo keeps its subject line and both sections. <strong>The words, the headings, and the ask change.</strong> Struck words were cut, and highlighted words are new.</p>
+  <div class="cols keep">
+    <div>
+      <div class="colhead">Before</div>
+      <div class="memo before">
+        <div class="subj">Subject: Update on the onboarding situation</div>
+        <h5>Overview</h5>
+        <p>Hi all, <s>just wanted to give a quick update on where things are with onboarding.</s> <s>It's not really about the tools, it's more about the process, I think.</s> New hires are <s>kind of</s> taking a while to get set up, <s>probably</s> around 9 days on average, which is something that we should <s>maybe</s> look into <s>at some point</s>.</p>
+        <h5>Next steps</h5>
+        <p>We could <s>potentially</s> look at having a checklist, or <s>perhaps</s> a buddy system, or <s>maybe</s> both. Let me know your thoughts.</p>
+      </div>
+    </div>
+    <div>
+      <div class="colhead keep-c">After</div>
+      <div class="memo after">
+        <div class="subj">Subject: <mark>New hires take 9 days to set up</mark></div>
+        <h5><mark>The delay comes from our process</mark></h5>
+        <p>New hires take about 9 days to get set up. <mark>The cause is the process, so new tools would leave it unchanged.</mark></p>
+        <h5><mark>Pick a checklist, a buddy, or both</mark></h5>
+        <p>Two fixes are on the table: a setup checklist, and a buddy for each new hire. <mark>Reply by Friday</mark> with the one you prefer, or both.</p>
+      </div>
+    </div>
+  </div>
+  <h3>What the skill did, and why</h3>
+  <ol class="anno">
+    <li><strong>Kept the shape.</strong> Same subject line, same two sections, same facts.</li>
+    <li><strong>Rewrote both headings to give the answer.</strong> "Overview" and "Next steps" named slots. The new ones state the point.</li>
+    <li><strong>Cut seven hedges</strong>: kind of, probably, maybe, twice, at some point, potentially, perhaps.</li>
+    <li><strong>Turned the negative parallelism into a plain cause</strong>: the delay comes from the process.</li>
+    <li><strong>Flagged one addition for the writer.</strong> "Reply by Friday" is new. The skill marks it and asks before keeping it.</li>
+    <li><strong>Added no visual.</strong> The memo is two short sections, so words do the job.</li>
+  </ol>
+</section>
+
+<!-- PART 8 -->
+<section class="part">
+  <div class="eyebrow">Part 9 · Your call</div>
+  <h2>Six decisions I need from you</h2>
+  <p>Each answer changes how the skill gets built, so these come before anything else.</p>
+  <div class="dgrid">
+
+  <div class="rule"><span class="n">9.1</span><div><h4>One skill or two?</h4><p>I suggest two. <strong>Clear Documents</strong> handles writing, structure, visuals, and export. <strong>Document Palette</strong> handles colour harmony and design basics, so brief-page-udyaan and future skills can use it too.</p></div></div>
+  <div class="rule"><span class="n">9.2</span><div><h4>Hand-lettered labels in stick-figure sketches?</h4><p>Part 5 uses a handwritten font inside sketches and a clean font in charts. The mix signals "sketch" and "data" at a glance. The other option is clean labels everywhere for formal documents.</p></div></div>
+  <div class="rule"><span class="n">9.3</span><div><h4>A new palette for every document, or one per project?</h4><p>Random per document keeps things fresh. One seed per project keeps a series, such as a five-day course, looking like one set.</p></div></div>
+  <div class="rule"><span class="n">9.4</span><div><h4>PDF as the default output?</h4><p>The skill writes once and exports to PDF, Word, Google Docs, or HTML. I set PDF as the default because you asked for one here.</p></div></div>
+  <div class="rule"><span class="n">9.5</span><div><h4>Did I read "approve the rota by Friday the 23rd" right?</h4><p>I took it as liking the closing decision box from the demo, so it became visual 5.8. If you meant something else, tell me what.</p></div></div>
+  <div class="rule"><span class="n">9.6</span><div><h4>Are the list sizes right?</h4><p>Part 4 keeps lists of up to 7 items, groups 8 to 15 into three, nests 16 to 30, and maps anything bigger or linked. Tell me if a different cut-off fits how you read.</p></div></div>
+
+  </div>
+  <div class="decide" style="margin-top:12pt">
+    <h3>Send your feedback by section number</h3>
+    <p>Reply with the numbers you want changed and your answers to 9.1 to 9.6. I'll fold them into the skill and send it back for approval.</p>
+  </div>
+</section>
+
+<script>
+(function(){
+  var d=document.getElementById('dots40'),h='';for(var i=0;i<40;i++)h+=i<12?'<i class="b"></i>':'<i></i>';d.innerHTML=h;
+  var P=[
+   ['Seed 9 · split-complementary','Used in this PDF','#f3f8f9 #1a2428 #4c585d #d4dcde #376979 #e0edf1 #b07829 #fbebd9 #8d433d #3c6148'],
+   ['Seed 4 · analogous','Olive and sage','#f7f7f3 #1c1c14 #5d5d4f #dcdcd7 #696a47 #efefe3 #66865e #e1f0dd #9c4e43 #3f6842'],
+   ['Seed 6 · triadic','Muted violet and clay','#f7f6fa #201e27 #5b5866 #dbd9e0 #615089 #ebe7f6 #b58563 #ffecdf #925146 #39623f'],
+   ['Seed 2 · monochromatic','Terracotta','#fdfaf9 #2d211e #6e5d5a #e2dad8 #883d2e #fce8e3 #c08173 #ffece8 #8e4155 #40624a'],
+   ['Seed 7 · complementary','Plum with green','#fcfafb #211c1f #645a60 #dad7d9 #84426e #f8e9f2 #378562 #ddede4 #894d44 #456846'],
+   ['Seed 11 · split-complementary','Grape with jade','#f9f6fb #1f1b22 #5c5560 #dfdbe2 #6b517c #f1e8f7 #4d9d78 #e6f4ec #873b31 #3e6d4d']];
+  var out='';P.forEach(function(p){out+='<div class="pal"><div class="name"><b>'+p[0]+'</b>'+p[1]+'</div><div class="strip">'+p[2].split(' ').map(function(c){return '<i style="background:'+c+'"></i>';}).join('')+'</div></div>';});
+  document.getElementById('pals').innerHTML=out;
+  // harmony wheels
+  var W=[['Monochromatic',[210],1],['Analogous',[210,240]],['Complementary',[210,30]],['Split-complementary',[210,0]],['Triadic',[210,330]]];
+  var wh='';W.forEach(function(w){
+    var s='<svg viewBox="0 0 100 100">';
+    for(var a=0;a<360;a+=15){var r1=a*Math.PI/180,r2=(a+15)*Math.PI/180;
+      var x1=50+40*Math.sin(r1),y1=50-40*Math.cos(r1),x2=50+40*Math.sin(r2),y2=50-40*Math.cos(r2),x3=50+28*Math.sin(r2),y3=50-28*Math.cos(r2),x4=50+28*Math.sin(r1),y4=50-28*Math.cos(r1);
+      s+='<path d="M'+x1+' '+y1+'L'+x2+' '+y2+'L'+x3+' '+y3+'L'+x4+' '+y4+'Z" fill="hsl('+a+',28%,72%)"/>';}
+    w[1].forEach(function(hh,i){var r=hh*Math.PI/180,x=50+34*Math.sin(r),y=50-34*Math.cos(r);
+      if(w[2]){s+='<circle cx="'+x+'" cy="'+y+'" r="7" fill="#1a2428"/><circle cx="'+(50+15*Math.sin(r))+'" cy="'+(50-15*Math.cos(r))+'" r="6" fill="#fff" stroke="#1a2428" stroke-width="2.5"/>';}
+      else s+= i==0?'<circle cx="'+x+'" cy="'+y+'" r="7" fill="#1a2428"/>':'<circle cx="'+x+'" cy="'+y+'" r="6" fill="#fff" stroke="#1a2428" stroke-width="2.5"/>';
+      if(i>0||w[2]) s+='<path d="M50 50L'+x+' '+y+'" stroke="#1a2428" stroke-width="1" stroke-dasharray="2 2"/>';
+    });
+    s+='</svg>';wh+='<div>'+s+w[0]+'</div>';});
+  document.getElementById('wheels').innerHTML=wh;
+})();
+</script>
+</body>
+</html>

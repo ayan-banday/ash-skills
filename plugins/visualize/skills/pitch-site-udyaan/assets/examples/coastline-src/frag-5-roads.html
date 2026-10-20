@@ -1,0 +1,147 @@
+<section class="band t3" id="road" aria-labelledby="road-h2">
+  <style>
+    /* Road section: CHG-37 two roads from today. Overlay texts sit in % of the stage, which matches the 900x420 viewBox. */
+    #road .road-badge{width:120px;margin:0 0 6px}
+    #road .road-badge svg{display:block;width:120px;height:auto;overflow:visible}
+    #road .road-stage{position:relative;margin-top:clamp(40px,5vw,72px)}
+    #road .road-svg{display:block;width:100%;height:auto;overflow:visible}
+
+    /* Road lines: the shared .ln sets the stroke width, so the overrides live here */
+    #road .road-stem{stroke-width:2.2}
+    #road .road-pilot{stroke-width:2.6}
+    #road .road-ring{stroke-width:2.6}
+    #road .road-arrow{stroke-width:1.8}
+    #road .road-hand{font-size:21px}
+    /* road ends: the wait road ends on an empty dashed sheet, the pilot road on a drawn trip record */
+    #road .road-sheet-hid{opacity:0;transition:opacity .6s ease-out 1.5s}
+    #road .road-stage.on .road-sheet-hid{opacity:.8}
+    #road .road-rec .ln{stroke-width:1.6}
+    #road .road-rec .ln.thin{stroke-width:.9}
+    #road .road-rec .road-trace{stroke-width:1.8}
+    #road .road-hand-g{opacity:0;transition:opacity .6s ease-out 4.7s}
+    #road .road-stage.on .road-hand-g{opacity:1}
+
+    /* Road end texts: beside each road end, centred on its y */
+    #road .road-end{position:absolute;left:71%;width:28.5%;translate:0 -50%;opacity:0;transform:translateY(10px);
+      transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+    #road .road-end-wait{top:22.9%}
+    #road .road-end-pilot{top:77.1%}
+    #road .road-end p{font:400 clamp(16px,1.5vw,19px)/1.45 var(--font-body);max-width:32ch}
+    #road .road-end p.label{font:500 11.5px/1.3 var(--font-label);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;max-width:none}
+    #road .road-end-wait p:not(.label){color:var(--muted)}
+    #road .road-end-pilot .chips{margin-top:16px}
+    #road .road-stage.on .road-end-wait{opacity:1;transform:none;transition-delay:1.5s}
+    #road .road-stage.on .road-end-pilot{opacity:1;transform:none;transition-delay:2.7s}
+    /* Marker sweep (EMP-01) lands after the pilot road is drawn */
+    #road .road-end-pilot mark{background-size:0% 42%;transition:background-size .8s var(--ease-out) 3s}
+    #road .road-stage.on .road-end-pilot mark{background-size:100% 42%}
+
+    /* Under 768px: the same two texts become stacked cards (dashed, then ink) */
+    @media (max-width:767px){
+      #road .road-badge,#road .road-badge svg{width:96px}
+      #road .road-svg{display:none}
+      #road .road-stage{display:grid;gap:14px;margin-top:32px}
+      #road .road-end{position:static;translate:none;width:auto;opacity:1;transform:none;transition:none;padding:20px 22px;border-radius:var(--r-sheet)}
+      #road .road-end p{max-width:none}
+      #road .road-end-wait{border:1.5px dashed var(--line-2);background:rgba(249,248,244,.45)}
+      #road .road-end-pilot{border:1.5px solid var(--ink);background:var(--card)}
+    }
+    #road.fin *{transition:none !important}
+  </style>
+
+  <div class="wrap">
+    <div class="band-head">
+      <div class="road-badge" data-badge="trip"></div>
+      <p class="label">THE TRIP</p>
+      <h2 id="road-h2">Two ways the next complaint can go</h2>
+      <p class="lede">Last summer, some buyers turned away loads they said arrived warm.</p>
+    </div>
+
+    <div class="road-stage">
+      <svg class="road-svg" viewBox="0 0 900 420" role="img" aria-label="Two roads leave today. The upper road fades out and ends on an empty sheet. The lower road, the pilot, is drawn like a dimension line and ends on a trip record with a temperature trace. A red ring marks the split.">
+        <defs>
+          <linearGradient id="road-fade" gradientUnits="userSpaceOnUse" x1="250" y1="0" x2="540" y2="0">
+            <stop offset="0" stop-color="#22201E" stop-opacity=".8"/>
+            <stop offset="1" stop-color="#22201E" stop-opacity=".12"/>
+          </linearGradient>
+          <clipPath id="road-c1"><rect x="0" y="0" width="390" height="420"/></clipPath>
+          <clipPath id="road-c2"><rect x="390" y="0" width="80" height="420"/></clipPath>
+          <clipPath id="road-c3"><rect x="470" y="0" width="430" height="420"/></clipPath>
+          <!-- the wait road is dashed, so the pen draw reveals it through this mask -->
+          <mask id="road-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="900" height="420">
+            <path class="road-reveal" d="M250 210C360 210 420 96 540 96" fill="none" stroke="#fff" stroke-width="34" stroke-linecap="round"/>
+          </mask>
+        </defs>
+
+        <!-- shared stem from today to the split -->
+        <path class="ln road-stem" d="M70 210H250"/>
+        <circle cx="70" cy="210" r="7" fill="var(--ink)"/>
+        <text class="svg-label" x="70" y="184" text-anchor="middle">TODAY</text>
+
+        <!-- upper road: if nothing changes. Dashed, thinning and fading toward its end -->
+        <g mask="url(#road-mask)">
+          <path d="M250 210C360 210 420 96 540 96" fill="none" stroke="url(#road-fade)" stroke-width="2.6" stroke-dasharray="7 6" clip-path="url(#road-c1)"/>
+          <path d="M250 210C360 210 420 96 540 96" fill="none" stroke="url(#road-fade)" stroke-width="1.9" stroke-dasharray="5 7" clip-path="url(#road-c2)"/>
+          <path d="M250 210C360 210 420 96 540 96" fill="none" stroke="url(#road-fade)" stroke-width="1.2" stroke-dasharray="2 8" stroke-linecap="round" clip-path="url(#road-c3)"/>
+        </g>
+        <!-- end of the wait road: an empty dashed sheet, nothing to show -->
+        <path class="ln hid road-sheet-hid" d="M548 68H620V124H548Z"/>
+
+        <!-- lower road: with the pilot. Solid ink -->
+        <!-- the pilot road reads as the drawing's dimension line: arrowheads at both ends -->
+        <path class="ln road-pilot" d="M250 210C360 210 420 324 540 324" marker-end="url(#arr)"/>
+        <!-- end of the pilot road: a small drawn trip record (sheet, title strip, temperature trace) -->
+        <g class="road-rec">
+          <path class="ln road-sheet" d="M548 296H620V352H548Z"/>
+          <path class="ln thin road-strip" d="M548 340H620M590 340V352"/>
+          <path class="ln road-trace" d="M556 324C566 320 572 326 582 322S600 320 612 323"/>
+        </g>
+
+        <!-- the split point: a hand-drawn red ring and its label -->
+        <path class="ln red road-ring" d="M212.2 182.3C214.3 181 220.3 176.3 225 174.2C229.7 172.2 235.2 170.7 240.4 170.1C245.7 169.4 251.3 169.5 256.5 170.2C261.7 170.8 266.9 172.3 271.6 174.2C276.3 176 280.7 178.6 284.5 181.5C288.3 184.3 291.7 187.8 294.3 191.4C297 195.1 299 199.3 300.2 203.4C301.3 207.6 301.7 212.2 301.2 216.5C300.6 220.8 299.1 225.4 296.7 229.3C294.4 233.3 291 237.2 287.1 240.3C283.1 243.5 278.2 246.2 273.2 248.1C268.2 249.9 262.5 251.1 257 251.6C251.6 252 245.8 251.7 240.5 250.8C235.1 249.9 229.8 248.2 225.1 246C220.4 243.9 216 241.1 212.2 237.9C208.5 234.8 205.2 231.1 202.7 227.2C200.3 223.3 198.4 218.9 197.5 214.5C196.7 210.1 196.6 205.4 197.5 200.9C198.4 196.5 200.3 191.9 203.1 187.9C205.8 183.9 209.6 180 213.9 177C218.2 174 223.5 171.4 228.8 169.7C234.1 168 242.9 167.3 245.7 166.8"/>
+        <g class="road-hand-g">
+          <path class="ln red road-arrow" d="M194 292C204 284 214 270 224 251" marker-end="url(#arr-red)"/>
+          <text class="svg-hand road-hand" x="180" y="302" text-anchor="end">you choose here</text>
+        </g>
+      </svg>
+
+      <!-- road ends: text beside each end, never on the line -->
+      <div class="road-end road-end-wait">
+        <p class="label">IF NOTHING CHANGES</p>
+        <p>Loads still get turned away at the door, and there is still no record to show what happened.</p>
+      </div>
+      <div class="road-end road-end-pilot">
+        <p class="label">WITH A ONE-ROUTE PILOT</p>
+        <p><mark>Every load on that route arrives with its own temperature record,</mark> ready to show any buyer.</p>
+        <div class="chips"><span class="chip c-data">Data</span><span class="chip c-app">App</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const sec = $('#road'); if (!sec) return;
+      $$('[data-badge]', sec).forEach(el => { el.innerHTML = truckBadge(el.dataset.badge); });
+      const stage = $('.road-stage', sec);
+      const stem = $('.road-stem', sec), reveal = $('.road-reveal', sec), pilot = $('.road-pilot', sec);
+      const ring = $('.road-ring', sec), arrow = $('.road-arrow', sec);
+      const rec = $$('.road-sheet, .road-strip, .road-trace', sec);
+      // Arrowheads are drawn on the path ends even while the line is hidden, so they are added when the pen arrives
+      const marks = ['marker-end'].map(a => [a, pilot.getAttribute(a)]);
+      if (!FINAL) marks.forEach(([a]) => pilot.removeAttribute(a));
+      prepDraw([stem, reveal, pilot, ring, arrow, ...rec]);
+      onView(stage, () => {
+        stage.classList.add('on');
+        if (FINAL) { sec.classList.add('fin'); return; }
+        // Order: today's stem, the wait road (through the mask), the pilot road and its record, then the ring
+        penDraw([stem], { speed: 420 });
+        penDraw([reveal], { delay: .5, speed: 280 });
+        const done = penDraw([pilot], { delay: 1.8, speed: 340 });
+        setTimeout(() => marks.forEach(([a, v]) => pilot.setAttribute(a, v)), (done + .15) * 1000);
+        penDraw(rec, { delay: done, parallel: true, speed: 300 });
+        penDraw([ring], { delay: 3.5, speed: 300 });
+        penDraw([arrow], { delay: 4.6, speed: 420 });
+      }, .3);
+    })();
+  </script>
+</section>

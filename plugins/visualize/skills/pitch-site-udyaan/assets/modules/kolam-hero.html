@@ -1,0 +1,197 @@
+<!--
+  MODULE kolam-hero.html · catalogue WRD-01 (self-drawing motif hero), kolam direction · prefix kol-
+  Serves: the opening screen: one promise (h1 + lede) while the client's motif draws itself, plus a key that says
+          what three parts of the drawing stand for (the three needs the page answers).
+  Adapt:
+    1. Edit the hero copy in the markup (label, h1 under ~50 characters, lede under ~40 words).
+    2. Edit DATA only: one key item per strand (s1, s2, s3), label + what it stands for in 2-4 words.
+    3. Parts you can light anywhere: 'core' (the cube at the centre), 's1' 's2' 's3' (the three bands), 'design' (all six flowers).
+    4. A mini badge in any later section: <span class="kol-mini"><svg data-kol-mini="s2"></svg></span>. It is drawn
+       finished with that part lit. window.kolDraw(svg, {badge}) returns {play, finish, focus(part)} for custom uses.
+  Data: DATA.key [{part, label, means}].
+-->
+<section id="kol" class="band dark kol" aria-labelledby="kol-h">
+  <div class="wrap kol-grid">
+    <div class="kol-copy">
+      <p class="label">Field &amp; Form · a proposal for Northwind Foods</p>
+      <h1 id="kol-h">Fresh food on every Northwind shelf, all week.</h1>
+      <p class="lede">You told us three things your stores need. The drawing holds all three, woven together; this page takes them one at a time.</p>
+      <div class="kol-key" id="kol-key" role="group" aria-label="What the drawing stands for"></div>
+    </div>
+    <div class="kol-art" aria-hidden="true"><svg id="kol-hero"></svg></div>
+  </div>
+  <p class="kol-cue" aria-hidden="true">Scroll<i></i></p>
+</section>
+<style>
+  /* Kolam hero: the motif draws itself on a dark threshold; the key lights one strand at a time.
+     Motif colour slots (kit style): --bgc = the local ground (casings and over/under gaps), --m1 = the powder line. */
+  .band.kol{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:96px 0 72px;--bgc:var(--ground);--m1:var(--paper)}
+  .kol-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center;width:100%}
+  .kol-copy{display:grid;gap:22px;align-content:center}
+  .kol h1{font-size:clamp(44px,5.2vw,74px);line-height:1.02;max-width:14ch}
+  .kol .lede{max-width:40ch}
+  .kol-art{width:100%;max-width:min(600px,74svh);aspect-ratio:1/1;justify-self:center}
+  .kol-art svg{width:100%;height:100%;display:block}
+  .kol-key{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:6px 0 0 -10px;max-width:570px}
+  .kol-kb{appearance:none;border:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer;display:grid;justify-items:start;align-content:start;
+    gap:6px;padding:10px;border-radius:12px;transition:background-color .2s ease;-webkit-tap-highlight-color:transparent}
+  .kol-kb[aria-pressed="true"]{background:color-mix(in srgb,var(--paper) 9%,transparent)}
+  @media (hover:hover){ .kol-kb:hover{background:color-mix(in srgb,var(--paper) 6%,transparent)} }
+  .kol-kb:focus-visible{outline:2px solid var(--paper);outline-offset:2px}
+  .kol-means{font:500 17px/1.25 var(--font-display);color:var(--paper)}
+  /* mini badge: usable in any section */
+  .kol-mini{display:block;width:72px;height:72px;flex:none;border-radius:50%;overflow:hidden;--bgc:var(--ground-2);--m1:var(--paper);background:var(--bgc);
+    box-shadow:0 0 0 1px color-mix(in srgb,var(--ink) 10%,transparent);margin-bottom:4px}
+  .kol-mini svg{width:100%;height:100%;display:block;transform:scale(1.18)}
+  .kol-cue{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;
+    font:500 11px/1 var(--font-label);letter-spacing:.12em;text-transform:uppercase;color:color-mix(in srgb,var(--paper) 72%,transparent)}
+  .kol-cue i{display:block;width:1px;height:30px;background:linear-gradient(currentColor,transparent)}
+  @media (max-width:820px){
+    .band.kol{padding:64px 0 88px}
+    .kol-grid{grid-template-columns:minmax(0,1fr);gap:28px}
+    .kol-art{max-width:min(420px,46svh);order:-1}
+  }
+</style>
+<script>
+(() => {
+  const DATA = {
+    key: [
+      { part: 's1', label: 'Strand one', means: 'Order the right amount' },
+      { part: 's2', label: 'Strand two', means: 'Keep it cold' },
+      { part: 's3', label: 'Strand three', means: 'Waste less' }
+    ]
+  };
+
+  /* ---- the kolam generator (from the TVS site, kolam.js), in motif-kit style: colour slots, named parts ----
+     A cube of three rhombi with curls at the centre, three interlaced triple-strand bands at 120 degrees that weave
+     over and under, and six petal flowers with lattice and fringe, all under one rice-powder filter. */
+  window.kolDraw = window.kolDraw || (() => {
+    let uidN = 0; const weaveCache = {};
+    return function kolDraw(svg, opt = {}) {
+      const el = (tag, a = {}, p) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; };
+      const uid = 'kol' + (++uidN);
+      svg.setAttribute('viewBox', '-380 -380 760 760');
+      const defs = el('defs', {}, svg);
+      // rice-powder filter: hand wobble, then grit, then a soft bloom under the gritty line (static; never animated)
+      const f = el('filter', { id: uid + 'p', x: '-5%', y: '-5%', width: '110%', height: '110%' }, defs);
+      el('feTurbulence', { type: 'fractalNoise', baseFrequency: '.035', numOctaves: 2, seed: 7, result: 'w' }, f);
+      el('feDisplacementMap', { in: 'SourceGraphic', in2: 'w', scale: 5, xChannelSelector: 'R', yChannelSelector: 'G', result: 'hand' }, f);
+      el('feTurbulence', { type: 'fractalNoise', baseFrequency: '1.1', numOctaves: 1, seed: 3, result: 'g' }, f);
+      el('feDisplacementMap', { in: 'hand', in2: 'g', scale: 2.4, xChannelSelector: 'R', yChannelSelector: 'G', result: 'grit' }, f);
+      el('feGaussianBlur', { in: 'grit', stdDeviation: 1.1, result: 'soft' }, f);
+      const fm = el('feMerge', {}, f); el('feMergeNode', { in: 'soft' }, fm); el('feMergeNode', { in: 'grit' }, fm);
+      const root = el('g', { filter: `url(#${uid}p)` }, svg);
+      const all = [];
+      // ink strokes paint with --m1 (powder), casings with --bgc (the ground they sit on)
+      const stroke = (d, w, ink, parent, part, group) => {
+        const p = el('path', { d, fill: 'none', 'stroke-width': w, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, parent);
+        p.style.stroke = ink ? 'var(--m1)' : 'var(--bgc)';
+        if (ink && opt.badge && w < 10) p.setAttribute('stroke-width', w * 1.7);   // badges: thicker threads so one lit part reads at 72px
+        if (ink) p.classList.add('kol-ink');
+        p.dataset.part = part; if (group) p.dataset.group = group;
+        all.push(p); return p;
+      };
+
+      /* three bands: one path stroked four times (wide casing, powder, inner casing, thin powder) = a hollow double line with a thread */
+      const E = opt.e ?? 38, S = opt.s ?? 92, LL = opt.l ?? 112;
+      const BAND = `M ${E - S} 40 L ${E - S} ${-LL} A ${S} ${S} 0 0 1 ${E + S} ${-LL} L ${E + S} 40 Q ${E + S} 110 ${E + S - 70} 104 L 6 78`;
+      const layers = [[46, false], [34, true], [25, false], [4.2, true]];
+      const drawBand = (parent, k) => { const g = el('g', { transform: `rotate(${k * 120})` }, parent); layers.forEach(([w, ink]) => stroke(BAND, w, ink, g, 's' + (k + 1))); return g; };
+      const bandsG = el('g', {}, root);
+      for (let k = 0; k < 3; k++) drawBand(bandsG, k);
+
+      // weave: find where the bands cross (sampled once per geometry, then cached), alternate over and under along each band
+      const key = `${E},${S},${LL}`;
+      if (!weaveCache[key]) {
+        const probe = el('path', { d: BAND }, svg); probe.style.visibility = 'hidden';
+        const L = probe.getTotalLength(), N = Math.ceil(L / 2), local = [];
+        for (let i = 0; i <= N; i++) { const p = probe.getPointAtLength(i / N * L); local.push([p.x, p.y]); }
+        probe.remove();
+        const rot = (p, a) => { const r = a * Math.PI / 180, c = Math.cos(r), s = Math.sin(r); return [p[0] * c - p[1] * s, p[0] * s + p[1] * c]; };
+        const pts = [0, 1, 2].map(k => local.map(p => rot(p, k * 120)));
+        const crossings = [];
+        for (let a = 0; a < 3; a++) for (let b = a + 1; b < 3; b++) for (let i = 0; i < pts[a].length; i++) for (let j = 0; j < pts[b].length; j++) {
+          const [x1, y1] = pts[a][i], [x2, y2] = pts[b][j];
+          if (Math.abs(x1 - x2) > 2.2 || Math.abs(y1 - y2) > 2.2 || Math.hypot(x1, y1) < 100) continue;
+          if (!crossings.some(c => Math.hypot(c.x - x1, c.y - y1) < 30)) crossings.push({ a, b, ta: i, tb: j, x: x1, y: y1 });
+        }
+        const parity = [null, null, null];
+        for (let band = 0; band < 3; band++) {
+          const mine = crossings.filter(c => c.a === band || c.b === band).map(c => ({ c, t: c.a === band ? c.ta : c.tb })).sort((u, v) => u.t - v.t);
+          mine.forEach((m, idx) => {
+            if (m.c.over == null) { if (parity[band] == null) parity[band] = 0; m.c.over = (idx % 2 === parity[band]) ? band : (m.c.a === band ? m.c.b : m.c.a); }
+            else if (parity[band] == null) parity[band] = (m.c.over === band) === (idx % 2 === 0) ? 0 : 1;
+          });
+        }
+        weaveCache[key] = crossings.map(c => ({ x: c.x, y: c.y, over: c.over, under: c.over === c.a ? c.b : c.a }));
+      }
+      weaveCache[key].forEach((c, i) => {
+        if (c.over > c.under) return;                       // drawn later already, so it already sits on top
+        const cp = el('clipPath', { id: `${uid}c${i}` }, defs); el('circle', { cx: c.x, cy: c.y, r: 30 }, cp);
+        drawBand(el('g', { 'clip-path': `url(#${uid}c${i})` }, root), c.over);
+      });
+
+      /* centre: a cube of three rhombi, six curls, six short spokes */
+      const centre = el('g', {}, root);
+      const R = 96, hex = [];
+      for (let i = 0; i < 6; i++) { const a = (-90 + 60 * i) * Math.PI / 180; hex.push([R * Math.cos(a), R * Math.sin(a)]); }
+      const hexD = 'M' + hex.map(p => p.map(v => v.toFixed(1)).join(' ')).join(' L') + ' Z';
+      el('path', { d: hexD, style: 'fill:var(--bgc);stroke:none' }, centre);
+      stroke(hexD, 4.2, true, centre, 'core');
+      [0, 2, 4].forEach(i => stroke(`M0 0 L${hex[i][0].toFixed(1)} ${hex[i][1].toFixed(1)}`, 4.2, true, centre, 'core'));
+      const spiral = (cx, cy, r0, turns, dir) => {
+        let d = ''; const n = 60;
+        for (let i = 0; i <= n; i++) { const t = i / n, a = dir * t * turns * 2 * Math.PI, r = r0 * (1 - t * .85); d += (i ? 'L' : 'M') + (cx + r * Math.cos(a)).toFixed(1) + ' ' + (cy + r * Math.sin(a)).toFixed(1); }
+        return d;
+      };
+      [-30, 90, 210].forEach(ang => { const a = ang * Math.PI / 180; for (const side of [-1, 1]) { const b = a + side * .5; stroke(spiral(Math.cos(b) * 52, Math.sin(b) * 52, 15, 1.6, side), 3.6, true, centre, 'core'); } });
+      for (let i = 0; i < 6; i++) { const a = (-60 + 60 * i) * Math.PI / 180; stroke(`M0 0 L${(Math.cos(a) * 26).toFixed(1)} ${(Math.sin(a) * 26).toFixed(1)}`, 3, true, centre, 'core'); }
+
+      /* six flowers: four lobes on an arc, a lattice at the base, a fringe between */
+      const P = (r, deg) => { const a = (deg - 90) * Math.PI / 180; return [r * Math.cos(a), r * Math.sin(a)]; };
+      const RF = 58, lobes = 4, span = 150, f2 = n => n.toFixed(1);
+      let petal = '';
+      for (let i = 0; i <= lobes; i++) { const [x, y] = P(RF, -span / 2 + span * i / lobes); petal += i ? ` A 19 19 0 0 1 ${f2(x)} ${f2(y)}` : `M ${f2(x)} ${f2(y)}`; }
+      const [sx, sy] = P(RF, -span / 2);
+      petal += ` Q 0 ${f2(-RF * .15)} ${f2(sx)} ${f2(sy)}`;
+      let lattice = '';
+      for (let i = -2; i <= 2; i++) lattice += `M ${i * 11} -26 L ${i * 11} 4 `;
+      for (let j = 0; j < 3; j++) lattice += `M -24 ${-22 + j * 11} L 24 ${-22 + j * 11} `;
+      let fringe = '';
+      for (let i = -3; i <= 3; i++) { const [x1, y1] = P(30, i * 17), [x2, y2] = P(46, i * 19); fringe += `M ${f2(x1)} ${f2(y1 - 6)} L ${f2(x2)} ${f2(y2 - 6)} `; }
+      const flowers = el('g', {}, root);
+      const arcAng = Math.atan2(-LL, E) * 180 / Math.PI, reach = Math.hypot(E, LL) + S;
+      for (let k = 0; k < 6; k++) {
+        const phi = arcAng + 60 * k, D = k % 2 ? reach - 4 : reach + 26;
+        const g = el('g', { transform: `rotate(${phi + 90}) translate(0 ${-D}) scale(1.22)` }, flowers);
+        [petal, lattice, fringe].forEach((d, i) => stroke(d, i ? 3.4 : 4.2, true, g, 'p' + (k + 1), 'design'));
+      }
+
+      /* draw-on: centre, then each band, then the flowers; finishes inside 3.5s (house rule for a hero) */
+      const timing = p => p === 'core' ? [0, 1.1] : p[0] === 's' ? [.6 + (+p[1] - 1) * .25, 1.6] : [2.2 + (+p[1] - 1) * .07, .9];
+      all.forEach(p => { const L = p.getTotalLength(); p.style.strokeDasharray = `${L} ${L}`; p.style.strokeDashoffset = L; });
+      const play = () => all.forEach(p => { const [d, dur] = timing(p.dataset.part); p.style.transition = `stroke-dashoffset ${dur}s var(--ease-draw) ${d}s, opacity .6s ease`; p.style.strokeDashoffset = 0; });
+      const finish = () => all.forEach(p => { p.style.transition = 'opacity .6s ease'; p.style.strokeDashoffset = 0; });
+      // light one part and dim the rest: 'core', 's1'..'s3', 'p1'..'p6', 'design' (all flowers); null shows everything
+      const focus = part => all.forEach(p => { if (p.classList.contains('kol-ink')) p.style.opacity = !part || p.dataset.part === part || p.dataset.group === part ? 1 : .16; });
+      return { play, finish, focus };
+    };
+  })();
+
+  /* ---- mechanics: hero draw-on, the key row, and every mini badge on the page ---- */
+  const keyRow = $('#kol-key');
+  keyRow.innerHTML = DATA.key.map(k => `<button type="button" class="kol-kb" aria-pressed="false" data-part="${k.part}"><span class="kol-mini" aria-hidden="true"><svg data-kol-mini="${k.part}"></svg></span><span class="label">${k.label}</span><span class="kol-means">${k.means}</span></button>`).join('');
+  const hero = kolDraw($('#kol-hero'));
+  if (FINAL) hero.finish(); else onView($('#kol-hero'), () => requestAnimationFrame(() => requestAnimationFrame(hero.play)), .2);
+  const minis = () => $$('svg[data-kol-mini]').forEach(s => { if (s.dataset.kolDone) return; s.dataset.kolDone = '1'; const k = kolDraw(s, { badge: true }); k.finish(); k.focus(s.dataset.kolMini); });
+  minis();
+  if (document.readyState === 'loading') addEventListener('DOMContentLoaded', minis);
+  // the key: tap pins one strand on the hero (tap again to clear); hover previews it on hover devices
+  let pinned = null;
+  const btns = $$('.kol-kb', keyRow);
+  btns.forEach(b => {
+    b.addEventListener('click', () => { pinned = pinned === b.dataset.part ? null : b.dataset.part; btns.forEach(x => x.setAttribute('aria-pressed', x.dataset.part === pinned)); hero.focus(pinned); });
+    if (matchMedia('(hover:hover)').matches) { b.addEventListener('mouseenter', () => hero.focus(b.dataset.part)); b.addEventListener('mouseleave', () => hero.focus(pinned)); }
+  });
+})();
+</script>

@@ -1,0 +1,359 @@
+<!-- SECTION 3 · frag-3-stage.html · prefix stg- · Builder B · pinned line-drawn stage (ARC-02 / SEQ-02, STR-25, MOT-04, MOT-05, STR-26, EMP-01) -->
+<section id="stg" class="band t1">
+<div class="wrap">
+  <div class="band-head">
+    <h2>Follow one load of fish through the night</h2>
+    <p class="lede">An example night: one truck, Kochi harbour at 6 pm to Bengaluru at 7 am.</p>
+  </div>
+
+  <div class="stg-track">
+    <div class="stg-stage" data-step="1" style="--zf:0">
+      <div class="stg-count label">EXAMPLE NIGHT <span class="stg-n">01</span> / 05</div>
+      <svg class="stg-svg" viewBox="28 0 864 500" role="img" aria-label="Engineering drawing of a refrigerated truck. It changes one step at a time, then pulls back onto a route map.">
+        <!-- route map: revealed by the pull-back -->
+        <g class="stg-map">
+          <!-- real geography, roughly to scale: x = 120 + (lon - 76) * 170, y = 470 - (lat - 9.5) * 105 -->
+          <path class="stg-route" id="stg-r-blr" d="M166 425C230 360 300 322 360 302C430 280 482 262 486 243C492 205 455 150 390 106"/>
+          <path class="stg-route-faint" id="stg-r-cbe" d="M166 425C208 384 250 342 283 310"/>
+          <path class="stg-route-faint" id="stg-r-maa" d="M166 425C230 360 300 322 360 302C430 280 482 262 486 243C600 200 760 120 846 94"/>
+          <g id="stg-ticks"></g>
+          <circle class="stg-node solid" cx="166" cy="425" r="5.5"/>
+          <circle class="stg-node" cx="390" cy="106" r="4.5"/>
+          <circle class="stg-node" cx="846" cy="94" r="4"/>
+          <circle class="stg-node" cx="283" cy="310" r="4"/>
+          <text class="stg-lbl" x="180" y="444">KOCHI</text>
+          <text class="stg-lbl" x="404" y="98">BENGALURU</text>
+          <text class="stg-lbl muted" x="832" y="80" text-anchor="end">CHENNAI</text>
+          <text class="stg-lbl muted" x="271" y="305" text-anchor="end">COIMBATORE</text>
+        </g>
+
+        <!-- the truck: drawn by the script, then scaled as one group in step 5 -->
+        <g id="stg-truck"><g id="stg-body"></g><g id="stg-sens"></g></g>
+
+        <!-- temperature line and night manager alert (step 4) -->
+        <g class="stg-signal">
+          <path class="ln stg-temp" d="M76 466H400C418 466 424 448 440 448C456 448 462 466 480 466H520"/>
+          <path class="ln red stg-bump" d="M400 466C418 466 424 448 440 448C456 448 462 466 480 466"/>
+          <text class="stg-lbl red stg-warn" x="440" y="430" text-anchor="middle">WARM</text>
+          <path class="stg-alert" d="M442 450C520 448 620 452 708 462"/>
+          <g class="stg-phone">
+            <rect x="712" y="450" width="18" height="30" rx="3"/>
+            <path d="M717 457H725"/>
+            <circle cx="721" cy="473" r="1.6"/>
+            <text class="stg-lbl" x="742" y="468">OFFICE SCREEN</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="stg-caps">
+      <div class="stg-block" data-step="1">
+        <article class="stg-card">
+          <p class="label">6 PM, KOCHI HARBOUR</p>
+          <p class="stg-text">The load leaves Kochi at 6 pm. From here to Bengaluru, nobody can see inside the box.</p>
+        </article>
+      </div>
+      <div class="stg-block" data-step="2">
+        <article class="stg-card">
+          <p class="label">2 AM, THE SALEM STOP</p>
+          <p class="stg-text">At the 2 am stop the door stays open too long. The crate nearest the door warms up, and nobody knows.</p>
+        </article>
+      </div>
+      <div class="stg-block" data-step="3">
+        <article class="stg-card">
+          <p class="label">THE FIX FOR THE BOX: TWO SENSORS</p>
+          <p class="stg-text">Our Sensors team fits two small sensors: one inside the box, one on the door.</p>
+          <div class="chips"><span class="chip c-sensors">Sensors</span></div>
+        </article>
+      </div>
+      <div class="stg-block" data-step="4">
+        <article class="stg-card">
+          <p class="label">THE FIX FOR THE BOX: YOUR OFFICE SEES IT</p>
+          <p class="stg-text">Each sensor reports through the night. When a crate warms, it shows on your office screen <mark>while the truck is still on the road.</mark></p>
+          <div class="chips"><span class="chip c-sensors">Sensors</span><span class="chip c-data">Data</span></div>
+        </article>
+      </div>
+      <div class="stg-block" data-step="5">
+        <article class="stg-card">
+          <p class="label">ZOOM OUT</p>
+          <p class="stg-text">Now picture all 38 trucks. Every load, on every route, shows up on one screen in your office.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ===== stg: pinned stage. Stage sticky beside captions; one state value drives every step ===== */
+  #stg .stg-track{position:relative;display:grid;grid-template-columns:minmax(0,1.85fr) minmax(0,1fr);column-gap:clamp(28px,4vw,56px);align-items:start}
+  #stg .stg-stage{grid-column:1;grid-row:1;position:sticky;top:10svh;height:80svh;display:flex;align-items:center;justify-content:center;
+    padding:44px clamp(14px,2.4vw,30px);background:var(--card);border-radius:var(--r-sheet);box-shadow:inset 0 0 0 1px var(--line)}
+  #stg .stg-count{position:absolute;top:22px;left:26px}
+  #stg .stg-svg{width:100%;height:auto;display:block;overflow:visible}
+  #stg .stg-caps{grid-column:2;grid-row:1;padding-bottom:50svh}
+  #stg .stg-block{min-height:52svh;display:flex;align-items:center}
+  #stg .stg-card{width:100%;display:grid;gap:14px;background:var(--card);border-radius:var(--r-sheet);box-shadow:inset 0 0 0 1px var(--line);padding:26px 28px}
+  /* only the caption that matches the stage is at full strength */
+  #stg:not(.stg-still) .stg-card{transition:opacity .4s var(--ease-out)}
+  #stg .stg-block:not(.is-on) .stg-card{opacity:.38}
+  #stg .stg-card > svg{display:block;width:100%;height:auto;margin-bottom:8px}
+  #stg .stg-card > svg .stg-lbl{font-size:27px}
+  #stg .stg-text{font:400 18px/1.55 var(--font-body);color:var(--ink);text-wrap:pretty}
+  #stg .stg-card .chips{margin-top:2px}
+
+  /* drawing */
+  #stg .stg-truck path{vector-effect:non-scaling-stroke}
+  #stg .stg-temp{stroke-width:1.6}
+  #stg .stg-bump{stroke-width:2.2}
+  #stg .stg-crate{stroke-width:.9}
+  #stg .stg-lead{stroke-width:1}
+  #stg .stg-warm{stroke-width:2}
+  #stg .stg-lbl{font:500 16px/1 var(--font-label);letter-spacing:.06em;fill:var(--ink)}
+  #stg .t-dimtext{font-size:15px}
+  #stg .t-tb,#stg .t-tbtext{display:none}
+  #stg .stg-lbl.muted{fill:var(--muted)}
+  #stg .stg-lbl.red{fill:var(--red)}
+  #stg .stg-route{fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round}
+  #stg .stg-route-faint{fill:none;stroke:var(--ink);stroke-width:1.2;stroke-dasharray:5 6;stroke-linecap:round;opacity:.42}
+  #stg .stg-tk{fill:var(--ink)}
+  #stg .stg-tk.faint{opacity:.45}
+  #stg .stg-node{fill:var(--card);stroke:var(--ink);stroke-width:1.6}
+  #stg .stg-node.solid{fill:var(--ink)}
+
+  /* step 2: x-ray and warm crate (MOT-04 for the warm fill) */
+  #stg .stg-xray{transition:opacity .8s var(--ease-out)}
+  #stg .stg-xray.stg-ghost{opacity:.25}
+  #stg .stg-warmfill{fill:var(--tint-3);fill-opacity:0;transition:fill-opacity .6s var(--ease-out) .5s}
+  #stg .stg-warmfill.on{fill-opacity:1}
+
+  /* step 3: one hue arrives (flood), sensors arrive (scale .96 to 1 with opacity) */
+  #stg .stg-flood{fill:var(--tint-1);fill-opacity:0;transition:fill-opacity .8s var(--ease-out)}
+  #stg .stg-flood.on{fill-opacity:1}
+  #stg .stg-dot{fill:var(--card);stroke:var(--ink);stroke-width:1.6;opacity:0;transform:scale(.96);transform-box:fill-box;transform-origin:center;
+    transition:opacity .3s var(--ease-out),transform .3s var(--ease-out)}
+  #stg .stg-dot.on{opacity:1;transform:none;transition:opacity .6s var(--ease-out),transform .6s var(--ease-out)}
+  #stg .stg-sl{opacity:0;transition:opacity .3s var(--ease-out)}
+  #stg .stg-sl.on{opacity:1;transition:opacity .6s var(--ease-out) .6s}
+
+  /* step 4: warning, alert and phone */
+  #stg .stg-warn{opacity:0;transition:opacity .3s var(--ease-out)}
+  #stg .stg-warn.on{opacity:1;transition:opacity .6s var(--ease-out) .9s}
+  #stg .stg-alert{fill:none;stroke:var(--red);stroke-width:1.8;stroke-dasharray:4 4;stroke-linecap:round;opacity:0;transition:opacity .3s var(--ease-out)}
+  #stg .stg-alert.on{opacity:1;transition:opacity .6s var(--ease-out) 1.3s}
+  #stg .stg-phone{opacity:0;transition:opacity .3s var(--ease-out)}
+  #stg .stg-phone.on{opacity:1;transition:opacity .6s var(--ease-out) 1.2s}
+  #stg .stg-phone rect{fill:var(--card);stroke:var(--ink);stroke-width:1.4}
+  #stg .stg-phone path{fill:none;stroke:var(--ink);stroke-width:1.2;stroke-linecap:round}
+  #stg .stg-phone circle{fill:var(--ink)}
+
+  /* step 5: scroll-linked pull-back. Fine detail fades as the truck shrinks; the map fades in. */
+  #stg .stg-fine{opacity:clamp(0, calc(1 - (var(--zf,0) - .1) * 3), 1)}
+  #stg .stg-signal{opacity:clamp(0, calc(1 - var(--zf,0) * 4), 1)}
+  #stg .stg-map{opacity:clamp(0, calc((var(--zf,0) - .45) * 2.5), 1)}
+
+  /* counter and captions */
+  #stg .stg-count{color:var(--muted)}
+  #stg .stg-count .stg-n{color:var(--ink)}
+
+  /* small laptops: the drawing is scaled down, so raise the labels to keep them near 11px on screen */
+  @media (min-width:820px) and (max-width:1099px){
+    #stg .stg-lbl{font-size:19px}
+    #stg .t-dimtext{font-size:18px}
+  }
+
+  /* narrow: stage pins to the top half, captions run under it as solid cards */
+  @media (max-width:819px){
+    #stg .stg-track{grid-template-columns:minmax(0,1fr)}
+    #stg .stg-stage{grid-column:1;grid-row:1;top:0;height:46svh;padding:50px 14px 14px;z-index:2;
+      box-shadow:inset 0 0 0 1px var(--line),0 16px 18px -14px rgba(34,32,30,.28)}
+    #stg .stg-caps{grid-column:1;grid-row:1;padding-top:48svh;padding-bottom:16svh}
+    #stg .stg-block{min-height:30svh;align-items:flex-start}
+  }
+  @media (prefers-reduced-motion: reduce){
+    #stg .stg-xray,#stg .stg-flood,#stg .stg-dot,#stg .stg-sl,#stg .stg-warn,#stg .stg-alert,#stg .stg-phone,#stg .stg-warmfill,#stg .stg-card{transition:none}
+  }
+</style>
+
+<script>
+(() => {
+  const sec = $('#stg'); if (!sec) return;
+  const stage = $('.stg-stage', sec), cnt = $('.stg-n', sec), svg = $('.stg-svg', sec);
+  const blocks = $$('.stg-block', sec);
+  const body = $('#stg-body', sec), sens = $('#stg-sens', sec), truck = $('#stg-truck', sec);
+
+  /* Zoom geometry: truck centre C, scale at the end S1, end centre T1 and end angle TH (on the Kochi to Bengaluru route). */
+  const C = [423, 200], S1 = .13, TH = 0;
+  /* end point: the truck sits on the Kochi to Bengaluru road, just out of Kochi, wheels on the line */
+  const road = $('#stg-r-blr', sec), RL = road.getTotalLength(), at = road.getPointAtLength(RL * .1);
+  const T1 = [at.x, at.y - (330 - C[1]) * S1];
+  /* small truck ticks spaced along each road (the fleet), rotated to the road */
+  const tickG = $('#stg-ticks', sec);
+  const spread = (a, b, n) => Array.from({ length: n }, (_, i) => a + (b - a) * i / (n - 1));
+  [['#stg-r-blr', spread(.3, .95, 16), '', .85], ['#stg-r-cbe', spread(.36, .97, 10), ' faint', .5], ['#stg-r-maa', spread(.56, .97, 12), ' faint', .85]].forEach(([id, ts, f, k]) => {
+    const r = $(id, sec), L = r.getTotalLength();
+    ts.forEach(t => { const q = r.getPointAtLength(L * t), q2 = r.getPointAtLength(Math.min(L, L * t + 1));
+      const ang = Math.atan2(q2.y - q.y, q2.x - q.x) * 180 / Math.PI;
+      tickG.insertAdjacentHTML('beforeend', `<g transform="translate(${q.x.toFixed(1)} ${q.y.toFixed(1)}) rotate(${ang.toFixed(1)}) scale(${k})"><path class="stg-tk${f}" d="M-5 -3H2.5V3H-5Z"/><path class="stg-tk${f}" d="M2.5 -1.8H5.5V3H2.5Z"/></g>`); });
+  });
+
+  const mk = (tag, attrs = {}, cls = '') => {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    if (cls) n.setAttribute('class', cls);
+    return n;
+  };
+
+  /* ----- the truck: flood (under), crates, drawing, x-ray layer ----- */
+  const flood = mk('path', { d: 'M238 92H782V266H238Z' }, 'stg-flood');
+  body.appendChild(flood);
+  const crateG = mk('g', {}, 'stg-fine');
+  body.appendChild(crateG);
+  const cols = [262, 366, 470, 574], rows = [108, 158, 208];
+  const warmX = cols[TRUCK.warm % 4], warmY = rows[Math.floor(TRUCK.warm / 4)];
+  const warmFill = mk('path', { d: `M${warmX} ${warmY}h94v44h-94Z` }, 'stg-warmfill');
+  crateG.appendChild(warmFill);
+  let warm = null; const crates = [];
+  TRUCK.crates.forEach((d, i) => {
+    const isWarm = i === TRUCK.warm;
+    const p = mk('path', { d }, isWarm ? 'ln red stg-warm' : 'ln thin stg-crate');
+    crateG.appendChild(p);
+    if (isWarm) warm = p; else crates.push(p);
+  });
+
+  const made = drawTruck(body, { labels: true });
+  const xray = mk('g', {}, 'stg-xray');
+  xray.append(made.box, made.ribs);
+  body.appendChild(xray);
+  $$('.t-ext, .t-dim, .t-tb, .t-dimtext, .t-tbtext', body).forEach(n => n.classList.add('stg-fine'));
+
+  /* ----- sensors: leader line, label, dot (step 3) ----- */
+  const SENS = [
+    { at: TRUCK.sensors.box,  lead: 'M470 97V58',  lab: [470, 50, 'middle', 'BOX'] },
+    { at: TRUCK.sensors.door, lead: 'M719 180H796', lab: [804, 184, 'start', 'DOOR'] }
+  ];
+  const sensors = SENS.map(s => {
+    const g = mk('g', {}, 'stg-sensor');
+    const lead = mk('path', { d: s.lead }, 'ln thin stg-lead');
+    const dot = mk('circle', { cx: s.at[0], cy: s.at[1], r: 7 }, 'stg-dot');
+    const lbl = mk('text', { x: s.lab[0], y: s.lab[1], 'text-anchor': s.lab[2] }, 'stg-lbl stg-sl');
+    lbl.textContent = s.lab[3];
+    g.append(lead, dot, lbl);
+    sens.appendChild(g);
+    return { lead, dot, lbl };
+  });
+  sens.classList.add('stg-fine');
+
+  /* ----- signal (step 4) ----- */
+  const tempInk = $('.stg-temp', svg), tempBump = $('.stg-bump', svg);
+  const alertEls = $$('.stg-warn, .stg-alert, .stg-phone', svg);
+
+  /* ----- pen state: pen(p, on) draws or undoes one path; undo is reversible ----- */
+  const base = ['ground', 'chassis', 'cab', 'box', 'ribs', 'door', 'wheels', 'ext', 'dim'].map(k => made[k]);
+  const penned = [...crates, warm, ...sensors.map(s => s.lead), tempInk, tempBump];
+  prepDraw([...base, ...penned]);
+  onView(stage, () => penDraw(base, { parallel: true }), .25);
+
+  function pen(p, on, delay = 0, instant = false) {
+    if (p._on === on && !instant) return;
+    p._on = on;
+    const L = +p.dataset.len || p.getTotalLength();
+    if (instant || FINAL) { p.style.transition = 'none'; p.style.strokeDashoffset = on ? 0 : L; return; }
+    if (!on) { p.style.transition = 'stroke-dashoffset .35s ease-out'; p.style.strokeDashoffset = L; return; }
+    p.style.strokeDashoffset = L;
+    void p.getBoundingClientRect();
+    const d = Math.min(2.2, Math.max(.6, L / 600));
+    p.style.transition = `stroke-dashoffset ${d.toFixed(2)}s var(--ease-draw) ${delay}s`;
+    p.style.strokeDashoffset = 0;
+  }
+
+  let step = 0;
+  function apply(n, instant = false) {
+    const fwd = n > step && !instant;
+    step = n;
+    stage.dataset.step = n;
+    cnt.textContent = String(n).padStart(2, '0');
+    blocks.forEach((b, i) => b.classList.toggle('is-on', i === n - 1));
+    blocks[n - 1].classList.add('in');   /* lets the marker in this caption draw once */
+    flood.classList.toggle('on', n >= 3);
+    xray.classList.toggle('stg-ghost', n >= 2);
+    warmFill.classList.toggle('on', n >= 2);
+    crates.forEach((p, i) => pen(p, n >= 2, fwd ? i * .07 : 0, instant));
+    pen(warm, n >= 2, fwd ? .7 : 0, instant);
+    sensors.forEach((s, i) => {
+      pen(s.lead, n >= 3, fwd ? .3 + i * .12 : 0, instant);
+      s.dot.classList.toggle('on', n >= 3);
+      s.lbl.classList.toggle('on', n >= 3);
+    });
+    pen(tempInk, n >= 4, 0, instant);
+    pen(tempBump, n >= 4, fwd ? .5 : 0, instant);
+    alertEls.forEach(e => e.classList.toggle('on', n >= 4));
+  }
+
+  /* ----- step 5: truck group scales (log space) and moves onto the route, linear in scroll ----- */
+  let zPrev = -1;
+  function xf(p) {
+    const s = Math.pow(S1, p);
+    const x = C[0] + (T1[0] - C[0]) * p, y = C[1] + (T1[1] - C[1]) * p, th = TH * p;
+    return `translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${th.toFixed(2)}) scale(${s.toFixed(4)}) translate(${-C[0]} ${-C[1]})`;
+  }
+  function place(p) {
+    truck.setAttribute('transform', xf(p));
+    stage.style.setProperty('--zf', p.toFixed(3));
+  }
+
+  /* ----- one observer picks the step: the caption nearest the reading line ----- */
+  let raf = 0;
+  function sync() {
+    raf = 0;
+    const vh = innerHeight;
+    let at, line, span;   /* at[i]: where caption i sits; line[i]: where it becomes the active one */
+    if (matchMedia('(max-width: 819px)').matches) {
+      /* tablet: captions are top-aligned and slide under the pinned stage. A caption turns active when it has risen to
+         one block below the stage edge, so the previous one is just reaching the stage and the active one is never covered. */
+      const sb = stage.getBoundingClientRect().bottom;
+      at = blocks.map(b => b.getBoundingClientRect().top);
+      line = blocks.map((b, i) => sb + (i ? blocks[i - 1].offsetHeight : 0) - 8);
+      span = Math.max(80, line[4] - sb);
+    } else {
+      /* laptop: the caption whose centre has passed the middle of the screen */
+      at = blocks.map(b => { const r = b.getBoundingClientRect(); return r.top + r.height / 2; });
+      line = blocks.map(() => .5 * vh);
+      span = .36 * vh;
+    }
+    let best = 0;
+    at.forEach((c, i) => { if (c <= line[i]) best = i; });   /* the last caption that has moved past its line */
+    if (best + 1 !== step) apply(best + 1, reduce);
+    /* reduced motion: steps switch instantly and the pull-back is either off or complete, nothing scrubs */
+    const p = reduce ? (best === 4 ? 1 : 0) : Math.min(1, Math.max(0, (line[4] - at[4]) / span));
+    if (Math.abs(p - zPrev) > .001) { zPrev = p; place(p); }
+  }
+  const later = () => { if (!raf) raf = requestAnimationFrame(sync); };
+
+  if (FINAL) sec.classList.add('stg-still');
+  if (/[?&]final=1/.test(location.search)) {
+    /* finished state: step 4 on the stage, no counter, every caption at full strength,
+       and the step-5 card carries a still of the finished pull-back */
+    apply(4, true); place(0);
+    blocks.forEach(b => b.classList.add('is-on', 'in'));
+    cnt.parentNode.hidden = true;
+    const still = svg.cloneNode(true);
+    still.setAttribute('aria-hidden', 'true'); still.removeAttribute('role'); still.removeAttribute('aria-label');
+    $('#stg-truck', still).setAttribute('transform', xf(1));
+    still.style.setProperty('--zf', '1');
+    still.setAttribute('viewBox', '100 52 780 440');   /* frame the map only, so its labels read at card width */
+    $$('[id]', still).forEach(n => n.removeAttribute('id'));
+    $('.stg-card', blocks[4]).prepend(still);
+    return;
+  }
+  apply(1, true);
+  place(0);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(later, { rootMargin: '-45% 0px -45% 0px' }).observe(blocks[0]);
+    blocks.slice(1).forEach(b => new IntersectionObserver(later, { rootMargin: '-45% 0px -45% 0px' }).observe(b));
+  }
+  addEventListener('scroll', later, { passive: true });
+  addEventListener('resize', later);
+  later();
+})();
+</script>
+</section>

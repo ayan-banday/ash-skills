@@ -1,0 +1,207 @@
+<!-- ===== SECTION 2, ECHO (prefix echo-), Builder A ===== -->
+<style>
+  #echo.band{padding-bottom:clamp(48px,6vw,80px)}
+  #echo .band-head{margin-bottom:clamp(36px,4.4vw,56px)}
+  #echo .band-head .lede{text-wrap:balance}
+  #echo .echo-teams{font-size:17px;line-height:1.55;color:var(--muted);max-width:none}
+  #echo .echo-teams .chip{font-size:12px;padding:3px 7px;vertical-align:1px}
+
+  /* One 12-column board: row 1 two ask blocks, row 2 the truck, row 3 the third ask block */
+  #echo .echo-board{position:relative;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));
+    column-gap:clamp(12px,1.6vw,20px);row-gap:clamp(40px,5vw,60px)}
+  #echo .echo-fig{grid-column:1/-1;grid-row:2}
+  #echo .echo-cab{grid-column:1/5;grid-row:1}
+  #echo .echo-box{grid-column:7/12;grid-row:1}
+  #echo .echo-trip{grid-column:4/10;grid-row:3}
+
+  /* The drawing: everything faint, three parts lit in red */
+  #echo .echo-svg{display:block;width:100%;height:auto;overflow:visible}
+  #echo .echo-svg .ln{opacity:.45;vector-effect:non-scaling-stroke}
+  #echo .echo-svg .ln.red{opacity:1;stroke-width:2.2;stroke:var(--ink)}
+  #echo .echo-svg .t-dimtext{fill:var(--red);font-size:10.5px}
+
+  /* Ask blocks: plain text, no panel. The red leader line and its shoulder are drawn in the overlay */
+  #echo .echo-blk{display:flex;flex-direction:column;gap:10px;min-width:0}
+  #echo .echo-cab,#echo .echo-box{padding-bottom:20px}
+  #echo .echo-trip{padding-top:20px}
+  #echo .echo-blk .label{margin:0;color:var(--red)}
+  #echo .echo-blk h3{font-size:clamp(26px,2.4vw,32px);line-height:1.08}
+  #echo .echo-quote{margin:0;font:italic 400 19px/1.4 var(--font-body);color:var(--ink)}
+  #echo .echo-by{margin-top:auto;padding-top:6px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+  #echo .echo-by b{font:500 10.5px/1.3 var(--font-label);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  #echo .echo-badge{display:none}
+  #echo .echo-badge svg{display:block;width:100%;height:auto;overflow:visible}
+
+  /* Leader overlay: one SVG over the whole board, measured from the blocks and the drawing */
+  #echo .echo-leaders{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+  #echo .echo-leaders .ln{stroke:var(--red);stroke-width:1.2}
+  #echo .echo-leaders .echo-dot{fill:var(--card);stroke:var(--red);stroke-width:1.6;opacity:0;transition:opacity .3s var(--ease-out)}
+
+  /* Tablet and below: the full-width drawing first, then the three asks stacked, each with its badge */
+  @media (max-width:899px){
+    #echo .echo-board{display:flex;flex-direction:column;gap:clamp(30px,5vw,40px)}
+    #echo .echo-leaders{display:none}
+    #echo .echo-cab,#echo .echo-box,#echo .echo-trip{padding:0}
+    #echo .echo-blk{display:grid;grid-template-columns:96px minmax(0,1fr);column-gap:22px;row-gap:8px;align-items:start}
+    #echo .echo-blk > *{grid-column:2}
+    #echo .echo-blk > .echo-badge{display:block;grid-column:1;grid-row:1 / span 4;padding-top:2px}
+    #echo .echo-by{margin-top:6px}
+  }
+</style>
+
+<section class="band card" id="echo" aria-labelledby="echo-h2">
+  <div class="wrap">
+    <header class="band-head">
+      <h2 id="echo-h2">What you told us</h2>
+      <p class="lede">Three problems, in your words, from our meeting in Kochi.</p>
+    </header>
+
+    <div class="echo-board">
+      <div class="echo-fig">
+        <svg id="echo-svg" class="echo-svg" viewBox="52 56 746 364" role="img" aria-label="Side view of a refrigerated truck. Three parts are lit in red, one for each ask: the box, the cab and the trip from Kochi to Bengaluru.">
+          <defs><marker id="echo-arr" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0 2L10 5L0 8Z" fill="#B3322E"/></marker></defs>
+        </svg>
+      </div>
+
+      <article class="echo-blk echo-box rv" style="--d:0s">
+        <div class="echo-badge" data-badge="box"></div>
+        <p class="label">THE BOX</p>
+        <h3>See inside every truck</h3>
+        <p class="echo-quote">"We lose fish we can't see going bad."</p>
+        <div class="echo-by">
+          <b>ANSWERED BY</b>
+          <div class="chips"><span class="chip c-sensors">Sensors</span><span class="chip c-data">Data</span></div>
+        </div>
+      </article>
+
+      <article class="echo-blk echo-cab rv" style="--d:.1s">
+        <div class="echo-badge" data-badge="cab"></div>
+        <p class="label">THE CAB</p>
+        <h3>Put the logbook on a screen</h3>
+        <p class="echo-quote">"Drivers write temperatures on paper, and nobody reads it."</p>
+        <div class="echo-by">
+          <b>ANSWERED BY</b>
+          <div class="chips"><span class="chip c-app">App</span><span class="chip c-field">Field</span></div>
+        </div>
+      </article>
+
+      <article class="echo-blk echo-trip rv" style="--d:.2s">
+        <div class="echo-badge" data-badge="trip"></div>
+        <p class="label">THE TRIP</p>
+        <h3>Prove every trip</h3>
+        <p class="echo-quote">"When a buyer complains, we can't prove what happened."</p>
+        <div class="echo-by">
+          <b>ANSWERED BY</b>
+          <div class="chips"><span class="chip c-data">Data</span><span class="chip c-app">App</span></div>
+        </div>
+      </article>
+
+      <svg class="echo-leaders" aria-hidden="true"></svg>
+    </div>
+  </div>
+</section>
+
+<script>
+(() => {
+  const section = $('#echo');
+  if (!section) return;
+  const board = $('.echo-board', section), svg = $('#echo-svg'), ov = $('.echo-leaders', section);
+  if (!board || !svg || !ov) return;
+
+  // ---- The drawing: the truck, with box + door, cab, and ext + dim lit in red
+  const g = document.createElementNS(NS, 'g');
+  svg.appendChild(g);
+  const parts = drawTruck(g, { parts: ['cab', 'box', 'door', 'chassis', 'wheels', 'ext', 'dim'], labels: true });
+  ['box', 'door', 'cab', 'ext', 'dim'].forEach(k => parts[k].classList.add('red'));
+  parts.dim.setAttribute('marker-start', 'url(#echo-arr)');
+  parts.dim.setAttribute('marker-end', 'url(#echo-arr)');
+
+  // ---- Badges (used only when the board is stacked): the red part pen-draws as its block arrives
+  $$('[data-badge]', section).forEach(el => { el.innerHTML = truckBadge(el.dataset.badge); });
+  $$('.echo-blk', section).forEach(blk => {
+    const reds = $$('.echo-badge .red', blk);
+    prepDraw(reds);
+    const go = () => penDraw(reds, { delay: .15 });
+    if (FINAL || blk.classList.contains('in')) { go(); return; }
+    const mo = new MutationObserver(() => { if (blk.classList.contains('in')) { mo.disconnect(); go(); } });
+    mo.observe(blk, { attributes: true, attributeFilter: ['class'] });
+  });
+
+  // ---- Leader lines: one callout per ask. part = a point that lies exactly on the lit line (drawing units),
+  //      x0..x1 = the stretch of that line a leader may land on, dir = which way the block sits (-1 above, 1 below)
+  const VB = svg.viewBox.baseVal;
+  const callouts = [
+    { blk: $('.echo-box', section), y: 92,  x0: 312, x1: 776, dir: -1 },   // top edge of the box
+    { blk: $('.echo-cab', section), y: 118, x0: 136, x1: 216, dir: -1 },   // cab roof
+    { blk: $('.echo-trip', section), y: 392, x0: 84,  x1: 774, dir: 1 }    // the dimension line
+  ];
+  const el = (tag, cls) => { const n = document.createElementNS(NS, tag); if (cls) n.setAttribute('class', cls); ov.appendChild(n); return n; };
+  callouts.forEach(c => {
+    c.ld = el('path', 'ln'); c.sl = el('path', 'ln'); c.sr = el('path', 'ln');   // leader, shoulder left, shoulder right
+    c.dot = el('circle', 'echo-dot'); c.dot.setAttribute('r', 4);
+    c.paths = [c.ld, c.sl, c.sr];
+    c.blkIn = FINAL || c.blk.classList.contains('in');
+    c.drawn = false; c.placed = false;
+  });
+  const wide = matchMedia('(max-width:899px)');
+  const num = n => Math.round(n * 100) / 100;
+
+  // Block box inside the board, ignoring the reveal's 12px lift so the lines land on the final position
+  const boxOf = (node, br) => {
+    const r = node.getBoundingClientRect(), tr = getComputedStyle(node).transform;
+    const dy = tr && tr !== 'none' ? new DOMMatrix(tr).m42 : 0;
+    return { l: r.left - br.left, r: r.right - br.left, t: r.top - br.top - dy, b: r.bottom - br.top - dy };
+  };
+
+  function layout() {
+    if (wide.matches) return;
+    const br = board.getBoundingClientRect(), sr = svg.getBoundingClientRect();
+    if (!sr.width || !sr.height) return;   /* hidden (phone gate): nothing to measure */
+    const k = Math.min(sr.width / VB.width, sr.height / VB.height);
+    const ox = sr.left - br.left + (sr.width - VB.width * k) / 2, oy = sr.top - br.top + (sr.height - VB.height * k) / 2;
+    callouts.forEach(c => {
+      const b = boxOf(c.blk, br);
+      // the leader meets the block at its middle, as long as that point is on the lit line
+      const ux = Math.min(c.x1, Math.max(c.x0, VB.x + ((b.l + b.r) / 2 - ox) / k));
+      const px = num(ox + (ux - VB.x) * k), py = num(oy + (c.y - VB.y) * k);
+      const sy = num(c.dir < 0 ? b.b : b.t);
+      c.ld.setAttribute('d', `M${px} ${py}V${sy}`);
+      c.sl.setAttribute('d', `M${px} ${sy}H${num(b.l)}`);
+      c.sr.setAttribute('d', `M${px} ${sy}H${num(b.r)}`);
+      c.dot.setAttribute('cx', px); c.dot.setAttribute('cy', py);
+      // lengths changed: undrawn lines get a fresh dash length, drawn lines stay whole
+      if (c.drawn) c.paths.forEach(p => { p.style.transition = 'none'; p.style.strokeDasharray = 'none'; p.style.strokeDashoffset = 0; });
+      else prepDraw(c.paths);
+      c.placed = true;
+    });
+    run();
+  }
+
+  // ---- Pen-draw: the leader first (lit part to block), then the shoulder under the text, one ask after another
+  let figIn = false;
+  function run() {
+    if (!figIn || wide.matches) return;
+    callouts.forEach((c, i) => {
+      if (c.drawn || !c.blkIn || !c.placed) return;
+      c.drawn = true;
+      const base = FINAL ? 0 : i * .3;
+      c.dot.style.transitionDelay = base + 's'; c.dot.style.opacity = 1;
+      const t = penDraw([c.ld], { delay: base + .1 });
+      penDraw([c.sl, c.sr], { delay: t, parallel: true });
+    });
+  }
+  callouts.forEach(c => {
+    if (c.blkIn) return;
+    const mo = new MutationObserver(() => { if (c.blk.classList.contains('in')) { mo.disconnect(); c.blkIn = true; run(); } });
+    mo.observe(c.blk, { attributes: true, attributeFilter: ['class'] });
+  });
+  onView($('.echo-fig', section), () => { figIn = true; run(); }, .5);
+
+  // ---- Keep the lines exact when the layout moves
+  layout();
+  if ('ResizeObserver' in window) new ResizeObserver(layout).observe(board);
+  addEventListener('resize', layout);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+  addEventListener('load', layout);
+})();
+</script>

@@ -1,6 +1,6 @@
 ---
 name: make-skill
-description: "(skill maker · uses skill-creator) How do I make a new skill that lands in the right plugin with a clear name? Names, writes, installs and commits a skill in Ash's ash-skills plugins by the repo's CONVENTIONS.md, or fixes an existing skill's name or description. Use when Ash says 'make a skill', 'turn this into a skill' or 'rename this skill'. Use instead of skill-creator for Ash's own skills."
+description: "[skill maker · uses skill-creator] How do I make a new skill that lands in the right plugin with a clear name? Names, writes, installs and commits a skill in Ash's ash-skills plugins by the repo's CONVENTIONS.md, or fixes an existing skill's name or description. Use when Ash says 'make a skill', 'turn this into a skill' or 'rename this skill'. Use instead of skill-creator for Ash's own skills."
 ---
 
 Make or fix one skill in Ash's plugin repo, `D:\ash-skills`, so it is **filed, named and described by the rulebook**.
@@ -16,7 +16,7 @@ Make or fix one skill in Ash's plugin repo, `D:\ash-skills`, so it is **filed, n
 1. **Learn what it's for.** When the conversation already shows the workflow ("turn this into a skill"), take the answers from it. Otherwise ask Ash one question that names the subject: what he's doing when he'd reach for it, and what it hands back.
    Done when you can say the skill's job in one sentence and name one phrase Ash would say to start it.
 2. **Decide the five calls** by CONVENTIONS.md: plugin, name, bracket, question, who can start it. The name ends in its tag (`-udyaan`, `-matt`) whenever one fits, since the name is the only thing Ash can search. Check the list for a name clash and for a look-alike the description must tell apart. Show them to Ash in one line and wait:
-   > **visualize:brief-page-udyaan** · (Udyaan course) How do I brief a teammate on a plan with a page they read alone? · only Ash types it · existing plugin. OK?
+   > **visualize:brief-page-udyaan** · [Udyaan teammates · was clear-visual-html] How do I brief a teammate on a plan with a page they read alone? · only Ash types it · existing plugin. OK?
    Done when Ash says yes, or gives changes you applied.
 3. **Draft the SKILL.md** at `D:\ash-skills\plugins/<plugin>/skills/<name>/SKILL.md`, with the frontmatter from step 2 and the body by "Writing the body" in CONVENTIONS.md.
    - For anything longer than a page, or with scripts or reference files, call the Skill tool with "anthropic-skills:skill-creator" to draft, write test prompts and tune the description. Override its defaults: save to the repo path above, keep the frontmatter from step 2, and skip its packaging step.

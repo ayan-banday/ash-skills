@@ -1,7 +1,7 @@
 {
   "name": "plan",
-  "version": "0.1.0",
-  "description": "Decide what to build before building it: sharpen an idea, chart a big project, answer one open question. Skills copied from Matt Pocock's set (MIT) and renamed by what they do.",
+  "version": "0.3.0",
+  "description": "How do I decide what to build before building it?",
   "author": {
     "name": "Ash Banday"
   }

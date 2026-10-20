@@ -1,0 +1,162 @@
+<!--
+  MODULE orbit-fork.html · catalogue SEQ-22 (orbit of steps around one project) + CHG-36 (fork of choices) · prefix orb-
+  Serves: one worked project walked through 4-6 steps that circle it, then a decision with 2-4 mutually exclusive options.
+  Adapt:
+    1. Edit the heading copy in the markup and the band colour class; label halos follow the band colour on their own.
+    2. Edit DATA only: project (the centre disc), steps in order (first step sits at the top, then clockwise), options.
+       When the ring enters the screen a dot walks it once, lighting each step, and stops with every step lit.
+    3. Keep step text to one line of 8-12 words; chips are [starter chip class, team name] pairs.
+    4. 2-4 options; the fork is measured from the cards, so its branches always land on their centres.
+  Data: DATA.project {label, title}, DATA.steps [{title, text, chips}], DATA.decide {label, title}, DATA.options [{title, text}].
+-->
+<section id="orb" class="band paper" aria-labelledby="orb-h">
+  <div class="wrap">
+    <div class="band-head rv">
+      <p class="label">A first project</p>
+      <h2 id="orb-h">What a first pilot looks like</h2>
+      <p class="lede">One store group, five steps, about ten weeks. Every step serves the same pilot, and at the end Northwind chooses what comes next.</p>
+    </div>
+    <div class="orb rv" id="orb-stage">
+      <svg class="orb-svg" viewBox="0 0 1000 640" aria-hidden="true"><ellipse class="orb-ring" cx="500" cy="320" rx="230" ry="215"/><circle class="orb-dot" r="8" cx="500" cy="105"/></svg>
+      <div class="orb-centre"><span class="label" id="orb-plabel"></span><b id="orb-ptitle"></b></div>
+    </div>
+    <ol class="orb-list" id="orb-list"></ol>
+    <div class="orb-decide" id="orb-decide">
+      <div class="orb-dhead rv"><span class="label" id="orb-dlabel"></span><h3 id="orb-dtitle"></h3></div>
+      <svg class="orb-fork" id="orb-fork" aria-hidden="true"><path/></svg>
+      <div class="orb-opts" id="orb-opts"></div>
+    </div>
+  </div>
+</section>
+<style>
+  /* Orbit: steps on a ring around one project; a dot walks the ring and lights each step */
+  .orb{position:relative;width:100%;max-width:1000px;margin:0 auto;aspect-ratio:1000/640;--orb-halo:var(--paper)}
+  .orb-svg{position:absolute;inset:0;width:100%;height:100%}
+  .orb-ring{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-dasharray:2 9;stroke-linecap:round}
+  .orb-dot{fill:var(--accent-1)}
+  .orb-centre{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:27%;aspect-ratio:1/1;border-radius:50%;background:var(--tint-1);
+    display:grid;place-content:center;text-align:center;gap:6px;padding:22px;box-shadow:0 0 0 1px var(--line)}
+  .orb-centre b{font:500 clamp(18px,2vw,25px)/1.15 var(--font-display);letter-spacing:-.01em}
+  .orb-node{position:absolute;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:var(--paper);box-shadow:0 0 0 2px var(--ink);
+    display:grid;place-items:center;font:500 18px/1 var(--font-label);color:var(--ink);transition:background-color .4s var(--ease-out),color .4s var(--ease-out);z-index:2}
+  .orb-node.orb-lit{background:var(--ink);color:var(--paper)}   /* lit = ink; the marker is kept for what the reader gets */
+  .orb-lab{position:absolute;width:22%;transform:translateY(-50%);background:var(--orb-halo);box-shadow:0 0 0 6px var(--orb-halo);padding:6px 8px;border-radius:12px;z-index:1}
+  .orb-lab.orb-left{text-align:right}
+  .orb-lab h3,.orb-list h3{font:500 clamp(19px,1.9vw,23px)/1.15 var(--font-display);margin:0 0 4px}
+  .orb-lab p{font-size:14.5px;line-height:1.45}
+  .orb-lab .chips,.orb-list .chips{margin-top:8px}
+  .orb-lab.orb-left .chips{justify-content:flex-end}
+  .orb-list{display:none}
+  /* Fork: a trunk that splits onto the option cards, revealed top-down with clip-path */
+  .orb-decide{margin-top:56px}
+  .orb-dhead{text-align:center;display:grid;gap:6px;justify-items:center}
+  .orb-dhead h3{font-size:clamp(26px,2.4vw,32px)}
+  .orb-fork{display:block;width:100%;height:70px;margin-top:12px;overflow:visible;clip-path:inset(0 0 100% 0);transition:clip-path 1.1s var(--ease-draw) .2s}
+  .orb-fork path{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round}
+  .orb-decide.on .orb-fork{clip-path:inset(0 0 0 0)}
+  .orb-opts{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:16px}
+  .orb-opt{background:var(--card);border-radius:var(--r-sheet);padding:22px;box-shadow:0 0 0 1px var(--line);text-align:center;
+    opacity:0;transform:translateY(12px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out);transition-delay:var(--d,0s)}
+  .orb-decide.on .orb-opt{opacity:1;transform:none}
+  .orb-opt h4{font:500 25px/1.1 var(--font-display);margin:0 0 6px}
+  .orb-opt p{font-size:15px;color:var(--muted)}
+  @media (max-width:820px){
+    .orb,.orb-fork{display:none}
+    .orb-list{display:grid;gap:14px;list-style:none;padding:0;margin:0}
+    .orb-list li{display:grid;grid-template-columns:48px minmax(0,1fr);gap:14px;background:var(--card);border-radius:var(--r-sheet);padding:18px;box-shadow:0 0 0 1px var(--line)}
+    .orb-list .orb-node{position:relative;transform:none;width:44px;height:44px;font-size:15px;background:var(--ink);color:var(--paper)}
+    .orb-list p{font-size:15px}
+    .orb-dhead{margin-bottom:22px}
+    .orb-opts{grid-template-columns:minmax(0,1fr)}
+  }
+</style>
+<script>
+(() => {
+  const DATA = {
+    project: { label: 'One pilot', title: 'Ten weeks with the city centre stores' },
+    steps: [
+      { title: 'Listen', text: 'Two days on the shop floor with the morning shift.', chips: [['c-field', 'Field team']] },
+      { title: 'Find', text: 'Pick the three product lines that waste the most.', chips: [['c-data', 'Data team']] },
+      { title: 'Build', text: 'A forecast and a tablet screen for those lines.', chips: [['c-data', 'Data team'], ['c-app', 'App team']] },
+      { title: 'Prove', text: 'Six weeks side by side with the old way.', chips: [['c-sensors', 'Store staff']] },
+      { title: 'Teach', text: 'Store leads show the next group how it works.', chips: [['c-field', 'Field team']] }
+    ],
+    decide: { label: 'Step 6', title: 'Northwind decides what happens next' },
+    options: [
+      { title: 'Scale it', text: 'Roll it out to every store in the region.' },
+      { title: 'Extend it', text: 'Add more product lines in the same stores.' },
+      { title: 'Stop it', text: 'Keep what worked and close the pilot.' }
+    ]
+  };
+
+  /* ---- mechanics ---- */
+  const sec = $('#orb'), stage = $('#orb-stage'), list = $('#orb-list'), dot = $('.orb-dot', stage);
+  const OX = 500, OY = 320, RX = 230, RY = 215, n = DATA.steps.length;
+  $('#orb-plabel').textContent = DATA.project.label; $('#orb-ptitle').textContent = DATA.project.title;
+  stage.style.setProperty('--orb-halo', getComputedStyle(sec).backgroundColor);   // label halos mask the ring in any band colour
+  const chipsHtml = cs => `<span class="chips">${cs.map(([c, t]) => `<span class="chip ${c}">${t}</span>`).join('')}</span>`;
+  const nodes = DATA.steps.map((s, i) => {
+    const a = -90 + 360 * i / n, r = a * Math.PI / 180, x = OX + RX * Math.cos(r), y = OY + RY * Math.sin(r);
+    const node = document.createElement('span'); node.className = 'orb-node'; node.textContent = i + 1; node.setAttribute('aria-hidden', 'true');
+    node.style.left = x / 10 + '%'; node.style.top = y / 6.4 + '%';
+    const lab = document.createElement('div'), right = Math.cos(r) > -.2;
+    lab.className = 'orb-lab ' + (right ? 'orb-right' : 'orb-left'); lab.dataset.top = y / 6.4; lab.style.top = y / 6.4 + '%';
+    if (right) lab.style.left = Math.min(x / 10 + 4.4, 77.5) + '%'; else lab.style.right = Math.min(100 - x / 10 + 4.4, 77.5) + '%';
+    lab.innerHTML = `<h3>${s.title}</h3><p>${s.text}</p>${chipsHtml(s.chips)}`;
+    stage.append(node, lab);
+    list.insertAdjacentHTML('beforeend', `<li><span class="orb-node" aria-hidden="true">${i + 1}</span><div><h3>${s.title}</h3><p>${s.text}</p>${chipsHtml(s.chips)}</div></li>`);
+    return { node, a, lab };
+  });
+  // labels on the same side that would touch are nudged apart (the lower one moves down), then re-checked on resize
+  const spread = () => {
+    const H = stage.clientHeight; if (!H) return;
+    ['orb-right', 'orb-left'].forEach(side => {
+      const ls = nodes.map(o => o.lab).filter(l => l.classList.contains(side));
+      ls.forEach(l => { l.style.top = l.dataset.top + '%'; });
+      ls.sort((p, q) => p.offsetTop - q.offsetTop);
+      for (let i = 1; i < ls.length; i++) {
+        const p = ls[i - 1], q = ls[i];
+        if (q.offsetLeft >= p.offsetLeft + p.offsetWidth || p.offsetLeft >= q.offsetLeft + q.offsetWidth) continue;
+        const gap = (q.offsetTop - q.offsetHeight / 2) - (p.offsetTop + p.offsetHeight / 2) - 14;
+        if (gap < 0) q.style.top = (q.offsetTop - gap) / H * 100 + '%';
+      }
+    });
+  };
+  if ('ResizeObserver' in window) new ResizeObserver(spread).observe(stage); spread();
+  if (document.fonts) document.fonts.ready.then(spread);
+  // one lap when the ring enters the screen (linear, 7s), then it stops with every step lit; it pauses while off-screen
+  const done = () => { nodes.forEach(o => o.node.classList.add('orb-lit')); dot.style.display = 'none'; };
+  if (FINAL) done();
+  else {
+    const LAP = 7000; let phase = 0, last = null, raf = 0, vis = false, go = false, finished = false;
+    const spin = now => {
+      if (!vis) { raf = 0; last = null; return; }
+      if (last !== null) phase = Math.min(1, phase + (now - last) / LAP); last = now;
+      const deg = -90 + 360 * phase, rad = deg * Math.PI / 180;
+      dot.setAttribute('cx', (OX + RX * Math.cos(rad)).toFixed(1)); dot.setAttribute('cy', (OY + RY * Math.sin(rad)).toFixed(1));
+      nodes.forEach(o => o.node.classList.toggle('orb-lit', deg >= o.a - 2));
+      if (phase >= 1) { finished = true; raf = 0; done(); return; }
+      raf = requestAnimationFrame(spin);
+    };
+    const wake = () => { if (vis && go && !finished && !raf) raf = requestAnimationFrame(spin); };
+    new IntersectionObserver(([e]) => { vis = e.isIntersecting; wake(); }).observe(stage);
+    onView(stage, () => { go = true; wake(); }, .3);
+  }
+
+  // the fork: options from data, branches measured from the cards' centres
+  const decide = $('#orb-decide'), fork = $('#orb-fork'), opts = $('#orb-opts');
+  $('#orb-dlabel').textContent = DATA.decide.label; $('#orb-dtitle').textContent = DATA.decide.title;
+  opts.style.setProperty('--n', DATA.options.length);
+  DATA.options.forEach((o, i) => opts.insertAdjacentHTML('beforeend', `<div class="orb-opt" style="--d:${(.9 + i * .1).toFixed(1)}s"><h4>${o.title}</h4><p>${o.text}</p></div>`));
+  const buildFork = () => {
+    const W = fork.clientWidth; if (!W) return;
+    const fr = fork.getBoundingClientRect(), mid = W / 2;
+    const xs = $$('.orb-opt', opts).map(c => { const r = c.getBoundingClientRect(); return r.left + r.width / 2 - fr.left; });
+    fork.setAttribute('viewBox', `0 0 ${W} 70`);
+    $('path', fork).setAttribute('d', `M${mid} 0V24` + xs.map(x => Math.abs(x - mid) < 1 ? `M${mid} 24V70` : `M${mid} 24C${mid} 46 ${x.toFixed(1)} 30 ${x.toFixed(1)} 70`).join(''));
+  };
+  if ('ResizeObserver' in window) new ResizeObserver(buildFork).observe(opts); else addEventListener('resize', buildFork);
+  buildFork();
+  onView(decide, () => decide.classList.add('on'), .4);
+})();
+</script>

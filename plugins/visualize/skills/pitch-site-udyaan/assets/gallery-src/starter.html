@@ -1,0 +1,167 @@
+<title>Northwind Foods proposal</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+  /* ===== Tokens: filled from the Kolam direction (references/directions/01-kolam.md) for the module gallery. ===== */
+  :root{
+    --ground:#3A2B22; --ground-2:#47362B; --paper:#F1EDE4; --card:#FAF7F0;
+    --ink:#241D18; --muted:#6B6158; --line:rgba(36,29,24,.14); --line-2:rgba(36,29,24,.28);
+    --tint-1:#ECD9A6; --tint-2:#C6CFDA; --tint-3:#DDB09A; --tint-4:#DCCDEB;
+    --marker:#F2C94C; --marker-ink:#A87410; --red:#9E3B2A; --cyan:#3F4A7A;
+    --font-display:'Newsreader',Georgia,serif; --font-body:'Hanken Grotesk',system-ui,sans-serif;
+    --font-label:'JetBrains Mono',ui-monospace,Consolas,monospace; --font-hand:'Caveat',cursive;
+    --accent-1:var(--red); --accent-2:var(--cyan);
+    --ease-out:cubic-bezier(.22,1,.36,1); --ease-draw:cubic-bezier(.45,.05,.35,1);
+    --wrap:1180px; --gutter:clamp(20px,4vw,48px);
+    --r-sheet:16px; /* kolam: soft cards, as on the TVS site (16-18px) */
+    color-scheme:light;
+  }
+  /* Single deliberate theme: rice-white paper with dark wood bands; every colour is set explicitly. */
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--font-body);-webkit-font-smoothing:antialiased;overflow-x:clip}
+  /* vellum tooth: static, never animated */
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.05;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+  img,svg{max-width:100%}
+  h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-.005em;line-height:1.02;margin:0;text-wrap:balance}
+  h1{font-size:clamp(48px,6.4vw,92px)}
+  h2{font-size:clamp(38px,4.6vw,64px)}
+  h3{font-size:clamp(24px,2.2vw,30px);line-height:1.1}
+  p{margin:0;text-wrap:pretty}
+  .lede{font-size:clamp(18px,1.5vw,21px);line-height:1.5;color:var(--muted);max-width:56ch}
+  .label{font:500 11.5px/1.3 var(--font-label);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .hand{font-family:var(--font-hand);color:var(--red)}
+  .wrap{max-width:var(--wrap);margin:0 auto;padding-left:max(var(--gutter),env(safe-area-inset-left,0px));padding-right:max(var(--gutter),env(safe-area-inset-right,0px))}
+
+  /* Section colour blocks: one flat block per idea */
+  .band{position:relative;padding:clamp(88px,11vw,150px) 0;overflow-x:clip}
+  .band.paper{background:var(--paper)} .band.card{background:var(--card)}
+  .band.t1{background:var(--tint-1)} .band.t2{background:var(--tint-2)} .band.t3{background:var(--tint-3)}
+  /* contrast: muted and red re-tuned per tint so text stays at 4.5:1 or better */
+  .band.t1,.band.t2{--muted:#57534E} .band.t2{--red:#8A2F20} .band.t1{--red:#952622} .band.t3{--muted:#4F463F;--red:#7A281B}
+  .band.dark{background:var(--ground);color:var(--paper)}
+  .band.dark .lede,.band.dark .label{color:rgba(241,237,228,.72)}
+  .band-head{display:grid;gap:18px;margin-bottom:clamp(40px,5vw,64px);max-width:760px}
+
+  /* Team chips: one tint per team, used everywhere that team appears */
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{display:inline-flex;align-items:center;gap:6px;font:500 12px/1 var(--font-label);letter-spacing:.04em;padding:6px 9px;border-radius:3px;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(36,29,24,.12)}
+  .chip.c-sensors{background:var(--tint-1)} .chip.c-app{background:var(--tint-2)}
+  .chip.c-data{background:var(--tint-3)} .chip.c-field{background:var(--tint-4)}
+
+  /* Marker: keep <mark> inside inline text, never as a grid/flex child */
+  mark{background:linear-gradient(var(--marker),var(--marker)) no-repeat 0 90%/0% 42%;color:inherit;padding:0 2px;
+    -webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-size .8s var(--ease-out) .35s}
+  .in mark, mark.in{background-size:100% 42%}
+  .band.dark mark{background-image:linear-gradient(var(--marker),var(--marker));color:var(--ink);border-radius:3px;padding:1px 5px;background-position:0 0;background-size:0% 100%}
+  .band.dark .in mark,.band.dark mark.in{background-size:100% 100%}
+
+  /* Reveal: only blocks below the fold start hidden; text plays once */
+  .js .rv{opacity:0;transform:translateY(12px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out);transition-delay:var(--d,0s)}
+  .js .rv.in{opacity:1;transform:none}
+
+  /* Drawing classes shared by every SVG (ISO-ish line weights) */
+  .ln{fill:none;stroke:var(--ink);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .ln.thin{stroke-width:.8} .ln.hid{stroke-width:1;stroke-dasharray:6 4}
+  .ln.cl{stroke-width:.7;stroke-dasharray:16 4 3 4;opacity:.7}
+  .ln.guide{stroke-width:1;stroke-dasharray:3 5;opacity:.3}
+  .ln.red{stroke:var(--red)} .ln.cyan{stroke:var(--cyan)}
+  .fill-paper{fill:var(--paper)} .fill-card{fill:var(--card)}
+  .svg-label{font:500 11px var(--font-label);letter-spacing:.06em;fill:var(--ink)}
+  .svg-hand{font:16px var(--font-hand);fill:var(--red)}
+
+  /* Buttons */
+  .btn{font:600 14px/1 var(--font-body);padding:12px 18px;border-radius:10px;border:0;background:var(--ink);color:var(--paper);cursor:pointer;
+    transition:scale .15s ease-out;-webkit-tap-highlight-color:transparent;min-width:140px}
+  .btn:not(:disabled):active{scale:.96}
+
+  /* Phone gate: short side under 540px sees only this */
+  .gate{display:none}
+  @media (max-width:539px), (pointer:coarse) and (max-height:499px){ html:not(.no-gate) main{display:none} html:not(.no-gate) .gate{display:grid} }
+  html.phone main{display:none} html.phone .gate{display:grid}
+  .gate{min-height:100svh;place-items:center;text-align:center;padding:32px;background:var(--ground);color:var(--paper)}
+  .gate p{font:600 34px/1.05 var(--font-display);max-width:12ch;margin:18px auto 10px}
+  .gate small{font:400 15px/1.5 var(--font-body);color:rgba(241,237,228,.7)}
+
+  @media (prefers-reduced-motion: reduce){ .js .rv{opacity:1;transform:none;transition:none} mark{transition:none;background-size:100% 42%} }
+</style>
+<script>
+  /* ===== Shared helpers (every section fragment may use these) ===== */
+  document.documentElement.classList.add('js');
+  try { if (navigator.maxTouchPoints > 0 && Math.min(screen.width, screen.height) < 540) document.documentElement.classList.add('phone'); } catch (e) {}
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* ?final=1 forces every finished state (screenshots; hidden panes throttle animation) */
+  const FINAL = reduce || /[?&]final=1/.test(location.search);
+  const NS = 'http://www.w3.org/2000/svg';
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+  /* Run fn once when el is threshold-visible. Under FINAL it runs at once. */
+  function onView(el, fn, threshold = .3) {
+    if (!el) return;
+    if (FINAL || !('IntersectionObserver' in window)) { fn(); return; }
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { io.disconnect(); fn(); } }), { threshold });
+    io.observe(el);
+  }
+  /* Hide paths so they can be pen-drawn later. */
+  function prepDraw(paths) {
+    paths.forEach(p => { const L = p.getTotalLength ? p.getTotalLength() : 0; p.style.strokeDasharray = L + ' ' + L; p.style.strokeDashoffset = FINAL ? 0 : L; p.dataset.len = L; });
+  }
+  /* House pen rule: duration = length / speed, clamped .6-2.2s; next stroke starts at 82% of the previous.
+     parallel:true starts every path at once. Returns the time (s) when the set is done enough to chain. */
+  function penDraw(paths, { delay = 0, speed = 600, overlap = .82, parallel = false, min = .6, max = 2.2 } = {}) {
+    let t = delay, end = delay;
+    paths.forEach(p => {
+      const L = +p.dataset.len || p.getTotalLength();
+      const d = Math.min(max, Math.max(min, L / speed));
+      if (!p.dataset.len) { p.style.strokeDasharray = L + ' ' + L; p.style.strokeDashoffset = L; p.dataset.len = L; }
+      if (FINAL) { p.style.strokeDashoffset = 0; return; }
+      p.getBoundingClientRect();
+      p.style.transition = `stroke-dashoffset ${d}s var(--ease-draw) ${parallel ? delay : t}s`;
+      requestAnimationFrame(() => { p.style.strokeDashoffset = 0; });
+      if (parallel) end = Math.max(end, delay + d * overlap); else { t += d * overlap; end = t; }
+    });
+    return end;
+  }
+  /* Reveal blocks marked .rv; the ones already on screen at load show at once. */
+  function initReveal() {
+    const els = $$('.rv');
+    if (FINAL || !('IntersectionObserver' in window)) { els.forEach(e => e.classList.add('in')); return; }
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -12% 0px' });
+    els.forEach(e => io.observe(e));
+  }
+  addEventListener('DOMContentLoaded', initReveal);
+
+  /* ===== The motif =====
+     Paste the motif kit (assets/motifs/kit.js) and the direction's generator (assets/motifs/<direction>.js) here,
+     or draw the client's own object by hand as a TRUCK-style object of named parts (see assets/examples/coastline.html).
+     Name every part, so sections can light one part (badges) or change one part per step (the pinned stage). */
+  /*MOTIF*/
+</script>
+
+<!-- Shared SVG defs: arrowheads and the graphite pencil filter. Not display:none, or markers and filters break. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 2L10 5L0 8Z" fill="#241D18"/></marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 2L10 5L0 8Z" fill="#9E3B2A"/></marker>
+    <filter id="graphite" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale=".9" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="gate" role="dialog" aria-label="Open on a larger screen">
+  <div>
+    <svg viewBox="0 0 120 80" width="120" aria-hidden="true"><path class="ln" style="stroke:var(--marker)" d="M20 14h80v46H20zM8 66h104"/></svg>
+    <p>Open this on your laptop or tablet</p>
+    <small>This proposal is built for a bigger screen.</small>
+  </div>
+</div>
+
+<main>
+<!--@@SECTIONS-->
+</main>

@@ -8,9 +8,19 @@
   },
   "plugins": [
     {
+      "name": "write",
+      "source": "./plugins/write",
+      "description": "How do I write words people read, and docs Claude reads?"
+    },
+    {
+      "name": "visualize",
+      "source": "./plugins/visualize",
+      "description": "How do I show an idea so people get it without reading much?"
+    },
+    {
       "name": "plan",
       "source": "./plugins/plan",
-      "description": "Decide what to build before building it."
+      "description": "How do I decide what to build before building it?"
     },
     {
       "name": "build",

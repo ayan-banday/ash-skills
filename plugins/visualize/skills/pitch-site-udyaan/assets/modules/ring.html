@@ -1,0 +1,131 @@
+<!--
+  MODULE ring.html · the TVS teaching circle (hub and ring, four corner callouts) · prefix rng-
+  Serves: one person or core that feeds a group (4-8 people), with four stages that happen around it, and one result.
+  Adapt:
+    1. Edit the heading copy in the markup and the band colour class.
+    2. Edit DATA only: centre labels the central figure, people is how many sit on the ring (4-8).
+    3. Exactly four callouts, clockwise from top left; chip is [starter chip class, team name]. Keep text to one line.
+    4. gets is the one result (one <mark> for what the reader gets); set it to '' to drop the dark payoff card.
+    On entry the lines draw out from the centre, the callouts step through once, then all four hold on.
+    Tapping a callout highlights it (tap it again to show all four).
+  Data: DATA.centre, DATA.people, DATA.callouts [{title, text, chip}] (4), DATA.gets {label, text}.
+-->
+<section id="rng" class="band t1" aria-labelledby="rng-h">
+  <div class="wrap">
+    <div class="band-head rv">
+      <p class="label">How the skill spreads</p>
+      <h2 id="rng-h">One store lead teaches the whole shift</h2>
+      <p class="lede">The lead sits at the centre. Each new hire learns in four stages, and by the last one they teach the next person.</p>
+    </div>
+    <div class="rng rv" id="rng-box">
+      <div class="rng-fig" aria-hidden="true">
+        <svg class="rng-svg" id="rng-svg" viewBox="0 0 1000 640"></svg>
+        <span class="rng-centre" id="rng-centre"></span>
+      </div>
+    </div>
+    <div class="rng-gets rv" id="rng-gets"></div>
+  </div>
+</section>
+<style>
+  /* Ring: a central figure, a ring of people, four corner callouts */
+  .rng{position:relative;width:100%;max-width:1000px;margin:0 auto;aspect-ratio:1000/640}
+  .rng-fig{position:absolute;inset:0}
+  .rng-svg{position:absolute;inset:0;width:100%;height:100%}
+  .rng-out{fill:none;stroke:var(--ink);stroke-width:1.4;stroke-dasharray:2 9;stroke-linecap:round}
+  .rng-in{fill:color-mix(in srgb,var(--card) 45%,transparent);stroke:var(--ink);stroke-width:1.4}
+  .rng-lead{fill:none;stroke:var(--ink);stroke-width:1.3;stroke-dasharray:3 5;stroke-opacity:.55;transition:stroke-opacity .4s ease}
+  .rng-lead.on{stroke-dasharray:none;stroke-opacity:1;stroke-width:1.6}
+  .rng-hub{fill:var(--ink)}
+  .rng-hub-head{fill:var(--paper)}
+  .rng-hub-body{fill:var(--paper)}
+  .rng-p{fill:var(--paper);stroke:var(--ink);stroke-width:2;transition:fill .5s ease}
+  .rng-ph{fill:var(--ink);transition:fill .5s ease}
+  .rng-pg.on .rng-p{fill:var(--ink)} .rng-pg.on .rng-ph{fill:var(--paper)}   /* lit = ink */
+  .rng-t{fill:none;stroke:var(--accent-1);stroke-width:2.2;stroke-linecap:round}
+  .rng-centre{position:absolute;left:50%;top:36.9%;transform:translate(-50%,-50%);font:500 17px/1.1 var(--font-display);white-space:nowrap;
+    padding:1px 6px;border-radius:6px;background:color-mix(in srgb,var(--card) 45%,var(--rng-halo,transparent))}   /* same colour as the inner disc */
+  .rng-call{appearance:none;border:0;font:inherit;color:inherit;text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent;
+    position:absolute;width:30%;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;
+    background:var(--card);border-radius:var(--r-sheet);padding:18px 20px;box-shadow:0 0 0 1px var(--line);transition:box-shadow .4s var(--ease-out)}
+  .rng-call.on{box-shadow:0 0 0 2.5px var(--ink)}
+  .rng-call:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  .rng-num{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--paper);font:500 12px/1 var(--font-label);margin-bottom:8px}
+  .rng-h{display:block;font:500 clamp(19px,1.8vw,22px)/1.15 var(--font-display);margin:0 0 6px}
+  .rng-tx{display:block;font-size:14.5px;line-height:1.45;margin-bottom:10px}
+  .rng-q1{left:0;top:1%} .rng-q2{right:0;top:1%} .rng-q3{right:0;bottom:1%} .rng-q4{left:0;bottom:1%}
+  .rng-gets{margin:36px auto 0;background:var(--ground);color:var(--paper);border-radius:var(--r-sheet);padding:24px 30px;display:grid;gap:6px;max-width:780px;text-align:center}
+  .rng-gets:empty{display:none}
+  .rng-gets .label{color:color-mix(in srgb,var(--paper) 72%,transparent)}
+  .rng-gets p{font:500 23px/1.35 var(--font-display)}
+  .rng-gets mark{background-image:linear-gradient(var(--marker),var(--marker));background-position:0 0;background-size:0% 100%;color:var(--ink);border-radius:3px;padding:1px 5px}
+  .rng-gets.in mark{background-size:100% 100%}
+  @media (max-width:980px){ .rng-call{width:31%} .rng-tx{font-size:13.5px} }
+  @media (max-width:820px){
+    .rng{aspect-ratio:auto;display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .rng-fig{position:relative;inset:auto;height:260px;grid-column:1/-1}
+    .rng-lead{display:none}
+    .rng-centre{top:auto;bottom:0;transform:translateX(-50%);background:none}
+    .rng-call{position:relative;inset:auto;width:auto}
+  }
+</style>
+<script>
+(() => {
+  const DATA = {
+    centre: 'Store lead',
+    people: 6,
+    callouts: [
+      { title: 'Watch', text: 'New staff shadow the store lead for one full shift.', chip: ['c-field', 'Field team'] },
+      { title: 'Try', text: 'They place the morning order with the lead beside them.', chip: ['c-app', 'App team'] },
+      { title: 'Check', text: 'The forecast shows them how close their order came.', chip: ['c-data', 'Data team'] },
+      { title: 'Teach', text: 'After a month, they teach the next new hire.', chip: ['c-field', 'Field team'] }
+    ],
+    gets: { label: 'What Northwind gets', text: '<mark>New staff who run the order alone</mark> within a month.' }
+  };
+
+  /* ---- mechanics ---- */
+  const box = $('#rng-box'), svg = $('#rng-svg'), sec = $('#rng');
+  const mk = (tag, a, p = svg) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; };
+  const CX = 500, CY = 320;
+  $('#rng-centre').textContent = DATA.centre;
+  $('#rng-centre').style.setProperty('--rng-halo', getComputedStyle(sec).backgroundColor);
+  if (DATA.gets && DATA.gets.text) $('#rng-gets').innerHTML = `<span class="label">${DATA.gets.label}</span><p>${DATA.gets.text}</p>`;
+  mk('circle', { class: 'rng-out', cx: CX, cy: CY, r: 190 });
+  mk('circle', { class: 'rng-in', cx: CX, cy: CY, r: 120 });
+  const leads = ['M370 240L230 150', 'M630 240L770 150', 'M630 400L770 490', 'M370 400L230 490'].map(d => mk('path', { class: 'rng-lead', d }));
+  const count = Math.max(4, Math.min(8, DATA.people));
+  const people = [...Array(count)].map((_, i) => {
+    const r = (-90 + (count % 2 ? 180 : 180 / count) + 360 * i / count) * Math.PI / 180,   // nobody straight above the hub, so its label stays clear
+          c = Math.cos(r), s = Math.sin(r), x = CX + 120 * c, y = CY + 120 * s;
+    const t = mk('path', { class: 'rng-t', d: `M${(CX + 58 * c).toFixed(1)} ${(CY + 58 * s).toFixed(1)}L${(CX + 98 * c).toFixed(1)} ${(CY + 98 * s).toFixed(1)}` });
+    const g = mk('g', { class: 'rng-pg' });
+    mk('circle', { class: 'rng-p', cx: x.toFixed(1), cy: y.toFixed(1), r: 17 }, g);
+    mk('circle', { class: 'rng-ph', cx: x.toFixed(1), cy: (y - 4).toFixed(1), r: 5 }, g);
+    return { t, g };
+  });
+  mk('circle', { class: 'rng-hub', cx: CX, cy: CY, r: 54 });
+  mk('circle', { class: 'rng-hub-head', cx: CX, cy: CY - 14, r: 13 });
+  mk('path', { class: 'rng-hub-body', d: `M${CX - 27} ${CY + 38}C${CX - 27} ${CY + 14} ${CX - 15} ${CY + 4} ${CX} ${CY + 4}S${CX + 27} ${CY + 14} ${CX + 27} ${CY + 38}Z` });
+  const calls = DATA.callouts.slice(0, 4).map((c, i) => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = `rng-call rng-q${i + 1}`;
+    b.innerHTML = `<span class="rng-num">${i + 1}</span><span class="rng-h">${c.title}</span><span class="rng-tx">${c.text}</span><span class="chip ${c.chip[0]}">${c.chip[1]}</span>`;
+    box.appendChild(b); return b;
+  });
+  // k = index to highlight, or 'all'
+  const setOn = k => calls.forEach((c, i) => { const on = k === 'all' || i === k; c.classList.toggle('on', on); c.setAttribute('aria-pressed', k !== 'all' && on); leads[i].classList.toggle('on', on); });
+
+  // lines draw out from the centre once, each person turns ink as their line arrives
+  const ts = people.map(o => o.t);
+  prepDraw(ts);
+  let held = false;
+  if (FINAL) { people.forEach(o => o.g.classList.add('on')); setOn('all'); }
+  else onView(box, () => {
+    let t = .12;
+    ts.forEach((p, i) => { penDraw([p], { delay: t, min: .5, max: .6 }); setTimeout(() => people[i].g.classList.add('on'), (t + .45) * 1000); t += .26; });
+    // the callouts step through once (1.6s each), then all four hold on; a tap ends the walk-through
+    calls.forEach((_, i) => setTimeout(() => { if (!held) setOn(i); }, 600 + i * 1600));
+    setTimeout(() => { if (!held) setOn('all'); }, 600 + calls.length * 1600);
+  }, .35);
+  let current = 'all';
+  calls.forEach((c, i) => c.addEventListener('click', () => { held = true; current = current === i ? 'all' : i; setOn(current); }));
+})();
+</script>

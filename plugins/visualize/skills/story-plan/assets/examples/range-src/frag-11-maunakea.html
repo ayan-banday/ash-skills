@@ -1,0 +1,459 @@
+<section id="mauna-kea" class="pn mk" data-title="Mauna Kea" data-sil="M1 16C5 11 8 9 11 9h1c0-1.4 2-1.4 2 0h1c3 0 7 2 12 7Z" data-pop="var(--mk-pop)" aria-label="Mauna Kea">
+  <div class="pn-head mk-head">
+    <h2>Mauna Kea</h2>
+    <p class="pn-mean">Awareness. The choice before every choice.</p>
+    <p class="pn-hint">Follow the numbers, then dive</p>
+  </div>
+  <p class="pn-pan">Drag the picture sideways</p>
+  <div class="pn-scroll">
+    <div class="scene mk-scene">
+      <svg class="art" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Mauna Kea before dawn: observatories on a summit above a sea of clouds. Below the waterline the mountain goes on down to the sea floor, and a bathysphere can dive through four layers: goals, identity, acquired values, natural values.">
+        <defs>
+          <linearGradient id="mk-sky" x1="0" y1="0" x2="0" y2="620" gradientUnits="userSpaceOnUse">
+            <stop offset="0" style="stop-color:var(--mk-sky0)"/><stop offset=".42" style="stop-color:var(--mk-plum)"/><stop offset=".62" style="stop-color:var(--mk-violet)"/>
+            <stop offset=".71" style="stop-color:#C9968A"/><stop offset=".76" style="stop-color:#F2A541"/><stop offset=".9" style="stop-color:#6B5B86"/>
+          </linearGradient>
+          <linearGradient id="mk-deep" x1="0" y1="600" x2="0" y2="1800" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#3D3557"/><stop offset=".3" stop-color="#2A2340"/><stop offset=".55" stop-color="#1A1528"/><stop offset=".82" stop-color="#110D1B"/><stop offset="1" stop-color="#0B0912"/>
+          </linearGradient>
+          <radialGradient id="mk-lamp" cx=".5" cy=".5" r=".5"><stop offset="0" style="stop-color:#F2A541;stop-opacity:.9"/><stop offset="1" style="stop-color:#F2A541;stop-opacity:0"/></radialGradient>
+          <linearGradient id="mk-cone" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#F2A541" stop-opacity=".62"/><stop offset=".55" stop-color="#F2A541" stop-opacity=".2"/><stop offset="1" stop-color="#F2A541" stop-opacity="0"/></linearGradient>
+          <radialGradient id="mk-hot" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFE7B8"/><stop offset=".35" stop-color="#F2A541" stop-opacity=".9"/><stop offset="1" stop-color="#C9742B" stop-opacity="0"/></radialGradient>
+          <linearGradient id="mk-fade-g" x1="0" y1="0" x2="1" y2="0"><stop offset=".3" stop-color="#000"/><stop offset=".46" stop-color="#fff"/></linearGradient>
+          <mask id="mk-fade" maskUnits="userSpaceOnUse" x="0" y="0" width="1600" height="620"><rect width="1600" height="620" fill="url(#mk-fade-g)"/></mask>
+          <linearGradient id="mk-cloudfade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D6CCE0" stop-opacity=".9"/><stop offset="1" stop-color="#D6CCE0" stop-opacity="0"/></linearGradient>
+        </defs>
+
+        <!-- sky before dawn -->
+        <rect width="1600" height="620" fill="url(#mk-sky)"/>
+        <g class="mk-starfield"></g>
+        <g mask="url(#mk-fade)"><g class="mk-trails" style="fill:none;stroke:var(--mk-cream);stroke-linecap:round"></g></g>
+
+        <!-- scenarios in parallel: one point, many trails -->
+        <g class="mk-fan" style="fill:none;stroke:var(--mk-cream);stroke-width:1;stroke-linecap:round"></g>
+
+        <!-- the constellation: Awareness, Choice, Intention. Its name is Stars. -->
+        <g class="mk-chain">
+          <path class="mk-chain-line" d="M712 150L840 212 984 146" style="fill:none;stroke:var(--mk-cream);stroke-width:1.3;opacity:.75"/>
+          <path class="mk-laser" d="M872 306L846 222" style="fill:none;stroke:var(--mk-pop);stroke-width:2;stroke-linecap:round;opacity:.45"/>
+          <g style="fill:var(--mk-cream)">
+            <path class="mk-cs" d="M712 141l2.4 6.6 6.6 2.4-6.6 2.4-2.4 6.6-2.4-6.6-6.6-2.4 6.6-2.4z"/>
+            <path class="mk-cs" d="M840 201l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/>
+            <path class="mk-cs" d="M984 137l2.4 6.6 6.6 2.4-6.6 2.4-2.4 6.6-2.4-6.6-6.6-2.4 6.6-2.4z"/>
+          </g>
+          <g style="font:600 13px var(--f-label);letter-spacing:2.6px;fill:var(--mk-cream);opacity:.85" text-anchor="middle">
+            <text x="712" y="184">AWARENESS</text><text x="840" y="246">CHOICE</text><text x="984" y="180">INTENTION</text>
+          </g>
+          <text x="848" y="112" text-anchor="middle" style="font:600 16px var(--f-label);letter-spacing:9px;fill:var(--mk-pop)">STARS</text>
+        </g>
+        <!-- the dome's beam: fired when the observatories are opened -->
+        <path class="mk-dbeam" d="M874 305L1150 202" style="fill:none;stroke:var(--mk-pop);stroke-width:2.4;stroke-linecap:round"/>
+
+        <!-- the summit above the clouds -->
+        <path d="M300 520C420 470 560 420 690 372 740 354 770 340 800 334 840 326 880 330 920 328 960 326 1000 330 1040 336 1100 346 1180 380 1290 430 1380 470 1450 500 1520 520V620H300Z" style="fill:var(--mk-rock)"/>
+        <path d="M836 330a16 10 0 0 1 32 0zM1048 338a14 8 0 0 1 28 0z" style="fill:var(--mk-rock)"/>
+        <path d="M560 420C640 390 700 366 760 348 800 334 850 324 920 327 1000 326 1060 332 1120 352 1180 372 1240 404 1300 436" style="fill:none;stroke:var(--mk-pop);stroke-width:1.6;opacity:.5;stroke-linecap:round"/>
+        <g style="fill:var(--mk-cream);opacity:.78">
+          <path d="M760 350C790 341 820 338 842 344 820 351 790 356 760 350Z"/><path d="M940 334C980 331 1010 336 1032 343 1000 347 968 344 940 334Z"/>
+          <path d="M1100 356C1130 366 1160 378 1182 392 1150 388 1120 376 1100 356Z"/><path d="M640 392C660 384 680 378 700 374 684 384 664 392 640 392Z"/>
+        </g>
+        <!-- the pueo's tracks in the snow -->
+        <g class="mk-tracks" style="fill:var(--mk-rock);opacity:.9"><circle cx="680" cy="378" r="1.8"/><circle cx="672" cy="382" r="1.8"/><circle cx="662" cy="384" r="1.8"/><circle cx="655" cy="388" r="1.8"/><circle cx="645" cy="389" r="1.8"/></g>
+
+        <!-- observatory domes; the small one has a slit that can be lit -->
+        <g class="mk-domes" style="fill:var(--mk-cream)">
+          <path d="M852 330v-8a18 18 0 0 1 36 0v8z"/><path d="M868 304.2v17.6" style="stroke:var(--mk-rock);stroke-width:3"/>
+          <path d="M918 332v-6a12 12 0 0 1 24 0v6z"/><path d="M970 332v-7a14 14 0 0 1 28 0v7z"/><path d="M1020 336v-5a10 10 0 0 1 20 0v5z"/>
+          <rect class="mk-slit" x="1028.5" y="321.5" width="3" height="10"/>
+        </g>
+
+        <!-- creature: the pueo, which hunts by day as well as night; beside it, a cairn -->
+        <g class="mk-owl">
+          <path d="M688 378c4-8 22-10 32-4 6 4 6 10 2 12-12 4-28 2-34-8z" style="fill:#4B3F55"/>
+          <path d="M696 372c-2-14 2-26 12-30 10 2 14 14 12 30-6 4-18 4-24 0z" style="fill:#C9A97C"/>
+          <path d="M700 360c3 2 5 1 6 4M712 358c-2 3-1 5 2 7M703 368c2 1 4 1 6 0" style="fill:none;stroke:#6E5338;stroke-width:1.1;stroke-linecap:round"/>
+          <g class="mk-owl-head">
+            <circle cx="708" cy="338" r="11" style="fill:#C9A97C"/>
+            <path d="M699 330l-1-5 4 3M717 330l1-5-4 3" style="fill:#6E5338"/>
+            <ellipse cx="708" cy="339" rx="8.6" ry="7.6" style="fill:#E8D9BC"/>
+            <circle cx="704.4" cy="338" r="2.6" style="fill:#2A2234"/><circle cx="711.6" cy="338" r="2.6" style="fill:#2A2234"/>
+            <circle cx="704.4" cy="338" r="1.7" style="fill:var(--mk-pop)"/><circle cx="711.6" cy="338" r="1.7" style="fill:var(--mk-pop)"/>
+            <circle cx="704.4" cy="338" r=".7" style="fill:#1A1420"/><circle cx="711.6" cy="338" r=".7" style="fill:#1A1420"/>
+            <path d="M708 341l-1.4 2.6h2.8z" style="fill:#3A2E2A"/>
+          </g>
+        </g>
+        <g class="mk-cairn" style="fill:#D9D0C2;stroke:#2A2234;stroke-width:1">
+          <ellipse class="mk-stone" cx="748" cy="357" rx="9" ry="4"/><ellipse class="mk-stone" cx="748" cy="350" rx="7" ry="3.4"/><ellipse class="mk-stone" cx="748" cy="344.5" rx="5" ry="2.8"/>
+        </g>
+
+        <!-- the lantern on the summit -->
+        <g class="mk-lantern-art">
+          <circle cx="1110" cy="338" r="30" fill="url(#mk-lamp)" style="opacity:var(--mk-glow-o)"/>
+          <path d="M1100 352c2-6 18-6 20 0z" style="fill:#2A2234"/>
+          <path d="M1104 330h12M1110 324v6M1103 333h14l-1.6 15h-10.8z" style="fill:none;stroke:var(--mk-cream);stroke-width:1.5;stroke-linejoin:round"/>
+          <path d="M1110 336.5c2.2 2.2 2.6 4.2 1.3 6-.6.9-2 .9-2.6 0-1.3-1.8-.9-3.8 1.3-6z" style="fill:var(--mk-pop)"/>
+        </g>
+
+        <!-- camp: the Gulmarg bus -->
+        <g class="mk-tent mk-tent-g">
+          <path d="M552 424l14-24 14 24z" style="fill:var(--mk-cream)"/><path class="mk-tglow" d="M557 422l9-15.5 9 15.5z" style="fill:#FFD08A"/>
+          <path d="M566 424l-4-9h8z" style="fill:var(--mk-pop)"/><path d="M566 400v-8l7 2.5-7 2.5" style="fill:var(--mk-pop);stroke:var(--mk-cream);stroke-width:1"/>
+        </g>
+
+        <!-- under the clouds: the lower flank, and the shore -->
+        <rect x="0" y="520" width="1600" height="82" style="fill:#2A2238"/>
+        <path d="M140 600C300 560 420 542 520 538H1240C1350 542 1460 566 1560 600Z" style="fill:var(--mk-rock)"/>
+        <!-- the winch on the shore that lowers the bathysphere -->
+        <g style="fill:none;stroke:var(--mk-cream);stroke-width:1.6;stroke-linecap:round;opacity:.85">
+          <path d="M498 600L517 558M542 600L523 558M508 580h24"/><circle cx="520" cy="556" r="4.5"/>
+        </g>
+        <!-- camp: the tuition room at age 12 -->
+        <g class="mk-tent mk-tent-t">
+          <path class="mk-smoke" d="M1302 540c-8-14 8-22 2-36s12-22 4-38 8-18 4-30" style="fill:none;stroke:var(--mk-cream);stroke-width:2;stroke-linecap:round"/>
+          <path d="M1286 566l14-24 14 24z" style="fill:var(--mk-cream)"/><path class="mk-tglow" d="M1291 564l9-15.5 9 15.5z" style="fill:#FFD08A"/>
+          <path d="M1300 566l-4-9h8z" style="fill:var(--mk-pop)"/>
+        </g>
+        <!-- the sea of clouds: numbing drifts in it -->
+        <g class="mk-clouds"></g>
+        <rect x="-20" y="528" width="1640" height="30" fill="url(#mk-cloudfade)"/>
+        <g class="mk-ghosts" style="fill:none;stroke:var(--mk-plum);stroke-width:1.6;stroke-linejoin:round">
+          <rect x="419" y="474" width="22" height="38" rx="4"/><path d="M427 507h6"/><rect class="mk-scr" x="423" y="480" width="14" height="22" style="fill:#F2A541;stroke:none"/>
+          <rect x="612" y="486" width="56" height="34" rx="3"/><path d="M634 496v14l11-7z" style="fill:var(--mk-plum)"/><path d="M630 524h20"/>
+          <rect x="1249" y="474" width="22" height="38" rx="4"/><path d="M1256 486v14l9-7z" style="fill:var(--mk-plum)"/>
+        </g>
+
+        <!-- ===== Below the sea: Mauna Kea goes on down to the floor ===== -->
+        <rect y="600" width="1600" height="1200" fill="url(#mk-deep)"/>
+        <g class="mk-wall" style="fill:none;stroke:#F3E9D2"></g>
+        <g class="mk-caustic" style="fill:none;stroke:#F3E9D2;stroke-width:1"></g>
+        <g class="mk-zones">
+          <path d="M0 1000H1600M0 1200H1600" style="stroke:#F3E9D2;stroke-width:1;stroke-dasharray:2 9;opacity:.22"/>
+          <g style="font:600 11px var(--f-label);letter-spacing:2.6px;fill:#F3E9D2;opacity:.42" text-anchor="end">
+            <text x="1450" y="628">THE SUNLIGHT ZONE</text><text x="1450" y="1024">THE TWILIGHT ZONE</text><text x="1450" y="1224">THE MIDNIGHT ZONE</text><text x="1450" y="1666">THE FLOOR</text>
+          </g>
+        </g>
+
+        <!-- 1. Goals: a school of fish in the shallows -->
+        <g class="mk-z mk-z1"><g class="mk-school" style="fill:#E6DCEC"></g></g>
+        <!-- 2. Identity: a nautilus, which lives in the newest chamber it built -->
+        <g class="mk-z mk-z2"><g class="mk-naut"></g></g>
+        <!-- 3. Acquired values: a hermit crab wearing a shell it found -->
+        <g class="mk-z mk-z3">
+          <path d="M610 1300c40-26 130-34 220-30s150 14 190 30z" style="fill:#241C33;stroke:#F3E9D2;stroke-opacity:.18"/>
+          <g class="mk-anem" style="fill:none;stroke:#F2A541;stroke-width:2.4;stroke-linecap:round"></g>
+          <path d="M852 1190c0-10 4-17 8-19 4 2 8 9 8 19z" style="fill:#F2A541"/>
+          <path d="M792 1258c-8-30 18-62 58-64 38-2 64 24 62 52-2 22-26 32-52 30-30-2-62 0-68-18z" style="fill:#D9CFE6;stroke:#3A2E4A;stroke-width:1.4"/>
+          <path d="M884 1214c-10-12-32-10-36 6-3 13 9 24 22 19 10-4 10-15 2-17M904 1236c-14 10-50 14-96 10" style="fill:none;stroke:#6B5B86;stroke-width:1.4;stroke-linecap:round"/>
+          <text x="842" y="1270" text-anchor="middle" transform="rotate(-5 842 1270)" style="font:700 12px var(--f-label);letter-spacing:2.6px;fill:#3A2E4A">RESPECT</text>
+          <path d="M798 1252c-14-8-34-4-40 8 10 6 22 4 30-2 4 6 10 9 18 6zM794 1266c-10-2-22 2-24 8 8 3 16 1 22-3z" style="fill:#C9573A"/>
+          <path d="M800 1268l-14 26M810 1270l-6 26M820 1270l2 26" style="fill:none;stroke:#C9573A;stroke-width:3;stroke-linecap:round"/>
+          <path d="M798 1250l-10-16M806 1248l-5-18" style="fill:none;stroke:#C9573A;stroke-width:2;stroke-linecap:round"/>
+          <circle cx="788" cy="1233" r="3" style="fill:#1A1420"/><circle cx="801" cy="1229" r="3" style="fill:#1A1420"/>
+          <path d="M846 1150l12 16" style="stroke:#F3E9D2;stroke-width:1;opacity:.7"/>
+          <text x="842" y="1146" text-anchor="end" style="font:700 12px var(--f-label);letter-spacing:2.6px;fill:#F2C98A">HUMILITY</text>
+        </g>
+        <!-- 4. Natural values: the hotspot under the floor that built the whole mountain -->
+        <path d="M-40 1640C200 1628 400 1650 620 1636S1000 1630 1200 1646 1500 1634 1640 1640V1800H-40Z" style="fill:#0E0B15;stroke:#F3E9D2;stroke-opacity:.16"/>
+        <g class="mk-z mk-z4">
+          <ellipse cx="820" cy="1736" rx="300" ry="80" fill="url(#mk-hot)"/>
+          <path d="M786 1652C770 1606 806 1566 796 1500 818 1566 846 1604 860 1652Z" fill="url(#mk-hot)" filter="url(#soft6)"/>
+          <path d="M770 1640l18 14-8 18 24 22-6 28M866 1640l-10 20 16 22" style="fill:none;stroke:#F2A541;stroke-width:2;stroke-linecap:round"/>
+          <text x="820" y="1746" text-anchor="middle" style="font:700 24px var(--f-label);letter-spacing:11px;fill:#2A1A10">CURIOSITY</text>
+        </g>
+        <!-- the floor ruler: the tallest mountain on Earth, measured from its base -->
+        <g style="fill:none;stroke:#F3E9D2;stroke-width:1;opacity:.5">
+          <path d="M1400 1632V612" style="stroke-dasharray:6 6"/><path d="M1394 624l6-12 6 12M1394 1620l6 12 6-12"/>
+        </g>
+        <text x="1388" y="1696" text-anchor="end" style="font:600 11px var(--f-label);letter-spacing:2.4px;fill:#F3E9D2;opacity:.7">TALLEST MOUNTAIN ON EARTH,</text>
+        <text x="1388" y="1720" text-anchor="end" style="font:italic 400 18px var(--f-display);fill:#F3E9D2;opacity:.8">measured from its base.</text>
+
+        <path class="mk-shore" d="M0 600.5H1600" style="stroke:var(--mk-cream);stroke-width:1;opacity:.45"/>
+        <g style="stroke:var(--mk-cream);stroke-width:1;opacity:.3;stroke-linecap:round"><path d="M30 612h40M90 620h26M1520 614h46M1480 624h24"/></g>
+
+        <!-- the bathysphere: its searchlight is attention -->
+        <path class="mk-cable" d="M520 561V656" style="stroke:var(--mk-cream);stroke-width:1.4;opacity:.8"/>
+        <g class="mk-sph" transform="translate(0 690)">
+          <g class="mk-cone"><path class="pool" d="M552 -7L1020 -150V160L552 7Z" fill="url(#mk-cone)"/><ellipse class="pool" cx="800" cy="0" rx="190" ry="120" fill="url(#mk-lamp)" style="opacity:.4"/></g>
+          <path d="M514 -34h12v8h-12z" style="fill:#4A4258"/>
+          <circle cx="520" cy="0" r="28" style="fill:#5E5670;stroke:#1A1420;stroke-width:1.6"/>
+          <path d="M498 -14a28 28 0 0 1 30-12" style="fill:none;stroke:#B9B0C8;stroke-width:2;stroke-linecap:round;opacity:.7"/>
+          <g style="fill:#2A2234"><circle cx="520" cy="-24" r="1.4"/><circle cx="503" cy="-17" r="1.4"/><circle cx="497" cy="1" r="1.4"/><circle cx="504" cy="18" r="1.4"/><circle cx="520" cy="25" r="1.4"/><circle cx="537" cy="18" r="1.4"/></g>
+          <circle cx="514" cy="2" r="11" style="fill:#2A2234"/><circle cx="514" cy="2" r="7.5" style="fill:#F2A541"/><circle cx="511.5" cy="-.5" r="2.4" style="fill:#FFE3B0"/>
+          <rect x="543" y="-6" width="11" height="12" rx="2" style="fill:#8C80A3;stroke:#1A1420"/><circle cx="555" cy="0" r="2.6" style="fill:#F2A541"/>
+        </g>
+        <text class="mk-flash" x="672" y="706" style="font:italic 400 21px var(--f-display);fill:var(--mk-cream)">“Your attention is kind of like a flashlight.”</text>
+        <g class="mk-dw ins"></g>
+
+        <!-- the depth gauge: it stays with you as you dive -->
+        <g class="mk-gauge">
+          <text x="172" y="646" style="font:italic 400 19px var(--f-display);fill:var(--mk-cream)"><tspan x="172">The more aware you are,</tspan><tspan x="172" dy="23">the deeper you can see.</tspan></text>
+          <path d="M172 690V876" style="stroke:var(--mk-cream);stroke-width:1;opacity:.5"/>
+          <path class="mk-gm" d="M156 -5l9 5-9 5z" style="fill:var(--mk-pop)" transform="translate(0 698)"/>
+        </g>
+
+        <!-- ===== Lights: lamps in the scene, and what each one shows when lit ===== -->
+        <g class="lit" data-lamp="slit">
+          <path d="M1031 322L1258 88" style="fill:none;stroke:#F2C98A;stroke-width:1.3;opacity:.65"/>
+          <g transform="translate(890 -266)">
+            <g style="fill:none;stroke:#F2C98A;stroke-width:1;opacity:.85">
+              <path d="M300 346L318 300 336 346M308 326H328"/>
+              <path d="M390 306C380 298 362 300 362 312 362 324 390 320 390 334 390 346 368 348 360 338"/>
+              <path d="M444 306C434 298 416 300 416 312 416 324 444 320 444 334 444 346 422 348 414 338"/>
+            </g>
+            <g style="fill:#FFE3B0"><circle cx="300" cy="346" r="2.6"/><circle cx="318" cy="300" r="3"/><circle cx="336" cy="346" r="2.6"/><circle cx="308" cy="326" r="2"/><circle cx="328" cy="326" r="2"/>
+              <circle cx="390" cy="306" r="2.4"/><circle cx="362" cy="312" r="2.4"/><circle cx="390" cy="334" r="2.4"/><circle cx="360" cy="338" r="2.4"/>
+              <circle cx="444" cy="306" r="2.4"/><circle cx="416" cy="312" r="2.4"/><circle cx="444" cy="334" r="2.4"/><circle cx="414" cy="338" r="2.4"/></g>
+          </g>
+          <text class="nx-k" x="1460" y="108" text-anchor="end">AWARENESS, SPECIALIZED INTERFACE, SENTINEL.</text>
+          <text class="nx-t" x="1460" y="132" text-anchor="end">“We have the perfect acronym now.”</text>
+        </g>
+        <g class="lit" data-lamp="owl">
+          <circle class="pool" cx="708" cy="340" r="64" fill="url(#mk-lamp)" style="opacity:.55"/>
+          <text class="nx-k" x="636" y="266">PUEO, HAWAII'S SHORT-EARED OWL</text>
+          <text class="nx-t" x="636" y="289">Hunts by day as well as night.</text>
+        </g>
+        <g class="lit" data-lamp="lantern">
+          <circle class="pool" cx="1110" cy="338" r="78" fill="url(#mk-lamp)" style="opacity:.8"/>
+          <text class="nx-t" x="1180" y="240" text-anchor="middle"><tspan x="1180">“I can see how my blue bedsheet</tspan><tspan x="1180" dy="22">relates to the colour theory I'm studying.”</tspan></text>
+        </g>
+        <g class="lit" data-lamp="phone">
+          <circle class="pool" cx="430" cy="492" r="70" fill="url(#mk-lamp)" style="opacity:.75"/>
+          <rect x="423" y="480" width="14" height="22" style="fill:#FFE9C2"/>
+          <text class="nx-k" x="430" y="548" text-anchor="middle">PHONE</text>
+          <text class="nx-k" x="640" y="548" text-anchor="middle">NETFLIX</text>
+          <text class="nx-k" x="1260" y="540" text-anchor="middle">SHORTS</text>
+        </g>
+        <g class="lamp" data-lamp="slit" data-name="the slit in the small dome"><circle class="lp-ring" cx="1030" cy="327" r="15"/><circle class="lp-hit" cx="1030" cy="327" r="15"/></g>
+        <g class="lamp" data-lamp="owl" data-name="the owl's eyes"><circle class="lp-ring" cx="708" cy="338" r="15"/><circle class="lp-hit" cx="708" cy="338" r="15"/></g>
+        <g class="lamp" data-lamp="lantern" data-name="the lantern on the summit"><circle class="lp-ring" cx="1110" cy="338" r="18"/><circle class="lp-hit" cx="1110" cy="338" r="18"/></g>
+        <g class="lamp" data-lamp="phone" data-name="the phone in the clouds"><circle class="lp-ring" cx="430" cy="493" r="25"/><circle class="lp-hit" cx="430" cy="493" r="25"/></g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<style>
+  #mauna-kea{background:var(--mk-plum);color:var(--mk-cream);--pop:var(--mk-pop);--ins-ink:var(--mk-cream);--ins-halo:#171220;--veil:#0D0A13;--st-num:#1A1420}
+  #mauna-kea .pn-head h2, #mauna-kea .pn-mean{color:var(--mk-cream)}
+  #mauna-kea .pn-hint{color:var(--mk-lilac);opacity:1}
+  /* under the sea the title steps aside; the route stays */
+  #mauna-kea.deep .pn-head > :not(.route){visibility:hidden}
+  .mk-trails{transform-box:view-box;transform-origin:1010px -60px;animation:mk-spin 420s linear infinite;animation-play-state:paused}
+  #mauna-kea.live .mk-trails{animation-play-state:running}
+  @keyframes mk-spin{to{transform:rotate(360deg)}}
+  .mk-owl-head{transform-box:fill-box;transform-origin:50% 80%}
+  #mauna-kea.arrived .mk-owl-head{animation:mk-look 2.6s var(--ease-draw) .9s 1 both}
+  @keyframes mk-look{0%{transform:none}35%{transform:rotate(-22deg)}65%{transform:rotate(-22deg)}100%{transform:none}}
+
+  /* each stop's own act: stepped, never gliding */
+  .mk-dbeam, .mk-smoke, .mk-tglow{opacity:0}
+  #mauna-kea[data-stop="dome"] .mk-dbeam{opacity:1}
+  #mauna-kea[data-stop="tuition"] .mk-tent-t :is(.mk-smoke,.mk-tglow), #mauna-kea[data-stop="gulmarg"] .mk-tent-g .mk-tglow{opacity:1}
+  .mk-cs{transform-box:fill-box;transform-origin:center}
+  #mauna-kea[data-stop="chain"] .mk-cs{animation:mk-twk .5s steps(2,end) .2s 3}
+  @keyframes mk-twk{50%{transform:scale(1.9)}}
+  #mauna-kea[data-stop="pueo"] .mk-stone{animation:mk-drop .3s steps(3,end) both}
+  #mauna-kea[data-stop="pueo"] .mk-stone:nth-child(2){animation-delay:.25s}
+  #mauna-kea[data-stop="pueo"] .mk-stone:nth-child(3){animation-delay:.5s}
+  @keyframes mk-drop{0%{transform:translateY(-22px);opacity:0}1%{opacity:1}100%{transform:none;opacity:1}}
+  .mk-scr{opacity:.35}
+  #mauna-kea[data-stop="cloud"] .mk-ghosts{stroke:var(--mk-cream);animation:flick .5s steps(1,end) both}
+  #mauna-kea[data-stop="cloud"] .mk-scr{opacity:1}
+  #mauna-kea .mk-slit{fill:#3A2E4A}
+  #mauna-kea.slit-on .mk-slit{fill:#F2A541}
+
+  /* the dive: creatures wait dark until the searchlight finds them */
+  .mk-z{opacity:.26}
+  #mauna-kea.z1 .mk-z1, #mauna-kea.z2 .mk-z2, #mauna-kea.z3 .mk-z3, #mauna-kea.z4 .mk-z4{opacity:1;animation:flick .5s steps(1,end) both}
+  .mk-cone{opacity:0}
+  #mauna-kea.beam .mk-cone{opacity:1;animation:flick .5s steps(1,end) both}
+  .mk-school{transform-box:fill-box;transform-origin:center}
+  #mauna-kea.z1:not(.final-all) .mk-school{animation:mk-turn .45s steps(3,end) .5s both}
+  @keyframes mk-turn{to{transform:rotate(-14deg) translateX(14px)}}
+  .mk-gauge .mk-gt{cursor:pointer;outline:none}
+  .mk-gauge .mk-gt text{font:600 11.5px var(--f-label);letter-spacing:2.4px;fill:var(--mk-cream);opacity:.78}
+  .mk-gauge .mk-gt .gt-hit{fill:transparent}
+  .mk-gauge .mk-gt.on text{fill:var(--mk-pop);opacity:1}
+  @media (hover:hover){ .mk-gauge .mk-gt:hover text{opacity:1} }
+  .mk-gauge .mk-gt:focus-visible text{text-decoration:underline}
+  .final #mauna-kea .scene{aspect-ratio:16/18}
+  @media (max-width:819px){ #mauna-kea .pn-scroll .scene{min-width:1060px} }
+</style>
+<script>
+(() => {
+  const sec = $('#mauna-kea'), svg = $('svg.art', sec);
+  const R = rng(23);
+  /* still stars */
+  let s = '';
+  for (let i = 0; i < 170; i++) { const x = R() * 1600, y = R() * 430; s += `<circle cx="${f1(x)}" cy="${f1(y)}" r="${f1(.4 + R() * 1.1)}" style="fill:#F3E9D2;opacity:${f1(.25 + R() * .6)}"/>`; }
+  $('.mk-starfield', svg).innerHTML = s;
+  /* long-exposure star trails around the pole, a full circle so the slow turn never shows a gap */
+  let t = '';
+  for (let r = 110; r <= 760; r += 11 + R() * 8) {
+    for (let n = 0; n < 3; n++) {
+      const a0 = R() * 360, span = 8 + R() * 26, a1 = a0 + span, P = a => [1010 + r * Math.cos(a * Math.PI / 180), -60 + r * Math.sin(a * Math.PI / 180)];
+      const [x0, y0] = P(a0), [x1, y1] = P(a1);
+      t += `<path d="M${f1(x0)} ${f1(y0)}A${f1(r)} ${f1(r)} 0 0 1 ${f1(x1)} ${f1(y1)}" style="stroke-width:${f1(.6 + R() * .8)};opacity:${f1(.18 + R() * .42)}"/>`;
+    }
+  }
+  $('.mk-trails', svg).innerHTML = t;
+  /* the scenario fan: ten to fifteen paths from one point */
+  let fz = '';
+  for (let i = 0; i < 13; i++) {
+    const a = (-48 + i * 9) * Math.PI / 180, L = 120 + R() * 50, ex = 1330 + L * Math.cos(a), ey = 250 + L * Math.sin(a), bend = (R() - .5) * 40;
+    fz += `<path d="M1330 250Q${f1(1330 + L * .5 * Math.cos(a) - bend * Math.sin(a))} ${f1(250 + L * .5 * Math.sin(a) + bend * Math.cos(a))} ${f1(ex)} ${f1(ey)}" style="opacity:${f1(.35 + R() * .5)}"/><circle cx="${f1(ex)}" cy="${f1(ey)}" r="1.6" style="fill:#F3E9D2;stroke:none"/>`;
+  }
+  $('.mk-fan', svg).innerHTML = fz + '<circle cx="1330" cy="250" r="4" style="fill:#F2A541;stroke:none"/>';
+  /* the sea of clouds: three layers of soft billows */
+  const layer = (y, rmin, rmax, fill, op, step, seed) => { const q = rng(seed); let o = `<g style="fill:${fill};opacity:${op}"><rect x="-40" y="${y}" width="1680" height="${530 - y}"/>`;
+    for (let x = -40; x < 1660; x += step) o += `<circle cx="${f1(x + q() * 12)}" cy="${f1(y + q() * 10)}" r="${f1(rmin + q() * (rmax - rmin))}"/>`; return o + '</g>'; };
+  $('.mk-clouds', svg).innerHTML = layer(452, 22, 36, '#8C80A3', .92, 30, 3) + layer(472, 20, 32, '#B9B0C8', 1, 28, 8) + layer(494, 16, 26, '#D6CCE0', .9, 24, 12);
+
+  /* ===== Under the sea ===== */
+  const W = rng(31);
+  /* pillow lava on the mountain's flank, fainter with depth */
+  let wl = '';
+  for (let y = 640; y < 1640; y += 24 + W() * 8) {
+    const o = f1(.09 - (y - 640) / 1000 * .05);
+    for (let x = -20 + W() * 40; x < 1620; x += 64 + W() * 30) wl += `<ellipse cx="${f1(x)}" cy="${f1(y + W() * 6)}" rx="${f1(22 + W() * 14)}" ry="${f1(8 + W() * 5)}" style="opacity:${o}"/>`;
+  }
+  $('.mk-wall', svg).innerHTML = wl;
+  /* sunlight on the shallows */
+  let cs = '';
+  for (let i = 0; i < 9; i++) { const y = 616 + i * 14 + W() * 6; let d = `M${f1(-20 + W() * 200)} ${f1(y)}`; for (let x = 200; x < 1640; x += 120) d += `Q${f1(x - 60)} ${f1(y + (W() - .5) * 16)} ${f1(x + W() * 40)} ${f1(y + (W() - .5) * 8)}`; cs += `<path d="${d}" style="opacity:${f1(.16 - i * .016)}"/>`; }
+  $('.mk-caustic', svg).innerHTML = cs;
+  /* 1. the school: one arrow of fish */
+  const fish = 'M10 0c-3-4-10-5-15-1l-5-4v10l5-4c5 4 12 3 15-1z';
+  let sc = '';
+  for (let i = 0; i < 38; i++) { const u = W(), spread = (1 - u) * 64 + 6, x = 690 + u * 210 + (W() - .5) * 14, y = 800 + (W() * 2 - 1) * spread * (.4 + .6 * W());
+    sc += `<path d="${fish}" transform="translate(${f1(x)} ${f1(y)}) scale(${f1(.8 + W() * .5)})" style="opacity:${f1(.7 + W() * .3)}"/>`; }
+  $('.mk-school', svg).innerHTML = sc;
+  /* 2. the nautilus, in cross-section: a chamber at a time */
+  (() => {
+    const cx = 800, cy = 1066, Rm = 66, b = Math.log(3) / (2 * Math.PI), TM = 4 * Math.PI + 1.3, a = Rm / Math.exp(b * TM), rot = Math.PI / 2 - TM;
+    const P = (th, k = 1) => { const r = a * Math.exp(b * th) * k; return [cx + r * Math.cos(th + rot), cy + r * Math.sin(th + rot)]; };
+    const pts = (t0, t1, n = 80, k = 1) => Array.from({ length: n + 1 }, (_, i) => P(t0 + (t1 - t0) * i / n, k));
+    const D = arr => arr.map((p, i) => (i ? 'L' : 'M') + f1(p[0]) + ' ' + f1(p[1])).join('');
+    let o = `<path d="${D(pts(TM - 2 * Math.PI, TM))}Z" style="fill:#EFE3CC;stroke:#6E5338;stroke-width:1.6"/>`;
+    o += `<path d="${D(pts(.6, TM - 2 * Math.PI, 120))}" style="fill:none;stroke:#9E8668;stroke-width:1.4"/>`;
+    for (let th = TM - 2 * Math.PI + .3; th < TM - .7; th += .46) { const [x0, y0] = P(th - 2 * Math.PI), [x1, y1] = P(th), [qx, qy] = P(th - .28, .78);
+      o += `<path d="M${f1(x0)} ${f1(y0)}Q${f1(qx)} ${f1(qy)} ${f1(x1)} ${f1(y1)}" style="fill:none;stroke:#9E8668;stroke-width:1.3"/>`; }
+    for (let th = 1.8; th < TM - 2 * Math.PI; th += .5) { const [x0, y0] = P(th - 2 * Math.PI), [x1, y1] = P(th); o += `<path d="M${f1(x0)} ${f1(y0)}L${f1(x1)} ${f1(y1)}" style="stroke:#B8A488;stroke-width:1"/>`; }
+    /* stripes on the outer shell */
+    for (let th = TM - 2 * Math.PI + .1; th < TM - .3; th += .3) { const [x0, y0] = P(th, .97), [x1, y1] = P(th - .08, .86); o += `<path d="M${f1(x0)} ${f1(y0)}L${f1(x1)} ${f1(y1)}" style="stroke:#B4643C;stroke-width:3;stroke-linecap:round;opacity:.85"/>`; }
+    /* the animal, home in the newest chamber */
+    const body = [...pts(TM - .62, TM, 20), ...pts(TM - 2 * Math.PI, TM - 2 * Math.PI - .62, 20)];
+    o += `<path d="${D(body)}Z" style="fill:#C9734A"/>`;
+    const [ax, ay] = P(TM), [bx, by] = P(TM - 2 * Math.PI);
+    for (let i = 0; i < 11; i++) { const k = i / 10, x = ax + (bx - ax) * k, y = ay + (by - ay) * k, L = 18 + W() * 16, c = (W() - .5) * 12;
+      o += `<path d="M${f1(x)} ${f1(y)}q${f1(-L / 2)} ${f1(c)} ${f1(-L)} ${f1(c * .4 + 4)}" style="fill:none;stroke:#C9734A;stroke-width:2;stroke-linecap:round"/>`; }
+    o += `<circle cx="${f1(ax + (bx - ax) * .35 + 6)}" cy="${f1(ay + (by - ay) * .35 - 6)}" r="3.4" style="fill:#1A1420"/>`;
+    $('.mk-naut', svg).innerHTML = o;
+  })();
+  /* 3. the anemone on the crab's shell */
+  let an = '';
+  for (let i = 0; i < 11; i++) { const a = (-160 + i * 14) * Math.PI / 180, L = 16 + W() * 10; an += `<path d="M860 1172q${f1(Math.cos(a) * L * .5 + 4)} ${f1(Math.sin(a) * L * .5)} ${f1(Math.cos(a) * L)} ${f1(Math.sin(a) * L)}" style="opacity:${f1(.7 + W() * .3)}"/>`; }
+  $('.mk-anem', svg).innerHTML = an;
+
+  /* ===== Stops, in story order ===== */
+  const fanPaths = $$('.mk-fan path', svg), chainLine = $$('.mk-chain-line', svg), smoke = $('.mk-smoke', svg), dbeam = $('.mk-dbeam', svg);
+  const redraw = (ps, o) => { prepDraw(ps); penDraw(ps, o); };
+  const stops = [
+    { id: 'tuition', label: 'AGE 12', name: 'Camp at age 12', at: [1338, 548], hit: [1300, 556, 30], spot: [1250, 470, 260, 150],
+      act: on => { if (on && !FINAL) redraw([smoke], { speed: 200, max: .9 }); return 420; },
+      ins: { x: 1280, y: 370, anchor: 'end', lines: [['k', 'CAMP · AGE 12'], ['t', 'A tuition room.'], ['q', '“Why do we fight?”'], ['t', 'The day everything changed.']] } },
+    { id: 'chain', label: 'THE CHAIN', name: 'Stars: the constellation', at: [930, 232], hit: [846, 180, 70], spot: [960, 150, 330, 140],
+      act: on => { if (on && !FINAL) redraw(chainLine, { speed: 420 }); return 520; },
+      ins: { x: 1030, y: 70, lines: [['k', 'STARS · THE CHAIN'], ['q', '“Awareness is the thing'], ['q', 'that gives you a choice.'], ['q', 'Without it, you\'re at the mercy'], ['q', 'of whatever happens.”']] } },
+    { id: 'dome', label: 'DOMES', name: 'The observatories', at: [948, 296], hit: [930, 322, 40], spot: [1030, 290, 300, 110],
+      act: on => { if (on && !FINAL) redraw([dbeam], { speed: 700, min: .3, max: .45 }); return 420; },
+      ins: { x: 1166, y: 192, lines: [['k', 'THE OBSERVATORIES'], ['q', '“What am I doing?'], ['q', 'What\'s my goal with this?”'], ['t', 'Asked every moment.']] } },
+    { id: 'pueo', label: 'PUEO', name: 'Cairn by the pueo', at: [772, 318], hit: [748, 352, 20], spot: [800, 400, 260, 120],
+      act: () => 820,
+      ins: { x: 790, y: 410, lines: [['k', 'CAIRN · A PRINCIPLE'], ['q', '“We never know the problems.'], ['q', 'We only know the symptoms.”'], ['t', 'The pueo reads tracks in the snow.']] } },
+    { id: 'fan', label: 'RAPIDO', name: 'Star trails: scenarios in parallel', at: [1262, 326], hit: [1390, 230, 70], spot: [1250, 200, 300, 150],
+      act: on => { if (on && !FINAL) redraw(fanPaths, { speed: 2600, min: .06, max: .14, overlap: 1 }); return 260; },
+      ins: { x: 1300, y: 120, anchor: 'end', lines: [['k', 'STAR TRAILS · SCENARIOS IN PARALLEL'], ['t', 'One near-fall on a Rapido.'], ['t', 'Ten to fifteen scenarios rehearsed.']] } },
+    { id: 'gulmarg', label: 'GULMARG', name: 'Camp: the Gulmarg bus', at: [606, 420], hit: [566, 412, 22], spot: [470, 400, 220, 110],
+      ins: { x: 540, y: 340, anchor: 'end', lines: [['k', 'CAMP · GULMARG'], ['t', 'Gulmarg bus.'], ['t', 'Planned how to fall.'], ['t', 'Saved my back.']] } },
+    { id: 'cloud', label: 'THE CLOUDS', name: 'The sea of clouds', at: [600, 470], side: 'l', hit: [640, 505, 34], spot: [780, 520, 400, 110],
+      ins: { x: 700, y: 490, lines: [['k', 'THE SEA OF CLOUDS'], ['t', 'Numbing hides the signal.'], ['q', '“Uncertainty is one of the hardest'], ['q', 'feelings to sit with.”'], ['t', 'Sit with it, and you see.']] } },
+    { id: 'dive', label: 'DIVE', name: 'Dive: the four layers', at: [590, 700], hit: [520, 690, 34], noVeil: true, sticky: true,
+      act: on => { if (!FINAL) dive(on ? Math.max(1, depth) : 0); return 0; },
+      next: d => { if (d > 0 && depth < 4) { dive(depth + 1); return true; } if (d < 0 && depth > 1) { dive(depth - 1); return true; } return false; } }
+  ];
+
+  /* ===== The dive: the camera and the bathysphere go down, stop by stop ===== */
+  const LAY = [
+    { y: 0, name: 'SURFACE' },
+    { y: 330, name: 'GOALS', cone: 0, ins: [['k', 'GOALS · THE SUNLIGHT ZONE'], ['q', '“Your best approximation of the'], ['q', 'values you\'re trying to live by.”'], ['t', 'The school turns when the light finds it.']] },
+    { y: 600, name: 'IDENTITY', cone: 0, ins: [['k', 'IDENTITY · THE TWILIGHT ZONE'], ['q', '“I\'m a university student.'], ['q', 'I\'m a lifelong learner.”'], ['t', 'A nautilus lives in the newest'], ['t', 'chamber it built.']] },
+    { y: 760, name: 'ACQUIRED VALUES', cone: 0, ins: [['k', 'ACQUIRED VALUES · THE MIDNIGHT ZONE'], ['q', '“Respect, humility.'], ['q', 'Picked up from the world.”'], ['t', 'A hermit crab wears a shell it found.']] },
+    { y: 900, name: 'NATURAL VALUES', cone: 24, ins: [['k', 'NATURAL VALUES · UNDER THE FLOOR'], ['q', '“For me, it\'s curiosity.'], ['q', 'You can\'t take that out of me.”'], ['t', 'Hawaii sits on a hotspot. The heat'], ['t', 'below built the whole mountain.']] }
+  ];
+  const sph = $('.mk-sph', svg), cable = $('.mk-cable', svg), gauge = $('.mk-gauge', svg), gm = $('.mk-gm', svg), cone = $('.mk-cone', svg), dw = $('.mk-dw', svg);
+  const sphY = y => y <= 330 ? 690 + y / 330 * 110 : y + 470;
+  const GT = [702, 744, 786, 828, 870];
+  gauge.insertAdjacentHTML('beforeend', LAY.map((L, k) => `<g class="mk-gt" data-d="${k}" tabindex="0" role="button" aria-label="${k ? 'Dive to ' + L.name.toLowerCase() : 'Back to the surface'}">
+    <rect class="gt-hit" x="160" y="${GT[k] - 18}" width="210" height="30"/><path d="M168 ${GT[k] - 4}h8" style="stroke:var(--mk-cream);stroke-width:1.2"/>
+    <text x="186" y="${GT[k]}">${L.name}</text></g>`).join(''));
+  let depth = 0, camY = 0, raf = 0, words = null, P;
+  function cam(y) {
+    camY = y;
+    if (!FINAL) svg.setAttribute('viewBox', `0 ${f1(y)} 1600 900`);
+    const sy = sphY(y);
+    sph.setAttribute('transform', `translate(0 ${f1(sy)})`); cable.setAttribute('d', `M520 561V${f1(sy - 34)}`);
+    gauge.setAttribute('transform', `translate(0 ${f1(y)})`);
+  }
+  function dive(k) {
+    k = Math.max(0, Math.min(4, k));
+    const from = camY, to = LAY[k].y, L = LAY[k];
+    depth = k; sec.classList.toggle('deep', k > 0);
+    sec.classList.remove('beam', 'z1', 'z2', 'z3', 'z4');
+    if (words) words.cancel(); dw.innerHTML = '';
+    gm.setAttribute('transform', `translate(0 ${GT[k] - 4})`);
+    $$('.mk-gt', gauge).forEach(g => g.classList.toggle('on', +g.dataset.d === k));
+    queueMicrotask(() => { const l = $('.rt-l', sec); if (l && k) l.textContent = 'DIVE · ' + L.name; });
+    cancelAnimationFrame(raf);
+    const arrive = () => {
+      if (!k) return;
+      cone.setAttribute('transform', `rotate(${L.cone} 552 0)`);
+      sec.classList.add('beam', 'z' + k);
+      words = Range.write(dw, { x: 960, y: sphY(to) - 52, lines: L.ins }, { delay: 380 });
+    };
+    if (FINAL || from === to) { cam(to); arrive(); return; }
+    const t0 = performance.now(), dur = Math.min(1500, 650 + Math.abs(to - from) * 1.2);
+    const ease = u => u < .5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
+    const tick = now => { const u = Math.min(1, (now - t0) / dur); cam(from + (to - from) * ease(u)); if (u < 1) raf = requestAnimationFrame(tick); else arrive(); };
+    raf = requestAnimationFrame(tick);
+  }
+  $$('.mk-gt', gauge).forEach(g => {
+    const go = e => { e.stopPropagation(); if (FINAL) return; const k = +g.dataset.d; if (!k) { Range.close(P); return; } if (P.open !== 7) Range.open(P, 7); dive(k); };
+    g.addEventListener('click', go);
+    g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(e); } });
+  });
+
+  P = Range.initPanel(sec, stops);
+  /* the small dome's slit glows while its lamp is lit */
+  const syncSlit = () => sec.classList.toggle('slit-on', NIGHT && !!$('.lamp[data-lamp="slit"].on', sec));
+  sec.addEventListener('click', () => requestAnimationFrame(syncSlit)); document.addEventListener('range:night', syncSlit); syncSlit();
+
+  if (FINAL) {   /* everything at once: the full height, every creature lit, every layer written */
+    svg.setAttribute('viewBox', '0 0 1600 1800');
+    sec.classList.add('z1', 'z2', 'z3', 'z4', 'final-all');
+    [1, 2, 3, 4].forEach(k => { const g = document.createElementNS(NS, 'g'); g.setAttribute('class', 'ins'); dw.appendChild(g); Range.write(g, { x: 960, y: sphY(LAY[k].y) - 52, lines: LAY[k].ins }, { now: true }); });
+  } else cam(0);
+
+  /* arrival: trails expose, the chain draws, the owl looks */
+  const arcs = $$('.mk-trails path', svg);
+  prepDraw([...arcs, ...fanPaths, ...chainLine]);
+  onView(sec, () => {
+    penDraw(arcs, { parallel: true, speed: 300, max: 2.2 });
+    penDraw(chainLine, { delay: .5, speed: 400 });
+    penDraw(fanPaths, { delay: .9, parallel: true, speed: 260 });
+    sec.classList.add('arrived');
+  }, .35);
+  /* the one loop (the slow turn of the sky) sleeps off screen */
+  if (!FINAL && 'IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => sec.classList.toggle('live', e.isIntersecting)), { threshold: .05 }).observe(sec);
+})();
+</script>

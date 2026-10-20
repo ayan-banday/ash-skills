@@ -1,0 +1,1347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Udyaan Student Onboarding</title>
+<script>document.documentElement.classList.add('js');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=JetBrains+Mono:wght@500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* Layout concept: one long document in three parts. Each section pairs a plain headline that states the answer with one drawn visual (dots, bubbles, trail, rail, funnel, story panel, stairs, orbit). */
+:root {
+  --bg: #F2F5F1;
+  --surface: #FFFFFF;
+  --ink: #12211B;
+  --muted: #4F6259;
+  --line: #D0D9D2;
+  --soft: #E4ECE6;
+  --brand: #1D5A47;
+  --brand-ink: #FFFFFF;
+  --accent: #C98A00;
+  --accent-soft: #FBEFC9;
+  --alert: #B3382C;
+  --hero-bg: #1D5A47;
+  --hero-ink: #F4FAF6;
+  --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", Consolas, "Courier New", monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1713; --surface: #15221C; --ink: #E8F0EB; --muted: #A2B5AB; --line: #2E4036;
+    --soft: #1B2B24; --brand: #5CC4A0; --brand-ink: #0E1713; --accent: #F2B63C; --accent-soft: #3A2F10;
+    --alert: #E8796C; --hero-bg: #123B2E; --hero-ink: #F4FAF6; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1713; --surface: #15221C; --ink: #E8F0EB; --muted: #A2B5AB; --line: #2E4036;
+  --soft: #1B2B24; --brand: #5CC4A0; --brand-ink: #0E1713; --accent: #F2B63C; --accent-soft: #3A2F10;
+  --alert: #E8796C; --hero-bg: #123B2E; --hero-ink: #F4FAF6; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 17px; line-height: 1.55; padding-inline: 16px; }
+.wrap { max-width: 1080px; margin-inline: auto; }
+h1, h2, h3, h4 { font-family: var(--f-display); line-height: 1.12; margin: 0; text-wrap: balance; }
+h2 { font-size: clamp(1.8rem, 4.4vw, 2.8rem); font-weight: 800; letter-spacing: -0.02em; max-width: 24ch; }
+h3 { font-size: 1.2rem; font-weight: 700; }
+h4 { font-size: 1.02rem; font-weight: 700; }
+p { margin: 0; max-width: 66ch; }
+ul { margin: 0; padding-left: 1.1em; display: grid; gap: 8px; }
+b, strong { font-weight: 700; }
+a { color: var(--brand); }
+.eyebrow { font-family: var(--f-mono); font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.lede { font-size: 1.15rem; color: var(--muted); max-width: 62ch; }
+.lede b { color: var(--ink); }
+.label { font-family: var(--f-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.why { color: var(--muted); font-size: 0.95rem; }
+.scroll { overflow-x: auto; }
+
+/* nav */
+nav.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 1px solid var(--line); margin-inline: -16px; padding-inline: 16px; }
+nav.top .wrap { display: flex; gap: 4px; overflow-x: auto; padding-block: 8px; align-items: center; }
+nav.top .brand { font-family: var(--f-display); font-weight: 800; color: var(--brand); margin-right: 10px; white-space: nowrap; }
+nav.top a { font-family: var(--f-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none; color: var(--muted); padding: 6px 10px; border-radius: 99px; white-space: nowrap; }
+nav.top a.part-link { color: var(--ink); background: var(--soft); }
+nav.top a:hover, nav.top a:focus-visible { background: var(--soft); color: var(--ink); outline: 2px solid transparent; }
+
+/* hero */
+.hero { background: var(--hero-bg); color: var(--hero-ink); margin-inline: -16px; padding: 64px 16px 68px; overflow: hidden; position: relative; }
+.hero .wrap { display: grid; gap: 22px; position: relative; }
+.hero h1 { font-size: clamp(2.3rem, 6.4vw, 4.4rem); font-weight: 800; letter-spacing: -0.03em; max-width: 18ch; }
+.hero .eyebrow { color: var(--hero-ink); opacity: 0.8; }
+.hero p { font-size: 1.2rem; opacity: 0.94; max-width: 56ch; }
+.hero .trail { position: absolute; right: -60px; top: -30px; width: min(560px, 80vw); opacity: 0.22; pointer-events: none; }
+.hero .trail path { fill: none; stroke: var(--hero-ink); stroke-width: 3; stroke-linecap: round; }
+.hero .trail circle { fill: var(--hero-ink); }
+
+/* parts and sections */
+.cover-map { padding-block: 56px; border-bottom: 1px solid var(--line); }
+.cover-map .wrap { display: grid; gap: 28px; }
+.map3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+.map3 > div { border-top: 3px solid var(--brand); padding-top: 14px; display: grid; gap: 10px; align-content: start; }
+.map3 .pn { font-family: var(--f-display); font-weight: 800; font-size: 2.6rem; color: var(--brand); line-height: 1; }
+.map3 ol { margin: 0; padding-left: 0; list-style: none; display: grid; gap: 4px; font-size: 0.95rem; }
+.map3 ol a { text-decoration: none; color: var(--ink); }
+.map3 ol a:hover { color: var(--brand); text-decoration: underline; }
+
+.part { padding-block: 84px 36px; border-bottom: 1px solid var(--line); scroll-margin-top: 48px; }
+.part .wrap { display: grid; gap: 12px; }
+.part .big { font-family: var(--f-display); font-weight: 800; font-size: clamp(3.6rem, 13vw, 8.5rem); line-height: 0.88; letter-spacing: -0.045em; color: var(--brand); }
+.part h2 { max-width: 20ch; }
+
+section.slide { padding-block: 64px; border-bottom: 1px solid var(--line); scroll-margin-top: 52px; }
+section.slide > .wrap { display: grid; gap: 28px; }
+.head { display: grid; gap: 12px; }
+
+.grid { display: grid; gap: 20px; }
+.g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.col { border-top: 2px solid var(--line); padding-top: 12px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.col.key { border-top-color: var(--brand); }
+.col h3, .col h4 { color: var(--ink); }
+.callout { background: var(--soft); border-radius: 14px; padding: 20px 24px; display: grid; gap: 8px; }
+.callout.brand { background: var(--brand); color: var(--brand-ink); }
+.pill { display: inline-block; font-family: var(--f-mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 10px; border-radius: 99px; background: var(--soft); color: var(--ink); width: fit-content; }
+.pill.ok { background: var(--brand); color: var(--brand-ink); }
+.pill.warn { background: var(--accent-soft); color: var(--ink); border: 1px solid var(--accent); }
+.pill.bad { background: transparent; color: var(--alert); border: 1px solid var(--alert); }
+
+/* 1.1 join */
+.have-miss { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; }
+.have-miss ul { list-style: none; padding: 0; }
+.have-miss li { padding-left: 34px; position: relative; font-size: 1.1rem; }
+.have-miss li::before { position: absolute; left: 0; top: 0; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 0.85rem; line-height: 24px; text-align: center; }
+.have li::before { content: "\2713"; background: var(--brand); color: var(--brand-ink); }
+.miss li::before { content: "\2715"; border: 2px solid var(--alert); color: var(--alert); line-height: 20px; }
+
+/* svg shared */
+svg text { font-family: var(--f-body); }
+.viz { width: 100%; height: auto; display: block; }
+.dot-int { fill: var(--brand); }
+.dot-ent { fill: var(--accent); }
+.dot-core { fill: var(--line); }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 0.95rem; color: var(--muted); }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; vertical-align: -1px; }
+
+.bub circle { fill: var(--soft); stroke: var(--brand); stroke-width: 2; }
+.bub .alt circle { fill: var(--accent-soft); stroke: var(--accent); }
+.bub text { fill: var(--ink); font-size: 21px; font-weight: 600; text-anchor: middle; }
+
+/* 1.4 leak trail */
+.leak-caps { display: flex; justify-content: space-between; gap: 12px; font-family: var(--f-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.trail-base { fill: none; stroke: var(--line); stroke-width: 6; stroke-linecap: round; }
+.trail-draw { fill: none; stroke: url(#leakGrad); stroke-width: 6; stroke-linecap: round; }
+.node circle { fill: var(--surface); stroke: var(--brand); stroke-width: 4; }
+.node.gone circle { stroke: var(--line); }
+.node text { fill: var(--ink); font-size: 24px; font-weight: 700; text-anchor: middle; dominant-baseline: central; font-family: var(--f-display); }
+.leak-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
+.leak-grid > div { display: grid; gap: 6px; align-content: start; min-width: 0; }
+.leak-grid .n { font-family: var(--f-display); font-weight: 800; color: var(--brand); font-size: 1.1rem; }
+.leak-grid p { font-size: 0.92rem; }
+.leak-grid .cost { color: var(--alert); font-weight: 600; }
+
+/* 1.5 lanes */
+.lanes { min-width: 900px; }
+.lanes th, .lanes td { padding: 12px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; font-size: 0.92rem; }
+.lanes thead th { font-family: var(--f-mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 500; border-bottom: 2px solid var(--brand); }
+.lanes tbody th { font-family: var(--f-display); font-weight: 800; color: var(--brand); font-size: 1rem; width: 110px; }
+.lanes tbody tr:first-child td { font-weight: 600; }
+
+/* 1.6 day1 vs day14 */
+.then-now { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.3fr); gap: 28px; align-items: center; }
+.then-now .arrow { font-family: var(--f-display); font-size: 3rem; color: var(--brand); }
+.then-now ul { list-style: none; padding: 0; gap: 10px; }
+.then-now .was li { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--line); }
+.then-now .is li { padding-left: 30px; position: relative; font-size: 1.05rem; }
+.then-now .is li::before { content: "\2713"; position: absolute; left: 0; top: 2px; width: 22px; height: 22px; background: var(--brand); color: var(--brand-ink); border-radius: 50%; text-align: center; line-height: 22px; font-size: 0.8rem; font-weight: 700; }
+
+/* 1.7 rail */
+.rail-wrap { display: grid; gap: 6px; }
+.bands { display: grid; grid-template-columns: repeat(14, minmax(0, 1fr)); gap: 3px; }
+.bands span { font-family: var(--f-mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; background: var(--soft); border-radius: 99px; padding: 4px 8px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bands .k { grid-column: 1 / 2; } .bands .s { grid-column: 2 / 5; } .bands .c { grid-column: 5 / 8; } .bands .b { grid-column: 8 / 13; } .bands .d { grid-column: 13 / 15; background: var(--brand); color: var(--brand-ink); }
+.days { display: grid; grid-template-columns: repeat(14, minmax(0, 1fr)); position: relative; padding-top: 6px; }
+.days::before { content: ""; position: absolute; left: 3.5%; right: 3.5%; top: 24px; height: 4px; background: var(--line); border-radius: 4px; }
+.days > div { display: grid; justify-items: center; gap: 4px; position: relative; font-family: var(--f-mono); font-size: 0.78rem; }
+.days .dot { width: 38px; height: 38px; border-radius: 50%; background: var(--surface); border: 2px solid var(--line); display: grid; place-items: center; position: relative; z-index: 1; }
+.days .gate .dot { border-color: var(--brand); background: var(--brand); color: var(--brand-ink); }
+.days .mk { font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--brand); text-align: center; min-height: 1.6em; }
+.phase { display: grid; grid-template-columns: 170px repeat(3, minmax(0, 1fr)); gap: 22px; padding-block: 22px; border-top: 1px solid var(--line); }
+.phase h3 { color: var(--brand); }
+.phase .when { display: grid; gap: 4px; align-content: start; }
+.phase > div { min-width: 0; }
+.phase ul { margin-top: 6px; }
+
+/* 1.8 funnel */
+.fn { display: grid; }
+.fn-row { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.7fr); gap: 32px; align-items: stretch; }
+.fn-shape { min-height: 150px; display: grid; place-items: center; text-align: center; font-family: var(--f-display); font-weight: 800; font-size: 0.88rem; background: color-mix(in srgb, var(--brand) calc(var(--t) * 1%), var(--soft)); color: var(--c, var(--ink)); clip-path: polygon(var(--l1) 0, var(--r1) 0, var(--r2) 100%, var(--l2) 100%); padding-inline: 8%; line-height: 1.12; }
+.fn-detail { padding-block: 18px; display: grid; gap: 8px; align-content: center; border-bottom: 1px solid var(--line); }
+.fn-detail .tier-day { font-family: var(--f-mono); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brand); }
+.fn-detail .coll { font-size: 0.93rem; color: var(--muted); }
+.fn-detail .coll b { color: var(--ink); }
+
+/* 1.9 collect */
+.ctable { min-width: 640px; }
+.ctable th, .ctable td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 0.95rem; }
+.ctable thead th { font-family: var(--f-mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 500; border-bottom: 2px solid var(--brand); }
+.ctable td:first-child { font-weight: 600; }
+.ctable td:nth-child(2) { white-space: nowrap; color: var(--brand); font-family: var(--f-mono); font-size: 0.82rem; }
+
+/* 1.10 story */
+.story { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+.steps { display: grid; }
+.step { min-height: 52vh; padding: 28px 0 28px 22px; border-left: 3px solid var(--line); position: relative; display: grid; gap: 10px; align-content: start; transition: border-color .3s; }
+.step::before { content: ""; position: absolute; left: -9px; top: 34px; width: 15px; height: 15px; border-radius: 50%; background: var(--bg); border: 3px solid var(--line); transition: all .3s; }
+.step.cur { border-left-color: var(--brand); }
+.step.cur::before { background: var(--brand); border-color: var(--brand); }
+.step .when { font-family: var(--f-mono); font-size: 0.78rem; color: var(--brand); text-transform: uppercase; letter-spacing: 0.08em; }
+.step .quote { border-left: 3px solid var(--accent); padding-left: 12px; color: var(--muted); font-style: italic; }
+.panel { grid-column: 2; grid-row: 1; position: sticky; top: 72px; align-self: start; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; display: grid; gap: 14px; max-height: calc(100vh - 96px); overflow: auto; }
+.steps { grid-column: 1; grid-row: 1; }
+.panel-top { display: flex; justify-content: space-between; gap: 10px; align-items: center; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.panel-top b { font-family: var(--f-display); }
+.pi { display: grid; gap: 6px; font-size: 0.93rem; }
+.pi .label { color: var(--brand); }
+.js .pi { display: none; }
+.js .pi.on { display: grid; animation: pop .5s ease both; }
+@keyframes pop { from { transform: translateY(10px); } to { transform: none; } }
+.ms { list-style: none; padding: 0; gap: 6px; }
+.ms li { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.ms .box { width: 18px; height: 18px; border: 2px solid var(--line); border-radius: 4px; display: grid; place-items: center; font-size: 0.7rem; font-weight: 700; color: var(--brand-ink); }
+.ms li.done .box { background: var(--brand); border-color: var(--brand); }
+.ms li.done .box::after { content: "\2713"; }
+.ms .due { font-family: var(--f-mono); font-size: 0.72rem; color: var(--muted); }
+.board { display: grid; gap: 6px; background: var(--soft); border-radius: 10px; padding: 10px; }
+.board div { display: flex; justify-content: space-between; gap: 8px; background: var(--surface); border-radius: 6px; padding: 6px 10px; font-size: 0.88rem; }
+.board em { font-style: normal; font-family: var(--f-mono); font-size: 0.68rem; text-transform: uppercase; color: var(--brand); }
+.board em.lost { color: var(--alert); }
+.seg { display: grid; grid-template-columns: 30fr 60fr 60fr 30fr; gap: 3px; }
+.seg span { background: var(--soft); border-radius: 6px; padding: 6px 8px; font-size: 0.75rem; text-align: center; }
+.seg span:nth-child(3) { background: var(--brand); color: var(--brand-ink); }
+.seg small { display: block; font-family: var(--f-mono); font-size: 0.66rem; opacity: 0.8; }
+.award { background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 10px; padding: 10px 12px; font-weight: 600; }
+
+/* 1.11 gates */
+.gates { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 22px; position: relative; padding-top: 28px; }
+.gates::before { content: ""; position: absolute; left: 20px; right: 20px; top: 20px; height: 3px; background: var(--line); }
+.gate { display: grid; gap: 8px; align-content: start; position: relative; min-width: 0; }
+.gate .num { width: 40px; height: 40px; border-radius: 50%; background: var(--surface); border: 3px solid var(--brand); display: grid; place-items: center; font-family: var(--f-display); font-weight: 800; position: relative; z-index: 1; margin-top: -48px; }
+.gate.on .num { background: var(--brand); color: var(--brand-ink); }
+.check { list-style: none; padding: 0; gap: 8px; }
+.check li { padding-left: 24px; position: relative; font-size: 0.95rem; }
+.check li::before { content: ""; position: absolute; left: 0; top: 0.3em; width: 14px; height: 14px; border: 2px solid var(--brand); border-radius: 3px; }
+
+/* 1.12 team circles */
+.roles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; }
+.role { display: grid; justify-items: center; text-align: center; gap: 8px; align-content: start; padding-inline: 6px; }
+.role .c { width: 92px; height: 92px; border-radius: 50%; display: grid; place-items: center; font-family: var(--f-display); font-weight: 800; font-size: 1.5rem; background: color-mix(in srgb, var(--brand) calc(var(--t) * 1%), var(--soft)); color: var(--c, var(--ink)); margin-inline: -8px; }
+.role p { font-size: 0.9rem; }
+.roles-row { display: flex; justify-content: center; }
+
+/* 1.14 / seg bar bigger */
+.seg.big span { padding: 16px 10px; font-size: 0.95rem; }
+.seg.big small { font-size: 0.74rem; }
+
+/* 1.15 chips */
+.chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.chips span { font-family: var(--f-display); font-weight: 700; padding: 10px 18px; border-radius: 99px; border: 2px solid var(--brand); }
+.places { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; counter-reset: pl; }
+.places > div { border-left: 4px solid var(--accent); padding-left: 16px; display: grid; gap: 6px; align-content: start; }
+
+/* 2.1 rhythm */
+.rhythm { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 0; position: relative; padding-top: 6px; }
+.rhythm::before { content: ""; position: absolute; left: 6%; right: 6%; top: 30px; height: 3px; background: var(--line); }
+.rhythm > div { display: grid; justify-items: center; gap: 6px; text-align: center; position: relative; font-size: 0.78rem; }
+.rhythm .wk { font-family: var(--f-mono); color: var(--muted); font-size: 0.68rem; text-transform: uppercase; }
+.rhythm .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--brand); margin-top: 17px; position: relative; z-index: 1; }
+.rhythm .ev .dot { width: 30px; height: 30px; margin-top: 9px; background: var(--surface); border: 4px solid var(--accent); }
+.rhythm .aw .dot { width: 30px; height: 30px; margin-top: 9px; background: var(--accent); border: 4px solid var(--accent); }
+.rhythm .tx { min-height: 2.4em; color: var(--ink); }
+
+/* 2.2 stairs */
+.stairs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; align-items: end; }
+.stair { background: color-mix(in srgb, var(--brand) calc(var(--t) * 1%), var(--soft)); color: var(--c, var(--ink)); border-radius: 12px 12px 0 0; padding: 14px 16px; display: grid; gap: 4px; align-content: start; min-height: var(--h); }
+.stair .lv { font-family: var(--f-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85; }
+.stair h3 { font-size: 1.5rem; }
+.lv-detail { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.lv-detail > div { padding: 14px 4px; display: grid; gap: 6px; align-content: start; font-size: 0.93rem; min-width: 0; }
+
+/* 2.4 dash mock */
+.mock { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+.mock-bar { display: flex; gap: 8px; align-items: center; padding: 10px 16px; background: var(--soft); font-family: var(--f-mono); font-size: 0.72rem; color: var(--muted); }
+.mock-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); display: inline-block; }
+.mock-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 0; }
+.mock-body > div { padding: 18px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+.mock-body > div + div { border-left: 1px solid var(--line); }
+.prog { height: 10px; background: var(--soft); border-radius: 99px; overflow: hidden; }
+.prog i { display: block; height: 100%; background: var(--brand); border-radius: 99px; }
+.streak { display: flex; gap: 6px; }
+.streak i { width: 16px; height: 16px; border-radius: 50%; background: var(--brand); display: inline-block; }
+.streak i.off { background: var(--soft); border: 2px solid var(--line); }
+.mini { min-width: 420px; }
+.mini th, .mini td { text-align: left; padding: 8px 8px; border-bottom: 1px solid var(--line); font-size: 0.88rem; }
+.mini th { font-family: var(--f-mono); font-size: 0.66rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; }
+
+.score { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 24px; }
+.score > div { border-top: 2px solid var(--brand); padding-top: 10px; display: grid; gap: 4px; }
+.score h3 { font-size: 1.1rem; }
+
+/* 3 orbit */
+.orbit-wrap { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 32px; align-items: center; }
+.orb-ring { fill: none; stroke: var(--line); stroke-width: 2; stroke-dasharray: 3 9; stroke-linecap: round; }
+.orb-link { stroke: var(--line); stroke-width: 2; }
+.orb-sat circle { fill: var(--soft); stroke: var(--brand); stroke-width: 2; }
+.orb-sat.udy circle { fill: var(--brand); }
+.orb-sat.udy text { fill: var(--brand-ink); }
+.orb-sat text { fill: var(--ink); font-size: 21px; font-weight: 600; text-anchor: middle; }
+.orb-core circle { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 3; }
+.orb-core text { fill: var(--ink); font-family: var(--f-display); font-weight: 800; text-anchor: middle; font-size: 26px; }
+.loop { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 18px; counter-reset: lp; }
+.loop > div { border-top: 3px solid var(--brand); padding-top: 10px; display: grid; gap: 6px; align-content: start; }
+.loop .n { font-family: var(--f-display); font-weight: 800; color: var(--brand); }
+
+footer { padding-block: 44px 70px; color: var(--muted); font-size: 0.92rem; }
+
+@media (max-width: 900px) {
+  .map3, .g3, .places, .score, .loop { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .leak-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .phase { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .phase .when { grid-column: 1 / -1; }
+  .gates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gates::before { display: none; }
+  .gate .num { margin-top: 0; }
+  .orbit-wrap { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 700px) {
+  .story { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .panel { grid-column: 1; grid-row: 1; top: calc(env(safe-area-inset-top, 0px) + 48px); max-height: 36vh; z-index: 10; padding: 12px 14px; gap: 10px; }
+  .steps { grid-column: 1; grid-row: 2; }
+  .step { min-height: 44vh; }
+  .have-miss, .then-now { grid-template-columns: minmax(0, 1fr); }
+  .then-now .arrow { transform: rotate(90deg); justify-self: start; }
+  .mock-body { grid-template-columns: minmax(0, 1fr); }
+  .mock-body > div + div { border-left: 0; border-top: 1px solid var(--line); }
+  .bands { display: none; }
+  .days { grid-template-columns: repeat(7, minmax(0, 1fr)); row-gap: 8px; }
+  .days::before { display: none; }
+  .fn-row { grid-template-columns: 92px minmax(0, 1fr); gap: 14px; }
+  .fn-shape { font-size: 0; padding-inline: 0; }
+  .stairs { grid-template-columns: minmax(0, 1fr); }
+  .stair { min-height: 0; border-radius: 12px; }
+  .lv-detail { grid-template-columns: minmax(0, 1fr); }
+  .roles { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 20px; }
+  .role .c { margin-inline: 0; }
+  .rhythm { grid-template-columns: repeat(4, minmax(0, 1fr)); row-gap: 14px; }
+  .rhythm::before { display: none; }
+}
+@media (max-width: 560px) {
+  .map3, .g2, .g3, .places, .score, .loop { grid-template-columns: minmax(0, 1fr); }
+  .leak-grid { grid-template-columns: minmax(0, 1fr); }
+  .phase { grid-template-columns: minmax(0, 1fr); }
+  .gates { grid-template-columns: minmax(0, 1fr); }
+  section.slide { padding-block: 46px; }
+  .part { padding-block: 60px 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .pi.on { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <span class="brand">udyaan.</span>
+    <a href="#covers">Overview</a>
+    <a class="part-link" href="#p1">Part 1 · 14 days</a>
+    <a href="#s-funnel">Funnel</a>
+    <a href="#s-meera">Meera</a>
+    <a href="#s-gates">Gates</a>
+    <a class="part-link" href="#p2">Part 2 · After Day 14</a>
+    <a href="#s-levels">Levels</a>
+    <a href="#s-dash">Dashboard</a>
+    <a class="part-link" href="#p3">Part 3 · High agency</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <svg class="trail" viewBox="0 0 560 260" aria-hidden="true"><path d="M10 40 C90 40 90 200 170 200 S250 40 330 40 S410 200 490 200 S520 120 550 120"/><circle cx="10" cy="40" r="7"/><circle cx="170" cy="200" r="7"/><circle cx="330" cy="40" r="7"/><circle cx="490" cy="200" r="7"/></svg>
+  <div class="wrap">
+    <span class="eyebrow">Student onboarding · Draft for review · October 2026</span>
+    <h1>Every student leaves onboarding with a team, a plan, and a shipped project</h1>
+    <p>New students join a small team, run a free mini project for 14 days, give and get feedback, and present at a public event. This document covers the 14 days, what keeps students going afterward, and the path for students who take more initiative.</p>
+  </div>
+</header>
+
+<section class="cover-map" id="covers">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">What this document covers</span>
+      <h2>Three parts, one student path</h2>
+    </div>
+    <div class="map3">
+      <div data-rise>
+        <span class="pn">1</span>
+        <h3>The 14-day onboarding plan</h3>
+        <p class="why">For every new student.</p>
+        <ol>
+          <li><a href="#s-join">Students join excited</a></li>
+          <li><a href="#s-motivation">Students work out what they want</a></li>
+          <li><a href="#s-who">Who joins</a></li>
+          <li><a href="#s-leak">Where the excitement leaks</a></li>
+          <li><a href="#s-flow">Who does what at each stage</a></li>
+          <li><a href="#s-end">What students can do by Day 14</a></li>
+          <li><a href="#s-seq">The 14-day sequence</a></li>
+          <li><a href="#s-funnel">The funnel</a></li>
+          <li><a href="#s-collect">What we collect</a></li>
+          <li><a href="#s-meera">One student's 14 days</a></li>
+          <li><a href="#s-gates">The five gates</a></li>
+          <li><a href="#s-team">The team of four</a></li>
+          <li><a href="#s-feedback">Feedback</a></li>
+          <li><a href="#s-present">Presenting</a></li>
+          <li><a href="#s-recog">Recognition</a></li>
+        </ol>
+      </div>
+      <div data-rise>
+        <span class="pn">2</span>
+        <h3>The long-term plan</h3>
+        <p class="why">What happens after Day 14.</p>
+        <ol>
+          <li><a href="#s-after">Rhythm after onboarding</a></li>
+          <li><a href="#s-levels">Levels, events, and game mechanics</a></li>
+          <li><a href="#s-culture">Culture</a></li>
+          <li><a href="#s-dash">Project management and the dashboard</a></li>
+          <li><a href="#s-score">The weekly scorecard</a></li>
+        </ol>
+      </div>
+      <div data-rise>
+        <span class="pn">3</span>
+        <h3>The high-agency path</h3>
+        <p class="why">For students who take more initiative.</p>
+        <ol>
+          <li><a href="#s-hadefine">Students define what they get</a></li>
+          <li><a href="#s-hagrow">Growth plan</a></li>
+          <li><a href="#s-halab">Lab access and academics</a></li>
+          <li><a href="#s-hacheck">How we check learning</a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= PART 1 ======================= -->
+<div class="part" id="p1">
+  <div class="wrap">
+    <span class="big" aria-hidden="true">Part 1</span>
+    <h2>The 14-day onboarding plan</h2>
+    <p class="lede">This part follows a normal student from the day they join to the day they present.</p>
+  </div>
+</div>
+
+<section class="slide" id="s-join">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">1.1 · Starting point</span>
+      <h2>Students join excited and have nothing to do yet</h2>
+      <p class="lede">Most students sign up because they want <b>real work experience</b>, and many expect an internship with a company. On Day 1 they have energy and little else.</p>
+    </div>
+    <div class="have-miss">
+      <div class="col key" data-rise><h3>What they bring</h3>
+        <ul class="have"><li>Energy to start</li><li>A degree and a campus</li><li>A reason they signed up</li></ul>
+      </div>
+      <div class="col" data-rise><h3>What they're missing</h3>
+        <ul class="miss"><li>A team</li><li>A written plan</li><li>A first step</li><li>A date to work toward</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-motivation">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">1.2 · Motivation</span>
+      <h2>Nobody has told students what Udyaan gives them</h2>
+      <p class="lede">Each student wants something different. Today every student guesses what Udyaan offers, and many guess wrong and drift away.</p>
+    </div>
+    <svg class="viz bub" id="bubbles" viewBox="0 0 760 360" role="img" aria-label="Examples of what students want: real work, a skill, their own product, a reference, friends who build, a project to show, credit toward a degree, not sure yet"></svg>
+    <div class="callout">
+      <p>In onboarding, <b>every student writes down what they want</b>. They answer it in the interview before Day 1, and again in a personal plan by Day 4.</p>
+      <p>That plan decides how we measure them and what they can earn.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-who">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">1.3 · Who joins</span>
+      <h2>Under six partners can't give 80 students real work</h2>
+      <p class="lede">Out of every 100 students, about 80 want the internship model, about 15 want to build their own venture, and about 5 join the core team.</p>
+    </div>
+    <svg class="viz" id="dots" viewBox="0 0 800 220" role="img" aria-label="100 dots: 80 internship, 15 entrepreneurship, 5 core team"></svg>
+    <div class="legend">
+      <span><i style="background:var(--brand)"></i>Internship, about 80</span>
+      <span><i style="background:var(--accent)"></i>Entrepreneurship, about 15</span>
+      <span><i style="background:var(--line)"></i>Core team, about 5</span>
+    </div>
+    <p>Udyaan has <b>under six industry partners</b>. Most internship students have no company problem to work on, so onboarding gives them real work that doesn't depend on a partner.</p>
+    <p class="why">This document covers the general onboarding. The core team and the entrepreneurship track run separately.</p>
+  </div>
+</section>
+
+<section class="slide" id="s-leak">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">1.4 · Problems and what they cost</span>
+      <h2>Without a structure, excitement leaks at six points</h2>
+      <p class="lede">A student who joins today meets these problems in roughly this order. Each one has a cause and a cost.</p>
+    </div>
+    <div class="leak-caps"><span>Joins excited</span><span>Goes quiet, unnoticed</span></div>
+    <svg class="viz" id="leak" viewBox="0 0 1000 300" role="img" aria-label="A winding trail with six numbered problem points that fades from bright to faint">
+      <defs>
+        <linearGradient id="leakGrad" gradientUnits="userSpaceOnUse" x1="60" y1="0" x2="920" y2="0">
+          <stop offset="0" style="stop-color:var(--brand)"/><stop offset="0.55" style="stop-color:var(--brand);stop-opacity:0.55"/><stop offset="1" style="stop-color:var(--line)"/>
+        </linearGradient>
+      </defs>
+      <path id="trailBase" class="trail-base" d="M60 90 C145 90 145 230 230 230 S315 90 400 90 S485 230 570 230 S655 90 740 90 S830 250 920 250"/>
+      <path id="trailDraw" class="trail-draw" d="M60 90 C145 90 145 230 230 230 S315 90 400 90 S485 230 570 230 S655 90 740 90 S830 250 920 250"/>
+      <g class="node"><circle cx="60" cy="90" r="24"/><text x="60" y="90">1</text></g>
+      <g class="node"><circle cx="230" cy="230" r="24"/><text x="230" y="230">2</text></g>
+      <g class="node"><circle cx="400" cy="90" r="24"/><text x="400" y="90">3</text></g>
+      <g class="node"><circle cx="570" cy="230" r="24"/><text x="570" y="230">4</text></g>
+      <g class="node"><circle cx="740" cy="90" r="24"/><text x="740" y="90">5</text></g>
+      <g class="node gone"><circle cx="920" cy="250" r="24"/><text x="920" y="250">6</text></g>
+    </svg>
+    <div class="leak-grid">
+      <div><span class="n">1</span><h4>Expects a company project</h4><p class="why">Why: partners are under six and arrive slowly.</p><p class="cost">Cost: most internship students get no real problem.</p></div>
+      <div><span class="n">2</span><h4>Doesn't know the first step</h4><p class="why">Why: nobody explains how a project starts.</p><p class="cost">Cost: they wait, and the excitement fades.</p></div>
+      <div><span class="n">3</span><h4>Doesn't know what Udyaan gives</h4><p class="why">Why: the outcome was never defined.</p><p class="cost">Cost: no reason to stay, and nothing to measure.</p></div>
+      <div><span class="n">4</span><h4>Has no deadline</h4><p class="why">Why: deadlines come from nobody.</p><p class="cost">Cost: work stalls even when we stay in touch.</p></div>
+      <div><span class="n">5</span><h4>Works with nobody around</h4><p class="why">Why: no team and no regular contact.</p><p class="cost">Cost: a student can go quiet and no one notices.</p></div>
+      <div><span class="n">6</span><h4>Gets no credit</h4><p class="why">Why: friends haven't heard of Udyaan, and nothing marks the effort.</p><p class="cost">Cost: no pride, and no pull to stay.</p></div>
+    </div>
+    <div class="callout">
+      <p><b>The total cost:</b> students drop off quietly, their effort is wasted, and partners who arrive later meet students without a method.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-flow">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">1.5 · How a student moves through</span>
+      <h2>The student, team, mentor, and dashboard each have a job at every stage</h2>
+      <p class="lede">The student acts, the team backs them up, the mentor checks the work, and the <b>dashboard</b> keeps score. The dashboard is the shared page that shows every plan, milestone, and update.</p>
+    </div>
+    <div class="scroll">
+      <table class="lanes">
+        <thead><tr><th></th><th>Before Day 1</th><th>Day 1</th><th>Days 2 to 4</th><th>Day 7</th><th>Days 8 to 12</th><th>Day 14</th></tr></thead>
+        <tbody>
+          <tr><th>Student</th><td>Fills the interview and runs our prompt</td><td>Meets the team and hears the Day 14 date</td><td>Writes the project doc and drafts the plan</td><td>Joins the check-in and gives feedback</td><td>Builds, posts updates, rehearses</td><td>Demos, submits the plan</td></tr>
+          <tr><th>Team</th><td>Gets formed from the interview data</td><td>Meets and agrees how to talk</td><td>Picks a project, sets roles, dates milestones</td><td>Holds the first feedback session</td><td>Splits the work and does the dry run</td><td>Presents together</td></tr>
+          <tr><th>Mentor</th><td>Gets briefed</td><td>Gets introduced</td><td>Reads the project docs</td><td>Runs the check-in</td><td>Stays on call for blockers</td><td>Gives demo feedback</td></tr>
+          <tr><th>Dashboard</th><td>Holds the interview data</td><td>Shows the team and the date</td><td>Tracks docs and milestones</td><td>Shows who is on track</td><td>Tracks updates and flags quiet students</td><td>Records the plan, award, and Level 1</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-end">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">1.6 · What onboarding must deliver</span>
+      <h2>By Day 14, a student can run a project and present it</h2>
+      <p class="lede">Onboarding gives every student a <b>finish line</b>, a <b>team</b>, and a <b>date</b> on Day 1. Everything after that moves them toward the finish line.</p>
+    </div>
+    <div class="then-now">
+      <div class="col" data-rise><span class="label">Day 1</span>
+        <ul class="was"><li>No team</li><li>No plan</li><li>No next step</li><li>Never presented</li></ul>
+      </div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="col key" data-rise><span class="label">Day 14</span>
+        <ul class="is">
+          <li>Knows what Udyaan gives and how they're measured</li>
+          <li>Holds a personal plan</li>
+          <li>Has a team and a finished project</li>
+          <li>Can run the method: project doc, dated milestones, updates, feedback</li>
+          <li>Has presented for 3 minutes in front of people</li>
+          <li>Holds an award and Level 1</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-seq">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">1.7 · The 14-day sequence</span>
+      <h2>Six phases take a student from sign-up to demo</h2>
+      <p class="lede">Every phase ends with something the student hands in. The Day 14 date is announced on Day 1.</p>
+    </div>
+    <div class="rail-wrap">
+      <div class="bands" aria-hidden="true"><span class="k">Kickoff</span><span class="s">Set up</span><span class="c">Check-in</span><span class="b">Build</span><span class="d">Demo</span></div>
+      <div class="days">
+        <div class="gate"><span class="dot">1</span><span class="mk">Kickoff</span></div>
+        <div><span class="dot">2</span><span class="mk"></span></div>
+        <div><span class="dot">3</span><span class="mk"></span></div>
+        <div class="gate"><span class="dot">4</span><span class="mk">Gate 1</span></div>
+        <div><span class="dot">5</span><span class="mk"></span></div>
+        <div><span class="dot">6</span><span class="mk"></span></div>
+        <div class="gate"><span class="dot">7</span><span class="mk">Gate 2</span></div>
+        <div><span class="dot">8</span><span class="mk"></span></div>
+        <div><span class="dot">9</span><span class="mk"></span></div>
+        <div><span class="dot">10</span><span class="mk"></span></div>
+        <div><span class="dot">11</span><span class="mk"></span></div>
+        <div class="gate"><span class="dot">12</span><span class="mk">Dry run</span></div>
+        <div><span class="dot">13</span><span class="mk"></span></div>
+        <div class="gate"><span class="dot">14</span><span class="mk">Gate 3 · Demo</span></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="phase">
+        <div class="when"><span class="label">Gate 0</span><h3>Before Day 1</h3><p class="why">Pre-boarding</p></div>
+        <div><span class="label">Student does</span><ul><li>Fills the <b>chat-form interview</b> about interests, motivation, and what they want to learn</li><li>Runs our prompt and uploads the result</li></ul></div>
+        <div><span class="label">We collect</span><ul><li>Interview answers</li><li>Prompt output</li><li>Campus and school</li></ul></div>
+        <div><span class="label">Student gets</span><ul><li>A team on the way</li><li>The Day 1 date</li></ul></div>
+      </div>
+      <div class="phase">
+        <div class="when"><span class="label">Day 1</span><h3>Kickoff</h3></div>
+        <div><span class="label">Student does</span><ul><li>Meets the team</li><li>Hears the <b>Day 14 date</b></li><li>Learns what Udyaan gives and how they're measured</li><li>Signs the terms and expectations</li><li>Posts a first update on the dashboard</li></ul></div>
+        <div><span class="label">We collect</span><ul><li>Signed terms</li><li>First update</li><li>Attendance</li></ul></div>
+        <div><span class="label">Student gets</span><ul><li>A team</li><li>A finish line</li><li>The brief options for their school</li></ul></div>
+      </div>
+      <div class="phase">
+        <div class="when"><span class="label">Gate 1 · Day 4</span><h3>Set up</h3><p class="why">Days 2 to 4</p></div>
+        <div><span class="label">Student does</span><ul><li>Picks a project from the brief options</li><li>Writes the <b>project doc</b>: the problem, who it helps, and what "done" means</li><li>Takes a role and puts dates on the milestones</li><li>Drafts the personal plan</li></ul></div>
+        <div><span class="label">We collect</span><ul><li>Project doc</li><li>Roles and dated milestones</li><li>Plan draft</li></ul></div>
+        <div><span class="label">Student gets</span><ul><li>A written plan for the project and for themselves</li></ul></div>
+      </div>
+      <div class="phase">
+        <div class="when"><span class="label">Gate 2 · Day 7</span><h3>Check-in</h3><p class="why">Days 5 to 7</p></div>
+        <div><span class="label">Student does</span><ul><li>Runs the research or the first build step</li><li>Meets the <b>mentor</b></li><li>Joins the first team feedback session</li><li>Answers a short <b>pulse survey</b> that asks how it's going, and writes a short reflection</li></ul></div>
+        <div><span class="label">We collect</span><ul><li>Mentor notes</li><li>Feedback notes</li><li>Pulse answers</li><li>Reflection</li></ul></div>
+        <div><span class="label">Student gets</span><ul><li>Feedback and a fix list</li></ul></div>
+      </div>
+      <div class="phase">
+        <div class="when"><span class="label">Days 8 to 12</span><h3>Build</h3></div>
+        <div><span class="label">Student does</span><ul><li>Builds the prototype, or collects the data</li><li>Posts <b>two updates a week</b></li><li>Does the timed dry run on Day 12</li></ul></div>
+        <div><span class="label">We collect</span><ul><li>Updates and milestone status</li><li>Dry-run feedback</li></ul></div>
+        <div><span class="label">Student gets</span><ul><li>A working build</li><li>A rehearsed demo</li></ul></div>
+      </div>
+      <div class="phase">
+        <div class="when"><span class="label">Gate 3 · Day 14</span><h3>Demo</h3></div>
+        <div><span class="label">Student does</span><ul><li>Presents for 3 minutes</li><li>Gives and gets peer feedback</li><li>Submits the final plan and a reflection</li><li>Receives an award</li></ul></div>
+        <div><span class="label">We collect</span><ul><li>Final plan</li><li>Demo and feedback</li><li>Reflection and pulse answers</li></ul></div>
+        <div><span class="label">Student gets</span><ul><li>Level 1</li><li>An award and a certificate</li></ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-funnel">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">1.8 · The funnel</span>
+      <h2>The funnel narrows many interests into one team, one project, and one demo</h2>
+      <p class="lede">The width shows how focused a student is. It starts wide with open interests and ends with one onboarded builder.</p>
+    </div>
+    <div class="fn" id="fn">
+      <div class="fn-row" style="--l1:0%;--r1:100%;--l2:6%;--r2:94%;--t:12;--c:var(--ink)">
+        <div class="fn-shape">Many interests, no direction</div>
+        <div class="fn-detail"><span class="tier-day">Before Day 1</span><h3>We learn what each student wants</h3><p>The interview and our prompt show interests, motivations, and what each student hopes to learn.</p><p class="coll"><b>Collected:</b> interview answers, prompt output.</p></div>
+      </div>
+      <div class="fn-row" style="--l1:6%;--r1:94%;--l2:12%;--r2:88%;--t:24;--c:var(--ink)">
+        <div class="fn-shape">One finish line</div>
+        <div class="fn-detail"><span class="tier-day">Day 1</span><h3>Everyone hears the same date</h3><p>Students meet their team, see how they're measured, and learn that the demo is on Day 14.</p><p class="coll"><b>Collected:</b> signed terms, first update.</p></div>
+      </div>
+      <div class="fn-row" style="--l1:12%;--r1:88%;--l2:18%;--r2:82%;--t:38;--c:var(--ink)">
+        <div class="fn-shape">One team, one project</div>
+        <div class="fn-detail"><span class="tier-day">Days 2 to 4</span><h3>The team picks a brief and writes it down</h3><p>The project doc, the roles, the dated milestones, and each student's plan draft.</p><p class="coll"><b>Collected:</b> project doc, milestones, plan draft.</p></div>
+      </div>
+      <div class="fn-row" style="--l1:18%;--r1:82%;--l2:24%;--r2:76%;--t:55;--c:var(--brand-ink)">
+        <div class="fn-shape">One checked plan</div>
+        <div class="fn-detail"><span class="tier-day">Day 7</span><h3>A mentor and teammates check the work</h3><p>The mentor reads the project doc, the team holds its first feedback session, and a pulse survey goes out.</p><p class="coll"><b>Collected:</b> mentor notes, feedback notes, pulse, reflection.</p></div>
+      </div>
+      <div class="fn-row" style="--l1:24%;--r1:76%;--l2:30%;--r2:70%;--t:72;--c:var(--brand-ink)">
+        <div class="fn-shape">One working build</div>
+        <div class="fn-detail"><span class="tier-day">Days 8 to 12</span><h3>The team builds and reports twice a week</h3><p>Updates keep everyone visible. The Day 12 dry run times the demo.</p><p class="coll"><b>Collected:</b> updates, milestone status, dry-run feedback.</p></div>
+      </div>
+      <div class="fn-row" style="--l1:30%;--r1:70%;--l2:36%;--r2:64%;--t:88;--c:var(--brand-ink)">
+        <div class="fn-shape">One demo</div>
+        <div class="fn-detail"><span class="tier-day">Day 14</span><h3>Each team presents and gets recognized</h3><p>Three minutes in front of judges and an audience, then peer feedback and awards.</p><p class="coll"><b>Collected:</b> final plan, demo, feedback, reflection.</p></div>
+      </div>
+      <div class="fn-row" style="--l1:36%;--r1:64%;--l2:40%;--r2:60%;--t:100;--c:var(--brand-ink)">
+        <div class="fn-shape">Level 1</div>
+        <div class="fn-detail" style="border-bottom:0"><span class="tier-day">Out</span><h3>A project-ready builder</h3><p>The student holds a plan, has shipped a project, can give feedback, and has presented.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-collect">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">1.9 · Data we collect</span>
+      <h2>Every item we collect feeds the dashboard, a gate, or an award</h2>
+      <p class="lede">Nothing is collected for its own sake. Each row says what we use it for.</p>
+    </div>
+    <div class="scroll">
+      <table class="ctable">
+        <thead><tr><th>What we collect</th><th>When</th><th>What we use it for</th></tr></thead>
+        <tbody>
+          <tr><td>Interview answers</td><td>Before Day 1</td><td>Form teams and see what each student wants</td></tr>
+          <tr><td>Prompt output</td><td>Before Day 1</td><td>Add detail to the interview and seed the plan</td></tr>
+          <tr><td>Signed terms and expectations</td><td>Day 1</td><td>Confirm the rules and who owns what is built</td></tr>
+          <tr><td>First update</td><td>Day 1</td><td>Check the student can use the dashboard</td></tr>
+          <tr><td>Project doc</td><td>Days 2 to 4</td><td>Gate 1, and the base for tracking the team</td></tr>
+          <tr><td>Roles and dated milestones</td><td>Days 2 to 4</td><td>Show who owes what, and by when</td></tr>
+          <tr><td>Personal plan</td><td>Draft by Day 4, final on Day 14</td><td>Measure the student and set the criteria for awards</td></tr>
+          <tr><td>Updates</td><td>Twice a week</td><td>Build update streaks and flag quiet students</td></tr>
+          <tr><td>Mentor notes</td><td>Day 7</td><td>Gate 2, and the team's fix list</td></tr>
+          <tr><td>Team feedback notes</td><td>Days 7 and 14</td><td>Keep a record of accountability inside the team</td></tr>
+          <tr><td>Pulse answers</td><td>Days 7 and 14</td><td>Spot a falling mood early</td></tr>
+          <tr><td>Reflections</td><td>Days 7 and 14</td><td>Show what the student learned</td></tr>
+          <tr><td>Demo and peer feedback</td><td>Day 14</td><td>Gate 3 and the awards</td></tr>
+          <tr><td>Award and level</td><td>Day 14</td><td>Level 1, and the start of the Student of the Month record</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-meera">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">1.10 · One student's 14 days · School of Computer Science</span>
+      <h2>Meera ships a lost and found board in 14 days</h2>
+      <p class="lede">Meera is a second-year Computer Science student. She expected a company internship and has no partner waiting. Scroll to watch her project build up on the right.</p>
+    </div>
+
+    <div class="story" id="story">
+      <div class="steps">
+        <div class="step" data-step="0">
+          <span class="when">Before Day 1</span>
+          <h3>She fills the interview and runs the prompt</h3>
+          <p>She writes that she wants to <b>learn how to talk to users</b> and get better at presenting. The data puts her with three other Computer Science students from her campus.</p>
+        </div>
+        <div class="step" data-step="1">
+          <span class="when">Day 1</span>
+          <h3>She meets her team and hears the date</h3>
+          <p>The Day 14 event is fixed, so <b>the finish line is clear on day one</b>. Her team looks at the brief options and she posts her first update: "Team formed."</p>
+        </div>
+        <div class="step" data-step="2">
+          <span class="when">Days 2 to 3</span>
+          <h3>The team writes the project doc</h3>
+          <p>They pick a <b>lost and found board for campus</b>. They write the problem, who it helps, and what "done" means. Meera takes the Communicator role, which means she posts the updates and builds the demo.</p>
+          <p>They give every milestone a date and a name.</p>
+        </div>
+        <div class="step" data-step="3">
+          <span class="when">Day 4 · Gate 1</span>
+          <h3>She drafts her personal plan</h3>
+          <p>She writes down the skills she wants, <b>user conversations and presenting</b>, how her data structures course helps with the board, and that she'll be measured on milestones hit, updates posted, and the demo.</p>
+        </div>
+        <div class="step" data-step="4">
+          <span class="when">Days 5 to 6</span>
+          <h3>The team talks to five students</h3>
+          <p>The Researcher leads the five conversations. Meera writes down <b>the exact words students use</b>.</p>
+          <p class="quote">"I posted in three WhatsApp groups and nobody replied."</p>
+          <p>She posts an update the same day: 5 of 5 conversations done, and 4 of 5 students never found a lost item.</p>
+        </div>
+        <div class="step" data-step="5">
+          <span class="when">Day 7 · Gate 2</span>
+          <h3>A mentor and her teammates give feedback</h3>
+          <p>The mentor says the milestones are clear but <b>nobody owns the demo yet</b>. Meera takes it. In the team feedback session, a teammate asks her to post updates earlier in the day.</p>
+        </div>
+        <div class="step" data-step="6">
+          <span class="when">Days 8 to 11</span>
+          <h3>The team builds and tests the board</h3>
+          <p>The Builder makes a report form and a searchable sheet with a free no-code tool. The team <b>tests it with 10 entries</b>, fixes two bugs, and posts two updates a week.</p>
+        </div>
+        <div class="step" data-step="7">
+          <span class="when">Day 12</span>
+          <h3>She rehearses the 3-minute demo</h3>
+          <p>Meera times herself with her teammates watching. They tell her the middle runs long, so she <b>cuts 40 seconds</b> from the section on what students said.</p>
+        </div>
+        <div class="step" data-step="8">
+          <span class="when">Day 14 · Gate 3</span>
+          <h3>She demos, submits her plan, and wins an award</h3>
+          <p>Judges and peers watch the demo. Her team wins <b>Most Useful Updates</b>. Meera hands in her final plan, gives each teammate feedback, and reaches Level 1.</p>
+        </div>
+      </div>
+
+      <aside class="panel" id="panel" aria-label="Meera's project so far">
+        <div class="panel-top"><b>Lost and Found Board</b><span class="pill ok" id="pStatus">Forming</span></div>
+        <div class="pi" data-from="0"><span class="label">Before Day 1</span><div>Interview and prompt submitted. Matched with three CS students from her campus.</div></div>
+        <div class="pi" data-from="1"><span class="label">Team</span><div><b>Arjun, Sana, Kiran, Meera.</b> Day 14 event on the calendar.</div></div>
+        <div class="pi" data-from="2"><span class="label">Project doc</span>
+          <div><b>Problem:</b> students lose items on campus and have no one place to report or find them.</div>
+          <div><b>Done means:</b> a working board with 10 test entries and 5 student conversations logged.</div>
+          <div><b>Roles:</b> Arjun Lead, Sana Builder, Kiran Researcher, Meera Communicator.</div>
+        </div>
+        <div class="pi" data-from="2"><span class="label">Milestones</span>
+          <ul class="ms" id="ms">
+            <li data-done="4"><span class="box"></span><span>5 conversations recorded</span><span class="due">Day 6</span></li>
+            <li data-done="6"><span class="box"></span><span>Report form and board built</span><span class="due">Day 10</span></li>
+            <li data-done="6"><span class="box"></span><span>Tested with 10 entries</span><span class="due">Day 11</span></li>
+            <li data-done="7"><span class="box"></span><span>Demo rehearsed</span><span class="due">Day 12</span></li>
+          </ul>
+        </div>
+        <div class="pi" data-from="3"><span class="label">Meera's plan</span><div>Skills: user conversations, presenting. Measured on milestones, updates, and the demo.</div></div>
+        <div class="pi" data-from="4"><span class="label">What students said</span><div>4 of 5 never found a lost item. "I posted in three WhatsApp groups and nobody replied."</div></div>
+        <div class="pi" data-from="5"><span class="label">Day 7 feedback</span><div>Mentor: give the demo an owner. Teammate: post updates earlier in the day.</div></div>
+        <div class="pi" data-from="6"><span class="label">Prototype</span>
+          <div class="board"><div>Black water bottle · Library <em>Found</em></div><div>Blue calculator · Block C <em class="lost">Lost</em></div><div>Grey hoodie · Canteen <em>Found</em></div></div>
+        </div>
+        <div class="pi" data-from="7"><span class="label">Demo, 3 minutes</span>
+          <div class="seg"><span>Problem<small>30s</small></span><span>What we heard<small>60s</small></span><span>Live demo<small>60s</small></span><span>Next step<small>30s</small></span></div>
+        </div>
+        <div class="pi" data-from="8"><span class="label">Day 14</span><div class="award">Most Useful Updates · Level 1 · Plan submitted</div></div>
+      </aside>
+    </div>
+
+    <div class="callout">
+      <h3>The same skeleton works for School of Science</h3>
+      <p>A Science team answers <b>one specific question</b> it can fully solve, such as which part of campus is the noisiest or how much water the canteen uses in a day. They use phone sensors and a data sheet, collect 3 days of data, write a one-page finding, and present for 3 minutes. The timeline, gates, and dashboard stay the same.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-gates">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">1.11 · Exit gates</span>
+      <h2>Five gates tell us a student is ready to move on</h2>
+      <p class="lede">A <b>gate</b> is a short checklist at a set point. The dashboard shows every student and team against these checklists, so we see who is on track without chasing anyone.</p>
+    </div>
+    <div class="gates">
+      <div class="gate"><span class="num">0</span><h3>Ready to launch</h3><span class="label">Before Day 1 · our side</span>
+        <ul class="check"><li>Interview built and sent</li><li>Teams suggested from the data</li><li>Briefs for each school ready</li><li>Templates and dashboard ready</li><li>Judges confirmed and awards published</li></ul></div>
+      <div class="gate"><span class="num">1</span><h3>Set up</h3><span class="label">Day 4 · every student</span>
+        <ul class="check"><li>Project doc written</li><li>Milestones have dates</li><li>Every role filled</li><li>Plan draft submitted</li></ul></div>
+      <div class="gate"><span class="num">2</span><h3>On track</h3><span class="label">Day 7 · every team</span>
+        <ul class="check"><li>Mentor check-in done</li><li>Half the milestones on schedule</li><li>Two updates posted that week</li><li>First feedback session held</li><li>Pulse survey answered</li></ul></div>
+      <div class="gate on"><span class="num">3</span><h3>Onboarded</h3><span class="label">Day 14 · every student</span>
+        <ul class="check"><li>Final plan submitted</li><li>Project doc complete</li><li>Demo delivered</li><li>Peer feedback given</li><li>Can use the dashboard</li></ul></div>
+      <div class="gate"><span class="num">4</span><h3>Momentum</h3><span class="label">Day 30 · every student</span>
+        <ul class="check"><li>Still posting updates</li><li>Hit a milestone in the next cycle</li><li>Attended a community event</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-team">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">1.12 · The team of four</span>
+      <h2>Four students per team, each with one role</h2>
+      <p class="lede">A team gives each student a <b>buddy from their own campus</b> and a group that notices when someone goes quiet. The interview data suggests the groups, and each team then picks its project from the brief options.</p>
+    </div>
+    <div class="roles roles-row" style="display:grid">
+      <div class="role"><div class="c" style="--t:20;--c:var(--ink)">L</div><h4>Lead</h4><p>Keeps the project doc and milestones current and runs the weekly check.</p></div>
+      <div class="role"><div class="c" style="--t:45;--c:var(--ink)">B</div><h4>Builder or collector</h4><p>Makes the prototype, or gathers the data.</p></div>
+      <div class="role"><div class="c" style="--t:70;--c:var(--brand-ink)">R</div><h4>Researcher</h4><p>Runs the five conversations, or designs the measurements.</p></div>
+      <div class="role"><div class="c" style="--t:100;--c:var(--brand-ink)">C</div><h4>Communicator</h4><p>Posts the updates and builds the demo.</p></div>
+    </div>
+    <div class="grid g3">
+      <div class="col key"><h3>Roles rotate</h3><p>After the first week, students can swap roles so each one practises each skill.</p></div>
+      <div class="col key"><h3>A weak link shows early</h3><ul><li>Every role has a name next to it in the project doc.</li><li>Each person's updates show on the dashboard.</li><li>The weekly feedback session gives teammates a place to say what is going wrong.</li></ul></div>
+      <div class="col key"><h3>What we give each team</h3><ul><li>A brief matched to their school</li><li>The project doc and plan templates</li><li>A mentor check-in on Day 7</li><li>A slot at the Day 14 event</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-feedback">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">1.13 · Mentor and peer feedback</span>
+      <h2>Feedback comes from a mentor, teammates, and an audience</h2>
+      <p class="lede">Giving feedback is a skill, so students practise it on teammates every week.</p>
+    </div>
+    <div class="grid g3">
+      <div class="col key" data-rise>
+        <span class="pill ok">Mentor</span><h3>Day 7 check-in</h3>
+        <ul><li>Reads the project doc and the dated milestones</li><li>Compares progress to the plan</li><li>Unblocks the team and comments on plan drafts</li></ul>
+      </div>
+      <div class="col key" data-rise>
+        <span class="pill ok">Teammates</span><h3>Weekly team feedback session</h3>
+        <ul><li>Held on Day 7 and Day 14</li><li>Each student tells every teammate <b>one thing to keep and one thing to change</b></li><li>Notes go on the dashboard</li></ul>
+      </div>
+      <div class="col key" data-rise>
+        <span class="pill ok">Audience</span><h3>Day 14 demo feedback</h3>
+        <ul><li>Judges and other teams respond after each demo</li><li>Teammates rate how the project went</li><li>Students hear an audience's reaction for the first time</li></ul>
+      </div>
+    </div>
+    <div class="callout">
+      <p>Regular feedback keeps a team honest. It also teaches students to hear a comment without taking it personally.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-present">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">1.14 · Presentation skills</span>
+      <h2>Every student presents for three minutes in front of people</h2>
+      <p class="lede">Presenting is one of the main skills students leave with. The Day 14 event is built around it.</p>
+    </div>
+    <div class="seg big" aria-label="Three minute demo split">
+      <span>The problem<small>30 seconds</small></span><span>What we heard<small>60 seconds</small></span><span>Live demo<small>60 seconds</small></span><span>Next step<small>30 seconds</small></span>
+    </div>
+    <div class="grid g2">
+      <div class="col key"><h3>How they get ready</h3>
+        <ul><li>The Communicator owns the slides, and the whole team rehearses.</li><li>On Day 12 the team does a timed dry run and gets feedback from teammates.</li><li>On Day 14 judges and an audience watch.</li></ul>
+      </div>
+      <div class="col key"><h3>What they practise</h3>
+        <ul><li>Cutting a story down to the parts an audience needs</li><li>Showing a working thing instead of describing it</li><li>Answering a question from someone they don't know</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-recog">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">1.15 · Recognition and status</span>
+      <h2>Awards carry weight when people outside Udyaan see them</h2>
+      <p class="lede">Awards come after the demo. A title only raises a student's status when their friends and teachers see it.</p>
+    </div>
+    <div class="chips"><span>Best Teamwork</span><span>Most Consistent Updates</span><span>Most Useful Updates</span><span>Most Creative</span><span>Best Demo</span></div>
+    <p class="why">Five categories reward the method as well as the result, so many teams win.</p>
+    <div class="places">
+      <div data-rise><h3>At the Day 14 event</h3><p>Friends, faculty, and partners are invited, and a person with standing on campus hands out the awards.</p></div>
+      <div data-rise><h3>Around campus</h3><p>Winners get a certificate they can post, and their titles appear on campus noticeboards and channels.</p></div>
+      <div data-rise><h3>In their own classrooms</h3><p>A faculty member reads out the award in front of the winner's class.</p></div>
+    </div>
+    <div class="callout brand">
+      <p><b>Student of the Month</b> is the next layer. It is chosen using the learning goals in each student's plan, and it is announced in the same places.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= PART 2 ======================= -->
+<div class="part" id="p2">
+  <div class="wrap">
+    <span class="big" aria-hidden="true">Part 2</span>
+    <h2>The long-term plan</h2>
+    <p class="lede">This part covers what keeps students engaged after Day 14.</p>
+  </div>
+</div>
+
+<section class="slide" id="s-after">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">2.1 · Rhythm after onboarding</span>
+      <h2>Weekly updates, fortnightly events, and monthly awards set the rhythm</h2>
+      <p class="lede">After Day 14 the same three beats repeat. Students always know what comes next and when.</p>
+    </div>
+    <div class="rhythm">
+      <div><span class="wk">Week 1</span><span class="dot"></span><span class="tx">Update</span></div>
+      <div class="ev"><span class="wk">Week 2</span><span class="dot"></span><span class="tx">Update + event</span></div>
+      <div><span class="wk">Week 3</span><span class="dot"></span><span class="tx">Update</span></div>
+      <div class="ev aw"><span class="wk">Week 4</span><span class="dot"></span><span class="tx">Event + Student of the Month</span></div>
+      <div><span class="wk">Week 5</span><span class="dot"></span><span class="tx">Update</span></div>
+      <div class="ev"><span class="wk">Week 6</span><span class="dot"></span><span class="tx">Update + event</span></div>
+      <div><span class="wk">Week 7</span><span class="dot"></span><span class="tx">Update</span></div>
+      <div class="ev aw"><span class="wk">Week 8</span><span class="dot"></span><span class="tx">Event + Student of the Month</span></div>
+    </div>
+    <div class="grid g3">
+      <div class="col key"><h3>Weekly</h3><p>Every team posts progress on the dashboard. Streaks show on each student's page.</p></div>
+      <div class="col key"><h3>Every two weeks</h3><p>Everyone gathers for a game-based event. We play together, and talking-only check-ins are replaced by activities.</p></div>
+      <div class="col key"><h3>Every month</h3><p>We name a Student of the Month using the learning goals in each plan, and teams start a new cycle.</p></div>
+    </div>
+    <p>The next cycle is a new team project, or a real problem from the problem board once a partner problem is ready.</p>
+  </div>
+</section>
+
+<section class="slide" id="s-levels">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">2.2 · Levels, events, and game mechanics</span>
+      <h2>Four levels give every student a next step</h2>
+      <p class="lede">Students move up by showing what they can do. The level criteria also draw on the learning goals in each student's plan.</p>
+    </div>
+    <div class="stairs">
+      <div class="stair" style="--h:130px;--t:30;--c:var(--ink)"><span class="lv">Level 1</span><h3>Builder</h3></div>
+      <div class="stair" style="--h:190px;--t:55;--c:var(--brand-ink)"><span class="lv">Level 2</span><h3>Contributor</h3></div>
+      <div class="stair" style="--h:250px;--t:80;--c:var(--brand-ink)"><span class="lv">Level 3</span><h3>Lead</h3></div>
+      <div class="stair" style="--h:310px;--t:100;--c:var(--brand-ink)"><span class="lv">Level 4</span><h3>Mentor</h3></div>
+    </div>
+    <div class="lv-detail">
+      <div><b>How you get there</b><p>Pass Gate 3 by presenting a finished project on Day 14.</p><b>What it gives</b><p>A title, a certificate, and a seat at the fortnightly event.</p></div>
+      <div><b>How you get there</b><p>Pass Gate 4: post updates on schedule for 30 days and hit a milestone in the next cycle.</p><b>What it gives</b><p>Choosing your next project and voting for Student of the Month.</p></div>
+      <div><b>How you get there</b><p>Lead a team through a full cycle, and have teammates name feedback of yours that they used.</p><b>What it gives</b><p>Leading a team, helping run an event, and buddying a new student.</p></div>
+      <div><b>How you get there</b><p>Guide a new team through onboarding, and ship work that someone outside the team used.</p><b>What it gives</b><p>Shaping your own role, helping write briefs, and first pick of partner problems.</p></div>
+    </div>
+    <div class="grid g3">
+      <div class="col key"><h3>Events</h3><ul><li><b>Game session:</b> teams compete in a one-hour challenge such as a quiz built from their own projects or a build-in-an-hour.</li><li><b>Show and tell:</b> two teams show what they shipped.</li><li><b>Interest circles:</b> students teach a topic they care about for 20 minutes.</li></ul></div>
+      <div class="col key"><h3>Mechanics</h3><ul><li><b>Update streaks</b> visible on every student's page</li><li><b>Team titles</b> at the end of each cycle</li><li><b>Student of the Month</b> chosen from the plan criteria</li></ul></div>
+      <div class="col key"><h3>Why it works</h3><p>People stay when they can see progress and when their friends can see it too. Levels give that progress a name, and events give it an audience.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-culture">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">2.3 · Culture</span>
+      <h2>Honest and engaged is the culture we're building</h2>
+      <p class="lede">The culture shows up in small habits, and onboarding teaches those habits on day one.</p>
+    </div>
+    <div class="grid g2">
+      <div class="col key"><h3>Honest</h3>
+        <ul><li>An update says what is actually done.</li><li>Feedback names a real problem and a fix.</li><li>A missed milestone gets said out loud and reset with a new date.</li><li>Recognition goes to people who earned it.</li></ul>
+      </div>
+      <div class="col key"><h3>Engaged</h3>
+        <ul><li>Everyone has a role, a date, and people who notice.</li><li>Events are things students want to attend.</li><li>Students teach each other.</li><li>The team is present when someone needs help.</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-dash">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">2.4 · Project management and the dashboard</span>
+      <h2>The dashboard shows who owes what and who has gone quiet</h2>
+      <p class="lede">Students learn project management in the 14 days. The dashboard keeps it running afterward, and it must be easy enough that <b>posting an update takes under two minutes</b>.</p>
+    </div>
+
+    <div class="mock" role="img" aria-label="Example dashboard with one student view and one organization view">
+      <div class="mock-bar"><i></i><i></i><i></i><span>Example view</span></div>
+      <div class="mock-body">
+        <div>
+          <span class="label">Student view · Meera</span>
+          <b>Milestones: 3 of 4</b>
+          <div class="prog"><i style="width:75%"></i></div>
+          <span class="label">Update streak</span>
+          <div class="streak"><i></i><i></i><i></i><i></i><i></i><i class="off"></i><i class="off"></i></div>
+          <span class="pill ok">Level 1 · Builder</span>
+        </div>
+        <div>
+          <span class="label">Organization view</span>
+          <div class="scroll"><table class="mini">
+            <thead><tr><th>Team</th><th>Last update</th><th>Milestones</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Lost and Found</td><td>Today</td><td>3 of 4</td><td><span class="pill ok">On track</span></td></tr>
+              <tr><td>Canteen Water</td><td>2 days ago</td><td>2 of 4</td><td><span class="pill warn">Needs a nudge</span></td></tr>
+              <tr><td>Study Partners</td><td>6 days ago</td><td>1 of 4</td><td><span class="pill bad">Quiet</span></td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid g3">
+      <div class="col key"><h3>Student view</h3><ul><li>Plan and skills target</li><li>Team and role</li><li>Milestone status</li><li>Update streak</li><li>Level and awards</li></ul></div>
+      <div class="col key"><h3>Team view</h3><ul><li>Milestones and due dates</li><li>Last update date</li><li>Feedback notes</li></ul></div>
+      <div class="col key"><h3>Organization view</h3><ul><li>Active and quiet students, flagged automatically</li><li>Attendance</li><li>Milestones hit</li><li>30-day retention</li><li>Pulse results</li></ul></div>
+    </div>
+
+    <div class="grid g2">
+      <div class="col key"><h3>What students learn to do</h3>
+        <ul><li>Write a project doc</li><li>Break a project into small tasks with dated milestones</li><li>Update people on progress</li><li>Hold each other to account</li><li>Give and take feedback</li></ul>
+      </div>
+      <div class="col key"><h3>Forcing functions and flags</h3>
+        <ul><li>A <b>forcing function</b> is a fixed date other people are counting on. The Day 14 event is announced on Day 1, and the mentor check-in has a set date.</li><li>After Day 14, expert meetings on committed dates keep work moving.</li><li>The dashboard flags a student who misses two updates in a row, and <b>a named person responds</b> to each flag.</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-score">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">2.5 · Scorecard</span>
+      <h2>Six numbers tell us each week if the system is working</h2>
+      <p class="lede">We set targets after the first cohort, so they rest on real numbers.</p>
+    </div>
+    <div class="score">
+      <div data-rise><span class="label">Setup</span><h3>Plans submitted by Day 4</h3></div>
+      <div data-rise><span class="label">Rhythm</span><h3>Updates posted per team each week</h3></div>
+      <div data-rise><span class="label">Delivery</span><h3>Milestones hit on time</h3></div>
+      <div data-rise><span class="label">Completion</span><h3>Teams that demo on Day 14</h3></div>
+      <div data-rise><span class="label">Retention</span><h3>Students still active at Day 30</h3></div>
+      <div data-rise><span class="label">Mood</span><h3>Pulse sentiment and event attendance</h3></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= PART 3 ======================= -->
+<div class="part" id="p3">
+  <div class="wrap">
+    <span class="big" aria-hidden="true">Part 3</span>
+    <h2>The high-agency path</h2>
+    <p class="lede">This part covers students who take more initiative. "High agency" is an internal term, and students never see it.</p>
+  </div>
+</div>
+
+<section class="slide" id="s-hadefine">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">3.1 · Students define what they get</span>
+      <h2>High-agency students set their own goals and we build around them</h2>
+      <p class="lede">These students already know where they want to go, such as becoming a scientist or doing drug research. Udyaan work is one part of their growth, and the rest comes from <b>labs, faculty, academics, and stretch goals</b>.</p>
+    </div>
+    <div class="orbit-wrap">
+      <svg class="viz" id="orbit" viewBox="0 0 700 640" role="img" aria-label="A student at the center with six sources of growth around them: Udyaan work, lab access, academics, a field mentor, their own question, and teaching others"></svg>
+      <div class="grid" style="gap:14px">
+        <h3>How we spot them</h3>
+        <p>Onboarding is the same for everyone. Initiative shows up during the 14 days: a plan that goes beyond the template, extra updates, helping teammates, and asking for harder problems.</p>
+        <p>Once we spot it, we offer a bigger plan and <b>more responsibility, including a role the student designs</b>.</p>
+      </div>
+    </div>
+    <div class="loop">
+      <div data-rise><span class="n">Step 1</span><h4>Spot</h4><p class="why">Initiative shows in the 14 days.</p></div>
+      <div data-rise><span class="n">Step 2</span><h4>Growth plan</h4><p class="why">Goal, skill ladder, academic map, resources.</p></div>
+      <div data-rise><span class="n">Step 3</span><h4>Access</h4><p class="why">Labs, faculty, tools, and data, each with a learning contract.</p></div>
+      <div data-rise><span class="n">Step 4</span><h4>Learn loop</h4><p class="why">Weekly log, monthly artifact, monthly review.</p></div>
+      <div data-rise><span class="n">Step 5</span><h4>Lead</h4><p class="why">Mentor teams, run events, write briefs.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-hagrow">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">3.2 · Growth plan</span>
+      <h2>A growth plan starts with the incentives, then sets milestones for each</h2>
+      <p class="lede">The standard personal plan has four questions. The growth plan adds five more pieces.</p>
+    </div>
+    <div class="grid g2">
+      <div class="col key"><h3>The standard plan, for everyone</h3>
+        <ul><li>Which skills am I aiming to build?</li><li>What am I trying to learn?</li><li>How will I use my degree and academic knowledge?</li><li>How will I be measured?</li></ul>
+      </div>
+      <div class="col key"><h3>What the growth plan adds</h3>
+        <ul>
+          <li><b>Long-term goal:</b> where the student wants to be in 3 to 5 years.</li>
+          <li><b>Skill ladder:</b> the skills on the way, in order, with a target level each month.</li>
+          <li><b>Academic map:</b> each course matched to the Udyaan or lab work that uses it.</li>
+          <li><b>Resources wanted:</b> labs, a faculty guide, tools, data, and books.</li>
+          <li><b>Incentives first:</b> what the student wants out of Udyaan, with milestones tied to each one.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">
+      <p>The first growth plan is ours. It lists what we want to learn from Udyaan, which is product, project management, scorecards, dashboards, and distribution, plus what we want to take away and the milestones for each. We run it through the same template and review rhythm, fix what is clumsy, and then offer it to students.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-halab">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">3.3 · Lab access and academics</span>
+      <h2>A learning contract ties every lab session to something learned</h2>
+      <p class="lede">When a student gets lab access, they sign a <b>learning contract</b>. It's a one-page agreement between the student and a supervisor.</p>
+    </div>
+    <div class="grid g2">
+      <div class="col key"><h3>The learning contract has five parts</h3>
+        <ul>
+          <li><b>A question:</b> what the student wants to find out or build.</li>
+          <li><b>A supervisor:</b> a faculty or lab member who agrees to guide them.</li>
+          <li><b>Rules and safety:</b> the lab's own requirements, confirmed before the first session.</li>
+          <li><b>A weekly log:</b> what I did, what I learned, what is stuck.</li>
+          <li><b>A deliverable:</b> a short report, a poster, or a repeat of a known result, reviewed by the supervisor.</li>
+        </ul>
+      </div>
+      <div class="col key"><h3>Class and Udyaan feed each other</h3>
+        <ul>
+          <li>Each course gets a line in the academic map that says where the student uses it.</li>
+          <li>Where a course allows it, a project or lab report counts as an assignment.</li>
+          <li>Once a month the student answers two questions: what from class did I use, and what from Udyaan connects back to class?</li>
+          <li>Study time stays protected, so grades hold up.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="grid g2">
+      <div class="col key"><h3>Beyond Udyaan work</h3>
+        <ul>
+          <li><b>Own-question time:</b> a regular block for a problem the student cares about.</li>
+          <li><b>Field mentor:</b> someone in the student's target field, met once a month.</li>
+          <li><b>Reading and skill track:</b> a short reading list and one skill to practise each month.</li>
+          <li><b>Outside exposure:</b> competitions, talks, papers, and conferences.</li>
+          <li><b>Teaching:</b> mentoring a team deepens the student's own understanding.</li>
+          <li><b>Public portfolio:</b> one visible output each month.</li>
+        </ul>
+      </div>
+      <div class="callout"><h3>Example: a Biology student</h3>
+        <p>Her goal is drug research. Her team's updates are the most detailed in the cohort, and her plan names her target field. She gets lab access with a faculty supervisor, a question about a known compound, a weekly log, and a short report at the end of the month.</p>
+        <p>Her academic map ties pharmacology and biochemistry to the lab work. A mentor in the field meets her monthly, and she guides a first-year team through its Day 14 project.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s-hacheck">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">3.4 · How we check learning</span>
+      <h2>Logs, artifacts, and monthly reviews show whether a student is learning</h2>
+      <p class="lede">We count evidence of learning. Hours spent don't count. If the logs and artifacts stop, access pauses and we talk with the student about why.</p>
+    </div>
+    <div class="scroll">
+      <table class="ctable">
+        <thead><tr><th>Check</th><th>When</th><th>Evidence</th></tr></thead>
+        <tbody>
+          <tr><td>Weekly log</td><td>Every week</td><td>Three lines: what I did, what I learned, what is stuck</td></tr>
+          <tr><td>Monthly artifact</td><td>End of each month</td><td>A report, prototype, poster, or write-up</td></tr>
+          <tr><td>Skill check</td><td>Monthly</td><td>The student rates their skill ladder and the mentor confirms</td></tr>
+          <tr><td>Bridge check</td><td>Monthly</td><td>Written links between class and Udyaan work</td></tr>
+          <tr><td>Review with supervisor or mentor</td><td>Monthly</td><td>A 15 to 30 minute conversation, with notes on the dashboard</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">udyaan. · Student onboarding · Draft for review. Meera, her team, and the other examples show how the plan works in practice.</div>
+</footer>
+
+<script>
+/*__D3__*/
+</script>
+<script>
+/*__GSAP__*/
+</script>
+<script>
+/*__ST__*/
+</script>
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasD3 = !!window.d3;
+  var hasGsap = !!window.gsap;
+
+  /* 1.2 bubbles: static force layout */
+  (function () {
+    var svg = document.getElementById('bubbles');
+    if (!svg || !hasD3) return;
+    var W = 760, H = 360;
+    var items = [
+      { t: 'Real work', r: 66 }, { t: 'A skill', r: 52 }, { t: 'My own product', r: 76 },
+      { t: 'A reference', r: 58 }, { t: 'Friends who build', r: 82 }, { t: 'A project to show', r: 78 },
+      { t: 'Credit toward my degree', r: 88 }, { t: 'Not sure yet', r: 56, alt: true }
+    ];
+    var seed = [[110, 90], [290, 70], [470, 80], [650, 90], [120, 250], [300, 260], [480, 250], [650, 250]];
+    items.forEach(function (d, k) { d.x = seed[k][0]; d.y = seed[k][1]; });
+    var sim = d3.forceSimulation(items)
+      .force('x', d3.forceX(W / 2).strength(0.012))
+      .force('y', d3.forceY(H / 2).strength(0.03))
+      .force('c', d3.forceCollide(function (d) { return d.r + 6; }).strength(1).iterations(8))
+      .stop();
+    for (var i = 0; i < 400; i++) sim.tick();
+    items.forEach(function (d) { d.x = Math.max(d.r + 4, Math.min(W - d.r - 4, d.x)); d.y = Math.max(d.r + 4, Math.min(H - d.r - 4, d.y)); });
+    var root = d3.select(svg);
+    var g = root.selectAll('g').data(items).enter().append('g')
+      .attr('class', function (d) { return d.alt ? 'alt' : ''; })
+      .attr('transform', function (d) { return 'translate(' + d.x + ',' + d.y + ')'; });
+    g.append('circle').attr('r', function (d) { return d.r; });
+    g.each(function (d) {
+      var words = d.t.split(' '), lines = [], cur = '';
+      words.forEach(function (w) { if ((cur + ' ' + w).trim().length > 11 && cur) { lines.push(cur); cur = w; } else { cur = (cur + ' ' + w).trim(); } });
+      lines.push(cur);
+      var t = d3.select(this).append('text');
+      lines.forEach(function (l, k) { t.append('tspan').attr('x', 0).attr('dy', k === 0 ? (-(lines.length - 1) * 0.55 + 0.35) + 'em' : '1.1em').text(l); });
+    });
+  })();
+
+  /* 1.3 dots: 100 students */
+  (function () {
+    var svg = document.getElementById('dots');
+    if (!svg || !hasD3) return;
+    var cols = 20, rows = 5, dx = 40, dy = 40, ox = 20, oy = 20;
+    var data = d3.range(100).map(function (i) {
+      var col = Math.floor(i / rows), row = i % rows;
+      return { i: i, x: ox + col * dx, y: oy + row * dy + (col % 2 ? 8 : 0), c: i < 80 ? 'dot-int' : (i < 95 ? 'dot-ent' : 'dot-core') };
+    });
+    var s = d3.select(svg).selectAll('circle').data(data).enter().append('circle')
+      .attr('class', function (d) { return d.c; }).attr('cx', function (d) { return d.x; }).attr('cy', function (d) { return d.y; }).attr('r', 15);
+  })();
+
+  /* 3.1 orbit */
+  (function () {
+    var svg = document.getElementById('orbit');
+    if (!svg || !hasD3) return;
+    var cx = 350, cy = 320, R = 235;
+    var sats = [
+      { t: ['Udyaan', 'work'], c: 'udy' }, { t: ['Lab', 'access'] }, { t: ['Academics'] },
+      { t: ['Field', 'mentor'] }, { t: ['Own', 'question'] }, { t: ['Teaching', 'others'] }
+    ];
+    var root = d3.select(svg);
+    root.append('circle').attr('class', 'orb-ring').attr('cx', cx).attr('cy', cy).attr('r', R);
+    sats.forEach(function (s, i) {
+      var a = -Math.PI / 2 + i * (2 * Math.PI / sats.length);
+      s.x = cx + R * Math.cos(a); s.y = cy + R * Math.sin(a);
+      root.append('line').attr('class', 'orb-link').attr('x1', cx).attr('y1', cy).attr('x2', s.x).attr('y2', s.y);
+    });
+    var g = root.selectAll('g.orb-sat').data(sats).enter().append('g')
+      .attr('class', function (d) { return 'orb-sat ' + (d.c || ''); })
+      .attr('transform', function (d) { return 'translate(' + d.x + ',' + d.y + ')'; });
+    g.append('circle').attr('r', 66);
+    g.each(function (d) {
+      var t = d3.select(this).append('text');
+      d.t.forEach(function (l, k) { t.append('tspan').attr('x', 0).attr('dy', k === 0 ? (-(d.t.length - 1) * 0.55 + 0.35) + 'em' : '1.1em').text(l); });
+    });
+    var core = root.append('g').attr('class', 'orb-core').attr('transform', 'translate(' + cx + ',' + cy + ')');
+    core.append('circle').attr('r', 86);
+    var ct = core.append('text');
+    ct.append('tspan').attr('x', 0).attr('dy', '-0.1em').text('The');
+    ct.append('tspan').attr('x', 0).attr('dy', '1.15em').text('student');
+  })();
+
+  /* 1.10 story panel */
+  (function () {
+    var story = document.getElementById('story');
+    if (!story) return;
+    var steps = Array.prototype.slice.call(story.querySelectorAll('.step'));
+    var items = Array.prototype.slice.call(story.querySelectorAll('.pi'));
+    var ms = Array.prototype.slice.call(story.querySelectorAll('#ms li'));
+    var panel = document.getElementById('panel');
+    var status = document.getElementById('pStatus');
+    var labels = ['Forming', 'Team set', 'Planning', 'Plan drafted', 'Researching', 'Checked in', 'Building', 'Rehearsing', 'Onboarded'];
+    function show(n) {
+      steps.forEach(function (s) { s.classList.toggle('cur', Number(s.dataset.step) === n); });
+      items.forEach(function (el) { el.classList.toggle('on', Number(el.dataset.from) <= n); });
+      ms.forEach(function (li) { li.classList.toggle('done', Number(li.dataset.done) <= n); });
+      status.textContent = labels[n];
+      var last = items.filter(function (el) { return el.classList.contains('on'); }).pop();
+      if (last && panel.scrollHeight > panel.clientHeight) panel.scrollTo({ top: panel.scrollHeight, behavior: reduce ? 'auto' : 'smooth' });
+    }
+    show(0);
+    if (!('IntersectionObserver' in window)) { show(8); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) show(Number(e.target.dataset.step)); });
+    }, { rootMargin: '-42% 0px -50% 0px', threshold: 0 });
+    steps.forEach(function (s) { io.observe(s); });
+  })();
+
+  /* motion with GSAP */
+  if (hasGsap && !reduce) {
+    if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+    document.querySelectorAll('[data-rise]').forEach(function (el) {
+      gsap.from(el, { y: 26, duration: 0.7, ease: 'power2.out', scrollTrigger: window.ScrollTrigger ? { trigger: el, start: 'top 92%', once: true } : undefined });
+    });
+    var draw = document.getElementById('trailDraw');
+    if (draw && window.ScrollTrigger) {
+      var len = draw.getTotalLength();
+      gsap.set(draw, { strokeDasharray: len, strokeDashoffset: len });
+      gsap.to(draw, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: '#leak', start: 'top 80%', end: 'bottom 45%', scrub: 0.6 } });
+    }
+    document.querySelectorAll('#fn .fn-shape').forEach(function (el, i) {
+      gsap.from(el, { opacity: 0.35, duration: 0.6, scrollTrigger: window.ScrollTrigger ? { trigger: el, start: 'top 90%', once: true } : undefined });
+    });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!-- ===== SECTION 5 · frag-5-switch · prefix swb- · Builder C ===== -->
+<style>
+  /* Switchboard (STR-02): three asks on the left, four teams on the right, cords inked one ask at a time. Band: paper. */
+  .swb-board{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,.8fr) minmax(0,1.25fr)}
+  .swb-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:0}
+  .swb-con{fill:none;stroke:var(--ink);stroke-opacity:.38;stroke-width:1;stroke-dasharray:3 5}
+  .swb-ink{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+
+  /* the asks spread over the same height as the four team cards, first ask level with the first team, last with the last */
+  .swb-asks{position:relative;z-index:1;grid-column:1;display:flex;flex-direction:column;justify-content:space-between;gap:14px}
+  .swb-teams{position:relative;z-index:1;grid-column:3;display:flex;flex-direction:column;gap:14px;min-width:0}
+
+  .swb-ask{display:flex;align-items:center;gap:18px;padding:18px 22px;border-radius:var(--r-sheet);background:var(--card);box-shadow:0 0 0 1px var(--line)}
+  .swb-badge{flex:none;width:64px}
+  .swb-badge svg{display:block;width:64px;height:auto}
+  /* the shared badge strokes are tuned for 120px; thicken them so the lit part still reads at 64px */
+  .swb-badge path{stroke-width:10px!important}
+  .swb-badge path.red{stroke-width:18px!important}
+  .swb-ask h3,.swb-tcard h3{font-size:clamp(22px,2vw,26px)}
+  .swb-by{display:none}
+
+  .swb-tcard{padding:18px 22px;border-radius:var(--r-sheet);background:var(--c);min-width:0}
+  .swb-team-sensors{--c:var(--tint-1)}
+  .swb-team-app{--c:var(--tint-2)}
+  .swb-team-data{--c:var(--tint-3)}
+  .swb-team-field{--c:var(--tint-4)}
+  .swb-tcard p{margin-top:6px;font-size:16px;line-height:1.45;color:var(--ink)}
+
+  .swb-close{max-width:none;margin-top:clamp(36px,4vw,52px);font:500 clamp(20px,1.8vw,24px)/1.4 var(--font-body);text-wrap:balance}
+
+  #swb.is-final *{transition:none!important;animation:none!important}
+
+  @media (max-width:819px){
+    .swb-svg{display:none}
+    .swb-board{grid-template-columns:minmax(0,1fr);row-gap:16px}
+    .swb-asks,.swb-teams{grid-column:1}
+    .swb-asks{gap:12px}
+    .swb-ask{align-items:flex-start;gap:16px}
+    .swb-ask>div:last-child{flex:1;min-width:0}
+    .swb-by{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+    .swb-by .label{width:100%}
+    .swb-teams{margin-top:8px}
+  }
+</style>
+
+<section class="band paper" id="swb">
+  <div class="wrap">
+    <div class="band-head">
+      <h2>Four small teams, one clear job each</h2>
+      <p class="lede">Each of your three asks has two of our teams on it.</p>
+    </div>
+
+    <div class="swb-board">
+      <svg class="swb-svg" aria-hidden="true"></svg>
+
+      <div class="swb-asks">
+        <article class="swb-ask">
+          <span class="swb-badge" data-part="box"></span>
+          <div><h3>See inside every truck</h3>
+            <div class="swb-by"><span class="label">ANSWERED BY</span><span class="chips"><span class="chip c-sensors">Sensors</span><span class="chip c-data">Data</span></span></div>
+          </div>
+        </article>
+        <article class="swb-ask">
+          <span class="swb-badge" data-part="cab"></span>
+          <div><h3>Put the logbook on a screen</h3>
+            <div class="swb-by"><span class="label">ANSWERED BY</span><span class="chips"><span class="chip c-app">App</span><span class="chip c-field">Field</span></span></div>
+          </div>
+        </article>
+        <article class="swb-ask">
+          <span class="swb-badge" data-part="trip"></span>
+          <div><h3>Prove every trip</h3>
+            <div class="swb-by"><span class="label">ANSWERED BY</span><span class="chips"><span class="chip c-data">Data</span><span class="chip c-app">App</span></span></div>
+          </div>
+        </article>
+      </div>
+
+      <div class="swb-teams">
+        <article class="swb-tcard swb-team-sensors"><h3>Sensors</h3><p>fits and looks after the sensors</p></article>
+        <article class="swb-tcard swb-team-app"><h3>App</h3><p>builds the driver tablet and the office screen</p></article>
+        <article class="swb-tcard swb-team-data"><h3>Data</h3><p>keeps the temperature record of every load</p></article>
+        <article class="swb-tcard swb-team-field"><h3>Field</h3><p>trains drivers on their own routes</p></article>
+      </div>
+    </div>
+
+    <p class="swb-close rv" style="--d:.1s"><mark>One person, Meera Nair, our project lead, is your contact for all four teams.</mark></p>
+  </div>
+</section>
+
+<script>
+(() => {
+  const sec = $('#swb'); if (!sec) return;
+  if (FINAL) sec.classList.add('is-final');
+  $$('.swb-badge', sec).forEach(el => { el.innerHTML = truckBadge(el.dataset.part); });
+  const board = $('.swb-board', sec), svg = $('.swb-svg', sec);
+  const asks = $$('.swb-ask', sec), cards = $$('.swb-tcard', sec);
+  // [ask index, team index]; asks top to bottom; teams: 0 Sensors, 1 App, 2 Data, 3 Field
+  const LINKS = [[0, 0], [0, 2], [1, 1], [1, 3], [2, 2], [2, 1]];
+  let links = [], raf = 0;
+  const narrow = () => matchMedia('(max-width: 819px)').matches;
+  const box = el => el.getBoundingClientRect();
+  // geometry relative to the board (the board has no transform, so this is exact)
+  const rel = el => { const b = box(board), r = box(el); return { x: r.left - b.left, y: r.top - b.top, w: r.width, h: r.height }; };
+  const mk = (tag, attrs) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); return n; };
+
+  function build() {
+    svg.textContent = ''; links = [];
+    if (narrow()) return;
+    const b = box(board);
+    svg.setAttribute('viewBox', `0 0 ${b.width} ${b.height}`);
+    svg.setAttribute('preserveAspectRatio', 'none');
+    // cord ends: spread evenly along each card edge, ordered by where the other end sits
+    const outs = asks.map(() => []), ins = cards.map(() => []);
+    LINKS.forEach(([p, t], i) => { outs[p].push({ i, t }); ins[t].push({ i, p }); });
+    const y = new Map();
+    outs.forEach((list, p) => { const r = rel(asks[p]); list.sort((a, c) => a.t - c.t).forEach((L, k, arr) => y.set('a' + L.i, r.y + r.h * (k + 1) / (arr.length + 1))); });
+    ins.forEach((list, t) => { const r = rel(cards[t]); list.sort((a, c) => a.p - c.p).forEach((L, k, arr) => y.set('b' + L.i, r.y + r.h * (k + 1) / (arr.length + 1))); });
+    LINKS.forEach(([p, t], i) => {
+      const a = rel(asks[p]), z = rel(cards[t]);
+      const x0 = a.x + a.w, x1 = z.x, y0 = y.get('a' + i), y1 = y.get('b' + i), xm = (x0 + x1) / 2;
+      const d = `M${x0} ${y0} C${xm} ${y0} ${xm} ${y1} ${x1} ${y1}`;
+      svg.append(mk('path', { d, class: 'swb-con' }));
+      const ink = mk('path', { d, class: 'swb-ink', pathLength: 1 });
+      svg.append(ink);
+      links.push({ p, ink });
+    });
+  }
+
+  // progress: how far the board has travelled past 62% of the viewport height, linear; full under FINAL.
+  // Three asks ink one after another, each ask's two cords together.
+  function update() {
+    raf = 0;
+    const p = FINAL ? 1 : Math.min(1, Math.max(0, (0.62 * innerHeight - box(board).top) / (0.5 * innerHeight)));
+    links.forEach(L => { const s = Math.min(1, Math.max(0, p * 3 - L.p)); L.ink.style.strokeDashoffset = String(1 - s); });
+  }
+  const queue = () => { if (!raf) raf = requestAnimationFrame(update); };
+  const layout = () => { build(); queue(); };
+  layout();
+  addEventListener('resize', layout);
+  addEventListener('scroll', queue, { passive: true });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+  if ('ResizeObserver' in window) new ResizeObserver(layout).observe(board);
+})();
+</script>

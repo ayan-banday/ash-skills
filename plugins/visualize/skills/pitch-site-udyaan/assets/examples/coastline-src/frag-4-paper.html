@@ -1,0 +1,179 @@
+<!-- ===== SECTION 4 · frag-4-paper · prefix p2s- · Builder C ===== -->
+<style>
+  /* Paper vs screen (CHG-09) with strike and replace (EMP-16). Band t2 = trace yellow. */
+  .p2s-col{display:grid;gap:22px;justify-items:start;max-width:720px}
+  .p2s-head{display:grid;gap:18px;justify-items:start;margin-bottom:6px}
+  .p2s-badge svg{display:block;width:120px;height:auto}
+
+  /* You told us (PPL-16) */
+  .p2s-said{max-width:58ch;padding:20px 24px;border-radius:var(--r-sheet);background:rgba(255,255,255,.42);box-shadow:0 0 0 1px var(--line-2)}
+  .p2s-said .label{display:block;margin-bottom:10px}
+  .p2s-quote{font:italic 400 20px/1.4 var(--font-body);color:var(--ink)}
+
+  .p2s-body{max-width:52ch;font-size:18px;line-height:1.6}
+
+  /* Strike and replace (EMP-16): the old words are struck, the new words arrive */
+  .p2s-goal{max-width:30ch;font:500 clamp(22px,2vw,26px)/1.35 var(--font-body);color:var(--ink)}
+  .p2s-goal del{position:relative;text-decoration:none;transition:opacity .3s ease-out .35s}
+  .p2s-goal del::after{content:"";position:absolute;left:-3px;right:-3px;top:55%;height:2px;background:currentColor;rotate:-2deg;transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease-draw) .1s}
+  .p2s-goal.in del{opacity:.4}
+  .p2s-goal.in del::after{transform:scaleX(1)}
+  .p2s-goal ins{display:inline-block;text-decoration:none;opacity:0;transform:translateY(8px);transition:opacity .6s var(--ease-out) .55s,transform .6s var(--ease-out) .55s}
+  .p2s-goal.in ins{opacity:1;transform:none}
+  .p2s-goal ins mark{transition-delay:1.2s}
+
+  .p2s-by{display:grid;gap:12px}
+  .p2s-by p{max-width:44ch;font-size:16px;line-height:1.5;color:var(--muted)}
+
+  /* Visual: paper sheet, arrow, the tablet drawn in the same line */
+  .p2s-visual{display:grid;grid-template-columns:minmax(0,1fr) 120px minmax(0,1fr);gap:20px;align-items:center;max-width:980px;margin-top:clamp(44px,5.5vw,72px)}
+
+  .p2s-sheet{position:relative;rotate:-1.2deg;padding:24px 26px 14px;border-radius:var(--r-sheet);background:var(--card);box-shadow:0 1px 0 var(--line),0 14px 30px -18px rgba(34,32,30,.45)}
+  .p2s-sheet-title{margin:0 0 8px;font:600 13px/1 var(--font-label);letter-spacing:.14em;color:var(--ink)}
+  .p2s-row{display:grid;grid-template-columns:minmax(0,1fr) 72px;align-items:center;min-height:52px;border-bottom:1px solid var(--line)}
+  .p2s-row:last-child{border-bottom:0}
+  .p2s-hd{min-height:34px;border-bottom:2px solid var(--ink)}
+  .p2s-hd .label{justify-self:center;font-size:10.5px}
+  .p2s-stop{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:8px;row-gap:4px;font:500 13px/1.2 var(--font-label);color:var(--muted)}
+  .p2s-stop b{font:600 21px/1 var(--font-display);letter-spacing:.02em;color:var(--ink)}
+  .p2s-tick{justify-self:center;width:30px;height:26px;overflow:visible;opacity:0}
+  .p2s-tick path{fill:none;stroke:var(--cyan);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+  .p2s-q{justify-self:center;font:34px/1 var(--font-hand);color:var(--red);rotate:-8deg;opacity:0}
+  .p2s-note{display:inline-block;margin-left:4px;font:18px/1 var(--font-hand);color:var(--red);rotate:-3deg;opacity:0}
+
+  .p2s-link{display:grid;justify-items:center;gap:12px}
+  .p2s-link .label{text-align:center;font-size:11px;line-height:1.3}
+  .p2s-arrow-h{display:block;width:120px;height:24px;overflow:visible}
+  .p2s-arrow-v{display:none;width:24px;height:60px;overflow:visible}
+  .p2s-arrow-h path,.p2s-arrow-v path{fill:none;stroke:var(--ink);stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .9s var(--ease-draw) .3s}
+  .p2s-visual.go .p2s-arrow-h path,.p2s-visual.go .p2s-arrow-v path{stroke-dashoffset:0}
+
+  .p2s-screen{position:relative;padding:12px 22px;border:1.5px solid var(--ink);border-radius:12px;background:var(--card);color:var(--ink);opacity:0;translate:0 12px;transition:opacity .75s var(--ease-out) 1.75s,translate .75s var(--ease-out) 1.75s}
+  .p2s-visual.go .p2s-screen{opacity:1;translate:0 0}
+  .p2s-srow{display:grid;grid-template-columns:minmax(0,96px) minmax(0,1fr) 74px;gap:14px;align-items:center;min-height:50px;border-top:1px solid var(--line)}
+  .p2s-srow:first-child{border-top:0}
+  .p2s-sname{font:500 11px/1.3 var(--font-label);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .p2s-sname b{display:block;font:600 17px/1.1 var(--font-display);letter-spacing:.03em;color:var(--ink)}
+  .p2s-trace{width:100%;height:18px;overflow:visible}
+  .p2s-trace path{fill:none;stroke:var(--muted);stroke-width:1.4;stroke-linecap:round}
+  .p2s-srow.warm .p2s-trace path{stroke:var(--red);stroke-width:2}
+  .p2s-stat{display:inline-flex;align-items:center;gap:7px;font:500 12px/1 var(--font-label);letter-spacing:.06em;color:var(--red)}
+  .p2s-dot{width:9px;height:9px;border-radius:50%;border:1.6px solid var(--red)}
+
+  /* Motion, once, in the house order: ticks, note, screen, traces */
+  .p2s-visual.go .p2s-tick,.p2s-visual.go .p2s-q{animation:p2s-in .25s var(--ease-out) both;animation-delay:calc(var(--i)*.2s)}
+  .p2s-visual.go .p2s-note{animation:p2s-fade .4s ease-out 1.45s both}
+  @keyframes p2s-in{from{opacity:0;scale:.6}to{opacity:1;scale:1}}
+  @keyframes p2s-fade{from{opacity:0}to{opacity:1}}
+
+  /* Final state: every piece shown finished, no motion */
+  #p2s.is-final *{transition:none!important;animation:none!important}
+  #p2s.is-final .p2s-tick,#p2s.is-final .p2s-q,#p2s.is-final .p2s-note{opacity:1}
+  #p2s.is-final .p2s-goal del{opacity:.4}
+
+  @media (max-width:1000px){
+    .p2s-sheet{padding:22px 20px 12px}
+    .p2s-row{grid-template-columns:minmax(0,1fr) 64px}
+    .p2s-tick{width:26px}
+    .p2s-hd .label{white-space:nowrap;font-size:10px}
+  }
+  @media (max-width:819px){
+    .p2s-visual{grid-template-columns:minmax(0,1fr);justify-items:start;gap:22px;max-width:560px}
+    .p2s-sheet{rotate:0deg}
+    .p2s-sheet,.p2s-screen{width:100%}
+    .p2s-link{justify-items:start;padding-left:4px}
+    .p2s-arrow-h{display:none}
+    .p2s-arrow-v{display:block}
+  }
+</style>
+
+<section class="band t2" id="p2s">
+  <div class="wrap">
+    <div class="p2s-col">
+      <div class="p2s-head">
+        <div class="p2s-badge"></div>
+        <p class="label">THE CAB</p>
+        <h2>Put the logbook on a screen</h2>
+      </div>
+      <div class="p2s-said rv">
+        <span class="label">YOU TOLD US</span>
+        <p class="p2s-quote">“Drivers write temperatures on paper, and nobody reads it.”</p>
+      </div>
+      <p class="p2s-body rv" style="--d:.08s">The sensors report on their own. The tablet replaces the paper log your drivers already keep: at each stop they tap the reading instead of writing it, and the office sees it the same minute.</p>
+      <p class="p2s-goal rv" style="--d:.16s">The goal: a warm reading gets noticed <del>the next morning</del> <ins><mark>the same minute</mark></ins>.</p>
+      <div class="p2s-by rv" style="--d:.24s">
+        <div class="chips"><span class="chip c-app">App</span><span class="chip c-field">Field</span></div>
+        <p>Our Field team shows each driver the tablet on their own route.</p>
+      </div>
+    </div>
+
+    <div class="p2s-visual">
+      <div class="p2s-sheet">
+        <p class="p2s-sheet-title">DRIVER LOG, EXAMPLE NIGHT</p>
+        <div class="p2s-row p2s-hd"><span></span><span class="label">TEMP OK?</span></div>
+        <div class="p2s-row">
+          <span class="p2s-stop"><b>KOCHI</b> 6 PM</span>
+          <svg class="p2s-tick" viewBox="0 0 30 26" style="--i:0" aria-hidden="true"><path d="M3 14C8 16 11 20 13 23C16 15 21 7 28 3"/></svg>
+        </div>
+        <div class="p2s-row">
+          <span class="p2s-stop"><b>COIMBATORE</b> 10 PM</span>
+          <svg class="p2s-tick" viewBox="0 0 30 26" style="--i:1" aria-hidden="true"><path d="M3 14C8 16 11 20 13 23C16 15 21 7 28 3"/></svg>
+        </div>
+        <div class="p2s-row">
+          <span class="p2s-stop"><b>SALEM</b> 2 AM <span class="p2s-note">door stuck?</span></span>
+          <span class="p2s-q" style="--i:2" aria-hidden="true">?</span>
+        </div>
+        <div class="p2s-row">
+          <span class="p2s-stop"><b>HOSUR</b> 5 AM</span>
+          <svg class="p2s-tick" viewBox="0 0 30 26" style="--i:3" aria-hidden="true"><path d="M3 14C8 16 11 20 13 23C16 15 21 7 28 3"/></svg>
+        </div>
+        <div class="p2s-row">
+          <span class="p2s-stop"><b>BENGALURU</b> 7 AM</span>
+          <svg class="p2s-tick" viewBox="0 0 30 26" style="--i:4" aria-hidden="true"><path d="M3 14C8 16 11 20 13 23C16 15 21 7 28 3"/></svg>
+        </div>
+      </div>
+
+      <div class="p2s-link">
+        <span class="label">same rows, live</span>
+        <svg class="p2s-arrow-h" viewBox="0 0 120 24" aria-hidden="true"><path pathLength="1" d="M2 12H110"/><path pathLength="1" d="M100 4L111 12L100 20"/></svg>
+        <svg class="p2s-arrow-v" viewBox="0 0 24 60" aria-hidden="true"><path pathLength="1" d="M12 2V50"/><path pathLength="1" d="M4 42L12 53L20 42"/></svg>
+      </div>
+
+      <div class="p2s-screen">
+        <div class="p2s-srow">
+          <span class="p2s-sname"><b>KOCHI</b>6 PM</span>
+          <svg class="p2s-trace" viewBox="0 0 160 18" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12H160"/></svg>
+        </div>
+        <div class="p2s-srow">
+          <span class="p2s-sname"><b>COIMBATORE</b>10 PM</span>
+          <svg class="p2s-trace" viewBox="0 0 160 18" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12H160"/></svg>
+        </div>
+        <div class="p2s-srow warm">
+          <span class="p2s-sname"><b>SALEM</b>2 AM</span>
+          <svg class="p2s-trace" viewBox="0 0 160 18" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12H58C68 12 72 3 80 3C88 3 92 12 102 12H160"/></svg>
+          <span class="p2s-stat"><i class="p2s-dot"></i>WARM</span>
+        </div>
+        <div class="p2s-srow">
+          <span class="p2s-sname"><b>HOSUR</b>5 AM</span>
+          <svg class="p2s-trace" viewBox="0 0 160 18" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12H160"/></svg>
+        </div>
+        <div class="p2s-srow">
+          <span class="p2s-sname"><b>BENGALURU</b>7 AM</span>
+          <svg class="p2s-trace" viewBox="0 0 160 18" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12H160"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(() => {
+  const root = $('#p2s'); if (!root) return;
+  if (FINAL) root.classList.add('is-final');
+  $('.p2s-badge', root).innerHTML = truckBadge('cab');
+  const vis = $('.p2s-visual', root);
+  const traces = $$('.p2s-trace path', vis);
+  prepDraw(traces);
+  onView(vis, () => { vis.classList.add('go'); penDraw(traces, { delay: 1.9 }); }, .45);
+})();
+</script>

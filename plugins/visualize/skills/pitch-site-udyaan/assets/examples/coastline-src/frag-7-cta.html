@@ -1,0 +1,236 @@
+<section class="band dark" id="cta" aria-labelledby="cta-h2">
+  <style>
+    /* Closing band: the truck drawing returns in paper-coloured line, three plain steps sit under it, then the contact card */
+    #cta .cta-draw{margin-top:clamp(0px,1vw,12px)}
+    #cta .cta-svg{display:block;width:100%;height:auto;overflow:visible}
+
+    /* the drawing language on the dark band: paper line, yellow for the route and the sign-off */
+    #cta .ln{stroke:var(--paper)}
+    #cta .svg-label{fill:var(--paper)}
+    #cta .cta-boxfill{fill:var(--tint-1);fill-opacity:.18}
+    #cta .cta-sensor{fill:var(--ground);stroke:var(--paper);stroke-width:1.8}
+    #cta .t-dim{stroke:var(--marker);stroke-width:1.4}
+    #cta .t-dimtext{fill:var(--marker);font-size:14px}
+    /* title-block field names a touch larger than the hero's, so PILOT ROUTE reads on the dark band */
+    #cta .t-tbtext text:nth-child(odd),#cta .cta-appr{font-size:10px !important}
+    #cta .cta-ring{fill:none;stroke:var(--marker);stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
+
+    /* The three steps: plain text, one column under each third of the drawing */
+    #cta .cta-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,44px);margin-top:clamp(20px,2.4vw,32px)}
+    #cta .cta-step{display:grid;gap:8px;align-content:start}
+    #cta .cta-num{font:500 12px/1 var(--font-label);letter-spacing:.08em;color:var(--marker);margin:0}
+    #cta .cta-step h3{color:var(--paper)}
+    #cta .cta-body{font-size:16px;line-height:1.55;color:rgba(240,237,229,.82);max-width:36ch}
+
+    /* Contact card: light, drawing-sheet corners */
+    #cta .cta-contact{max-width:820px;margin:clamp(56px,7vw,88px) auto 0;display:grid;grid-template-columns:150px minmax(0,1fr);
+      gap:32px;align-items:center;padding:30px 34px;border-radius:var(--r-sheet);background:var(--card);color:var(--ink);
+      box-shadow:0 30px 60px -40px rgba(0,0,0,.6)}
+    #cta .cta-portrait{width:150px;height:150px}
+    #cta .cta-portrait svg{display:block;width:100%;height:100%;overflow:visible}
+    #cta .cta-detail{fill:none;stroke:var(--ink);stroke-width:1.2}
+    #cta .cta-ticks{fill:none;stroke:var(--ink);stroke-width:1;opacity:.55}
+    #cta .cta-detail-label{font:500 16px var(--font-label);letter-spacing:.08em;fill:var(--ink)}
+    #cta .cta-face path{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+    #cta .cta-name{font:600 clamp(32px,3.4vw,44px)/1.05 var(--font-display);letter-spacing:-.005em;margin-top:8px}
+    #cta .cta-role{font-size:16px;color:var(--muted);margin-top:6px}
+    #cta .cta-send{font-size:17px;line-height:1.5;margin-top:14px;max-width:48ch}
+    #cta .cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:20px}
+    #cta .cta-addr{font:500 15px/1.2 var(--font-label);padding:10px 14px;border-radius:3px;background:var(--paper);
+      box-shadow:inset 0 0 0 1px var(--line);user-select:all;-webkit-user-select:all;overflow-wrap:anywhere;color:var(--ink)}
+    #cta .cta-copy{min-width:140px;border-radius:3px}
+    #cta .cta-foot{font-size:14px;line-height:1.5;color:rgba(240,237,229,.6);max-width:820px;margin:28px auto 0}
+    /* the card is light, so its label must not inherit the dark band's label colour */
+    #cta .cta-contact .label{color:var(--muted)}
+
+    /* Tablet: the drawing's small type grows a little, the steps and the card go to one column */
+    @media (max-width:1023px){
+      #cta .t-dimtext{font-size:17px}
+    }
+    @media (max-width:819px){
+      #cta .cta-steps{grid-template-columns:minmax(0,1fr);gap:24px}
+      #cta .cta-body{max-width:52ch}
+      #cta .cta-contact{grid-template-columns:minmax(0,1fr);gap:22px;padding:24px}
+    }
+    #cta.fin *{transition:none !important}
+  </style>
+
+  <div class="wrap">
+    <div class="band-head">
+      <h2 id="cta-h2">Start with one route</h2>
+      <p class="lede">Pick the route. Meera sends the one-page plan within a week.</p>
+    </div>
+
+    <div class="cta-draw">
+      <svg id="cta-svg" class="cta-svg" viewBox="40 38 966 434" role="img" aria-label="The Coastline truck as an engineering drawing, with its two sensors, the Kochi to Bengaluru route marked in yellow, and an empty PILOT ROUTE box in the title block circled in yellow, waiting for your sign-off.">
+        <defs>
+          <!-- yellow arrowheads: the shared one is ink and would vanish on the dark band -->
+          <marker id="cta-arr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 2L10 5L0 8Z" style="fill:var(--marker)"/></marker>
+          <!-- the dash-dot centre lines pen-draw through this mask so they keep their dashes -->
+          <mask id="cta-m-cl" maskUnits="userSpaceOnUse" x="0" y="0" width="1010" height="480">
+            <path id="cta-clm" d="" fill="none" stroke="#fff" stroke-width="4"/>
+          </mask>
+        </defs>
+
+        <!-- the cold box, lightly tinted -->
+        <path class="cta-boxfill" id="cta-boxfill" d="M238 92H782V266H238Z"/>
+        <!-- the truck is drawn here by drawTruck(); crisp, no pencil filter -->
+        <g id="cta-g"></g>
+        <!-- the two sensors from the stage: inside the box and on the door -->
+        <g id="cta-sensors">
+          <circle class="cta-sensor" id="cta-s-box" cx="470" cy="104" r="7"/>
+          <circle class="cta-sensor" id="cta-s-door" cx="712" cy="180" r="7"/>
+        </g>
+        <!-- a fourth title-block cell for the reader's sign-off, left empty -->
+        <path class="ln cta-tb4" id="cta-tb4" d="M884 404H984V438H884Z M884 421H984"/>
+        <text class="svg-label cta-appr" id="cta-appr" x="892" y="416">PILOT ROUTE</text>
+        <!-- EMP-10 pen ring around the empty cell, drawn last -->
+        <path class="cta-ring" id="cta-ring" d="M936 396.1C901.9 394.4 875.4 403 875.4 421.9C875.4 440.7 905.3 447.6 937.7 445.9C970.1 444.1 998.3 439 997.4 420.1C996.6 401.3 965.9 394.4 926.6 399.6"/>
+      </svg>
+    </div>
+
+    <div class="cta-steps">
+      <article class="cta-step">
+        <p class="cta-num">1</p>
+        <h3>Pick one route</h3>
+        <p class="cta-body">We suggest Kochi to Bengaluru, the run this page follows. Chennai or Coimbatore work too.</p>
+      </article>
+      <article class="cta-step">
+        <p class="cta-num">2</p>
+        <h3>Talk to one person</h3>
+        <p class="cta-body">Meera Nair, our project lead, is your one point of contact.</p>
+      </article>
+      <article class="cta-step">
+        <p class="cta-num">3</p>
+        <h3>Get a one-page plan</h3>
+        <p class="cta-body">Within a week she sends a one-page plan for that route, including what the pilot costs.</p>
+      </article>
+    </div>
+
+    <div class="cta-contact">
+      <div class="cta-portrait">
+        <svg viewBox="0 0 260 260" role="img" aria-label="Line drawing of Meera Nair inside a drafting circle">
+          <defs><clipPath id="cta-face-clip"><circle cx="130" cy="130" r="94"/></clipPath></defs>
+          <path class="cta-detail" d="M34 130A96 96 0 1 0 226 130A96 96 0 1 0 34 130"/>
+          <path class="cta-ticks" d="M226.0 130.0L238.0 130.0M225.6 138.4L230.6 138.8M224.5 146.7L229.5 147.5M222.7 154.8L227.6 156.1M220.2 162.8L224.9 164.5M217.0 170.6L221.5 172.7M213.1 178.0L223.5 184.0M208.6 185.1L212.7 187.9M203.5 191.7L207.4 194.9M197.9 197.9L201.4 201.4M191.7 203.5L194.9 207.4M185.1 208.6L187.9 212.7M178.0 213.1L184.0 223.5M170.6 217.0L172.7 221.5M162.8 220.2L164.5 224.9M154.8 222.7L156.1 227.6M146.7 224.5L147.5 229.5M138.4 225.6L138.8 230.6M130.0 226.0L130.0 238.0M121.6 225.6L121.2 230.6M113.3 224.5L112.5 229.5M105.2 222.7L103.9 227.6M97.2 220.2L95.5 224.9M89.4 217.0L87.3 221.5M82.0 213.1L76.0 223.5M74.9 208.6L72.1 212.7M68.3 203.5L65.1 207.4M62.1 197.9L58.6 201.4M56.5 191.7L52.6 194.9M51.4 185.1L47.3 187.9M46.9 178.0L36.5 184.0M43.0 170.6L38.5 172.7M39.8 162.8L35.1 164.5M37.3 154.8L32.4 156.1M35.5 146.7L30.5 147.5M34.4 138.4L29.4 138.8M34.0 130.0L22.0 130.0M34.4 121.6L29.4 121.2M35.5 113.3L30.5 112.5M37.3 105.2L32.4 103.9M39.8 97.2L35.1 95.5M43.0 89.4L38.5 87.3M46.9 82.0L36.5 76.0M51.4 74.9L47.3 72.1M56.5 68.3L52.6 65.1M62.1 62.1L58.6 58.6M68.3 56.5L65.1 52.6M74.9 51.4L72.1 47.3M82.0 46.9L76.0 36.5M89.4 43.0L87.3 38.5M97.2 39.8L95.5 35.1M105.2 37.3L103.9 32.4M113.3 35.5L112.5 30.5M121.6 34.4L121.2 29.4M130.0 34.0L130.0 22.0M138.4 34.4L138.8 29.4M146.7 35.5L147.5 30.5M154.8 37.3L156.1 32.4M162.8 39.8L164.5 35.1M170.6 43.0L172.7 38.5M178.0 46.9L184.0 36.5M185.1 51.4L187.9 47.3M191.7 56.5L194.9 52.6M197.9 62.1L201.4 58.6M203.5 68.3L207.4 65.1M208.6 74.9L212.7 72.1M213.1 82.0L223.5 76.0M217.0 89.4L221.5 87.3M220.2 97.2L224.9 95.5M222.7 105.2L227.6 103.9M224.5 113.3L229.5 112.5M225.6 121.6L230.6 121.2"/>
+          <g clip-path="url(#cta-face-clip)">
+            <g class="cta-face" transform="translate(30 26)">
+              <path class="f-head" d="M72 90C72 70 84 62 100 62C116 62 128 70 128 90C128 114 116 128 100 128C84 128 72 114 72 90Z"/>
+              <path class="f-hair" d="M50 172C54 150 58 130 58 110C58 62 76 40 100 40"/>
+              <path class="f-hair" d="M150 172C146 150 142 130 142 110C142 62 124 40 100 40"/>
+              <path class="f-hair" d="M88 46C72 58 66 82 66 108"/>
+              <path class="f-eye" d="M82 92Q88 98 94 92"/>
+              <path class="f-eye" d="M106 92Q112 98 118 92"/>
+              <path class="f-nose" d="M100 98Q103 104 99 108"/>
+              <path class="f-mouth" d="M92 118Q100 123 108 118"/>
+              <path class="f-neck" d="M90 126C90 134 88 140 86 150"/>
+              <path class="f-neck" d="M110 126C110 134 112 140 114 150"/>
+              <path class="f-body" d="M30 210C36 176 60 160 86 152L100 166L114 152C140 160 164 176 170 210"/>
+            </g>
+          </g>
+          <text class="cta-detail-label" x="130" y="254" text-anchor="middle">MEERA NAIR</text>
+        </svg>
+      </div>
+      <div class="cta-who">
+        <p class="label">YOUR TIDEWATER CONTACT</p>
+        <p class="cta-name">Meera Nair</p>
+        <p class="cta-role">Project lead, Tidewater Studio, Kochi</p>
+        <p class="cta-send">Send her the route you pick. Within a week she replies with a one-page plan for that route, including what the pilot costs.</p>
+        <div class="cta-row">
+          <span class="cta-addr">meera.nair@tidewater.example</span>
+          <button class="btn cta-copy" type="button">Copy email</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="cta-foot">Sample proposal made with the pitch-site-udyaan prototype. Coastline Cold Chain, Tidewater Studio and Meera Nair are fictional.</p>
+  </div>
+
+  <script>
+    (() => {
+      const sec = $('#cta'); if (!sec) return;
+
+      // 1. The truck, built from the shared drawing data (all parts, labels on)
+      const g = $('#cta-g', sec), svg = $('#cta-svg', sec);
+      const T = drawTruck(g, { labels: true });
+      // the dash-dot centre lines move into a masked group so their dashes survive the pen draw
+      const clm = $('#cta-clm', sec); clm.setAttribute('d', TRUCK.cl);
+      const clg = document.createElementNS(NS, 'g'); clg.setAttribute('mask', 'url(#cta-m-cl)');
+      g.insertBefore(clg, T.cl); clg.appendChild(T.cl);
+      // the dimension line gets yellow arrowheads (kept off while the line is hidden, put on when the pen reaches it)
+      const dim = T.dim, dimMarks = ['marker-start', 'marker-end'];
+      dimMarks.forEach(a => dim.setAttribute(a, 'url(#cta-arr)'));
+      if (!FINAL) dimMarks.forEach(a => dim.removeAttribute(a));
+      // "PROPOSAL A" ends close to the new cell: start the SHEET column a little to the left so the ring clears it
+      $$('.t-tbtext text', g).forEach(t => { if (t.getAttribute('x') === '814') t.setAttribute('x', '810'); });
+
+      // 2. Targets for the draw
+      const boxfill = $('#cta-boxfill', sec), sensors = $('#cta-sensors', sec);
+      const dimText = $('.t-dimtext', g), tbText = $('.t-tbtext', g), appr = $('#cta-appr', sec);
+      const tb4 = $('#cta-tb4', sec), ring = $('#cta-ring', sec);
+      prepDraw([clm, T.ground, T.chassis, T.cab, T.box, T.ribs, T.door, T.wheels, T.ext, T.dim, T.tb, tb4, ring]);
+      const hide = el => { if (el) el.style.opacity = FINAL ? 1 : 0; };
+      [boxfill, sensors, dimText, tbText, appr].forEach(hide);
+      const fade = (el, delay = 0, dur = .6) => {
+        if (!el || FINAL) return;
+        el.style.transition = `opacity ${dur}s var(--ease-out) ${delay}s`;
+        requestAnimationFrame(() => requestAnimationFrame(() => { el.style.opacity = 1; }));
+      };
+      const at = (paths, delay, speed = 1300, min = .6, max = 2) => penDraw(paths, { delay, parallel: true, speed, min, max });
+
+      // 3. Plotter order when the drawing scrolls into view: centre lines, object lines, dimension, title block, then the ring
+      onView($('.cta-draw', sec), () => {
+        if (FINAL) { sec.classList.add('fin'); return; }
+        at([clm], 0, 1100, .5, .9);                                   // centre lines
+        at([T.ground, T.chassis], .35, 1500, .6, 1.1);                // ground, chassis
+        at([T.cab], .45, 1300, .5, .8);                               // cab
+        at([T.box], .6, 1500, .6, 1.1); fade(boxfill, 1.0, .8);       // box and its tint
+        at([T.ribs], .85, 1600, .6, 1.2);                             // ribs
+        at([T.door, T.wheels], 1.0, 1300, .6, .9);                    // door, wheels
+        fade(sensors, 1.7, .5);                                       // the two sensors
+        const dEnd = at([T.ext, T.dim], 1.8, 1000, .6, .9);           // dimension line
+        setTimeout(() => dimMarks.forEach(a => dim.setAttribute(a, 'url(#cta-arr)')), (dEnd + .1) * 1000);
+        fade(dimText, 2.2, .5);
+        at([T.tb, tb4], 2.3, 1600, .5, .7);                           // title block, with the new cell
+        fade(tbText, 2.6, .5); fade(appr, 2.6, .5);
+        penDraw([ring], { delay: 2.9, speed: 320 });                  // the sign-off ring, last
+      }, .35);
+
+      // 4. Portrait: circle, then the face in order (groups draw together, each after the last)
+      const card = $('.cta-contact', sec), circle = $('.cta-portrait .cta-detail', sec);
+      const faceGroups = [
+        '.cta-portrait .f-head',
+        '.cta-portrait .f-hair',
+        '.cta-portrait .f-eye, .cta-portrait .f-nose, .cta-portrait .f-mouth',
+        '.cta-portrait .f-neck, .cta-portrait .f-body'
+      ].map(sel => $$(sel, sec));
+      prepDraw([circle, ...faceGroups.flat()]);
+      onView(card, () => {
+        if (FINAL) return;
+        let t = penDraw([circle], { speed: 600 });
+        faceGroups.forEach(group => { t = penDraw(group, { delay: t, parallel: true, min: .6 }); });
+      }, .5);
+
+      // 5. Copy email: "Copied" for 1.8s; the timer is cleared before a new one starts
+      const btn = $('.cta-copy', sec), addr = $('.cta-addr', sec);
+      let timer = 0;
+      const flash = label => {
+        clearTimeout(timer);
+        btn.textContent = label;
+        timer = setTimeout(() => { btn.textContent = 'Copy email'; }, 1800);
+      };
+      btn.addEventListener('click', async () => {
+        let ok = false;
+        try { await navigator.clipboard.writeText(addr.textContent.trim()); ok = true; } catch (e) {}
+        if (!ok) {
+          try {
+            const r = document.createRange(); r.selectNodeContents(addr);
+            const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+            ok = document.execCommand('copy');
+          } catch (e) {}
+        }
+        flash(ok ? 'Copied' : 'Select and copy');
+      });
+    })();
+  </script>
+</section>

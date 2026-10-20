@@ -1,0 +1,130 @@
+<!-- ===== SECTION 1, HERO (prefix hero-), Builder A ===== -->
+<style>
+  #hero{position:relative;height:100vh;height:100svh;background:var(--paper);overflow:hidden}
+  #hero .hero-wrap{position:relative;height:100%;display:flex;flex-direction:column;
+    padding-top:clamp(28px,4.6vh,48px);padding-bottom:clamp(28px,5vh,48px)}
+  #hero .hero-tag{position:absolute;top:clamp(26px,4.6vh,48px);right:var(--gutter);margin:0;text-align:right}
+  #hero .hero-copy{max-width:min(800px,100%)}
+  #hero .hero-copy > .label{margin:0}
+  #hero h1{font-size:clamp(44px,5.8vw,84px);line-height:1;margin-top:clamp(14px,2.2vh,22px)}
+  #hero h1 span{display:block}
+  #hero .lede{margin-top:clamp(14px,2.4vh,22px);max-width:62ch;text-wrap:balance}
+  /* the drawing takes whatever height is left under the copy and sits bottom right, so the title block always has air below it */
+  #hero .hero-draw{position:relative;flex:1 1 0;min-height:0;margin-top:clamp(12px,2vh,22px)}
+  #hero .hero-draw svg{position:absolute;right:0;bottom:0;display:block;width:min(980px,100%);height:100%;overflow:visible}
+  /* narrower than a laptop: the corner tag drops to the bottom right, so the first words read are the proposal label */
+  @media (max-width:899px){
+    #hero .hero-wrap{padding-bottom:clamp(48px,6vh,64px)}
+    #hero .hero-tag{top:auto;bottom:clamp(16px,2.6vh,26px);right:var(--gutter);text-align:right}
+  }
+  /* tall portrait screens: copy first, the drawing runs edge to edge, no empty bands around the truck */
+  @media (max-aspect-ratio:4/5){
+    #hero{height:auto}
+    #hero .hero-wrap{height:auto}
+    #hero h1{font-size:clamp(44px,9.4vw,84px)}
+    #hero .lede{font-size:20px}
+    #hero .hero-draw{flex:none;position:static;min-height:0;margin:48px calc(-1 * var(--gutter)) 0;width:100vw}
+    #hero .hero-draw svg{position:static;width:100%;height:auto;max-width:none}
+  }
+</style>
+
+<section id="hero" aria-label="Proposal introduction">
+  <div class="wrap hero-wrap">
+    <p class="label hero-tag">Prototype, sample brief, fictional companies</p>
+
+    <div class="hero-copy">
+      <p class="label">TIDEWATER STUDIO, KOCHI, FOR COASTLINE COLD CHAIN</p>
+      <h1><span>Keep every load cold,</span> <span>and prove it.</span></h1>
+      <p class="lede">Tidewater Studio fits two sensors and a driver tablet to your trucks, and keeps a temperature record of every load. Follow one night's run from Kochi to Bengaluru to see how, then pick one route for a pilot.</p>
+    </div>
+
+    <div class="hero-draw">
+      <svg id="hero-svg" viewBox="0 0 900 440" preserveAspectRatio="xMaxYMax meet" role="img" aria-label="Engineering drawing of a refrigerated truck, drawn line by line: the box, the cab and the trip from Kochi to Bengaluru">
+        <defs>
+          <!-- Masks let dashed lines pen-draw without losing their dash pattern -->
+          <mask id="hero-m-g" maskUnits="userSpaceOnUse" x="0" y="0" width="900" height="440">
+            <path id="hero-gb" d="M40 40H884V436H40Z" fill="none" stroke="#fff" stroke-width="4"/>
+            <path id="hero-gd" d="M40 58H884" fill="none" stroke="#fff" stroke-width="4"/>
+          </mask>
+          <mask id="hero-m-cl" maskUnits="userSpaceOnUse" x="0" y="0" width="900" height="440">
+            <path id="hero-clm" d="M170 252V348M585 252V348M680 252V348M118 300H732" fill="none" stroke="#fff" stroke-width="4"/>
+          </mask>
+        </defs>
+
+        <g id="hero-g" filter="url(#graphite)">
+          <!-- 1. construction guides: faint, dashed, drawn first -->
+          <g mask="url(#hero-m-g)"><path class="ln guide" d="M40 40H884V436H40Z M40 58H884"/></g>
+          <!-- 2. centre lines (dash-dot), drawn second -->
+          <g mask="url(#hero-m-cl)"><path class="ln cl" d="M170 252V348M585 252V348M680 252V348M118 300H732"/></g>
+          <!-- 3-5. object lines, dimension and title block are appended by the script in plotter order -->
+        </g>
+
+        <!-- 6. the hand note, after the drawing is finished -->
+        <g id="hero-hand">
+          <text class="svg-hand" x="824" y="134" style="font-size:20px">what's</text>
+          <text class="svg-hand" x="824" y="157" style="font-size:20px">inside?</text>
+          <path id="hero-arrow" class="ln red" d="M821 148H795" marker-end="url(#arr-red)" style="stroke-width:1.6"/>
+        </g>
+      </svg>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(() => {
+  const svg = $('#hero-svg'), g = $('#hero-g'), hand = $('#hero-hand');
+  if (!svg || !g) return;
+  const gb = $('#hero-gb'), gd = $('#hero-gd'), clm = $('#hero-clm');
+  const arrow = $('#hero-arrow');
+
+  // Object lines, in plotter order (each call appends to the same group)
+  const cab = drawTruck(g, { parts: ['cab'], labels: false });
+  const chassis = drawTruck(g, { parts: ['ground', 'chassis'], labels: false });
+  const box = drawTruck(g, { parts: ['box', 'hatch'], labels: false });
+  const ribs = drawTruck(g, { parts: ['ribs'], labels: false });
+  const door = drawTruck(g, { parts: ['door', 'wheels'], labels: false });
+  // Dimension line + its text, then the title block (labels come from drawTruck)
+  const dim = drawTruck(g, { parts: ['ext', 'dim'], labels: true });
+  const tb = drawTruck(g, { parts: ['tb'], labels: true });
+  const dimText = g.querySelector('.t-dimtext'), tbText = g.querySelector('.t-tbtext');
+
+  const objectLines = [cab.cab, chassis.ground, chassis.chassis, box.box, box.hatch, ribs.ribs, door.door, door.wheels];
+  const dimLine = dim.dim, extLine = dim.ext, tbLine = tb.tb;
+  // Dashed guides and centre lines stay dashed: only their solid mask copies are pen-drawn.
+  prepDraw([gb, gd, clm, ...objectLines, extLine, dimLine, tbLine, arrow]);
+
+  // Text and arrowheads fade in with their lines
+  const fade = (el, delay = 0, dur = .6) => {
+    if (!el) return;
+    if (FINAL) { el.style.opacity = 1; return; }
+    el.style.opacity = 0;
+    el.style.transition = `opacity ${dur}s var(--ease-out) ${delay}s`;
+    requestAnimationFrame(() => requestAnimationFrame(() => { el.style.opacity = 1; }));
+  };
+  if (dimText) { dimText.style.opacity = FINAL ? 1 : 0; }
+  if (tbText) { tbText.style.opacity = FINAL ? 1 : 0; }
+  if (hand) { hand.style.opacity = FINAL ? 1 : 0; }
+
+  const at = (paths, delay, speed = 1300, min = .6, max = 2) =>
+    penDraw(paths, { delay, parallel: true, speed, min, max });
+
+  const run = () => {
+    at([gb, gd], 0, 3000, .35, .7);                  // guides, fast
+    at([clm], .45, 1100, .5, .9);                     // centre lines
+    at([cab.cab], 1.0, 1300, .5, .8);                 // cab
+    at([box.box, box.hatch], 1.2, 1500, .6, 1.1);     // box
+    at([ribs.ribs], 1.5, 1600, .6, 1.2);              // ribs
+    at([chassis.ground, chassis.chassis], 1.35, 1500, .6, 1.2); // chassis
+    at([door.door, door.wheels], 1.6, 1300, .6, .9);  // door, wheels
+    at([extLine, dimLine], 2.45, 1000, .6, .9);       // dimension line
+    fade(dimLine, 2.45, .2);
+    fade(dimText, 2.9, .5);
+    at([tbLine], 2.9, 1600, .5, .7);                  // title block last
+    fade(tbText, 3.25, .5);
+    fade(hand, 3.6, .6);                              // hand note once drawing is done
+    at([arrow], 3.7, 1400, .4, .6);
+  };
+  run();
+})();
+</script>

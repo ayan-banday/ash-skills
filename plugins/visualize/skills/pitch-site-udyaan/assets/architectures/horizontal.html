@@ -1,0 +1,297 @@
+<!-- =====================================================================
+  ARCHITECTURE SHELL: HORIZONTAL, "the scroll painting"
+  Copy to work/frag-00-arch.html so it loads before every section. Sections stay as they are.
+
+  - Top-level <section>s in <main> sit side by side on one long track, like a pattachitra or phad scroll that
+    unrolls. Scrolling down (wheel, trackpad, touch, keys) moves the track sideways, 1px for 1px, linear.
+    No snapping, no smooth-scroll library. A sideways trackpad swipe moves it too.
+  - Each section is a panel one screen wide; data-span="2" on a section makes it two screens wide
+    (lay its content out wide). A panel taller than the screen tries tighter type, a narrower column, then
+    head beside visual (data-cps-fit levels below); if nothing fits it scrolls inside itself.
+    Section-specific fit rules go in their own fragment (work/frag-00-fit.html, scoped html.hz-on #id);
+    --cps-split:no on a section rules out head beside visual.
+  - The rail (bottom): a marker per section (tap to go there), the current section's name and "02 / 06".
+    ArrowRight / ArrowLeft move one panel.
+  - The ground (optional): one SVG strip under the panels, the length of the whole track, for a road, a river
+    or a thread. It never sits behind text. Define it in any fragment before the page finishes loading:
+      window.CPS_GROUND = ({ W, H, x, y, panels }) => `<path class="hz-guide" d="..."/><path class="hz-draw" d="..."/>`;
+    x(u) maps panel units (each panel is 100 wide) to px, y(v) maps 0..100 to px; W and H are the strip in px.
+    Paths with class hz-draw pen-draw with progress (stroke-dashoffset); hz-guide is the faint construction
+    line; anything with data-x="<panel units>" lights once the drawn line reaches it.
+  - Events, dispatched on the section and bubbling: cps:enter / cps:leave {index, total, dir} as a panel
+    becomes the one under the middle of the screen. onView and .rv work: IntersectionObserver sees the
+    panels' real sideways positions, so a panel's drawings start when it slides in.
+  - window.CPS = {arch, go(n), index()}  (n is 0-based)
+  - FINAL (?final=1 or reduced motion), narrower than 820px, or the phone gate: an ordinary vertical page.
+  ===================================================================== -->
+<style>
+  html.arch-horizontal{--hz-floor:var(--ground);--hz-rail:40px;--hz-lane:0px}
+  html.hz-on.hz-has-ground{--hz-lane:clamp(44px,6.5vh,60px)}
+
+  /* ---- The track: main sticks to the screen and slides sideways; body gets the scroll length ---- */
+  html.hz-on body{background:var(--hz-floor)}
+  html.hz-on main{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-wrap:nowrap;align-items:flex-start;
+    width:max-content;background:var(--hz-floor);will-change:transform}
+  html.hz-on main > section{flex:0 0 auto;position:relative;
+    width:calc(var(--hz-w,100vw) * var(--hz-span,1)) !important;max-width:none !important;
+    height:calc(100% - var(--hz-lane) - var(--hz-rail)) !important;min-height:0 !important;max-height:none !important;margin:0 !important;
+    overflow-x:hidden !important;overflow-y:auto !important;scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.28) transparent;
+    display:flex;flex-direction:column}
+  :where(html.hz-on main > section){background-color:var(--paper)}
+  html.hz-on main > section > *{flex-shrink:0}
+  html.hz-on main > section > .wrap{width:100%}
+  html.hz-on main > section::before,html.hz-on main > section::after{content:"";flex:1 0 0px}
+  html.hz-on main > section.band{padding-top:clamp(32px,6vh,60px) !important;padding-bottom:clamp(32px,6vh,60px) !important}
+  html.hz-on main > section .band-head{margin-bottom:clamp(22px,3.6vh,40px)}
+  /* the phone gate wins over the track */
+  @media (max-width:539px),(pointer:coarse) and (max-height:499px){html.arch-horizontal:not(.no-gate) main{display:none}}
+  html.arch-horizontal.phone main{display:none}
+
+  /* ---- Fit levels, set only on panels that overflow (first that fits wins) ----
+     1 tighter type and spacing · 2 plus a 1000px column · 3 head beside visual · 4 that, tighter
+     5 an 860px column · 6 a 760px column */
+  html.hz-on main > section[data-cps-fit].band{padding-top:clamp(22px,4vh,40px) !important;padding-bottom:clamp(22px,4vh,40px) !important}
+  html.hz-on main > section[data-cps-fit] h2{font-size:clamp(30px,3.3vw,46px)}
+  html.hz-on main > section[data-cps-fit] .lede{font-size:17px}
+  html.hz-on main > section[data-cps-fit] .band-head{gap:12px;margin-bottom:clamp(14px,2.6vh,28px)}
+  html.hz-on main > section[data-cps-fit="2"]{--wrap:1000px}
+  html.hz-on main > section[data-cps-fit="4"].band{padding-top:clamp(14px,2.4vh,24px) !important;padding-bottom:clamp(14px,2.4vh,24px) !important}
+  html.hz-on main > section[data-cps-fit="4"] h2{font-size:clamp(28px,2.8vw,40px)}
+  html.hz-on main > section[data-cps-fit="4"] h3{font-size:clamp(20px,1.8vw,24px)}
+  html.hz-on main > section[data-cps-fit="5"]{--wrap:860px}
+  html.hz-on main > section[data-cps-fit="6"]{--wrap:760px}
+  html.hz-on main > section .wrap.cps-split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);column-gap:clamp(28px,4vw,64px);align-items:center}
+  html.hz-on main > section .wrap.cps-split > *{margin-top:0 !important;margin-bottom:0 !important;min-width:0}
+
+  /* ---- The ground: a strip under the panels, on the track, so it never crosses text ---- */
+  .hz-ground{display:none}
+  html.hz-on.hz-has-ground .hz-ground{display:block;position:absolute;left:0;bottom:var(--hz-rail);width:100%;height:var(--hz-lane);pointer-events:none}
+  .hz-ground svg{display:block;max-width:none;overflow:visible}
+  .hz-ground .hz-guide{fill:none;stroke:var(--paper);stroke-width:1;stroke-dasharray:3 5;opacity:.3}
+  .hz-ground .hz-draw{fill:none;stroke:var(--paper);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .hz-ground [data-x]{opacity:0;transition:opacity .6s var(--ease-out)}
+  .hz-ground [data-x].hz-lit{opacity:1}
+
+  /* ---- The rail ---- */
+  .hz-rail{display:none}
+  html.hz-on .hz-rail{position:fixed;left:0;right:0;bottom:0;z-index:40;height:var(--hz-rail);display:flex;align-items:center;
+    gap:clamp(18px,2.6vw,36px);padding:0 max(var(--gutter),22px);background:var(--hz-floor);color:var(--paper)}
+  .hz-now{margin:0;display:flex;align-items:baseline;gap:14px;min-width:0;flex:0 1 36%;
+    font:500 11.5px/1.2 var(--font-label);letter-spacing:.08em;text-transform:uppercase}
+  .hz-count{font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .hz-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.68}
+  .hz-line{position:relative;flex:1 1 auto;height:2px;margin:0 14px;background:rgba(255,255,255,.2)}
+  .hz-fill{position:absolute;inset:0;background:var(--paper);transform-origin:0 50%;transform:scaleX(0)}
+  .hz-mark{position:absolute;top:50%;width:30px;height:30px;margin:-15px 0 0 -15px;padding:0;border:0;background:none;cursor:pointer;
+    display:grid;place-items:center;-webkit-tap-highlight-color:transparent}
+  .hz-mark i{width:9px;height:9px;border-radius:50%;background:var(--hz-floor);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.6);
+    transition:background-color .3s var(--ease-out),scale .3s var(--ease-out)}
+  .hz-mark.done i{background:var(--paper);box-shadow:none}
+  .hz-mark.now i{background:var(--paper);box-shadow:none;scale:1.45}
+  .hz-mark:focus-visible{outline:2px solid var(--paper);outline-offset:-4px;border-radius:50%}
+  @media (max-width:539px),(pointer:coarse) and (max-height:499px){html.hz-on .hz-rail{display:none}}
+</style>
+
+<div class="hz-ground" aria-hidden="true">
+  <svg class="hz-ground-svg" viewBox="0 0 100 100"><g class="hz-ground-art"></g></svg>
+</div>
+<div class="hz-rail">
+  <p class="hz-now" aria-live="polite"><b class="hz-count">01 / 01</b><span class="hz-name"></span></p>
+  <div class="hz-line"><i class="hz-fill"></i></div>
+</div>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  const GATE = '(max-width:539px), (pointer:coarse) and (max-height:499px)';
+  const wide = () => !FINAL && innerWidth >= 820 && !matchMedia(GATE).matches && !root.classList.contains('phone');
+  root.classList.add('arch-horizontal');
+  root.classList.toggle('hz-on', wide());
+
+  /* Reveal: panels arrive from the right, so a block reveals once it is 8% of the screen in.
+     The starter's bottom margin is dropped to 6%, so blocks low on a panel still reveal. */
+  if (!FINAL && typeof initReveal === 'function') {
+    removeEventListener('DOMContentLoaded', initReveal);
+    addEventListener('DOMContentLoaded', () => {
+      const els = $$('.rv');
+      if (!('IntersectionObserver' in window)) { els.forEach(e => e.classList.add('in')); return; }
+      const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px -8% -6% 0px' });
+      els.forEach(e => io.observe(e));
+    });
+  }
+
+  addEventListener('DOMContentLoaded', () => {
+    const main = $('main');
+    const panels = main ? $$(':scope > section', main) : [], N = panels.length;
+    const rail = $('.hz-rail'), ground = $('.hz-ground');
+    if (!N || !rail || !ground) return;
+    const art = $('.hz-ground-art', ground), gsvg = $('svg', ground);
+    const line = $('.hz-line', rail), fill = $('.hz-fill', rail), countEl = $('.hz-count', rail), nameEl = $('.hz-name', rail);
+    const spacer = document.createElement('div');
+    spacer.className = 'hz-spacer'; spacer.setAttribute('aria-hidden', 'true');
+    main.after(spacer);
+    document.body.appendChild(rail);   /* out of the moving track, so position:fixed holds */
+    const ev = (el, name, detail) => el.dispatchEvent(new CustomEvent(name, { bubbles: true, detail }));
+    const titleOf = s => (s.dataset.title || ($('h2', s) || $('h1', s) || {}).textContent || s.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim();
+    const pad = n => String(n).padStart(2, '0');
+    let on = false, VW = 0, W = 0, D = 0, start = 0, x = 0, cur = -1, spans = [], lefts = [], marks = [], gp = [], pins = [];
+
+    /* ---- Fit (same ladder as the paged shell) ---- */
+    const SPLIT = [3, 4];
+    const kids = w => w ? [...w.children].filter(k => !/^(STYLE|SCRIPT|TEMPLATE)$/.test(k.tagName) && getComputedStyle(k).position !== 'absolute') : [];
+    /* head beside visual is skipped when the visual places HTML text by % (it would wrap and collide),
+       or when a fit rule sets --cps-split: no on the section */
+    const splitOk = (s, vis) => getComputedStyle(s).getPropertyValue('--cps-split').trim() !== 'no' &&
+      ![...vis.querySelectorAll('*')].some(n => !(n instanceof SVGElement) && getComputedStyle(n).position === 'absolute' && n.textContent.trim().length > 12);
+    const unfit = s => { delete s.dataset.cpsFit; const w = s.querySelector(':scope > .wrap'); if (w) w.classList.remove('cps-split'); };
+    function fitAll() {
+      panels.forEach(unfit);
+      if (!on) return;
+      panels.forEach(s => {
+        const w = s.querySelector(':scope > .wrap'), k = kids(w), canSplit = s.clientWidth / s.clientHeight > 1.15 && k.length === 2 && splitOk(s, k[1]);
+        const set = lv => { if (lv) s.dataset.cpsFit = lv; else delete s.dataset.cpsFit; if (w) w.classList.toggle('cps-split', SPLIT.includes(lv)); };
+        const fits = () => s.scrollHeight - s.clientHeight <= 2;
+        if (fits()) return;
+        for (const lv of [1, 2, 3, 4, 5, 6]) { if (SPLIT.includes(lv) && !canSplit) continue; set(lv); if (fits()) return; }
+        set(0);
+      });
+    }
+
+    /* ---- The ground strip ---- */
+    function buildGround() {
+      gp = []; pins = []; art.innerHTML = '';
+      if (!on || typeof window.CPS_GROUND !== 'function') return;
+      const H = ground.clientHeight || 1, u = VW / 100, r = v => Math.round(v * 10) / 10;
+      gsvg.setAttribute('viewBox', `0 0 ${W} ${H}`); gsvg.setAttribute('width', W); gsvg.setAttribute('height', H);
+      try {
+        art.innerHTML = window.CPS_GROUND({ W, H, x: v => r(v * u), y: v => r(v * H / 100),
+          panels: panels.map((p, i) => ({ id: p.id, title: titleOf(p), left: lefts[i] / u, span: spans[i] })) }) || '';
+      } catch (err) { console.warn('CPS_GROUND:', err); art.innerHTML = ''; }
+      gp = $$('.hz-draw', art).map(p => {
+        const L = p.getTotalLength(), n = 200, xs = [];
+        for (let k = 0; k <= n; k++) xs.push(p.getPointAtLength(L * k / n).x);
+        p.style.strokeDasharray = `${L} ${L}`; p.style.strokeDashoffset = L;
+        return { p, L, xs, n };
+      });
+      pins = $$('[data-x]', art).map(el => ({ el, x: +el.getAttribute('data-x') * u, lit: false }));
+    }
+    /* draw every hz-draw path up to the head (the point the reader has reached, in px along the track) */
+    function drawGround(head) {
+      gp.forEach(g => {
+        let f = 0;
+        if (g.xs[0] <= head) {
+          let k = 0; while (k < g.n && g.xs[k + 1] <= head) k++;
+          f = k / g.n;
+          if (k < g.n) { const a = g.xs[k], b = g.xs[k + 1]; if (b > a) f += Math.min(1, (head - a) / (b - a)) / g.n; }
+        }
+        g.p.style.strokeDashoffset = (g.L * (1 - f)).toFixed(1);
+      });
+      pins.forEach(pn => { if (!pn.lit && pn.x <= head) { pn.lit = true; pn.el.classList.add('hz-lit'); } });
+    }
+
+    /* ---- The rail ---- */
+    function buildRail() {
+      marks.forEach(m => m.remove());
+      marks = panels.map((p, i) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'hz-mark'; b.innerHTML = '<i></i>'; b.title = titleOf(p);
+        b.style.left = (D ? Math.min(D, lefts[i]) / D * 100 : 0) + '%';
+        b.setAttribute('aria-label', `Go to ${i + 1} of ${N}: ${titleOf(p)}`);
+        b.addEventListener('click', () => go(i));
+        line.appendChild(b); return b;
+      });
+    }
+    function label(i) {
+      countEl.textContent = `${pad(i + 1)} / ${pad(N)}`; nameEl.textContent = titleOf(panels[i]);
+      marks.forEach((m, k) => { m.classList.toggle('done', k < i); m.classList.toggle('now', k === i); });
+    }
+
+    /* ---- Layout: measure once per resize, never per frame ---- */
+    function layout() {
+      const was = on, keep = cur;
+      on = wide();
+      root.classList.toggle('hz-on', on);
+      root.classList.toggle('hz-has-ground', on && typeof window.CPS_GROUND === 'function');
+      if (!on) {
+        main.style.transform = ''; main.style.width = ''; spacer.style.height = '0px';
+        fitAll(); buildGround();
+        if (was && keep >= 0) panels[keep].scrollIntoView({ block: 'start' });
+        update(); return;
+      }
+      VW = root.clientWidth;
+      root.style.setProperty('--hz-w', VW + 'px');
+      spans = panels.map(p => Math.max(1, Math.min(4, Math.round(+p.dataset.span || 1))));
+      panels.forEach((p, i) => p.style.setProperty('--hz-span', spans[i]));
+      lefts = []; let acc = 0; spans.forEach(s => { lefts.push(acc); acc += s * VW; });
+      W = acc; D = Math.max(0, W - VW);
+      main.style.width = W + 'px';
+      spacer.style.height = D + 'px';
+      start = spacer.getBoundingClientRect().top + scrollY - main.offsetHeight;
+      fitAll(); buildRail(); buildGround();
+      if (!was && keep >= 0) scrollTo(0, start + Math.min(D, lefts[keep]));
+      if (cur >= 0) label(cur);
+      update();
+    }
+
+    /* ---- Every scroll frame: one transform, the rail fill, the ground line ---- */
+    function update() {
+      /* the browser scrolled sideways itself (find in page, focus): carry that onto the track */
+      if (scrollX) scrollTo(0, on ? scrollY + scrollX : scrollY);
+      let i = 0;
+      if (on) {
+        x = Math.min(D, Math.max(0, scrollY - start));
+        main.style.transform = `translate3d(${-x}px,0,0)`;
+        const p = D ? x / D : 0;
+        fill.style.transform = `scaleX(${p})`;
+        const c = x + VW / 2; while (i < N - 1 && lefts[i + 1] <= c) i++;
+        drawGround(x + VW * (.62 + .38 * p));   /* the head leads at 62% of the screen and reaches the end with the track */
+      } else {
+        const mid = innerHeight / 2;
+        panels.forEach((p, k) => { if (p.getBoundingClientRect().top <= mid) i = k; });
+      }
+      if (i !== cur) {
+        const dir = i > cur ? 1 : -1;
+        if (cur >= 0) ev(panels[cur], 'cps:leave', { index: cur, total: N, dir });
+        cur = i; if (on) label(i);
+        ev(panels[i], 'cps:enter', { index: i, total: N, dir });
+      }
+    }
+    function go(i) {
+      i = Math.max(0, Math.min(N - 1, i));
+      if (on) scrollTo({ top: start + Math.min(D, lefts[i]), behavior: 'smooth' });
+      else panels[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    let raf = 0, rt = 0;
+    addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; update(); }); }, { passive: true });
+    addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(layout, 150); });
+    addEventListener('keydown', e => {
+      if (!on || e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      if (e.target.closest && e.target.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"])')) return;
+      e.preventDefault();
+      let t = -1;
+      if (e.key === 'ArrowRight') { t = lefts.findIndex(l => l > x + 4); if (t < 0) t = N - 1; }
+      else { lefts.forEach((l, k) => { if (l < x - 4) t = k; }); if (t < 0) t = 0; }
+      go(t);
+    });
+    /* a sideways trackpad swipe moves the track the same way */
+    addEventListener('wheel', e => {
+      if (!on || Math.abs(e.deltaX) <= Math.abs(e.deltaY) || Math.abs(e.deltaX) < 1) return;
+      e.preventDefault(); scrollBy(0, e.deltaX * (e.deltaMode === 1 ? 40 : 1));
+    }, { passive: false });
+    /* Tab into a panel that is off screen: bring the panel in */
+    document.addEventListener('focusin', e => {
+      if (!on) return;
+      const i = panels.findIndex(p => p.contains(e.target)); if (i < 0) return;
+      const l = lefts[i], r = l + spans[i] * VW;
+      if (r <= x + 1 || l >= x + VW - 1) scrollTo(0, start + Math.min(D, l));
+    });
+
+    layout();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (on) { fitAll(); update(); } });
+    addEventListener('load', () => { if (on) { fitAll(); update(); } });
+    window.CPS = { arch: 'horizontal', go, index: () => cur };
+  });
+})();
+</script>

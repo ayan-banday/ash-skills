@@ -1,0 +1,122 @@
+<!--
+  MODULE translator.html · catalogue WRD-08 (jargon translator card) · prefix trn-
+  Serves: 3-8 technical terms the reader must understand, each tied to one concrete result at the client.
+  Adapt:
+    1. Edit the intro copy in the markup (label, h2, lede) and the band colour class.
+    2. Edit DATA only: client is the short client name used in "So at ...", step is the time per term in ms.
+    3. Keep term under ~30 characters, means to one plain sentence (8-14 words), soAt to one sentence of visible change.
+    4. Terms play in turn while the card is on screen: the term appears, its meaning fades in, then the result is swept
+       with the marker. The bars are buttons, so the reader can jump to any term.
+  Data: DATA.client, DATA.step, DATA.terms [{term, means, soAt}].
+-->
+<section id="trn" class="band card" aria-labelledby="trn-h">
+  <div class="wrap trn">
+    <div class="trn-intro rv">
+      <p class="label">In plain words</p>
+      <h2 id="trn-h">Four words we use, and what each one means for you</h2>
+      <p class="lede">Each term plays in turn: the name, what it means, then what changes. Tap a bar to jump to any term.</p>
+    </div>
+    <div class="trn-card rv" id="trn-card">
+      <p class="label" id="trn-count">1 of 4 · We call it</p>
+      <p class="trn-term" id="trn-term" aria-hidden="true"></p>
+      <p class="label">It means</p>
+      <p class="trn-means" id="trn-means" aria-hidden="true"></p>
+      <p class="label" id="trn-solabel">So at the client</p>
+      <p class="trn-so" id="trn-so" aria-hidden="true"><span class="trn-hl"></span></p>
+      <p class="trn-sr" id="trn-sr" aria-live="polite"></p>
+      <div class="trn-bars" id="trn-bars" role="group" aria-label="Choose a term"></div>
+    </div>
+  </div>
+</section>
+<style>
+  /* Translator: one term at a time, typed, explained, then tied to a result */
+  .trn{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:48px;align-items:start}
+  .trn-intro{display:grid;gap:18px}
+  .trn-intro h2{font-size:clamp(32px,3.4vw,46px)}
+  .trn-card{background:var(--paper);border-radius:var(--r-sheet);padding:28px;box-shadow:0 0 0 1.5px var(--ink);min-height:360px;display:flex;flex-direction:column;gap:8px}
+  .trn-term{font:400 20px/1.5 var(--font-label);min-height:1.6em;color:var(--ink);margin-bottom:6px}
+  .trn-means{font:500 clamp(24px,2.3vw,31px)/1.2 var(--font-display);letter-spacing:-.01em;min-height:2.45em;margin-bottom:6px;opacity:0;transition:opacity .3s var(--ease-out)}
+  .trn-means.on{opacity:1}
+  .trn-so{font:500 clamp(20px,1.8vw,24px)/1.32 var(--font-display);min-height:2.7em;opacity:0;transform:translateY(8px);transition:opacity .5s var(--ease-out),transform .75s var(--ease-out)}
+  .trn-so.on{opacity:1;transform:none}
+  .trn-hl{background:linear-gradient(var(--marker),var(--marker)) no-repeat 0 90%/0% 42%;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-size .8s var(--ease-out) .35s}
+  .trn-so.on .trn-hl{background-size:100% 42%}
+  .trn-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .trn-bars{display:flex;gap:6px;margin-top:auto;padding-top:14px}
+  .trn-bar{appearance:none;border:0;background:none;padding:0;margin:0;flex:1;height:24px;cursor:pointer;position:relative;border-radius:3px;-webkit-tap-highlight-color:transparent}
+  .trn-bar span{position:absolute;left:0;right:0;top:50%;height:3px;margin-top:-1.5px;border-radius:2px;background:var(--line-2);overflow:hidden}
+  .trn-bar span::after{content:"";position:absolute;inset:0;background:var(--ink);transform:scaleX(0);transform-origin:left}
+  .trn-bar.done span::after{transform:scaleX(1)}
+  .trn-bar.now span::after{transform:scaleX(1);transition:transform var(--dur,6s) linear}
+  .trn-bar:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  @media (hover:hover){ .trn-bar:hover span{background:color-mix(in srgb,var(--ink) 45%,transparent)} }
+  @media (max-width:820px){ .trn{grid-template-columns:minmax(0,1fr);gap:32px} }
+</style>
+<script>
+(() => {
+  const DATA = {
+    client: 'Northwind',
+    step: 6000,
+    terms: [
+      { term: 'Demand forecast', means: 'A best guess of what each store will sell next week.', soAt: 'Stores order the milk they will sell, not a crate extra.' },
+      { term: 'Cold-chain logging', means: 'A small sensor writes down the van temperature every five minutes.', soAt: 'Every delivery arrives with proof it stayed cold.' },
+      { term: 'Shrink', means: 'Stock that was paid for but never sold.', soAt: 'Each store sees its own waste number every evening.' },
+      { term: 'Root-cause visit', means: 'Someone stays on the shop floor until the real reason is clear.', soAt: 'Fixes come from the people who stack the shelves.' }
+    ]
+  };
+
+  /* ---- mechanics: a cancellable async loop, one term at a time, sleeping off-screen ---- */
+  const N = DATA.terms.length, card = $('#trn-card');
+  const $term = $('#trn-term'), $means = $('#trn-means'), $so = $('#trn-so'), $hl = $('.trn-hl', $so), $count = $('#trn-count'), $sr = $('#trn-sr');
+  $('#trn-solabel').textContent = `So at ${DATA.client}`;
+  const bars = DATA.terms.map((t, i) => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'trn-bar';
+    b.setAttribute('aria-label', `Term ${i + 1} of ${N}: ${t.term}`); b.innerHTML = '<span></span>';
+    $('#trn-bars').appendChild(b); return b;
+  });
+  // every wait carries the generation it was started in; cancelAll() bumps it and rejects the pending waits at once
+  let gen = 0, running = false, visible = false, next = 0;
+  const cancels = new Set();
+  const wait = (ms, g) => new Promise((res, rej) => {
+    if (g !== gen) return rej('skip');
+    const stop = () => { clearTimeout(id); cancels.delete(stop); rej('skip'); };
+    const id = setTimeout(() => { cancels.delete(stop); g === gen ? res() : rej('skip'); }, ms);
+    cancels.add(stop);
+  });
+  const cancelAll = () => { gen++; [...cancels].forEach(f => f()); };
+  const head = i => {
+    const t = DATA.terms[i];
+    $count.textContent = `${i + 1} of ${N} · We call it`;
+    $sr.textContent = `${t.term}. It means: ${t.means} So at ${DATA.client}: ${t.soAt}`;
+    bars.forEach((b, k) => { b.classList.remove('now'); b.classList.toggle('done', k < i); if (k === i) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); });
+  };
+  const showStatic = i => {
+    const t = DATA.terms[i]; head(i); bars[i].classList.add('done');
+    $term.textContent = t.term; $means.textContent = t.means; $means.classList.add('on'); $hl.textContent = t.soAt; $so.classList.add('on');
+  };
+  async function play(i, g) {
+    const t = DATA.terms[i], t0 = performance.now();
+    head(i);
+    bars[i].style.setProperty('--dur', DATA.step + 'ms');
+    requestAnimationFrame(() => requestAnimationFrame(() => { if (g === gen) bars[i].classList.add('now'); }));
+    $means.classList.remove('on'); $so.classList.remove('on'); $hl.textContent = '';
+    $term.textContent = t.term;                                                        // the term, at once, in mono
+    $means.textContent = t.means;
+    await wait(300, g);
+    $means.classList.add('on');                                                        // the meaning fades in whole (.3s)
+    await wait(900, g);
+    $hl.textContent = t.soAt; $so.classList.add('on');                                  // marker sweep
+    await wait(Math.max(800, DATA.step - (performance.now() - t0)), g);
+  }
+  async function loop() {
+    if (running) return; running = true;
+    while (visible) { const g = gen, i = next; try { await play(i, g); next = (i + 1) % N; } catch (e) { /* jumped or left the screen */ } }
+    running = false;
+  }
+  const jump = i => { next = i; cancelAll(); if (FINAL || !visible) showStatic(i); else loop(); };
+  bars.forEach((b, i) => b.addEventListener('click', () => jump(i)));
+  if (FINAL || !('IntersectionObserver' in window)) { showStatic(0); return; }
+  showStatic(0);
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) loop(); else cancelAll(); }, { threshold: .4 }).observe(card);
+})();
+</script>
