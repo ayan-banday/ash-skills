@@ -1,0 +1,126 @@
+# How Ash's skills are made
+
+The one rulebook for every skill in this repo. `/build:make-skill` reads it before it names, writes or fixes a skill. Change a rule here and every new skill follows it.
+
+## Which plugin a skill goes in: the action you're in when you need it
+
+| Plugin | You're in it when you... | Its question |
+|---|---|---|
+| `write` | write words people or agents read: posts, course pages, docs, prompts | How do I write words people read, and docs Claude reads? |
+| `visualize` | show an idea visually: pages, diagrams, decks, stories | How do I show an idea so people get it without reading much? |
+| `plan` | decide what to build before building it | How do I decide what to build before building it? |
+| `build` | build and fix code, and the tools Claude uses (skills, hooks, plugins) | How do I build and fix code in Charlotte or the micro-SaaS, and the tools Claude uses? |
+| `learn` | study a topic, or make sense of a pile of files or skills | How do I learn a topic, or make sense of a pile of files? |
+
+**Pick by the moment Ash needs it.** A skill that writes a study page is `visualize` if it draws the page and `learn` if it runs the study session. When two fit, pick the one where Ash would go looking first.
+
+**A sixth plugin needs three skills that fit none of these.** Until then, file the skill in the closest one.
+
+## The name: verb + object, saying what it makes
+
+- **Lowercase words joined by hyphens,** at most 64 characters: `write-spec`, `try-prototype`, `split-tickets`.
+- **Start with a verb** Ash would say out loud: write, make, try, split, grill, chart, gather, ask, draw, check.
+- **The object is the thing it makes or works on:** `-spec`, `-tickets`, `-prototype`, `-skill`.
+- **Keep a memorable source name as one word in the name,** when the skill comes from a known source with a name people remember: `chart-project-wayfinder` (from Matt's `wayfinder`). The `/` menu only matches words in the name, so the name must hold every word Ash will type to find it.
+- **No two skills share a name,** across all five plugins. Check with the listing command under "Shipping".
+
+**Bad:** `wayfinder` (no verb), `domain-modeling` (names a field, with no verb), `matt-setup-tracker` (starts with the source).
+**Good:** `chart-project-wayfinder`, `write-spec`, `make-skill`.
+
+## The description: four parts, in this order
+
+Written as one YAML line in double quotes. Use single quotes inside it.
+
+1. **A bracket saying who it's for or where it came from.**
+   - Ash's own skills name the place they serve: `(Udyaan course)`, `(Substack)`, `(Shasta)`, `(skill guide)`.
+   - Copied skills name the source and the original name: `(Matt: to-spec)`.
+   - Add a tag after ` · ` when it helps: `(Matt: grilling · helper)` for a skill other skills call, `(skill maker · uses skill-creator)` for one that leans on another skill.
+2. **The question it answers, in Ash's voice.** Usually "How do I ...?". "Which", "Where" or "What" are fine when they read more naturally.
+   - **It names the topic and the situation,** so it makes sense read alone, with the skill name hidden.
+   - Bad: "How do I plan it?" / "How do I get unstuck?"
+   - Good: "How do I plan a project too big for one session when I can't see the route yet?"
+   - **Why:** Ash scans the `/` menu by these questions. A vague one could sit under a hundred skills, so it tells him nothing.
+   - Source: the "Questions" rules in `D:\Shasta\_rules\Menus and Learning Briefs.md` and "Headings" in `D:\Shasta\_rules\Clusters.md`.
+3. **One sentence on what it does,** naming the thing it produces. "Breaks a spec into thin tickets, each naming what blocks it."
+4. **When to reach for it.** Only for skills Claude can fire on its own (see "Who can start it"):
+   - **The trigger phrases,** one per distinct case: "Use when Ash says 'make a skill', 'turn this into a skill', or 'fix this skill's name'."
+   - **The look-alike line,** when another skill sounds similar: "Use instead of skill-creator for Ash's own skills."
+   - For a skill only Ash types, keep the look-alike line and drop the trigger list.
+
+**Length:** aim for **200 to 450 characters**. The skill listing cuts the description (plus `when_to_use`, if set) at **1,536 characters**, and every word costs context in every session for skills Claude can fire.
+
+**Full example:**
+
+```yaml
+description: "(Matt: to-spec) How do I turn what we just decided into one written plan? Turns the current conversation into a spec and publishes it to the project's issue tracker. No interview, just what was already discussed."
+```
+
+## Who can start it: Claude, or only Ash
+
+- **Claude can fire it** (no `disable-model-invocation`): when Ash's words should start it without the slash command, or another skill calls it. Its description must carry the trigger phrases.
+- **Only Ash types it** (`disable-model-invocation: true`): when it should run only on purpose, like a one-time setup or a long interview. It costs nothing in context, but Ash has to remember it, which is what `/learn:which-skill` is for.
+
+**Default to "only Ash types it"**, except when the skill has a real trigger phrase Ash says in chat, or another skill calls it.
+
+## How Ash finds a skill (from the Claude Code docs)
+
+- **The `/` menu matches the name only,** from the start of the name or of any word in it. Typing `/wayf` finds `chart-project-wayfinder`. The description shows beside the name, and the menu picks its top match from names.
+- **`/skills` filters by name, description and source.** Typing "matt" or "Udyaan" there finds every skill with that word in its bracket. This is why the bracket matters.
+- **Skills can't have aliases.** The name is the only handle in the `/` menu, so it carries every word Ash would type.
+- **The full name is `/plugin:skill`,** like `/plan:write-spec`.
+
+## Writing the body (from Matt Pocock's writing-for-agents rules)
+
+The body is read by Claude, so it follows these rules. Anything the skill says to Ash follows Ash's style: plain words, short sentences, bold key phrases, no em dashes, no "not X but Y".
+
+**What goes where**
+- **Steps first:** what Claude does, in order. Each step ends on a **done test** Claude can check: "every skill listed with its plugin" beats "understand the skills".
+- **Reference next:** rules and facts Claude looks up while working. Keep each idea's definition, rules and caveats under one heading.
+- **Push the rest into a sibling file,** linked by one line that says when to open it. Inline what every run needs; move out what only some runs need. A long body thins Claude's attention across every line.
+
+**Pointers that fire**
+- **A description is a pointer:** it says what the material is and the cases that should reach it. Put the leading word first. One trigger phrase per distinct case; synonyms for the same case are one case.
+- **A line that names another file works the same way.** If Claude skips a file it needs, sharpen the line before you paste the file in.
+
+**Words that steer**
+- **Use a leading word:** one compact word the model already knows (_tracer bullet_, _frontier_, _relentless_) instead of a sentence describing it. Repeat the word and skip the explanation.
+- **Say what to do.** "Write one-line comments" beats "don't write long comments": a ban puts the banned thing in Claude's head. Keep a ban only as a hard guardrail, paired with the thing to do instead.
+
+**Cutting**
+- **One source of truth.** Each rule lives in one place; other files point to it. This file is that place for naming.
+- **Point at the environment instead of copying it.** Name the command or file Claude can read (`claude plugin --help`, the folder layout). Write down only what Claude can't find by looking: the reason behind a choice, the gotcha.
+- **Delete no-ops:** any sentence Claude would obey anyway. Delete the whole sentence.
+
+## Saving and shipping a skill
+
+**Files**
+- **Edit the repo, never the installed copy.** The repo is `D:\ash-skills`. Installed copies under `~/.claude/plugins/cache/` are overwritten on update.
+- **Folder:** `plugins/<plugin>/skills/<name>/SKILL.md`. The folder name equals `name:`.
+- **Copied skills keep their licence** in the plugin folder (like `plugins/plan/LICENSE-matt-pocock`) and their credit in README.md.
+
+**A new plugin**
+- Create `plugins/<plugin>/.claude-plugin/plugin.json` with `name`, `version: "0.1.0"`, `description` (its question from the table above) and `author: {"name": "Ash Banday"}`.
+- Add it to `.claude-plugin/marketplace.json` with `name`, `source: "./plugins/<plugin>"` and its question as `description`.
+- Mark it built in the README plugin table.
+
+**Versions:** a new skill bumps the minor number (0.1.0 to 0.2.0). A fixed name, description or body bumps the last number (0.2.0 to 0.2.1).
+
+**Load it, check it, commit it** (run from `D:\ash-skills`):
+
+```bash
+claude plugin validate .
+claude plugin marketplace update ash-skills
+claude plugin install <plugin>@ash-skills
+claude plugin update <plugin>@ash-skills
+claude plugin details <plugin>@ash-skills
+```
+
+- `install` for a new plugin, `update` for one already installed. The update copies the repo into the cache only when the version went up.
+- `details` must list the skill. Then commit only the files this skill touched, by name.
+- **The skill appears in sessions started after the update,** or after `/reload-plugins` in an open session.
+
+**List every skill and its description** (for name clashes and look-alikes):
+
+```bash
+grep -H -E '^(name|description|disable-model-invocation):' D:/ash-skills/plugins/*/skills/*/SKILL.md
+```
