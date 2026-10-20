@@ -1,6 +1,6 @@
 ---
 name: headline-angles-substack
-description: "[Substack · was newsletter-headlines] How do I find the headline that makes people open my Substack post? Generates a ranked list of 10 headline and subheadline angles for any idea, topic, outline, or draft, using the 10 ways (tips, stats, steps, lessons, benefits, mistakes, reasons, questions, examples, personal story) and the 5 headline pieces (number, what, who, why, twist). Reads the idea and the reader from the chat and pulls the reader's situation, fear, and wanted outcome on its own. Invented numbers and stories are allowed and tagged. Use when the user wants headlines, angles, or idea directions for a newsletter piece."
+description: "[Substack] How do I find the headline that makes people open my Substack post? Generates a ranked list of 10 headline and subheadline angles for any idea, topic, outline, or draft, using the 10 ways (tips, stats, steps, lessons, benefits, mistakes, reasons, questions, examples, personal story) and the 5 headline pieces (number, what, who, why, twist). Reads the idea and the reader from the chat and pulls the reader's situation, fear, and wanted outcome on its own. Invented numbers and stories are allowed and tagged. Use when the user wants headlines, angles, or idea directions for a newsletter piece."
 ---
 
 # Newsletter Headlines

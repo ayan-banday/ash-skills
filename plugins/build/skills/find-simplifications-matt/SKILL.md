@@ -1,6 +1,6 @@
 ---
 name: find-simplifications-matt
-description: "[Matt: improve-codebase-architecture] How do I find parts of the code that are more complicated than they need to be? Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick."
+description: "[Matt] How do I find parts of the code that are more complicated than they need to be? Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick."
 disable-model-invocation: true
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: write-pr-matt
-description: "[Matt: pr] How do I write a pull request someone can review fast? Use when writing a PR body."
+description: "[Matt] How do I write a pull request someone can review fast? Use when writing a PR body."
 metadata:
   credits:
     skill: show-me

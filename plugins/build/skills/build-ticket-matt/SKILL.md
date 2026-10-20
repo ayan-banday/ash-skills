@@ -1,6 +1,6 @@
 ---
 name: build-ticket-matt
-description: "[Matt: implement] How do I get one decided ticket built without Claude redesigning it? Implement a piece of work based on a spec or set of tickets."
+description: "[Matt] How do I get one decided ticket built without Claude redesigning it? Implement a piece of work based on a spec or set of tickets."
 disable-model-invocation: true
 ---
 

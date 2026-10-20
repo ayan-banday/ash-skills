@@ -1,6 +1,6 @@
 ---
 name: try-prototype-matt
-description: "[Matt: prototype] How do I test whether a design feels right before building it properly? Build a throwaway prototype to answer a design question. Use when the user wants to sanity-check whether a state model or logic feels right, or explore what a UI should look like."
+description: "[Matt] How do I test whether a design feels right before building it properly? Build a throwaway prototype to answer a design question. Use when the user wants to sanity-check whether a state model or logic feels right, or explore what a UI should look like."
 ---
 
 # Prototype

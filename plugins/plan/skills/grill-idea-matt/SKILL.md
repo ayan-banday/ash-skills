@@ -1,6 +1,6 @@
 ---
 name: grill-idea-matt
-description: "[Matt: grill-me] How do I find the holes in an idea before I commit to it? A relentless interview to sharpen a plan or design."
+description: "[Matt] How do I find the holes in an idea before I commit to it? A relentless interview to sharpen a plan or design."
 disable-model-invocation: true
 ---
 

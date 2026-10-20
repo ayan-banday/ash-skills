@@ -1,6 +1,6 @@
 ---
 name: write-spec-matt
-description: "[Matt: to-spec] How do I turn what we just decided into one written plan? Turn the current conversation into a spec and publish it to the project issue tracker: no interview, just synthesis of what you've already discussed."
+description: "[Matt] How do I turn what we just decided into one written plan? Turn the current conversation into a spec and publish it to the project issue tracker: no interview, just synthesis of what you've already discussed."
 disable-model-invocation: true
 ---
 

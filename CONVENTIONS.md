@@ -42,11 +42,11 @@ Ash finds skills only by typing words of the name in the `/` menu (see "How Ash 
 
 Written as one YAML line in double quotes. Use single quotes inside it.
 
-1. **A square bracket saying who it's for, and what it used to be called.** It's for reading in the menu; search runs on the name.
-   - Ash's own skills name the place they serve: `[Udyaan course]`, `[Substack]`, `[Shasta]`, `[skill guide]`.
-   - **A renamed skill keeps its old name after `was`:** `[was clear-documents]`, `[Udyaan teammates · was clear-visual-html]`, so Ash recognises the skill he used before.
-   - Copied skills name the source and the original name: `[Matt: to-spec]`.
-   - Add a tag after ` · ` when it helps: `[Matt: grilling · helper]` for a skill other skills call, `[skill maker · uses skill-creator]` for one that leans on another skill.
+1. **A square bracket with the extra information: who it's for, or where it came from.** It's for reading in the menu; search runs on the name.
+   - **It holds the tag in words,** the same tag the name ends with: `[Udyaan course]`, `[Substack]`, `[Shasta]`, `[Matt]`.
+   - Add a role after ` · ` when it helps: `[Matt · helper]` for a skill other skills call, `[skill maker · uses skill-creator]` for one that leans on another skill.
+   - **No old names.** A renamed skill drops what it used to be called; git history keeps it.
+   - **No tag, no bracket.** A skill without a tag starts straight with its question.
 2. **The question it answers, in Ash's voice.** Usually "How do I ...?". "Which", "Where" or "What" are fine when they read more naturally.
    - **It names the topic and the situation,** so it makes sense read alone, with the skill name hidden.
    - Bad: "How do I plan it?" / "How do I get unstuck?"
@@ -64,7 +64,7 @@ Written as one YAML line in double quotes. Use single quotes inside it.
 **Full example:**
 
 ```yaml
-description: "[Matt: to-spec] How do I turn what we just decided into one written plan? Turns the current conversation into a spec and publishes it to the project's issue tracker. No interview, just what was already discussed."
+description: "[Matt] How do I turn what we just decided into one written plan? Turns the current conversation into a spec and publishes it to the project's issue tracker. No interview, just what was already discussed."
 ```
 
 ## Who can start it: Claude, or only Ash
@@ -81,6 +81,8 @@ description: "[Matt: to-spec] How do I turn what we just decided into one writte
 - **`/skills` doesn't work in Ash's app,** so description words are never a way to find a skill. The docs say `/skills` filters by name, description and source, but Ash can't use it.
 - **Skills can't have aliases.** The name is the only handle in the `/` menu, so it carries every word Ash would type.
 - **The full name is `/plugin:skill`,** like `/plan:write-spec`.
+- **What the menu row shows:** `plugin:name (name)`. The folder sets the command; the `name:` line sets the label and the word in round brackets after it, which is a short alias (`/make-skill` runs `/build:make-skill`). Read in Claude Code's source on 2026-10-20. So the round bracket repeats the name; it can't hold a free label. Extra information goes in the description's square bracket, which shows in the hover card.
+- **Keep `name:` equal to the folder name.** If they differ, the menu shows one name and the command runs under another.
 
 ## Writing the body (from Matt Pocock's writing-for-agents rules)
 

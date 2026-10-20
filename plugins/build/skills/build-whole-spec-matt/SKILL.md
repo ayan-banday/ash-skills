@@ -1,6 +1,6 @@
 ---
 name: build-whole-spec-matt
-description: "[Matt: implement-spec] How do I build a whole spec at once with several helpers? Implement the result of /to-spec and /to-tickets in code."
+description: "[Matt] How do I build a whole spec at once with several helpers? Implement the result of /to-spec and /to-tickets in code."
 disable-model-invocation: true
 ---
 

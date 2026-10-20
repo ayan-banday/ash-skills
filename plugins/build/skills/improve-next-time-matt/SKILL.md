@@ -1,6 +1,6 @@
 ---
 name: improve-next-time-matt
-description: "[Matt: retro] How do I make the next build go smoother than this one? Conduct a retrospective on a coding session."
+description: "[Matt] How do I make the next build go smoother than this one? Conduct a retrospective on a coding session."
 disable-model-invocation: true
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: domain-modeling-matt
-description: "[Matt: domain-modeling · helper] Keeps a project's names consistent in GLOSSARY.md. Build and sharpen a project's domain model. Use when discussing codebase terminology, writing or editing a GLOSSARY.md, or recording or editing an ADR."
+description: "[Matt · helper] Keeps a project's names consistent in GLOSSARY.md. Build and sharpen a project's domain model. Use when discussing codebase terminology, writing or editing a GLOSSARY.md, or recording or editing an ADR."
 ---
 
 # Domain Modeling

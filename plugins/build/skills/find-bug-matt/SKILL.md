@@ -1,6 +1,6 @@
 ---
 name: find-bug-matt
-description: "[Matt: diagnosing-bugs] How do I find the real cause of a bug instead of guessing? Diagnosis loop for hard bugs and performance regressions. Use when the user says \"diagnose\"/\"debug this\", or reports something broken/throwing/failing/slow."
+description: "[Matt] How do I find the real cause of a bug instead of guessing? Diagnosis loop for hard bugs and performance regressions. Use when the user says \"diagnose\"/\"debug this\", or reports something broken/throwing/failing/slow."
 ---
 
 # Diagnosing Bugs

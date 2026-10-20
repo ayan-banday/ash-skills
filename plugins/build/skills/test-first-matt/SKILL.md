@@ -1,6 +1,6 @@
 ---
 name: test-first-matt
-description: "[Matt: tdd] How do I build a feature so tests prove it works? Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions \"red-green-refactor\", or wants integration tests."
+description: "[Matt] How do I build a feature so tests prove it works? Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions \"red-green-refactor\", or wants integration tests."
 ---
 
 # Test-Driven Development

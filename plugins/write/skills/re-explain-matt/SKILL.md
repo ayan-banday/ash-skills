@@ -1,6 +1,6 @@
 ---
 name: re-explain-matt
-description: "[Matt: wait-what] How do I get Claude to re-explain a reply that didn't make sense? Stop. That last message did not land: re-pitch it."
+description: "[Matt] How do I get Claude to re-explain a reply that didn't make sense? Stop. That last message did not land: re-pitch it."
 disable-model-invocation: true
 ---
 

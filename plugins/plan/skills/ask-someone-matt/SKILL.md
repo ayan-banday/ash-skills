@@ -1,6 +1,6 @@
 ---
 name: ask-someone-matt
-description: "[Matt: to-questionnaire] How do I get an answer that's in someone else's head? Turn a decision you can't fully answer into a questionnaire for someone else to fill in."
+description: "[Matt] How do I get an answer that's in someone else's head? Turn a decision you can't fully answer into a questionnaire for someone else to fill in."
 disable-model-invocation: true
 ---
 

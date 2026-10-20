@@ -1,6 +1,6 @@
 ---
 name: chart-project-wayfinder-matt
-description: "[Matt: wayfinder] How do I plan a project too big for one session when I can't see the route yet? Plan a huge chunk of work (more than one agent session can hold) as a shared map of decision tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear."
+description: "[Matt] How do I plan a project too big for one session when I can't see the route yet? Plan a huge chunk of work (more than one agent session can hold) as a shared map of decision tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear."
 disable-model-invocation: true
 ---
 
