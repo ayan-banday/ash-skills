@@ -115,7 +115,8 @@ claude plugin update <plugin>@ash-skills
 claude plugin details <plugin>@ash-skills
 ```
 
-- `install` for a new plugin, `update` for one already installed. The update copies the repo into the cache only when the version went up.
+- `install` for a new plugin, `update` for one already installed.
+- **Bump the version on every change.** Sessions load a copy in `~/.claude/plugins/cache/ash-skills/<plugin>/<version>/`, and `update` refreshes that copy only when the version went up. Tested 2026-10-20: an edit with no bump stayed out of the copy, even though the docs say local plugins reload without one.
 - `details` must list the skill. Then commit only the files this skill touched, by name.
 - **The skill appears in sessions started after the update,** or after `/reload-plugins` in an open session.
 
