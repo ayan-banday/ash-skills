@@ -16,6 +16,11 @@
       "name": "build",
       "source": "./plugins/build",
       "description": "How do I build and fix code in Charlotte or the micro-SaaS, and the tools Claude uses?"
+    },
+    {
+      "name": "learn",
+      "source": "./plugins/learn",
+      "description": "How do I learn a topic, or make sense of a pile of files?"
     }
   ]
 }
