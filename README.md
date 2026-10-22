@@ -25,6 +25,8 @@ Ash's Claude skills, packed into five plugins by the action you're in. **Type `/
 | `pitch-site (udyaan)` | clear-proposal-site | How do I make an outside reader say "Hell yeah, let's do this"? |
 | `post-page-online` | new | How do I put a page I made online so friends outside Claude can open it? |
 
+**Making a desktop page work on phones:** follow [docs/mobile-site-playbook.md](docs/mobile-site-playbook.md), the steps and decisions from the TVS page.
+
 **Which one?** A draft you hand over as a file: `polished-doc`. Notes a teammate must understand alone: `brief-page`. An outsider must say yes: `pitch-site`. Abstract or list-like: `story-plan` first. Finished and should be seen outside Claude: `post-page-online`.
 
 ## /plan: How do I decide what to build before building it?
