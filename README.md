@@ -86,7 +86,7 @@ bash "$HOME/.claude/plugins/marketplaces/ash-skills/cloud/setup.sh" || echo "ash
 exit 0
 ```
 
-- **The real work is in [cloud/setup.sh](cloud/setup.sh),** so changes there need no new paste. It installs every plugin and tells Claude where to find a skill that didn't load.
+- **The real work is in [cloud/setup.sh](cloud/setup.sh),** so changes there need no new paste. It installs every plugin, tells Claude where to find a skill that didn't load, and tells it to attach Fuji (`ayan-banday/fuji`, push access) when the work is about Fuji and it isn't in the session.
 - **A skill pushed today can lag up to about 7 days,** because cloud environments cache the setup. Until then, ask for it by name: Claude pulls this repo and reads the skill's SKILL.md.
 
 ## How this repo is built

@@ -30,4 +30,14 @@ When Ash names a skill that isn't loaded, or asks for one from his skills repo:
 <!-- ash-skills:end -->
 EOF
 
+# 3. Tell Claude how to reach Fuji when it isn't in the session.
+sed -i '/<!-- fuji:start -->/,/<!-- fuji:end -->/d' "$HOME/.claude/CLAUDE.md"
+cat >> "$HOME/.claude/CLAUDE.md" <<'EOF'
+<!-- fuji:start -->
+# Fuji
+
+Fuji is Ash's self-regulation system: the private repo `ayan-banday/fuji`. When the work is about Fuji (his week page, maps, tickets, Sherpas, the night run) and it isn't in this session, attach it with `add_repo` (owner `ayan-banday`, repo `fuji`, access `push`) before anything else, clone it to the path the tool gives, and follow its CLAUDE.md.
+<!-- fuji:end -->
+EOF
+
 exit 0
