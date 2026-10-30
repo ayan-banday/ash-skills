@@ -37,26 +37,26 @@ Done when every question makes sense with the chat hidden and each problem holds
 
 ### 2. The chapter
 
-Title: the picked question, word for word. These sections, in order, headings in bold, about 1,000 to 1,300 words in all. Over that, cut "How it works" to 4 steps and "When it isn't enough" to 2 bullets. **Three new names per chapter at most:** the main idea's, plus one per "When it isn't enough" bullet.
+Title: the picked question, word for word. These sections, in order, headings in bold, about 1,000 to 1,300 words in all. Over that, cut "How it works" to 4 steps and "When it isn't enough" to 2 bullets. **Three new names per chapter at most:** the main idea's, plus up to two in "When it isn't enough". The test line adds none, and a word from the far-away field ("mise en place") doesn't count.
 
-- **Where you are now:** 2 or 3 bullets of his situation from the chat, each ending with what it costs him so far (a cost not yet paid takes "say" or "could"). Then one bold line, no heading: "After you read this, you can [what it lets him do in his work]."
+- **Where you are now:** 2 or 3 bullets of where he stands, from the chat (state it, never retell what was said or built), each ending with what it costs him so far (a cost not yet paid takes "say" or "could"). Then one bold line, no heading: "After you read this, you can [what it lets him do in his work]."
 - **What usually happens:** the failure as 2 to 4 numbered steps, with days, counts and what he sees.
 - **Where the problem lies:** the root cause in bold, with someone doing something: "**The AI reads, answers and forgets.**"
-- **The idea that fixes it:** one bold sentence under 35 words that a 7th grader who never saw the chat could act on: who does what, to what, and what follows. Then the metaphor from daily life in 2 or 3 sentences. Then the name: "That list is called an index."
+- **The idea that fixes it:** one or two bold sentences, under 40 words together, that a 7th grader who never saw the chat could act on: who does what, to what, and what follows. Then the metaphor from daily life in 2 or 3 sentences, from a different world than the far-away example. Then the name: "That list is called an index."
 - **How it works, from [start] to [end]:** name it for the real journey. 3 to 5 numbered steps, each what happens then what it produces. Then a text diagram in a code block, and a "today" against "with this" table when two ways are compared.
 - **How you'd build it, and what changes for you:** the parts and what each is for ("A cutter: a short script that…"), never a transcript of what to type. Agents in the design can pull more context when a piece alone isn't enough. Then "What changes for you:" in 2 or 3 bullets.
-- **How it looks when you use it:** a block quote of 3 or 4 lines: his question (standing alone), what the system does, what comes back (quoted), what it cost.
+- **How it looks when you use it:** a block quote of 3 or 4 lines: the question whoever uses it would ask (standing alone), what the system does, what comes back (quoted), what it cost.
 - **Where else the same idea works:** two bold-led examples of 2 or 3 bullets each. **Far away:** a field nothing like this one, never the metaphor's picture; the part he learns most from, so make it vivid and exact. **In your world:** Udyaan, Fuji, Shasta or the micro-SaaS with Mohit.
-- **When it isn't enough:** 2 or 3 bullets of at most 2 sentences: where the idea stops working and what experts reach for next, named after its meaning. End with a one-line test for choosing.
-- **The answer:** one bold sentence answering the title, then 2 or 3 sentences on what it means for his work and the far transfer. The main idea's name once. No sentence over 30 words, no glossary.
+- **When it isn't enough:** 2 or 3 bullets of at most 2 sentences: where the idea stops working and what experts reach for next, named after its meaning. The last bullet is a one-line test for choosing.
+- **The answer:** one or two bold sentences answering the title, then 2 or 3 sentences on what it means for his work and the far transfer. The main idea's name once. No sentence over 30 words, no glossary.
 
-Close with, filled in: **Want to save these questions?** (A1 with this chapter, plus A2, A3 and B1 to B3)
+Close with **Want to save these questions?**, then in brackets the pick and every unpicked code from your menu: (B1 with this chapter, plus A1 to A3, B2 and B3).
 
 Done when the chapter passes every writing rule below.
 
 ### 3. Save and follow up
 
-- **On yes:** one Markdown file in a code block: the chapter, then "Other questions from this chat" with the unpicked questions. He files it.
+- **On yes:** one Markdown file inside a four-backtick fence (the chapter has its own code blocks): the chapter, then "Other questions from this chat" with the unpicked questions in full. He files it. On no, carry on.
 - **A follow-up question:** same voice and rules, under 150 words. A new concept gets offered as its own chapter: "That's its own chapter. Want it?"
 - **Principles from something he built:** only when he asks.
 
@@ -70,9 +70,9 @@ Reading only the bold phrases of any section gives its point.
 4. **Someone does something** in every claim: "The AI reads, answers and forgets."
 5. **Numbers he can picture:** "about an hour of video, not 20", never "240,000 tokens". Guesses say "say" or "about".
 6. **Headings say what the section tells.** Never a slogan.
-7. **Bold one or two phrases per bullet.** Whole sentences only for the principle, the root cause and the answer's first line.
+7. **Each bullet opens with its point in bold,** a phrase or one short sentence. Bold nothing else in it.
 8. **Bullets of 2 or 3, steps of 3 to 5,** paragraphs of 3 sentences at most.
-9. **Invent examples, never facts.** No made-up statistics, studies, company results or quotes; name no one who isn't in the chat.
+9. **Invent examples, never facts.** Made-up students, numbers and scenes are fine (mark guesses "say"); made-up statistics, studies, company results or quotes are not. Real people and companies only when the chat names them, with nothing claimed about them you aren't sure of. Arithmetic on the chat's own numbers is fine.
 10. **Say the claim:** no slogans, aphorisms, "not X but Y", bold "X, not Y" lines or em dashes. A contrast with real numbers is fine.
 11. **Vary the format** when it explains faster: table, text diagram, block quote. Text only, since the chat may be a terminal.
 12. **Never summarise the chat back to him.** He was there.
