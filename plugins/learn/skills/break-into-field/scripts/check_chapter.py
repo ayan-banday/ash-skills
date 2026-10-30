@@ -88,7 +88,8 @@ def check_blocks(blocks, label, fails, warns):
         elif n > MAX_BULLET_SENT or w > MAX_BULLET_WORDS:
             fails.append(f'{label}: bullet of {n} sentences, {w} words (max {MAX_BULLET_SENT}, {MAX_BULLET_WORDS}): "{short}"')
         m = re.match(r"\s*<(strong|b)>([^<]+)</\1>", inner)
-        if m and kind == "li" and len(m.group(2).split()) < 4:
+        # A short bold label ending in a colon ("Week 3:", "To keep it:") is a label, not a slogan.
+        if m and kind == "li" and len(m.group(2).split()) < 4 and not m.group(2).strip().endswith(":"):
             warns.append(f"{label}: short bold opener '{m.group(2).strip()}'; a slogan?")
 
 

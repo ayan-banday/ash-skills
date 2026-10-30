@@ -34,11 +34,13 @@ The map sits on a sticky stage while short captions scroll past it. Each step ch
 
 - **One bright thing per step,** in the accent; everything else stays dim but visible, so the picture builds.
 - **A caption per step, 20 words or fewer,** in the empty part of the picture (the sky beside a mountain), never covering a stop.
+- **The last step needs room to settle:** give the step track a tail (about 45% of the screen height) so the stage stays pinned while step 5 plays, then releases to the map at rest.
 - **Pinned for 3 viewport heights at most.** Lines draw at pen speed (`motion.md` rule 3); nothing bounces, flies or loops.
 
 ## It stays studyable
 
-- **At rest, everything is labelled:** every stop with its plain name and the ideas it teaches in small type, chapters numbered, open stops marked. A screenshot of the final state is a full map.
+- **At rest, everything is labelled:** every stop with its plain name, chapters numbered, open stops marked. A screenshot of the final state is a full map. The ideas each stop teaches show when it's pointed at, and in the text twin; in the picture they crowd the labels (v3).
+- **Guesses look like guesses.** An arrow the builder inferred, rather than one Ash confirmed, says so when its stop is pointed at and in the text twin, until Ash checks it (from Graphify's extracted, inferred and ambiguous labels).
 - **Pointing at a stop (or tapping it) shows only its lines,** at once (hover snaps, never glides), and a one-line note: what it waits on, what waits on it.
 - **Under the stage, the layers in words:** three short lines (open now, opens next, opens last), each naming its problems in plain words. This is the map's text twin for scanning and for screen readers.
 - **Reduced motion, `?final=1` and narrow screens land on the final state,** with no pin. Below 768 px the stage is a plain picture, scaled to fit, with no sideways scroll.
@@ -47,7 +49,7 @@ The map sits on a sticky stage while short captions scroll past it. Each step ch
 
 - Screenshot the stage at 1280 px at each step (scroll to each caption) and once at rest. The motion must read: step 3's screenshot alone shows what is open and what waits on Chapter 1.
 - Cover the labels in the final screenshot and say the unlock order from the picture. Cover the picture and read the layers in words: they must agree.
-- At 390 px, nothing scrolls sideways.
+- At 390 px, nothing scrolls sideways. Small flows of four boxes in a row stack downward on narrow screens; they were the one thing that overflowed in v3.
 
 ## The shelves
 
