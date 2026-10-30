@@ -1,98 +1,83 @@
 # Structure
 
-Contents: the skeleton part by part, the content structures, the Nicolas Cole five-part check, and how Dan Koe's anatomy maps onto it.
+Contents: the module's jobs one by one, the learning modes, the content structures, the Nicolas Cole five-part check, and how Dan Koe's anatomy maps onto it.
 
-## Why a fixed skeleton
+## Fixed jobs, a shape that fits the day
 
-A student who opens Day 3 should know where things are because Day 1 and Day 2 looked the same. Ash writes a new module every day, so a stable skeleton keeps him fast and keeps the course consistent. The skeleton fixes the order of jobs. It does not fix the wording, and `variation.md` covers that.
+A student who opens Day 13 should know where things are because every day does the same jobs in the same order: recap, problem, belief, right move, how it looks, the Do, tomorrow. The **shape** inside changes with the day's A-to-B, so a rule-first day and a go-do-it day read differently. `variation.md` keeps the wording fresh.
 
-## The skeleton, part by part
+## The jobs, one by one
 
-### 1. Title
+### 1. Title: the day's question
 
-"Day N: Topic". The topic names the thing, such as "What a Business Is", or asks the day's question, such as "Is This Problem Worth Solving?".
+"Day N: <question>". The mini question that moves the student one step towards the week's big question, in words they already know: "Day 6: Where Are Farmers Already Talking About My Problem?"
 
-### 2. Bridge (2 lines)
+### 2. Recap and problem
 
-Line one names what the student made or learned yesterday, in concrete terms: the doc, the summary, the pick. Line two says what today does.
+Name what the student has so far, concretely: the tabs, the offer, the list. Then the problem it leaves, and what ignoring it costs in money or time. Then what today does, with the skill it builds woven into the sentence.
 
-> Yesterday you picked a link in the chain and a person who lives there.
-> Today you check whether that person's problem is worth your time.
+> Till now you have five tabs in your Offer Document. Every one of those five lines is still **your guess**, because nobody who has the problem has read it.
+> Today you collect what farmers have **already said** about your problem. It builds **evidence seeking**: finding out what's true from the people who live it.
 
-Day 1 has no yesterday, so it points back to the welcome page and forward to Friday.
+On a week's first day, a short bullet recap of the week before works. On Day 1, point back to the welcome page.
 
-### 3. Opener: belief or wrong move, behavior, impact
+### 3. What you think: belief or wrong move, behavior, impact
 
-This is the hook. It names something the student may do or believe, shows the specific things they do because of it, and ends on what it costs them. The impact comes in one plain line.
+The hook, under a question heading the student would ask ("Do I need to meet a farmer before I can learn anything?"). Name the belief, list three or four concrete things the student does because of it (real apps, places, messages), and end on what it costs them.
 
-Shape:
-1. A heading that states the problem ("Starting with an idea leaves you stuck").
-2. One line naming the belief or the wrong move.
-3. Three or four bullets of concrete behavior the student would recognise.
-4. One line of impact.
+Use **Common belief, why it's wrong, the actual truth** here. Keep the belief honest: argue against something the student plausibly thinks today.
 
-The behaviors must be things this reader actually does, with real places and apps. "Search for startup ideas on YouTube and Instagram" works. "Research the idea" does not.
+### 4. The right move
 
-Use the content structure **Common belief, why it's wrong, the actual truth** here, with the "why it's wrong" carried by the bullets and the impact line. Keep the belief honest. The reframe only lands when the reader really holds the belief, so argue against something the student plausibly thinks today.
+One line that replaces the belief, then a one-line plain definition. If the definition has parts, list them as bullets with a bold lead.
 
-### 4. Truth and definition
+### 5. How it looks
 
-One line that replaces the belief, then a one-line plain definition.
+- **The simplest picture first,** in labeled lines, so a 12-year-old gets it.
+- **Then the running student doing exactly this:** the search they typed, what they copied, the GPT question and its answer, where they pushed back, what they saved, and what surprised them. Shown as the real screens or block quotes, so a student can copy each step.
+- **A contrast pair** when the lesson is a difference: the same case told twice with one change.
 
-> A business is **people trying to reach a goal, and something stopping them.**
+### 6. Rule and picks
 
-If the definition has parts, list them as bullets with a bold lead.
+The rule in bold, then a Good pick and a Bad pick, each leading with the pick and then its impact. Use **Statement, proof, so what**.
 
-### 5. Mini example in labeled lines
+### 7. Stuck points, where they happen
 
-The simplest possible picture of the idea, usually three labeled lines in a block quote. It should work for a 12-year-old.
+When a step invites "but what if...?", answer it in one line right there: "No 'Show transcript' button? Copy the comments only." A generic FAQ adds nothing.
 
-> **Goal:** You're hungry, so you want to eat
-> **Problem:** You have no snacks
-> **Solution:** You buy snacks from a vending machine
+### 8. The Do
 
-Follow it with one or two sentences that pull out the point. "You wouldn't buy snacks if you weren't hungry. **A problem needs a goal.**"
+> ## Collect what farmers say (40 minutes)
+> 1. Add a tab called **"Day 6: What Farmers Say"** to your Offer Document.
+> 2. Copy everything raw from **three videos and three news stories.**
+> 3. Open the course GPT, type "Day 6", paste your tab, and ask your question with your problem in it.
+> **Applied:** ... **Excelled:** ... **Short on time?** ...
 
-### 6. Real example as a contrast pair
+Steps are mechanical, the GPT question is exact, and a multi-step Do gets a "how it looks" picture.
 
-One ordinary-life case, told twice with one change so the lesson shows itself. Two short paragraphs, then one line on the consequence.
+### 9. Tomorrow
 
-### 7. Domain example and rule
+What the student has now, and the next problem in one or two lines. A Next link to the next day on a web page.
 
-A short case from the course's field with its pieces in bullets. Then the rule:
+## The learning modes
 
-> **Fix the blocker that stops the goal hardest.**
-> To test it, ask: "If this blocker disappeared tomorrow, how much closer would they be?"
-> **Good pick: spoilage.** The company can't open two new cities if a fifth of its fruit rots before it's packed.
-> **Bad pick: the late supplier.** Every delivery could arrive on time and a fifth of the fruit would still rot.
+Pick one from the day's A-to-B. The mode decides the order of jobs 3 to 6.
 
-Each pick leads with the pick, then states its impact. Use the content structure **Statement, proof, so what** for the rule.
+- **Rule first** (deductive): the rule, then examples, then theirs. Fast and clear; for a tool they need now, like the five offer lines.
+- **Examples first** (inductive): examples, then the student spots the rule. Slower, sticks better; for an idea like what first-time founders get wrong.
+- **Options** (exploratory): several choices, the student picks. For no single right answer, like where you fit in agriculture.
+- **Go do it** (immersion): how it looks, step by step, then the real thing. For collecting quotes, outreach and calls. Runs longer, because the steps are shown.
+- **Build it** (production): everything so far turns into one piece of work. For the end of a week: an offer, a one page, a project file.
 
-### 8. Objections inside the flow
-
-When a claim makes the student think "but what about me?", answer it right there in a sentence or two. Examples: someone with an idea already, someone who knows nothing about the field. Pick the objections this day's claim raises. A generic list of FAQs adds nothing and is out.
-
-### 9. The Do
-
-> Open the [course GPT](#) and type "Day 3". It asks the four questions one at a time and marks each answer Known or Guess.
-> Save the summary in a Google Doc called "Day 3: Problem Check".
-> **Short on time?** Write the one-line problem and the one question, and save those.
-
-The page tells the student what will happen, links the GPT, and names the doc. The GPT carries the case, the interview, and the summary.
-
-### 10. Week map and tomorrow
-
-The five days of the current week, with today marked. One short line on what each day adds if useful. Then "Tomorrow" in one or two lines that set up the next day's tension.
-
-## Content structures to use inside the skeleton
+## Content structures to use inside the jobs
 
 These are Ash's four structures. Use them where they fit, and keep them short.
 
 | Structure | Use it for | Shape |
 |---|---|---|
-| **Common belief, why it's wrong, the actual truth** | Part 3, the opener | State what the reader accepts. Show where it breaks. Offer the replacement. |
-| **Observation, mechanism, consequence** | Explaining why something works, in Part 4 or 6 | Notice something. Say why it works that way. Show where it leads. The mechanism is the part writers skip. |
-| **Statement, proof, so what** | The rule in Part 7 | Argue it. Back it with a case. Draw the conclusion out loud. |
+| **Common belief, why it's wrong, the actual truth** | Job 3, what you think | State what the reader accepts. Show where it breaks. Offer the replacement. |
+| **Observation, mechanism, consequence** | Explaining why something works, in Job 4 or 5 | Notice something. Say why it works that way. Show where it leads. The mechanism is the part writers skip. |
+| **Statement, proof, so what** | The rule in Job 6 | Argue it. Back it with a case. Draw the conclusion out loud. |
 | **Assertion, evidence, stakes** | A key claim in any part | Make a bold claim. Back it up. Show what happens if the reader ignores it. |
 
 Example of observation, mechanism, consequence in this course:
@@ -102,15 +87,15 @@ Example of observation, mechanism, consequence in this course:
 
 ## Nicolas Cole's five-part check
 
-Cole says every module needs five parts so the student finishes with no open loops. Use his list as a final review. The skeleton already holds all five.
+Cole says every module needs five parts so the student finishes with no open loops. Use his list as a final review. The jobs already hold all five.
 
 | Cole's part | Where it lives here |
 |---|---|
-| Reasons why (benefits) | Parts 3 and 4 explain why the belief fails and what the truth gives the student |
-| Mistakes to avoid (problems) | Inside Parts 3, 6, and 7, shown at the point they happen |
-| Steps (how to) | Part 9, the Do. Reduce friction until the student cannot get stuck, and let the GPT carry the detail |
-| Objections | Part 8, handled inline where they arise |
-| Walkthrough example (proof) | Parts 5 to 7, and the GPT run in Part 9 |
+| Reasons why (benefits) | Jobs 2 to 4 explain what the problem costs, why the belief fails and what the right move gives the student |
+| Mistakes to avoid (problems) | Inside Jobs 3, 5 and 6, shown at the point they happen |
+| Steps (how to) | Job 8, the Do. Mechanical steps, the exact GPT question, a "how it looks" picture; the GPT carries the detail |
+| Objections | Job 7, stuck points answered where they arise |
+| Walkthrough example (proof) | Job 5, the running student's step-by-step example |
 
 His test for the finished module: the student knows exactly what to do, why to do it, and what to avoid, and no doubt remains that could stop them. If you can imagine a student closing the page unsure about any of those three, a part is missing.
 
@@ -118,9 +103,9 @@ His test for the finished module: the student knows exactly what to do, why to d
 
 | Koe move | Here |
 |---|---|
-| Recap and preview line | Part 2, bridge |
-| Belief to break | Part 3, opener |
-| One central picture | Parts 5 and 6 |
+| Recap and preview line | Job 2, recap and problem |
+| Belief to break | Job 3, what you think |
+| One central picture | Job 5, how it looks |
 | Permission and de-pressure | A single line when the day is hard or abstract, such as "this won't fully click today" |
-| One small concrete action | Part 9 |
-| Close with tomorrow | Part 10 |
+| One small concrete action | Job 8, the Do |
+| Close with tomorrow | Job 9, tomorrow |

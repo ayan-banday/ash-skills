@@ -6,7 +6,7 @@ Contents: what stays fixed, what can move, the opener catalogue, the connector a
 
 ## What stays fixed
 
-- The skeleton order of jobs (see `structure.md`)
+- The order of jobs (see `structure.md`), and question headings
 - The plain, spoken, 7th-grade voice
 - The sentence and formatting rules in `SKILL.md`
 - The bold-lead bullets, the labeled examples, the GPT-based Do
@@ -68,7 +68,7 @@ Koe gives permission to take long or drop the task if overwhelmed. Use it when t
 
 **Between sections**
 - A plain next step, with no connector at all (the default)
-- A question, only when a real reader would ask it
+- The next heading is itself the student's next question, so most sections need no connector
 - A one-line recap before a new idea: "You have the goal and the blocker. Now you need to know which blocker to fix."
 
 **Closing the module (tomorrow line)**
@@ -94,4 +94,4 @@ Vary the opener across the week so no two days feel alike.
 - **Negative parallelism** such as "The question isn't X, it's Y". Rewrite it as a positive statement.
 - **One-word questions** such as "Why?" followed by an answer. Write the full question.
 - **Hype punctuation** such as "Exciting." or "We are now moving onto monetization!" Keep the warmth in the plain wording.
-- **Long essay lessons.** Koe's median is about 1,300 words, with some at 3,000. Our modules are shorter because the reader has less time.
+- **Long essay lessons.** Koe's median is about 1,300 words, with some at 3,000. Our rule-first days stay near 1,000 words; a go-do-it day runs longer only because it shows each step.

@@ -2,7 +2,7 @@
 
 Every pair below comes from a real correction by Ash. Read the whole file before drafting. The test behind every pair is the same: **does the sentence add something, and would a 7th grader get it the first time?**
 
-Contents: sentence patterns, headings and bridges, bullets and openers, examples, objections, the Do, rules, formatting, and the banned-pattern scan list.
+Contents: sentence patterns, headings and bridges, bullets and openers, examples, objections, the Do, formatting, found in testing, found in round 2, and the banned-pattern scan list.
 
 ## Sentence patterns
 
@@ -95,26 +95,24 @@ Good:
 
 ## Headings and bridges
 
-**Headings that name a slot**
+**Headings that name a slot or a label**
 
-Bad: "Why start here", "Mistakes to avoid", "Common mistakes", "Key takeaways"
-Good: "Starting with an idea leaves you stuck", "Fix the blocker that stops the goal hardest", "No goal behind the blocker means no customer"
+Bad: "Why start here", "Mistakes to avoid", "Key takeaways", "Five kinds of places hold your customers' words"
+Good: "Where do I find what farmers say?", "What do I type into the search bar?", "What do I ask the GPT?"
 
-A heading should hold the answer. A reader scanning headings alone should get the lesson.
+A heading is the question the student would ask next at that point (Ash, October 2026). The section under it answers that question in full. A reader scanning the headings alone sees the path through the day.
 
 **Headings that sound clever**
 
-**Clever headings fail.** A heading passes when someone who hasn't read the section knows exactly what it covers. It is one of two things: a plain question the student would ask, or a concrete answer in everyday words.
+**Clever headings fail.** A heading passes when someone who hasn't read the section knows exactly what it covers: a plain question the student would ask.
 
 - Bad: "Two pictures to think with, and three rules that hold everywhere". It counts the contents and hides them.
 - Bad: "Three rules, two pictures and two questions to carry into your own tests"
 - Bad: "Symmetry is the language of trust". An aphorism makes the reader decode it.
 - Good: "How do you know people will pay for your SaaS before you build it?" A question the reader would ask.
-- Good: "New hires take 9 days to set up". A concrete answer.
-- Good: "Starting with an idea leaves you stuck". A concrete answer a student can act on.
 - **Why:** a clever heading is a puzzle the reader solves before reading. A plain one tells them where they are.
 
-**Test:** read the heading alone. If you can't say what the section will tell you, rewrite it in plainer words.
+**Test:** read the heading alone. If you can't say what the section will tell you, rewrite it as the plainer question.
 
 **Bridges that restate the schedule**
 
@@ -276,7 +274,7 @@ Good: a new case for Day 4, such as a student who builds a seed-tracking app for
 **A heading that names the scene**
 
 Bad: "A second-year student notices the canteen snack line moves slowly"
-Good: "Building before asking costs you weeks of work"
+Good: "What happens if I build before I ask anyone?"
 
 **Opener bullets that name no behavior**
 
@@ -311,7 +309,7 @@ Good: one list, in the opener, with a concrete behavior on each line. Later sect
 **A heading that claims a frequency**
 
 Bad: "Most builders make the exact same mistakes"
-Good: "Checking your problem now saves you weeks of building"
+Good: "Why check my problem before I build?"
 
 **Negative parallelism with a comma**
 
@@ -328,6 +326,91 @@ Good: "The GPT pokes holes in your problem, one mistake at a time."
 Bad: the reply opens "Perfect. The linter passes: ✓ Every sentence adds something ✓ ..." and then the module.
 Good: the reply opens with `# Day 4: ...`. Process notes, if any, go after the judgment calls.
 
+## Found in round 2 (October 2026)
+
+These came from Ash's feedback on the first drafts of Weeks 2 to 6, and from the fresh reviewers of the rewrite.
+
+**A question that uses a word the student hasn't learned**
+
+Bad: "How do I find out if people want my offer?" (Week 2, when "offer" was taught only on Day 5 and still sounds like business jargon)
+Good: "How do I find out if people want my solution, before I spend money on it?"
+
+**A phrase that makes no sense on its own**
+
+Bad: "farmers night current motor", "farmer pump night electricity"
+Good: "why farmers water their fields at night"
+Why: a newcomer can't decode the first two. The good one teaches the fact (power comes only at night) as you read it.
+
+**A bridge that only says what's next**
+
+Bad:
+> Last week you wrote Offer v1. Today you find where your customers talk online.
+
+Good:
+> Till now you have five tabs in your Offer Document. Every one of those five lines is still **your guess**, because nobody who has the problem has read it.
+> Say you spend a month and **₹15,000** building an app, and the farmers say the seed shop owner already tells them, free.
+
+Why: the day solves the problem yesterday left. Name the problem, and what ignoring it costs.
+
+**A step that asks the student to read**
+
+Bad: "Read the comments under five videos and note what farmers complain about."
+Good: "**Select everything, copy it, and paste it raw.** Don't read it, sort it or tidy it. The GPT does the sorting."
+
+**A GPT question with no problem in it**
+
+Bad: "Ask the GPT to summarise your notes."
+Good:
+> What do farmers say about **[your problem]**? And what do agri entrepreneurs say about it?
+
+Why: the problem tells the GPT what to look for. Without it, the GPT sums up the ads and menus too.
+
+**A teach-back section on the page**
+
+Bad: a section "Explaining it back counts most" telling the student the GPT will ask them to explain the idea in their own words.
+Good: the GPT records the evidence in the doc; the page spends its words on the day.
+
+**Re-introducing the running student**
+
+Bad: Day 6 opens a section with Gia's bio and the drawing of her uncle's 2 a.m. walk, already on the welcome page.
+Good: "On Day 4 Gia's fix was to hear from at least three more farmers who make the night walk. This is the Offer v1 she's checking:"
+
+**An example that breaks the day's own rule**
+
+Bad: Day 3 teaches "[Who] want [goal], but [blocker] when [situation]", and Gia's sentence ends ", so they walk to the field in the dark".
+Good: "Small borewell farmers near Kunigal want **to water their crops on time**, but **they have to walk to the field to switch on the pump** **when the power comes at night**."
+
+Bad: Day 22 teaches "ask about a real time, in a way they could answer no", and Gia's message starts "I think motors burn when the power flickers. Is that right?"
+Good: "The last three burnt motors you repaired, what was the power like the night before, and was the farmer at the pump?"
+
+Bad: Day 1's blocker is "power comes only at night", which no business can remove.
+Good: "He has to be at the field to switch the pump on when the power comes at 2 a.m."
+
+**A source read the wrong way**
+
+Bad: "Farmers spend ₹10,000 to ₹12,000 a year on repairs," quoting a farmer who, the same article says, bought a ₹400 switch and stopped paying for repairs.
+Good: "₹10,000 to ₹12,000 a year, **before he bought a ₹400 switch**." Then the surprise: two of the farmers she quoted already fixed it.
+
+**One kind of customer only**
+
+Bad: every place to search, every example and the Do are about farmers.
+Good: each also says how it works when your customer is an agri entrepreneur: "If your customer is a cold room owner, try 'why cold room owners lose vegetables in summer'."
+
+**Brochure lines**
+
+Bad: "Udyaan has your back." / "The farmer's words do the heavy lifting." / "It trains evidence seeking at its hardest."
+Good: "Udyaan helps you through it." / "The farmer's words matter most." / "It trains evidence seeking: changing your mind when a real person's answer says so."
+
+**A word used before it's explained**
+
+Bad: "Raju rewound three motors last week."
+Good: "Raju rewound three motors last week. Rewinding is the repair for a burnt motor: the mechanic replaces its burnt copper wire."
+
+**A question left open**
+
+Bad: "Click 'Show transcript' and copy it." (Many Kannada videos have no transcript button, and the student stops there.)
+Good: add "No 'Show transcript' button? Many Kannada videos don't have one. Copy the comments only."
+
 ## Banned-pattern scan
 
 Search the draft for these before sending.
@@ -340,4 +423,6 @@ Search the draft for these before sending.
 - `—` (em dash)
 - Any single-word sentence ending in a period
 - Any paragraph over three sentences
-- Any heading that names a slot instead of the content
+- Any heading that names a slot or a label instead of asking the student's question
+- `Your week, day by day` (the week map belongs to the page design)
+- `explain it back` / `in your own words` as a section on the page

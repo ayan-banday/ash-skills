@@ -3,7 +3,7 @@
 
 Usage: python lint_module.py draft.md [--type page]
 
-Default checks a daily module (Do, week map, tomorrow, fresh examples).
+Default checks a daily module (question headings, the Do, tomorrow, fresh examples).
 Use --type page for a welcome page or other student-facing page: the module
 structure checks are skipped and one bracketed quiet offer is allowed.
 Exit code 0 means no findings. Exit code 1 means fix the findings and run again.
@@ -122,7 +122,12 @@ def main(path: str, page: bool = False) -> int:
                     add("FIX", "heading claims how many people do something", i, line)
                     break
             if len(head.split()) < 3 and not head.startswith("day ") and head != "tomorrow":
-                add("REVIEW", "very short heading; does it hold the answer?", i, line)
+                add("REVIEW", "very short heading; is it the full question the student would ask?", i, line)
+            # Headings are the student's questions; the Do (with its minutes), Tomorrow and notes are exempt.
+            raw_head = re.sub(r"^#+\s*", "", plain).strip()
+            is_do = re.search(r"\(\d+(\s*to\s*\d+)?\s*minutes\)\s*$", raw_head, flags=re.I)
+            if not page and not is_do and head not in ("tomorrow", "judgment calls") and not raw_head.endswith("?"):
+                add("REVIEW", "heading isn't a question; write the question the student would ask next", i, line)
             continue
 
         # Lead-ins and setups
@@ -163,6 +168,8 @@ def main(path: str, page: bool = False) -> int:
                 add("FIX", "parenthetical aside; make it a sentence or cut it", i, m.group(0))
         if re.search(r"\(made up|\(we['’]ll swap|made-up company", low):
             add("FIX", "'made up' label", i, line)
+        if not page and re.search(r"\bexplain(ing)? (it|the idea|this) back\b", low):
+            add("FIX", "teach-back on the page; the GPT records the evidence, so spend the words on the day", i, line)
 
         # Frequency claims about people
         for pat in FREQ_CLAIMS:
@@ -192,7 +199,6 @@ def main(path: str, page: bool = False) -> int:
 
     # Structure checks
     needed = {
-        "week map": r"your week, day by day",
         "tomorrow": r"^#+\s*tomorrow",
         "a Do section": r"^#+.*\((\d+(\s*to\s*\d+)?) minutes\)",
         "a Short on time line": r"short on time\?",
@@ -201,16 +207,13 @@ def main(path: str, page: bool = False) -> int:
         if not re.search(pat, raw, flags=re.I | re.M):
             add("FIX", f"missing {name}")
 
-    # Section order: the Do comes before the week map, and the week map before Tomorrow.
+    # Section order: the Do comes before Tomorrow. The week map belongs to the page design.
     do_m = re.search(r"^#+.*\((\d+(\s*to\s*\d+)?) minutes\)", raw, flags=re.I | re.M)
-    wk_m = re.search(r"^#+\s*your week, day by day", raw, flags=re.I | re.M)
     tm_m = re.search(r"^#+\s*tomorrow", raw, flags=re.I | re.M)
-    if do_m and wk_m and do_m.start() > wk_m.start():
-        add("FIX", "section order: the Do must come before 'Your week, day by day'")
-    if wk_m and tm_m and wk_m.start() > tm_m.start():
-        add("FIX", "section order: 'Your week, day by day' must come before 'Tomorrow'")
-    if not page and raw.count("(today)") != 1:
-        add("FIX", "mark exactly one day '(today)' in the week map")
+    if do_m and tm_m and do_m.start() > tm_m.start():
+        add("FIX", "section order: the Do must come before 'Tomorrow'")
+    if not page and re.search(r"^#+\s*your week, day by day", raw, flags=re.I | re.M):
+        add("FIX", "week map in the module; leave 'Your week, day by day' to the page design")
 
     # A section that only asks a question and stops
     secs = re.split(r"^#+\s", raw, flags=re.M)
