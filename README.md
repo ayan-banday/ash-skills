@@ -66,6 +66,7 @@ Ash's Claude skills, packed into five plugins by the action you're in. **Type `/
 | Skill | Was | The question it answers |
 |---|---|---|
 | `study (shasta)` | study | How do I learn a topic the Shasta way? |
+| `break-into-field (shasta)` | new | How do I break into a whole field I know nothing about, starting from a real problem in my work? |
 | `graphify` | graphify | How do I see how everything in a folder connects? |
 | `which-skill` | new | Which of my skills should I use right now? |
 
