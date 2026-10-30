@@ -10,6 +10,7 @@ The aim is how the field's experts think: philosophies, mental models, first pri
 4. **Text first, saved once.** A source is fetched by the chain in Shasta's `_rules/Taking In Sources.md` (Firecrawl's YouTube transcript, a text transcript page, the laptop script, or stop) and saved in Shasta with a summary and an index of two-minute blocks. That save is the only full read it ever gets. Never guess what a video says.
 5. **One cheap reader per angle, not per person, reading index first.** Each Haiku agent (model `haiku`) gets the brief, one angle (philosophy, agents, practice) and the `## Index` of its sources, picks blocks from the index, prints only those (`transcript.py show`), and returns findings in the file's shape: question number, the idea in one plain line, the exact quote, one line of context, the source with `[mm:ss]`. No summaries. A different angle per reader is how an idea is paid for once.
 6. **Later readers report only what's new** against the findings file.
+   - A suggestion, not a rule: when a question needs only a handful of blocks, the main chat opens them with `transcript.py show` instead of starting a 55k-token agent. Agents are for reading across many blocks or sources. (Shasta's `_rules/Menus and Learning Briefs.md`, "Reading transcripts".)
 7. **Sonnet only to combine,** when a chapter needs synthesis notes. The main chat never reads a transcript.
 8. **Append the findings** to the field's file under the chapter's brief. Grow the file; never rewrite old findings.
 
