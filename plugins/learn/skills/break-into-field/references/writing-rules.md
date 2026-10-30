@@ -2,6 +2,29 @@
 
 From his feedback on the first technology book (Oct 30 2026). Shasta's `_rules/Clusters.md` writing rules and the pitch-site `copy-rules.md` hold underneath; these are the ones the first version broke. Each has the bad line from that version and the fix.
 
+## Short paragraphs, one idea each
+
+Ash on v2 (Oct 30 2026): "There are a lot of big paragraphs. Break them." The rule holds for every part of the book (cover, parts, chapters, answer blocks), and `scripts/check_chapter.py` fails a book that breaks it:
+
+- **At most 3 sentences and 60 words per paragraph.** A longer one is two ideas; split it.
+- **A paragraph of 2 or more sentences opens with a bold lead-in:** its point in a few plain words, so the bold lines alone tell the story.
+- **Steps, three or more things, and comparisons are bullets, numbered steps or a small table,** never one sentence with "first... then... and finally".
+- **Bullets: at most 2 sentences and 40 words.** More than 3 bullets are grouped under bold labels.
+- **One idea per paragraph.** When the next sentence starts a new idea, start a new paragraph.
+
+- Bad (v2, 117 words in one block): "The list wins while the AI can read the whole of it in one go and pick well: up to about a hundred documents with clear names. It's one text file the AI keeps up to date, you can read it yourself, and when it picks the wrong thing you can see why. Embeddings win when the list gets too long..."
+- Good: "**The list wins up to about a hundred documents.** The AI reads all of it in one go and picks well. You can read it too, and see why it picked wrong." Then a new paragraph: "**Search by meaning wins in the thousands,** or when questions use different words from the documents."
+- **Why:** Ash reads in short bursts. A wall of text hides the one line he needed; bold lead-ins let him skim, then slow down where he's unsure.
+
+## Explain every basic term the first time it appears
+
+**A term's plain meaning sits beside it the first time it's used, in a clause or brackets,** even words that feel basic: dashboard, database, language model, script, chunking. "A dashboard (one page that shows what matters at a glance)". The v2 critic found six such words used bare; the script warns on the common ones.
+- **Why:** the book is for someone who doesn't know what he doesn't know. A word he half-knows reads as known, and the idea built on it slips.
+
+## Plain names, never map IDs, inside chapters
+
+**Inside a chapter, a problem is called by its plain name** ("the student dashboard", "hand-ins on the site"), never by a map ID (A1, B1). The script fails a chapter with an ID in it.
+
 ## A to B, never B to A
 
 **Start from what he knows, end at the name.** Describe what happens, what it produces, then "This is called X" or "This step is the X".

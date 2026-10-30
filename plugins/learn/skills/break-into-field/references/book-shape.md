@@ -6,7 +6,7 @@ One artifact, read on a laptop, grown one chapter at a time. Up to about 100 pag
 
 1. **Cover:** the book's question as the title. One line: what the book does. Links to each part.
 2. **What you're learning, and why.** Headings: "What you're learning", "Why breadth comes first", "After this book, you can", "The problems you can solve once you know this", "Where you are now". Outcomes are written by what they change in his work (see `writing-rules.md`, "Outcomes").
-3. **The problem map.** One outcome at the top, named as a problem. Under it, three or four groups, each of at most four problems, drawn as a mind map with arrows for what waits on what (`unlock-order.md`). Under the map, the ideas he'll pick up are shown on the map's branches, never as a long table. No "why chapter one is here" section: the arrows say it.
+3. **The problem map.** One outcome at the top, named as a problem. Under it, three or four groups, each of at most four problems, with what waits on what (`unlock-order.md`). **Drawn as a moving map** (`moving-map.md`): one motif from Ash's world draws itself on as he scrolls and shows the unlock order layer by layer, then rests as a labelled map he can study. The ideas he'll pick up sit on each problem, never in a long table. No "why chapter one is here" section: the motion says it.
 4. **The shelves.** How the field files itself, like a textbook. Each shelf: its plain name, how lit it is for Ash, the fields on it. Each field: its words, and one problem from Ash's world. Fields he wouldn't know to ask about are marked "suggested". Dark shelves carry suggested problems. No preamble about why words matter. The answer block is a plain summary of the shelves.
 5. **Chapters.** One per problem, in the unlock order. Never a topic chapter ("what is a database").
 6. **The recipe.** How the book was built, so the next field follows it. Short.
@@ -31,14 +31,16 @@ The chapter title is the problem as a question: "How do students hand in their w
 3. **"What this looks like for you":** one scenario, labelled as a scenario, with a symptom and a cost.
 4. **"What usually happens":** the failure as a two to four step story.
 5. **"Where the problem lies":** one or two lines, the root cause drawn from the story.
-6. **"Why someone had to invent the answer":** one short paragraph. The problem people hit, and the idea that fixed it. No dates, no names, no quotes.
+6. **Why the answer exists, as a heading about this problem** ("Why data moved from files into tables", "Why dashboards got smaller"). Two or three short paragraphs: the problem people hit, and the idea that fixed it. No dates, no names, no quotes. The generic wording "Why someone had to invent the answer" fails the script.
 7. **"The idea that fixes it":** the plain sentence first, then its metaphor, then "What this means in practice" in two bullets.
-8. **"How the people who build this think":** three to five ideas, each as a plain sentence, then its metaphor if one helps, then its name. No quotes.
+8. **The habits of people who build this, as a heading about this problem** ("Five habits of people who build feedback agents"). Three to five ideas, each a heading in plain words, then short paragraphs: what happens, the metaphor if one helps, then its name. No quotes. The generic "How the people who build this think" fails the script.
 9. **"How it works, from [start] to [end]":** the journey of one real item, A to B: what happens, what it produces, then "This is called X". A small picture only if it explains faster than the words.
 10. **"How you'd build it":** the parts and what each is for, as philosophy with a little practice (which kind of tool fits each part). Not a transcript of a chat.
 11. **"How you'd run it":** three rounds, one line each, one where something slips and is fixed.
 12. **"Where else it applies":** one worked example from his own world with a small flow (Fuji, Udyaan, the micro-SaaS), then two more in a line each. Known or invented examples, no searching.
 13. **"When to skip it":** one or two lines, A to B.
-14. **"The answer":** the concept, what it means for him practically, and the transfer, with every term embedded right after its plain meaning. Ends with "What this unlocks next": the problems on the map that are now open.
+14. **"The answer":** the concept, what it means for him practically, and the transfer, with every term embedded right after its plain meaning, in short paragraphs with bold lead-ins. **"The answer" is the last heading of the chapter,** so "What this unlocks next" is a bold line inside the answer block, never its own heading: the problems on the map now open, by their plain names.
+
+**Every chapter follows "Short paragraphs, one idea each" in `writing-rules.md`**, and calls problems by their plain names, never map IDs.
 
 Cut from every chapter: "What you'll learn", first principles and mental models listed up front, "Judge a build", "Words you now own", a glossary, timestamps, people's names, quotes as teaching, a decision procedure at the end, practice exercises, check-yourself questions.

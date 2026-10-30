@@ -1,6 +1,6 @@
 # The critic
 
-The builder can't judge its own chapter: it knows what every term means, so it reads past its own breaks. A fresh agent can, in one pass on the built HTML. No phone checks, ever: Ash studies on a laptop.
+The builder can't judge its own chapter: it knows what every term means, so it reads past its own breaks. A fresh agent can, in one pass on the built HTML. Ash studies on a laptop; the only phone check is no sideways scroll at 390 px.
 
 ## One pass, on the HTML
 
@@ -23,7 +23,8 @@ Ash (Oct 30 2026): writing a markdown draft, fixing it, then building the HTML i
 > 3. **Every clever line:** a heading, bold opener or principle that only makes sense after you understand the idea. Quote it and give the plain version.
 > 4. **Every quote, date or person's name** outside Sources.
 > 5. **The outcome lines** ("After this chapter, you can"): are they written by what they change in his work, or for a technician? Quote any that fail.
-> 6. **Every term never explained in plain words**, with the line where it first appears.
+> 6. **Every term never explained in plain words**, with the line where it first appears. Include basic ones (dashboard, database, script, language model): the first use needs its meaning beside it.
+> 6b. **Every paragraph that holds two ideas,** or whose bold lead-in doesn't say its point. Quote the lead-in.
 > 7. **The fixes, ranked, at most eight.** For each, the exact old line and the new line, so the builder can apply them as edits.
 > No praise. Don't rewrite the chapter.
 
