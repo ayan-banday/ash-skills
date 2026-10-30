@@ -1,12 +1,13 @@
 # Phone pages: the appetizer
 
 How to build the phone version of a pitch, or a page that only ever lives on a phone. It comes from Ash's brief on
-2026-10-30 (references: the Microduck explainer, Zerodha's ZERO01 carousel, an HG comic carousel), and two builds:
-`assets/examples/phone/tvs-bike.html` (a website) and `assets/examples/phone/udyaan-14-days.html` (a swipe-through).
+2026-10-30 (references: the Microduck explainer, Zerodha's ZERO01 carousel, an HG comic carousel), and three builds:
+`assets/examples/phone/tvs-bike.html` (a website), `assets/examples/phone/udyaan-14-days.html` (a swipe deck) and
+`assets/examples/phone/udyaan-calendar.html` (a tear-off pad).
 
 ## Contents
 - What a phone page is for
-- Website or swipe-through
+- Three templates, and how to invent the next
 - The motif has to add information
 - Progress, never "1 of 7"
 - Copy for a thumb
@@ -26,13 +27,25 @@ phone page is the whole thing, and that is fine.
 The TVS desktop page on a phone was 2,166 words over 28 phone screens; its phone cut says the same four asks in
 about 350 words over 10 screens, cards and labels included.
 
-## Website or swipe-through
+## Three templates, and how to invent the next
+
+The same plan or pitch can take very different shapes. These three are proven; use them as starting points, and
+invent a new container the same way when none fits.
+
 
 - **Website (the default).** A vertical scroll. Copy sits at the top of each screen; the motif is pinned below it
   (the right half on a laptop) and changes as each section passes a line 45% down the screen. Use it for proposals
   and anything with a motif that builds.
 - **Swipe-through.** One idea per slide, swiped sideways like an Instagram carousel, with a Next button and arrow
   keys. Use it for short sequences people step through: a plan by day, a process, a recipe.
+- **Tear-off pad.** An object the reader already knows how to use, one page per step: the Udyaan plan as an Indian
+  wall calendar. Tap the page to tear it off; the pad gets thinner and torn stubs pile up under the binding, so
+  progress needs no counter. Each page ends with the next page's question to pull the reader on. Day 14 is printed
+  in festival red. About 180 words for the whole plan.
+- **How to invent the next one:** pick a container from the reader's own world that already has an order and a
+  sense of progress built in (a calendar, a ticket stub book, a recipe card stack, a train's coaches, a cricket
+  over, a tiffin's tiers). Ask what one page, part or step holds, how the reader moves to the next, and what
+  shows how far they are. If the container needs explaining, pick another.
 - **Never a video-caption layout.** Microduck's centred character with 4-word captions works because it is a film;
   on a scrolled page the captions read as subtitles with nothing playing.
 
@@ -66,12 +79,23 @@ If the motif can't carry it, use something from the subject's world (a fuel gaug
 
 ## Copy for a thumb
 
-- **One headline per screen** that says the point, in the display face; one or two short lines under it. There is no
-  fixed word budget; the critic checks that every screen reads in about three seconds.
-- **Bold the one line that says what the reader gets,** and put the proof in the card above the motif (the
-  Microduck number card): one big phrase, one small line.
-- **Teach through the metaphor** in Ash's voice: "Leaders steer. Give them the whole road." "Every student project
-  starts as a seed."
+The copy rules for every page are in `copy-rules.md`: write each screen from one sentence of the message spine,
+statements for steps and facts, questions only where the reader would wonder, the metaphor in the drawing and never
+in the sentence, eight-word headlines. On a phone, also:
+
+- **One headline per screen** in the display face, one sentence under it (two at most). There is no fixed word
+  budget; the critic checks that every screen reads in about three seconds.
+- **Bold the key phrase that says what the reader gets,** and put the proof in a card (the Microduck number card):
+  one big phrase, one small line.
+- **The metaphor stays in the drawing and the labels.** "Leaders steer. Give them the whole road." was rejected as
+  "garbage copywriting"; "How do we help experts lead people?" replaced it.
+- **The page's first screen says what it is and what to do:** "This is the 2-minute version. Open this on a laptop
+  to see the full proposal."
+- **A short label above the headline is allowed when it names the motif part** ("Handlebar: your leaders"). Generic
+  kickers ("Our approach", "Step 2") are still out.
+- **The card can sit in the stage (character pages, like the toy explainer) or under the copy (object builds, like
+  the bike).** Pick one per page.
+- **With no named contact, the close is the one action and how to do it:** the link, the form, or where to reply.
 - **Quotation marks only for trivia.** No "you told us" quote blocks.
 - **Label examples as examples** on screen, and keep every fact on the facts sheet.
 

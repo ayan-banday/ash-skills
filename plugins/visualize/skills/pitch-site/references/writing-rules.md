@@ -1,7 +1,9 @@
 # Writing rules for proposal sites
 
 The base rules are brief-page's `references/writing-rules.md` (7th-grade words, headings that carry the
-answer, one or two highlighted phrases per paragraph, no filler). This file adds what a proposal for a reader who
+answer, one or two highlighted phrases per paragraph, no filler). Read `copy-rules.md` first: it decides what each
+line says (the message spine), when a heading is a question or a statement, and how to cut words. Where the two
+disagree, `copy-rules.md` wins. This file adds what a proposal for a reader who
 won't read needs on top, with the TVS lines that taught each rule.
 
 ## Contents

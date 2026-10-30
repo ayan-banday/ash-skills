@@ -18,7 +18,7 @@ with sync_playwright() as p:
             pg.evaluate(f"window.scrollTo(0,{t})"); pg.wait_for_timeout(2600)
             pg.screenshot(path=str(out / f'{i:02d}.png'))
     else:
-        n = pg.evaluate("document.querySelectorAll('[class*=deck] > .slide').length")
+        n = pg.evaluate("document.querySelectorAll('[class*=deck] > section, [class*=deck] > [class*=slide]').length")
         for i in range(n):
             pg.evaluate(f"window.__go && window.__go({i})"); pg.wait_for_timeout(1800)
             pg.screenshot(path=str(out / f'{i:02d}.png'))

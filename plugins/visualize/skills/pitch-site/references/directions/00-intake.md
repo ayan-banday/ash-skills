@@ -44,6 +44,8 @@ The direction sets the motif, palette, type, texture and motion of the whole sit
    `#2A2626 #F3F1EC #F0CFC7 #D4CDE6 #EBD6B0 #C23A47`
 20. **Memphis · "the laminate party"**: A pink circle, a yellow triangle and a blue squiggle with thick black outlines and hard shadows, among confetti and a small black grid.  
    `#232021 #F4F0E8 #F2C3CF #BFD7EA #F3DE9F #DE3F3A`
+21. **Toy explainer · "the little robot on the desk"** (from the Microduck film): A quirky one-eyed robot on a wooden desk under a lamp, frosted paper cards with one number each floating above it, handwritten captions on tape.  
+   `#3C3F4C #F4EEE3 #D0C7BA #B38A68 #CA7A5B #D98BA6`
 
 ---
 
@@ -105,6 +107,7 @@ Run these steps in order. They take seconds and they keep the list honest.
 
 ### 1.4 Quick map: industry to candidates
 
+- **Products and tech for non-experts, students, investors on a phone:** toy explainer, Memphis, risograph.
 - **Automotive, two-wheelers, EV, mobility:** drafting, truck art, transit, circuit, Bauhaus, plus kolam for South Indian partnerships.
 - **Manufacturing, engineering, infrastructure:** drafting, kumiko, Bauhaus, circuit, Swiss.
 - **Tech, SaaS, AI, semiconductors:** circuit, Swiss, transit, origami, riso.

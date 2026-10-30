@@ -4,31 +4,48 @@ Ask only for what is missing and changes the result. Ash prefers one short round
 If he is away or says "don't ask", infer, state every assumption in the hand-off note, and keep going.
 
 ## Contents
-- The mini grilling
+- The grilling: one session on what the page must say
 - What you need before writing anything
 - The facts sheet
 - The one inspiration question
 - The playback (the story map)
 
-## The mini grilling
+## The grilling: one session on what the page must say
 
-Before any research or building, run one short round, the way Fuji grills a ticket (Ash, 2026-10-30: "I keep
-fucking up. I'm not clear with what I want to communicate"):
+Every build opens with one grilling, before research or design (Ash, 2026-10-30: "I keep fucking up. I'm not clear
+with what I want to communicate", and later: "a lot of times the copy is written in a manner that doesn't
+communicate what I want to communicate"). One session is the default; run a second only when his answers change the
+message itself. It settles two things: **exactly what the page communicates, and which motif, if any.**
 
-1. **Open with the outcome:** "When the reader closes this, what do they know, and what do they do next?"
-2. **Say back** what you understood in short plain bullets.
-3. **Ask at most four questions,** each standing on its own, with lettered options, the recommended one first so
-   "A" accepts it. Always include the device:
-   > "Where will they open it? A) phone only, B) a laptop page plus a phone appetizer that sends them to it,
-   > C) laptop only, phones see the gate."
-   Phone only is often enough (the Udyaan 14-day plan). Then pick from: the one point they must leave with; the
-   reader and what they distrust; the inspiration question below.
-4. Build only after he answers; play the story map back before the full build.
+**1. Lead with your best interpretation, before any question.** Ash reacts faster to a guess than to a blank. Write,
+in plain words:
+- **What happened:** the meeting, the feedback or the moment that led to this page, as you understand it.
+- **The reader:** who opens it, what they already know, what they care about.
+- **The message spine:** the 3 to 6 sentences the page must get across, in order, each one a full sentence a person
+  would say out loud ("We collect each student's details with one form." "We help students form teams by subject.").
+  The last one is the action. This is what the copy is written from and checked against.
+- **The motif call:** whether the page needs a motif at all. A plain list of steps for a team may need none. If one
+  helps, offer 2 or 3, each with the one piece of information it carries ("a tear-off calendar: how far through the
+  14 days"), recommended first. "No motif" is a real option.
+
+**2. Ask only where you are unsure,** at most four questions (skip any the brief already answers, such as the device), each standing on its own, with lettered options and
+the recommended one first so "A" accepts it. Always include the device:
+> "Where will they open it? A) phone only, B) a laptop page plus a phone appetizer that sends them to it,
+> C) laptop only, phones see the gate."
+
+Phone only is often enough (the Udyaan 14-day plan). Other good questions: which spine sentence matters most if the
+reader keeps only one; what the reader distrusts; the inspiration question below.
+
+**3. Save the agreed spine** to `work/message.md`, and write `work/facts.md` in the same pass: every number, name
+and example the page may use, with its source. Anything marked undecided gets no number on a page for the people it
+would be promised to (students see "a stipend is one idea", never "₹2,000–3,000"). Each fear the interpretation
+names for the reader gets a spine sentence, or a note that the page leaves it out on purpose. Every screen's copy is written from one spine sentence, and the
+copy check compares the two (`references/copy-rules.md`). Build only after he answers.
 
 ## What you need before writing anything
 
 1. **The reader:** who opens the link, their role, what they already know, what they distrust, the device
-   (from the mini grilling: phone, laptop or both; `references/phone.md` covers phones).
+   (from the grilling: phone, laptop or both; `references/phone.md` covers phones).
 2. **Their asks, verbatim:** from the meeting notes, an email, a transcript or Ash's dictation. Three or four is the
    sweet spot; more than five means some are sub-points.
 3. **What we offer:** the teams or capabilities, each with what they actually do.
