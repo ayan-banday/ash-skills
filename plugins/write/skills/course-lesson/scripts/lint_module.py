@@ -53,7 +53,7 @@ def strip_inline(text: str) -> str:
 
 def sentences(par: str):
     par = re.sub(r"\s+", " ", par.strip())
-    return [s for s in re.split(r"(?<=[.!?])\s+", par) if s]
+    return [s for s in re.split(r"(?<=[.!?])\s+|(?<=[.!?][\"”’'])\s+", par) if s]
 
 
 def main(path: str, page: bool = False) -> int:

@@ -27,7 +27,7 @@ Ash decides what the course teaches and, for non-module pages, how the page is s
 
 ## Before you write
 
-1. **Read the course's own rules and story, when they exist.** For the Agriculture Edition they live in the Fuji repo under `ranges/udyaan/course/output/`: `how-ash-writes-the-course.md` (the rules), `ash-course-philosophy.md` (how Ash thinks), `a-to-b-outline.md` (every week and day), and the running student's fact sheet (`round-2/gia-canon.md`). **Ash's Week 1 page is the benchmark** for content and for where pictures sit: `output/week-1/Udyaan Week 1 Course Page/Udyaan Week 1.html`. A course page and this skill agree; where a course page is more specific, it wins.
+1. **Read the course's own rules and story, when they exist.** For the Agriculture Edition they live in the Fuji repo under `ranges/udyaan/course/output/`: `how-ash-writes-the-course.md` (the rules), `ash-course-philosophy.md` (how Ash thinks), `a-to-b-outline.md` (every week and day), and the running student's fact sheet (`round-2/gia-canon.md`). **Ash's Week 1 page is the benchmark** for content and for where pictures sit: `output/week-1/Udyaan Week 1 Course Page/Udyaan Week 1.html`. A course page and this skill agree; where a course page is more specific, it wins. **When course files disagree,** the order is: the rules page, then the fact sheet, then the week's plan, then the outline. Follow the higher one and name the clash under Judgment calls. To read the benchmark HTML, pull out its text and note where each `<figure>` or `<svg>` sits between the paragraphs.
 2. **Read `references/examples.md`** for a module, or `references/welcome-page.md` for any other page. Match their feel, not their words.
 3. **Write the day's A-to-B before any sentence.** Five lines:
    - **The problem the student has when the day starts:** the one thing yesterday left unsolved, named sharply.
@@ -36,7 +36,9 @@ Ash decides what the course teaches and, for non-module pages, how the page is s
    - **The running student's version:** how the worked-example student does today, and what surprises them.
    - **The deliverable:** the one thing saved in their doc that tomorrow uses.
 4. **Pick the learning mode** that fits the A-to-B (see "The daily module" below).
-5. **Take audience details from the course's spec, rules and examples only.** This skill holds no audience facts, so the same rules work for any course.
+5. **Check every fact you'll use against its source,** including the fact sheet's. Where the source says less or something else, follow the source and flag it under Judgment calls.
+6. **Know what the course GPT does on this day:** its day card (for the Agriculture Edition, `Prompt for wN.md` in the week's folder) or, when there's none, what the days before it say the GPT does. The steps describe only what the GPT really returns.
+7. **Take audience details from the course's spec, rules and examples only.** This skill holds no audience facts, so the same rules work for any course.
 
 ## Voice
 
@@ -74,7 +76,7 @@ Every module does these jobs, in this order. How much room each gets depends on 
 | 7 | **The Do** | One task with its time. Steps a student can't get stuck on, the exact GPT question, the named tab to save in, an Applied and an Excelled line, and a "Short on time?" line. |
 | 8 | **Tomorrow** | What they have now, and the next problem in one line. |
 
-Jobs 1, 2, 7 and 8 are in every module; use as much of 3 to 6 as the day needs. Length follows the content: a rule-first day runs 700 to 1,100 words, and a go-do-it day with step-by-step "how it looks" parts can run to about 1,800.
+Jobs 1, 2, 7 and 8 are in every module; use as much of 3 to 6 as the day needs. **Length follows the content: usually 900 to 1,800 words of prose,** not counting drawing notes. A day that also shows the running student step by step and serves two kinds of customer sits near the top of that range; cut words before you cut a step the student needs.
 
 **The default order inside the day:** what you think → what it costs you → the right move → how it looks → do it. Bend it to the learning mode the A-to-B needs:
 
@@ -126,7 +128,8 @@ Each rule has bad and good pairs in `references/good-and-bad.md`. Read that file
 - **Other people get plain everyday names,** kept few, and the same name every time they appear.
 - **The simplest example comes first,** in labeled lines. One idea per example, and a contrast pair carries the lesson.
 - **Short examples are fresh every day.** The examples in `references/examples.md` show the shape and are not material to reuse. The running student's story is the one thread that repeats.
-- **Real quotes only, copied exactly, mistakes and all,** with who said it and where and when it was published. Name real people by place or role. Read the source carefully before using it: a cost a person paid before they fixed the problem is a "before" cost. Invented dialogue belongs clearly to the running student's story.
+- **Real quotes only, copied exactly, mistakes and all,** cited as the person by place or role, the publication and the year ("a farmer in Belagavi district, The Better India, 2019"). Read the source carefully before using it: a cost a person paid before they fixed the problem is a "before" cost.
+- **The running student's story may invent what it needs:** dialogue, times, small numbers in their own life. Mark an invented number as a Guess on the page and list it under Judgment calls. Numbers about the real world come from a source or from Ash.
 - **Mistakes live inside examples and rules,** at the point they happen. There is no mistakes section.
 - **Rules use one format:** the rule in bold, then "Good pick" and "Bad pick", each leading with the pick and then its impact.
 
@@ -136,10 +139,10 @@ Some days teach a list, such as five beginner mistakes or five offer lines. The 
 
 ## The Do
 
-- **One task, time in the heading:** "Collect what farmers say (40 minutes)".
-- **Mechanical, low-effort steps.** Say exactly what to click and copy: "Select everything, copy it, paste it raw. Don't read it or tidy it; the GPT sorts it."
+- **One task, time in the heading:** "Collect what farmers say (40 minutes)". The time comes from the week's plan; with none, match similar days and flag it.
+- **Mechanical, low-effort steps.** Say exactly what to click and copy: "Select everything, copy it, paste it raw. Don't read it or tidy it; the GPT sorts it." Collecting is copying; checking one number is a pinpoint read ("press Ctrl+F, type the number, read the paragraphs around it"), which is fine.
 - **The exact question to ask the GPT,** in a block quote with a slot for the student's problem: "What do farmers say about **[your problem]**?" The page says why the problem goes in the question.
-- **A "how it looks" picture for any step with several parts:** the real screens (the YouTube transcript selected, the raw Google Doc tab, the GPT's answer).
+- **A "how it looks" picture for any step with several parts:** the real screens (the YouTube transcript selected, the raw Google Doc tab, the GPT's answer). It sits in the running student's example just before the Do, or inside the Do; either way the Do's steps match it. Describe only screens you know: an interface detail you can't confirm goes under Judgment calls.
 - **The tab to save in,** named.
 - **Applied and Excelled,** one line each. Excelled needs proof from outside the chat: a quote, a photo, a real reply.
 - **"Short on time?"** with a smaller version.
@@ -148,7 +151,7 @@ The GPT holds the case, the interview and the summary, so the lesson page holds 
 
 ## Variation
 
-The jobs and the voice stay fixed, and the wording changes so the course does not read like a template. Never open two days in a row the same way, and use "Most people believe" at most once in a week. The catalogue, with the Dan Koe moves it comes from, is in `references/variation.md`.
+The jobs and the voice stay fixed, and the wording changes so the course does not read like a template. **Vary both openings:** the recap line ("Till now you have...", "Yesterday you...", "Your Day 7 tab shows...", a one-line scene) and the hook in job 3. Never open two days in a row the same way, and use "Most people believe" at most once in a week. The catalogue, with the Dan Koe moves it comes from, is in `references/variation.md`.
 
 ## Before you show the draft
 
@@ -189,6 +192,7 @@ Self-review is not enough. Drafts that read as compliant still carried em dashes
 
 ## Refinements
 
+- 2026-10-30 v8.1: A cold test (a fresh agent writing Week 2 Day 8 from this skill alone) passed the linter and reached the right surprise, and named 13 places it guessed. Added: the order among course files, checking facts against their sources, where the GPT's behaviour comes from, a 900 to 1,800 word range, varying both openings, invented numbers in the running student's story marked Guess, pinpoint reads, where the Do's picture sits, the Do's time, and the citation form. The linter now splits sentences after a closing quote.
 - 2026-10-30 v8: Built from Ash's feedback on the round 1 drafts of Weeks 2 to 6 and the round 2 rewrite (Fuji: `ranges/udyaan/course/output/copywriting-changes.md`). Headings are now the student's questions, with a big question per week and a question per day, in words a newcomer knows. Every question gets a full answer (Shasta's rule). Each day is written from an A-to-B, cascades from yesterday's deliverable and names the cost of the problem. The skeleton became fixed jobs with a shape chosen by learning mode. One running student carries the course and their example must obey the day's rule and teach a surprise. Steps are mechanical (copy everything raw, the GPT sorts it), the exact GPT question carries the student's problem, and multi-step Dos get "how it looks" pictures. Bold carries every section. The week map and teach-back left the module. Added `references/write-a-week.md` and Day 6 to the examples; the linter drops the week map and flags label headings.
 - 2026-10-12 v7: Ash dropped the "To test it, ask" lines from the Day 2 rules. A rule is shown by its bold statement and its good and bad picks only. A day with two kinds of student (has a problem, has none) gives the no-problem student the most room. Openers on belief days use "might" and "may".
 - 2026-10-12 v6: Ash banned the word "link" for parts of the agriculture chain. Say "stage" instead, and keep "link" only for web links.
