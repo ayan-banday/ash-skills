@@ -133,4 +133,4 @@ deep links `#page-3` or `#<id>`; the wheel never turns a page, it only nudges Ne
   then check the live deck or track at 1280x800, 1024x768 and 768x1024.
 - Paged keeps the deck on every tablet, portrait included; tall sheets scroll inside. Printing gives one sheet per page.
 - Horizontal stacks vertically below 820px wide, so tablet portrait reads it as a scroll page.
-- Phones get the starter's gate in all three.
+- Phones get the starter's gate in all three, unless the build has a phone cut (`references/phone.md`).

@@ -1,0 +1,413 @@
+<title>TVS on One Bike</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: phone-first website. Each screen: headline, one or two short lines, and a card saying what TVS gets.
+   A line-drawn TVS bike is pinned below (right half on laptops) and builds part by part: done parts in ink, the
+   current part in red, future parts as dashed construction lines. The bike never moves; only colour changes. */
+:root{
+  --paper:#ECEEE9; --paper-2:#F7F8F4; --ink:#1D2125; --muted:#596067; --line:#9AA2A7;
+  --accent:#C8372D; --mark:#F1D06C;
+  --display:"Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --text:"Hanken Grotesk", "Segoe UI", system-ui, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#131618; --paper-2:#1B1F22; --ink:#E7E9E4; --muted:#9BA2A6; --line:#596268;
+  --accent:#FF6E5C; --mark:#8A6F1E; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --paper:#131618; --paper-2:#1B1F22; --ink:#E7E9E4; --muted:#9BA2A6; --line:#596268;
+  --accent:#FF6E5C; --mark:#8A6F1E; color-scheme:dark }
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--text);font-size:17px;line-height:1.5;
+  background-image:linear-gradient(color-mix(in srgb,var(--ink) 5%,transparent) 1px,transparent 1px),
+  linear-gradient(90deg,color-mix(in srgb,var(--ink) 5%,transparent) 1px,transparent 1px);
+  background-size:28px 28px;background-attachment:fixed}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+
+/* ---------- the pinned bike ---------- */
+.tb-stage{position:fixed;left:0;right:0;bottom:0;height:44svh;z-index:0;pointer-events:none;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-end;align-items:center;
+  padding-bottom:calc(1svh + env(safe-area-inset-bottom,0px))}
+.tb-bike{position:relative;flex:none;width:min(116vw,620px);aspect-ratio:420/250;
+  transition:filter .9s cubic-bezier(.25,1,.5,1),opacity .9s,transform 1.4s cubic-bezier(.45,0,.3,1)}
+.tb-bike svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.tb-stage[data-state="contact"] .tb-bike{filter:blur(3px);opacity:.4}
+
+/* parts */
+.tb-part *{fill:none;stroke:var(--ink);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;
+  transition:stroke .5s,stroke-width .5s,opacity .5s,fill .5s}
+.tb-part .fill{fill:var(--paper-2)}
+.tb-part.todo *{stroke:var(--line);stroke-dasharray:3 4}
+.tb-part.todo .fill{fill:transparent}
+.tb-part.now *{stroke:var(--accent);stroke-width:2.4}
+.tb-part.now .fill{fill:color-mix(in srgb,var(--accent) 12%,var(--paper-2))}
+.tb-beam{fill:var(--accent);stroke:none;opacity:0;transition:opacity .8s}
+.tb-stage[data-state="leaders"] .tb-beam{opacity:.16}
+.tb-kolam{opacity:0;transition:opacity .8s .2s}
+.tb-kolam *{fill:none;stroke:var(--accent);stroke-width:1.4}
+.tb-kolam .k-dot{fill:var(--accent);stroke:none}
+.tb-stage[data-state="frame"] .tb-kolam{opacity:1}
+.tb-road{stroke:var(--ink);stroke-width:1.2;opacity:.5}
+.tb-dash{stroke:var(--line);stroke-width:2;stroke-dasharray:10 14}
+
+/* hero: the parts appear one by one as construction lines */
+.tb-stage[data-state="hero"] .tb-part.todo{animation:appear .8s cubic-bezier(.25,1,.5,1) both}
+.tb-stage[data-state="hero"] #p-eng{animation-delay:.25s}
+.tb-stage[data-state="hero"] #p-dash{animation-delay:.5s}
+.tb-stage[data-state="hero"] #p-body{animation-delay:.75s}
+@keyframes appear{from{opacity:0}}
+
+/* suppliers: crates slide into the engine, once */
+.tb-crate{opacity:0}
+.tb-crate rect{fill:var(--paper-2);stroke:var(--accent);stroke-width:1.2}
+.tb-crate text{font:500 7px var(--mono);fill:var(--accent);letter-spacing:.06em}
+.tb-stage[data-state="suppliers"] .tb-crate{animation:crate 1.6s cubic-bezier(.25,1,.5,1) both}
+.tb-stage[data-state="suppliers"] .tb-crate:nth-of-type(2){animation-delay:.35s}
+.tb-stage[data-state="suppliers"] .tb-crate:nth-of-type(3){animation-delay:.7s}
+@keyframes crate{0%{opacity:0;transform:translateX(-150px)}20%{opacity:1}80%{opacity:1;transform:translateX(0)}100%{opacity:0;transform:translateX(18px)}}
+
+/* the finished bike rolls forward once */
+.tb-spin{transform-box:fill-box;transform-origin:center}
+.tb-stage[data-state="more"] .tb-spin{animation:spin 1.4s cubic-bezier(.45,0,.3,1) 2 both}
+.tb-stage[data-state="more"] .tb-dash{animation:road 2.8s cubic-bezier(.45,0,.3,1) both}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes road{to{stroke-dashoffset:96}}
+
+/* key labels */
+.tb-lbl{position:absolute;font:500 11px/1.25 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+  background:var(--paper);padding:4px 7px;border:1px solid var(--line);white-space:nowrap;opacity:0;transition:opacity .5s}
+.tb-lbl b{display:block;font:600 14px/1.2 var(--text);letter-spacing:0;text-transform:none;color:var(--ink)}
+.tb-leads{opacity:0;transition:opacity .5s}
+.tb-leads line{stroke:var(--line);stroke-width:1;stroke-dasharray:2 3}
+.tb-stage[data-state="key"] .tb-lbl,.tb-stage[data-state="key"] .tb-leads{opacity:1}
+.tb-stage[data-state="key"] .tb-lbl:nth-of-type(2){transition-delay:.12s}
+.tb-stage[data-state="key"] .tb-lbl:nth-of-type(3){transition-delay:.24s}
+.tb-stage[data-state="key"] .tb-lbl:nth-of-type(4){transition-delay:.36s}
+.tb-stage[data-state="key"] .tb-lbl:nth-of-type(5){transition-delay:.48s}
+
+/* ---------- the copy ---------- */
+main{position:relative;z-index:1}
+.tb-sec{min-height:100svh;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.tb-copy{position:relative;max-width:30rem;padding-block:calc(env(safe-area-inset-top,0px) + 6svh) 16px}
+.tb-copy::after{content:"";position:absolute;left:-20px;right:-20px;top:0;bottom:-24px;z-index:-1;
+  background:linear-gradient(var(--paper) 84%,transparent)}
+.tb-kick{font:500 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+.tb-kick.quiet{color:var(--muted)}
+h1,h2{font-family:var(--display);font-weight:400;letter-spacing:-.01em;text-wrap:balance;margin:0}
+h1{font-size:clamp(44px,12.5vw,66px);line-height:.98}
+h2{font-size:clamp(34px,9.6vw,52px);line-height:1.02}
+h1 em,h2 em{font-style:italic;color:var(--accent)}
+.tb-copy p{margin:12px 0 0;color:var(--muted);text-wrap:pretty}
+.tb-copy p strong{color:var(--ink);font-weight:600}
+
+/* the card: what TVS gets */
+.tb-card{margin-top:18px;display:inline-block;max-width:100%;background:var(--paper-2);border:1px solid var(--ink);padding:10px 14px 11px}
+.tb-card .k{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tb-card .big{font:400 30px/1.08 var(--display);margin-top:3px}
+.tb-card .big mark{background:linear-gradient(transparent 58%,var(--mark) 58%);color:inherit;padding:0 2px}
+.tb-card .small{font-size:15px;color:var(--muted);margin-top:3px}
+.tb-board{display:grid;gap:2px;margin-top:6px;min-width:15rem}
+.tb-board div{display:grid;grid-template-columns:1fr auto;gap:22px;font-size:16px;font-variant-numeric:tabular-nums}
+.tb-board i{font:500 12px var(--mono);font-style:normal;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);align-self:center}
+.tb-board i::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--muted);margin-right:7px;vertical-align:0}
+.tb-board .stop,.tb-board .stop i{color:var(--accent)}
+.tb-board .stop i::before{background:var(--accent)}
+.tb-on .tb-board .stop i::before{animation:blink .7s steps(1) 4 .6s}
+@keyframes blink{50%{opacity:0}}
+
+/* hero */
+.tb-hero .tb-copy{padding-top:calc(env(safe-area-inset-top,0px) + 9svh)}
+.tb-hero p{font-size:18px}
+.tb-cue{display:flex;align-items:center;gap:10px;margin-top:22px;font:500 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.tb-cue span{width:1px;height:28px;background:var(--ink);transform-origin:top}
+@media (prefers-reduced-motion:no-preference){.tb-cue span{animation:cue 2.4s cubic-bezier(.25,1,.5,1) infinite}}
+@keyframes cue{0%{transform:scaleY(0)}60%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+
+/* funnel + contact */
+.tb-end .tb-copy::after{background:linear-gradient(var(--paper) 92%,transparent)}
+.tb-actions{display:grid;gap:10px;margin-top:22px}
+.tb-btn{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:54px;padding:12px 16px;
+  font:600 16px var(--text);color:var(--paper);background:var(--ink);border:1px solid var(--ink);cursor:pointer;text-decoration:none;text-align:left}
+.tb-btn.ghost{background:var(--paper-2);color:var(--ink)}
+.tb-btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.tb-btn svg{flex:none;width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+.tb-url{font:500 12px var(--mono);color:var(--muted);word-break:break-all;margin-top:10px;user-select:all}
+.tb-mail{font:600 19px var(--text);color:var(--ink);word-break:break-all;user-select:all;margin-top:16px}
+.tb-small{font-size:15px;color:var(--muted);margin-top:12px}
+.tb-small a{color:var(--ink)}
+.tb-foot{font:500 11px/1.6 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:30px}
+
+/* laptops: copy on the left, the bike holds the right half */
+@media (min-width:900px){
+  .tb-stage{left:46%;right:0;top:0;height:100%;justify-content:center;padding-bottom:0}
+  .tb-bike{width:min(50vw,680px)}
+  .tb-sec{display:flex;align-items:center;padding-left:max(6vw,env(safe-area-inset-left,0px))}
+  .tb-copy{max-width:min(38vw,32rem);padding-block:10vh}
+  .tb-copy::after{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+
+<div class="tb-stage" id="tb-stage" data-state="hero" aria-hidden="true">
+  <div class="tb-bike">
+    <svg viewBox="0 0 420 250">
+      <!-- headlamp beam: the road ahead, only for leaders -->
+      <path class="tb-beam" d="M308 90 L440 50 L440 136 L308 100 Z"/>
+
+      <line class="tb-road" x1="-60" y1="223" x2="480" y2="223"/>
+      <line class="tb-dash" x1="-60" y1="232" x2="480" y2="232"/>
+
+      <!-- wheels -->
+      <g class="tb-part done" id="p-wheels">
+        <circle cx="100" cy="176" r="46"/><circle cx="322" cy="176" r="46"/>
+        <g class="tb-spin"><circle cx="100" cy="176" r="34"/><path d="M66 176H134M83 146.6L117 205.4M83 205.4L117 146.6"/><circle cx="100" cy="176" r="5"/></g>
+        <g class="tb-spin"><circle cx="322" cy="176" r="34"/><path d="M288 176H356M305 146.6L339 205.4M305 205.4L339 146.6"/><circle cx="322" cy="176" r="5"/></g>
+      </g>
+
+      <!-- frame: the TVS Way, which TVS already has -->
+      <g class="tb-part done" id="p-frame">
+        <path d="M100 176L178 158L224 160L285 104"/>
+        <path d="M178 158L192 106L281 93"/>
+        <path d="M192 110L116 116M138 116L160 160"/>
+        <path d="M281 90L289 110"/>
+        <path d="M283 100L318 176M290 98L326 174"/>
+      </g>
+
+      <!-- engine: suppliers -->
+      <g class="tb-part todo" id="p-eng">
+        <path class="fill" d="M190 134C190 124 197 119 207 119L240 119L253 136L249 155C240 163 202 165 192 158Z"/>
+        <path class="fill" d="M212 119L218 101L245 101L241 119Z"/>
+        <path d="M216 107L243 107M214 113L242 113"/>
+        <circle cx="180" cy="158" r="9"/>
+        <path d="M180 149L100 167M180 167L100 185"/>
+        <path d="M247 151C238 176 196 184 152 185"/>
+        <path class="fill" d="M152 181L112 186L110 196L152 193Z"/>
+      </g>
+
+      <!-- crates from supplier plants -->
+      <g class="tb-crate"><rect x="150" y="128" width="30" height="18"/><text x="153" y="140">MSME</text></g>
+      <g class="tb-crate"><rect x="158" y="150" width="30" height="18"/><text x="161" y="162">MSME</text></g>
+      <g class="tb-crate"><rect x="146" y="106" width="30" height="18"/><text x="149" y="118">MSME</text></g>
+
+      <!-- body: design -->
+      <g class="tb-part todo" id="p-body">
+        <path class="fill" d="M196 103C204 81 238 73 262 79C274 82 282 89 284 95L270 105C248 107 218 107 196 103Z"/>
+        <path class="fill" d="M120 107C142 99 172 97 198 101L196 109C170 111 140 113 120 113Z"/>
+        <path class="fill" d="M98 105L122 105L120 113L102 117Z"/>
+        <path class="fill" d="M150 115L188 113L184 133L156 133Z"/>
+        <path d="M290 150C296 124 346 122 360 146M62 156C68 131 94 123 116 129"/>
+      </g>
+      <!-- kolam on the tank: the Indian way, lit with the frame -->
+      <g class="tb-kolam">
+        <path d="M240 89C234 79 246 79 240 89C250 83 250 95 240 89C246 99 234 99 240 89C230 95 230 83 240 89Z"/>
+        <circle class="k-dot" cx="234" cy="83" r="1.2"/><circle class="k-dot" cx="246" cy="83" r="1.2"/>
+        <circle class="k-dot" cx="234" cy="95" r="1.2"/><circle class="k-dot" cx="246" cy="95" r="1.2"/>
+      </g>
+
+      <!-- handlebar and headlamp: leaders -->
+      <g class="tb-part todo" id="p-lead">
+        <path d="M258 68L266 72C272 74 280 78 286 82L289 92"/>
+        <path d="M271 73L266 54"/><circle cx="265" cy="50" r="4.5"/>
+        <circle class="fill" cx="304" cy="96" r="8"/><circle cx="304" cy="96" r="3.5"/>
+      </g>
+
+      <!-- dashboard: systems -->
+      <g class="tb-part todo" id="p-dash">
+        <circle class="fill" cx="294" cy="76" r="9"/>
+        <path d="M294 76L299 70M288 80L290 78M300 80L298 78"/>
+      </g>
+
+      <!-- leader lines for the key -->
+      <g class="tb-leads">
+        <line x1="236" y1="34" x2="262" y2="68"/>
+        <line x1="330" y1="56" x2="298" y2="74"/>
+        <line x1="100" y1="72" x2="150" y2="104"/>
+        <line x1="236" y1="212" x2="222" y2="162"/>
+        <line x1="98" y1="212" x2="138" y2="168"/>
+      </g>
+    </svg>
+    <div class="tb-lbl" style="left:46%;top:0%">Handlebar<b>Leaders</b></div>
+    <div class="tb-lbl" style="left:70%;top:12%">Dashboard<b>Systems</b></div>
+    <div class="tb-lbl" style="left:12%;top:16%">Body<b>Design</b></div>
+    <div class="tb-lbl" style="left:47%;top:84%">Engine<b>Suppliers</b></div>
+    <div class="tb-lbl" style="left:12%;top:84%">Frame<b>The TVS Way</b></div>
+  </div>
+</div>
+
+<main>
+  <section class="tb-sec tb-hero" data-state="hero">
+    <div class="tb-copy">
+      <p class="tb-kick quiet">JAIN University for TVS</p>
+      <h1>Four things TVS asked for, on <em>one bike.</em></h1>
+      <p>The two-minute version. The full proposal waits on your laptop.</p>
+      <div class="tb-cue"><span></span>Scroll</div>
+    </div>
+  </section>
+
+  <section class="tb-sec" data-state="key">
+    <div class="tb-copy">
+      <h2>TVS already has the frame.</h2>
+      <p>The frame is the TVS Way. <strong>Each dashed part is one thing you asked JAIN for</strong> at Attibele.</p>
+    </div>
+  </section>
+
+  <section class="tb-sec" data-state="leaders">
+    <div class="tb-copy">
+      <p class="tb-kick">Handlebar · leaders</p>
+      <h2>Leaders steer. Let them see the <em>road ahead.</em></h2>
+      <p><strong>Experts promoted to lead learn from TVS's own cases.</strong></p>
+      <div class="tb-card"><div class="k">What TVS gets</div><div class="big"><mark>PG Diploma or Executive MBA</mark></div><div class="small">The hours count toward one, from a NAAC A++ university.</div></div>
+    </div>
+  </section>
+
+  <section class="tb-sec" data-state="suppliers">
+    <div class="tb-copy">
+      <p class="tb-kick">Engine · suppliers</p>
+      <h2>The engine runs on <em>supplier parts.</em></h2>
+      <p><strong>JAIN sits with each supplier owner and writes their problems down.</strong></p>
+      <div class="tb-card"><div class="k">What TVS gets</div><div class="big"><mark>One brief per supplier</mark></div><div class="small">Ready before the next review.</div></div>
+    </div>
+  </section>
+
+  <section class="tb-sec" data-state="systems">
+    <div class="tb-copy">
+      <p class="tb-kick">Dashboard · systems</p>
+      <h2>A dashboard shows trouble <em>the moment</em> it starts.</h2>
+      <p><strong>JAIN students turn paper line checks into sensors and tablet forms.</strong></p>
+      <div class="tb-card"><div class="k">What TVS gets · a live line check</div>
+        <div class="tb-board"><div><span>Press 1</span><i>Running</i></div><div class="stop"><span>Press 2</span><i>Stopped</i></div><div><span>Welder</span><i>Running</i></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tb-sec" data-state="design">
+    <div class="tb-copy">
+      <p class="tb-kick">Body · design</p>
+      <h2>People trust what they can <em>see clearly.</em></h2>
+      <p><strong>JAIN designers sketch accessories, simplify screens and film methods.</strong></p>
+      <div class="tb-card"><div class="k">What TVS gets</div><div class="big"><mark>No training needed</mark></div><div class="small">Shop-floor screens people just use.</div></div>
+    </div>
+  </section>
+
+  <section class="tb-sec" data-state="frame">
+    <div class="tb-copy">
+      <p class="tb-kick">Frame · already yours</p>
+      <h2>The frame holds <em>every part.</em></h2>
+      <p>TVS named the Indian way of doing things. <strong>JAIN's Indian Knowledge Systems centre turns it into lessons.</strong></p>
+      <div class="tb-card"><div class="k">What TVS gets</div><div class="big"><mark>A master's skill, kept</mark></div><div class="small">Passed on guru to shishya in your Dojo.</div></div>
+    </div>
+  </section>
+
+  <section class="tb-sec" data-state="ride">
+    <div class="tb-copy">
+      <p class="tb-kick">The first ride</p>
+      <h2>Start with <em>one supplier.</em></h2>
+      <p><strong>Make one paper line check live.</strong> JAIN has built digital tools for TVS before; this is the next step.</p>
+      <div class="tb-card"><div class="k">One first project</div><div class="big"><mark>3 of your 4 asks</mark></div><div class="small">Suppliers, leaders and systems at once.</div></div>
+    </div>
+  </section>
+
+  <section class="tb-sec tb-end" data-state="more" id="more">
+    <div class="tb-copy">
+      <h2>That was the <em>short ride.</em></h2>
+      <p>The full proposal has every JAIN team, two worked examples and the first project step by step. <strong>It reads best on a laptop.</strong></p>
+      <div class="tb-actions">
+        <button class="tb-btn" type="button" id="tb-copy-link" data-copy="https://ayan-banday.github.io/sites/carrying-the-tvs-way/">
+          <span>Copy the link for your laptop</span>
+          <svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12"/><path d="M16 8V4H4v12h4"/></svg>
+        </button>
+        <a class="tb-btn ghost" href="mailto:?subject=TVS%20x%20JAIN%3A%20the%20full%20proposal&amp;body=Open%20on%20a%20laptop%3A%20https%3A%2F%2Fayan-banday.github.io%2Fsites%2Fcarrying-the-tvs-way%2F">
+          <span>Email it to yourself</span>
+          <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14"/><path d="M3 6l9 7 9-7"/></svg>
+        </a>
+      </div>
+      <p class="tb-url" id="tb-url">ayan-banday.github.io/sites/carrying-the-tvs-way</p>
+      <p class="tb-small">Or <a href="https://ayan-banday.github.io/sites/carrying-the-tvs-way/" target="_blank" rel="noopener">open it here anyway</a>.</p>
+    </div>
+  </section>
+
+  <section class="tb-sec tb-end" data-state="contact">
+    <div class="tb-copy">
+      <p class="tb-kick">Your next step</p>
+      <h2>Pick one part. <em>Tell Jinto.</em></h2>
+      <p><strong>Jinto Johnson, your one JAIN contact.</strong></p>
+      <p class="tb-mail" id="tb-mail">jinto.johnson@jainuniversity.ac.in</p>
+      <div class="tb-actions">
+        <button class="tb-btn" type="button" id="tb-copy-mail" data-copy="jinto.johnson@jainuniversity.ac.in">
+          <span>Copy Jinto's email</span>
+          <svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12"/><path d="M16 8V4H4v12h4"/></svg>
+        </button>
+      </div>
+      <p class="tb-foot">JAIN (Deemed-to-be University), Bengaluru<br>Prepared for TVS Institute for Quality and Leadership</p>
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+  var stage = document.getElementById('tb-stage');
+  var ids = ['p-lead','p-eng','p-dash','p-body'];
+  var parts = ids.map(function(id){ return document.getElementById(id); });
+  var frame = document.getElementById('p-frame');
+  // Which class each part takes in each state: todo (dashed), now (red), done (ink).
+  var looks = {
+    hero:     ['todo','todo','todo','todo'],
+    key:      ['todo','todo','todo','todo'],
+    leaders:  ['now','todo','todo','todo'],
+    suppliers:['done','now','todo','todo'],
+    systems:  ['done','done','now','todo'],
+    design:   ['done','done','done','now'],
+    frame:    ['done','done','done','done'],
+    ride:     ['now','now','now','done'],
+    more:     ['done','done','done','done'],
+    contact:  ['done','done','done','done']
+  };
+
+  function setState(s){
+    if (stage.dataset.state === s) return;
+    stage.dataset.state = s;
+    parts.forEach(function(p, i){ p.setAttribute('class', 'tb-part ' + looks[s][i]); });
+    frame.setAttribute('class', 'tb-part ' + (s === 'frame' ? 'now' : 'done'));
+    secs.forEach(function(sec){ sec.classList.toggle('tb-on', sec.dataset.state === s); });
+  }
+
+  // The section whose top has passed a line 45% down the screen sets the bike's state.
+  var secs = [].slice.call(document.querySelectorAll('.tb-sec'));
+  function pick(){
+    var line = innerHeight * 0.45, cur = secs[0];
+    secs.forEach(function(sec){ if (sec.getBoundingClientRect().top <= line) cur = sec; });
+    setState(cur.dataset.state);
+  }
+  var ticking = false;
+  addEventListener('scroll', function(){ if (!ticking){ ticking = true; requestAnimationFrame(function(){ ticking = false; pick(); }); } }, {passive:true});
+  addEventListener('resize', pick);
+  stage.dataset.state = '';
+  pick();
+
+  // Copy buttons fall back to selecting the text when the clipboard is refused.
+  [].forEach.call(document.querySelectorAll('[data-copy]'), function(btn){
+    var label = btn.querySelector('span'), orig = label.textContent;
+    btn.addEventListener('click', function(){
+      var text = btn.getAttribute('data-copy');
+      function done(msg){ label.textContent = msg; setTimeout(function(){ label.textContent = orig; }, 2200); }
+      function fallback(){
+        var el = document.getElementById(btn.id === 'tb-copy-mail' ? 'tb-mail' : 'tb-url');
+        var r = document.createRange(); r.selectNodeContents(el);
+        var sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+        done('Selected. Copy it from there.');
+      }
+      try { navigator.clipboard.writeText(text).then(function(){ done('Copied'); }, fallback); }
+      catch(e){ fallback(); }
+    });
+  });
+})();
+</script>

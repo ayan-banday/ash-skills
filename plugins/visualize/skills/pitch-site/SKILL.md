@@ -1,6 +1,6 @@
 ---
 name: "pitch-site (udyaan)"
-description: "[website] How do I make an outside reader say 'Hell yeah, let's do this'? Build a single-file proposal or marketing website for readers who won't read, published as a claude.ai artifact. A motif from the client's world draws itself on and carries the story, each of the reader's asks gets its own answered section, lists become drawn patterns, impact is highlighted in colour, and the page ends in one concrete ask with a named person. Reads as a vertical scroll, a paper deck turned page by page, or a horizontal scroll painting. Use whenever Ash wants a proposal, pitch, partnership offer, capabilities brochure, \"website instead of a brochure\", a site \"like the TVS one\", or says \"they won't read it\", \"make it a link\", \"make it creative but clear\", \"lists shouldn't be lists\", \"one page then the next page\", \"horizontal scroll\". For a document someone will actually read, use brief-page; for a PDF or Word file, use polished-doc."
+description: "[website] How do I make an outside reader say 'Hell yeah, let's do this'? Build a single-file proposal or marketing website for readers who won't read, published as a claude.ai artifact. A motif from the client's world draws itself on and carries the story, each of the reader's asks gets its own answered section, lists become drawn patterns, impact is highlighted in colour, and the page ends in one concrete ask with a named person. Reads as a vertical scroll, a paper deck turned page by page, or a horizontal scroll painting, with a phone appetizer (a short website or a swipe-through) that funnels to the laptop page or stands alone. Opens with a short grilling. Use whenever Ash wants a proposal, pitch, partnership offer, capabilities brochure, \"website instead of a brochure\", a site \"like the TVS one\", or says \"they won't read it\", \"make it a link\", \"make it creative but clear\", \"lists shouldn't be lists\", \"one page then the next page\", \"horizontal scroll\", \"phone version\", \"make it work on mobile\", \"swipe-through\". For a document someone will actually read, use brief-page; for a PDF or Word file, use polished-doc."
 ---
 
 # Clear proposal site
@@ -10,6 +10,8 @@ back, a drawing from their world that draws itself on and carries the argument, 
 capabilities shown as drawn patterns instead of lists, what the reader gets highlighted in colour, and one concrete
 next step with a named person. It codifies "Carrying the TVS Way" (JAIN University to TVS IQL), which took six rounds
 of Ash's feedback, plus two rounds of reviewer agents on a second build. The skill front-loads those rounds.
+It also builds for phones (`references/phone.md`): a short appetizer that gets the points across on a WhatsApp
+link and funnels the reader to the laptop page, or stands alone when a phone page is enough.
 
 ## What good looks like
 
@@ -39,6 +41,11 @@ Their shared qualities:
   hero's scene, changed. The story-plan skill plans this as a storyboard.
 
 ## Workflow
+
+### 0. Grill first
+Ash is often not yet clear on what the page must say, so every build opens with a short grilling
+(`references/intake.md`, "The mini grilling"): the outcome, a say-back, and at most four lettered questions,
+including **phone, laptop or both**. Nothing is built before he answers, unless he says "don't ask".
 
 ### 1. Brief and facts
 Follow `references/intake.md`. Get the reader, their asks verbatim, what we offer, what proof may be used and how,
@@ -106,6 +113,8 @@ build to `references/builds-log.md`. Tell Ash to run `/verify`; the model cannot
 
 ## Rules that are easy to get wrong
 
+- **The motif adds information or it goes.** On every screen it shows something the words do not (which part, what is done, how far along). The Mughal-garden build held too many ideas and confused its readers.
+- **Phones get the appetizer, never a squeezed desktop page.** Phone only: build `references/phone.md` alone. Both: the laptop page plus a phone cut from the same facts that ends by sending the reader to the laptop page. Laptop only: the phone gate.
 - **The motif carries the whole page, hero to close.** Two builds "opened strong, then drifted into rounded cards and never came back" (creative director, on TVS and on the first Coastline draft). Asks hang off the drawing; the close resolves every ask on it.
 - **The motif builds down the page.** Each section shows the drawing one stage further on. Identical dimmed copies of the finished motif read as "a paperclip".
 - **One colour, one meaning.** The marker means "what the reader gets"; each tint means one ask; the accent marks one part at a time. On TVS the yellow sat on 30+ phrases and "means nothing".
@@ -129,7 +138,8 @@ build to `references/builds-log.md`. Tell Ash to run `/verify`; the model cannot
 
 ## Files
 
-- `references/intake.md`: the brief, the facts sheet, the inspiration question, the story-map playback.
+- `references/intake.md`: the mini grilling, the brief, the facts sheet, the inspiration question, the story-map playback.
+- `references/phone.md`: the phone appetizer: website or swipe-through, motifs that add information, progress without counters, the screen kit, the critic.
 - `references/story.md`: the argument, the default page order, section anatomy, the close, narrative frames, routes and alternatives.
 - `references/recipes.md`: architecture, direction, signature move and close; eight recipes that read differently.
 - `references/taste.md`: what Ash loves and rejects, how he works, five questions for judging something new.
@@ -147,7 +157,7 @@ build to `references/builds-log.md`. Tell Ash to run `/verify`; the model cannot
 - `assets/architectures/`: the `paged` and `horizontal` shells, with demos.
 - `assets/modules/`: proven section fragments with data at the top (see its README).
 - `assets/motifs/`: the motif kit and 20 direction generators.
-- `assets/examples/`: `tvs.html`, `coastline.html` and `coastline-src/`.
+- `assets/examples/`: `tvs.html`, `coastline.html` and `coastline-src/`; `phone/tvs-bike.html` (phone website) and `phone/udyaan-14-days.html` (swipe-through).
 - `assets/gallery.html`: every module on one page; `assets/gallery-src/` rebuilds it.
 - `assets/reference-frames/`: key stills from the Washington Post scrollytelling reference.
-- `scripts/build.py`, `scripts/scan.py`, `scripts/palette_check.py`, `scripts/sweep.py`.
+- `scripts/build.py`, `scripts/scan.py`, `scripts/palette_check.py`, `scripts/sweep.py`, `scripts/phone_shots.py`.

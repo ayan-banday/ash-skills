@@ -76,7 +76,7 @@ The signature move from the Washington Post reference (catalogue ARC-02, SEQ-02,
 
 - `FINAL = reduce || /[?&]final=1/` in the starter. Every helper (`onView`, `prepDraw`, `penDraw`, `.rv`) lands on
   the finished state under FINAL. Screenshots use `?final=1` because hidden browser panes throttle animation frames.
-- Phone gate: when the screen's short side is under 540px, show only "Open this on your laptop or tablet"
+- Phone gate (laptop-only builds; phone and both builds follow `references/phone.md`): when the screen's short side is under 540px, show only "Open this on your laptop or tablet"
   (CSS `@media (max-width:539px), (pointer:coarse) and (max-height:499px)` plus the JS screen check, which catches a
   phone held sideways). iPads and Galaxy Tabs get the page.
 
