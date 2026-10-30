@@ -1,6 +1,9 @@
 """Mechanical check on a markdown chapter, before the critic reads it.
 
-Usage: python check_chapter.py <chapter.md>
+Usage: python check_chapter.py <chapter.md | book.html>
+
+An HTML file is stripped to markdown-like text first (headings to #, list items to -,
+blockquotes to >), and only the chapter sections (id starting with "ch") are checked.
 
 FAIL: an em dash; "not X, but Y" or "not just / not only"; a block quote (quotes don't
       teach; keep them in the research file); a date like 1970 or a bracketed timestamp;
@@ -21,8 +24,27 @@ CUT = ["what you'll learn", "first principles", "mental models", "judge a build"
 HEDGES = re.compile(r"\b(probably|might|maybe|perhaps|likely|arguably|somewhat)\b", re.I)
 
 
+def html_to_text(html):
+    """Keep only sections whose id starts with ch; turn headings, items and quotes into markdown marks."""
+    secs = re.findall(r'<section[^>]*id="ch[^"]*"[^>]*>(.*?)</section>', html, re.S)
+    html = "\n".join(secs) if secs else html
+    html = re.sub(r"<(script|style)[^>]*>.*?</\1>", "", html, flags=re.S)
+    html = re.sub(r"<h([1-6])[^>]*>", lambda m: "\n" + "#" * int(m.group(1)) + " ", html)
+    html = re.sub(r"</h[1-6]>", "\n", html)
+    html = re.sub(r"<li[^>]*>", "\n- ", html)
+    html = re.sub(r"<blockquote[^>]*>", "\n> ", html)
+    html = re.sub(r"<(strong|b)>", "**", html)
+    html = re.sub(r"</(strong|b)>", "**", html)
+    html = re.sub(r"</(p|div|ol|ul|table|tr)>", "\n", html)
+    html = re.sub(r"<[^>]+>", "", html)
+    html = re.sub(r"&nbsp;", " ", html)
+    return html
+
+
 def main(path):
     text = open(path, encoding="utf-8").read()
+    if path.lower().endswith((".html", ".htm")):
+        text = html_to_text(text)
     lines = text.splitlines()
     fails, warns = [], []
     heads = [l.strip("# ").strip() for l in lines if l.startswith("#")]

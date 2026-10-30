@@ -1,6 +1,6 @@
 ---
 name: "break-into-field (shasta)"
-description: "How do I break into a whole field I know nothing about, like technology or finance, starting from a real problem in my work? Grills the field's outcome, then builds a Shasta study book: a problem map ordered by what waits on what, the field's shelves, and chapters that each solve one problem, checked by a critic before Ash sees them. Use when Ash says 'break into', 'build the map for', 'the technology book' or 'study a whole field'. Use learn:study for one topic or one study page."
+description: "How do I break into a whole field I know nothing about, like technology or finance, starting from a real problem in my work? Grills the field's outcome, then builds a Shasta study book: a problem map ordered by what waits on what, the field's shelves, and chapters that each solve one problem, with one critic pass before Ash sees them. Use when Ash says 'break into', 'build the map for', 'the technology book' or 'study a whole field'. Use learn:study for one topic or one study page."
 ---
 
 # Break into a field
@@ -15,9 +15,9 @@ Build a study book that takes Ash from "I don't know what I don't know" to seein
 2. **Draw the problem map.** Follow `references/unlock-order.md`. Done when every problem names what it waits on, the open problems are marked, and the first chapter is the open problem the most others wait on.
 3. **Draw the shelves.** Follow "The shelves" in `references/book-shape.md`. Done when each shelf has its fields, each field has its words and one problem from Ash's world, and the shelves he hasn't touched carry suggested problems.
 4. **Research only what the next chapter needs.** Follow `references/research.md`. Done when the brief's questions each have the one best source, read by cheap agents that return exact quotes with context.
-5. **Write the chapter as markdown first.** Follow the chapter skeleton in `references/book-shape.md` and every rule in `references/writing-rules.md`. Run `python scripts/check_chapter.py <file.md>`. Done when it prints no FAIL.
-6. **Run the critic.** Follow `references/critic.md`: one fresh agent reads the markdown as Ash and checks it against the writing rules. Fix, rerun, at most three rounds. Done when the critic's answer to the chapter's question matches the chapter's own answer and no rule fails.
-7. **Only then build the HTML** by `references/look.md`, publish it as a private artifact, and check it at desktop width only. Ash doesn't study on a phone. Done when the page renders and the artifact link is in the ticket.
+5. **Build the chapter straight into the book's HTML.** Follow the chapter skeleton in `references/book-shape.md` and every rule in `references/writing-rules.md` while writing, so the first draft is already close. No markdown draft first: writing it twice costs twice. Run `python scripts/check_chapter.py <book.html>`. Done when it prints no FAIL.
+6. **One critic pass on the HTML.** Follow `references/critic.md`: one fresh agent reads the chapter's text as Ash and reports the few things to fix. Fix them, rerun the script, done. A second pass only if the critic's own answer to the chapter's question disagrees with the chapter's.
+7. **Publish** as a private artifact (`references/look.md`) and check it at desktop width only. Ash doesn't study on a phone. Done when the page renders and the artifact link is in the ticket.
 8. **Close the session by Fuji's rule book:** save Building progress to the ticket, log, `python gear/check-maps.py`, the timeline note, commit and push. Add one line to Shasta's `study log.md`.
 
 ## Where things live
@@ -33,6 +33,6 @@ Build a study book that takes Ash from "I don't know what I don't know" to seein
 - `references/writing-rules.md`: how Ash wants to be taught. A to B, the plain sentence before the metaphor, no quotes, outcomes in business terms, the answer with the words embedded.
 - `references/unlock-order.md`: what waits on what; how it orders chapters, phases and tickets.
 - `references/research.md`: the source pipeline, cheap.
-- `references/critic.md`: the critic agent's prompt and the cheap markdown test.
+- `references/critic.md`: the critic agent's one pass on the HTML.
 - `references/look.md`: the look, from Shasta's palettes, kept simpler, checked on desktop only.
-- `scripts/check_chapter.py`: the mechanical check on a markdown chapter.
+- `scripts/check_chapter.py`: the mechanical check on a chapter, markdown or HTML.
