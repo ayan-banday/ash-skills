@@ -40,6 +40,22 @@ Their shared qualities:
   do, what they get, the world changed), the sections rise and release like a film, and the close returns to the
   hero's scene, changed. The story-plan skill plans this as a storyboard.
 
+## Two paths: the grilling picks one
+
+Most of Ash's pages are low stakes (a presentation, a team plan), and he wants them fast and cheap. The stakes
+question in the grilling sets the path. **Clarity never drops:** both paths keep the message spine, the facts
+sheet, the copy scan, the sweep's word and marker checks, and the uninitiated reader.
+
+- **Fast (low stakes).** Steps 0, 1, 5, 7, 8 and 10 as written. Step 2: take the recommended direction in one line
+  unless Ash named one. Steps 3 and 4 shrink to the story map in the playback: no story-plan storyboard, no
+  builds-log rotation. Step 6: use a direction generator or a module as it is; no separate motif test page. Step 7:
+  write the fragments yourself, no builder agents. Step 8: `sweep.py --sizes laptop` (add `ipad` only if it will be
+  shown on a tablet), no `--live`. Step 9: the uninitiated reader alone, one round; fix and ship.
+- **Full (high stakes).** Every step as written, both reviewers, up to three rounds.
+- **Full, hero first (option C).** As full, but after the starter and the hero fragment, sweep the laptop size and
+  run the creative director's hero check (`references/review.md`) before building any other section. A failed
+  concept then costs one fragment, not the page.
+
 ## Workflow
 
 ### 0. Grill first: one session on what the page must say
@@ -47,8 +63,9 @@ Ash is often not yet clear on what the page must say, so every build opens with 
 (`references/intake.md`, "The grilling"). Lead with your best interpretation: what happened, the reader, **the
 message spine** (3 to 6 plain sentences the page must get across, ending in the action) and **the motif call**
 (whether a motif helps at all, and if so 2 or 3 options, each with the information it carries). Then at most four
-lettered questions where you are unsure, always including **phone, laptop or both**. Save the agreed spine to
-`work/message.md`. Nothing is built before he answers, unless he says "don't ask".
+lettered questions where you are unsure, always including **phone, laptop or both** and **the stakes** (which sets
+the path above). Save the agreed spine to `work/message.md`. Nothing is built before he answers, unless he says
+"don't ask".
 
 ### 1. Brief and facts
 Follow `references/intake.md`. Get the reader, their asks verbatim, what we offer, what proof may be used and how,
@@ -103,12 +120,18 @@ python scripts/scan.py work/index.html --facts work/facts.md
 python scripts/palette_check.py work/starter.html
 python scripts/sweep.py work/index.html --out work/shots/ --live
 ```
-Run them with plain `python`. Fix every hit, then look at every frame (`references/qa-checklist.md`). Preview in the
-browser pane through a `.claude/launch.json` http.server entry; judge layout with `?final=1`.
+Run them with plain `python`. Fix every hit, then look at every frame (`references/qa-checklist.md`). The sweep
+measures each laptop screen (over 80 words, text painted under a shape, more than one marker, marker and accent over
+8%), so fix those before any reviewer runs; reviewers are for what a script cannot see. Preview in the browser
+pane through a `.claude/launch.json` http.server entry; judge layout with `?final=1`.
 
 ### 9. Review
-Run the creative director and the uninitiated reader in parallel as background agents (`references/review.md`).
-Apply the fixes, rebuild, re-sweep. Two rounds is usually enough; three at most.
+Write `work/plan.md` (the concept sentence, the motif and what each part stands for, palette tokens, type pairing,
+the signature move) so the creative director can open it after its cold read. Fast path: the uninitiated reader
+alone, one round. Full path: the creative director and the uninitiated reader in
+parallel as background agents (`references/review.md`). Apply the fixes, rebuild, re-sweep. Two rounds is usually
+enough; three at most. A deliberate break of a slop tell goes in the page's exceptions block, not into an argument
+with the reviewer.
 
 ### 10. Publish, hand over, log
 Load artifact-design, publish `work/index.html` as a private artifact, and write the hand-off note: the link, the

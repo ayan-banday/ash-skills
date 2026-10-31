@@ -33,7 +33,13 @@ the recommended one first so "A" accepts it. Always include the device:
 > "Where will they open it? A) phone only, B) a laptop page plus a phone appetizer that sends them to it,
 > C) laptop only, phones see the gate."
 
-Phone only is often enough (the Udyaan 14-day plan). Other good questions: which spine sentence matters most if the
+Phone only is often enough (the Udyaan 14-day plan). Always ask the stakes too, since it sets how many tokens the
+build spends (SKILL.md, "Two paths"):
+> "How much rides on it? A) low: a presentation, a team plan, an internal page (fast path), B) high: an outside
+> reader decides on it (full path), C) high, and check the hero before building the rest."
+
+Recommend A for anything Ash presents himself or sends to his own team; B for a client, partner or funder.
+Other good questions: which spine sentence matters most if the
 reader keeps only one; what the reader distrusts; the inspiration question below.
 
 **3. Save the agreed spine** to `work/message.md`, and write `work/facts.md` in the same pass: every number, name

@@ -5,21 +5,48 @@ Ash does not trust unaided taste. Every build goes past two reviewers before it 
 sure the design quality is in the taste and manner" he asked for.
 
 ## How to run them
-1. Run `python scripts/sweep.py page.html --out shots/` first. It writes laptop, tablet and final frames in scroll order.
-2. Launch both reviewers in parallel as background agents. Creative director: default model. Clarity reader:
-   `model: "fable"`. Fill every `{{PLACEHOLDER}}`. Give the clarity reader the facts sheet path but tell it the
-   method order (cold read first).
-3. Neither reviewer edits files. You apply the fixes, rebuild, re-sweep, and re-run only the reviewer whose verdict
-   was not a pass (creative director SHIP, reader CLEAR). Three rounds at most; report what remains.
+1. Run `python scripts/sweep.py page.html --out shots/` first and fix what it measures. It writes laptop, tablet and
+   final frames in scroll order.
+2. **Fast path: the clarity reader alone, one round.** Full path: launch both reviewers in parallel as background
+   agents. Creative director: default model. Clarity reader: `model: "fable"`. Fill every `{{PLACEHOLDER}}`. Both
+   get paths, never the plan pasted in: the reader opens the facts sheet only at its step 4, the creative director
+   opens the plan only at its step 3, so each sees the page before it hears the intent. Do not paste your own
+   reasoning into either prompt.
+3. Neither reviewer edits files. A `RECAPTURE` verdict means a frame was blank, half-drawn or wrong: retake the
+   frames and run that reviewer again; it does not count as a round. Otherwise apply the fixes, rebuild, re-sweep,
+   and re-run only the reviewer whose verdict was not a pass (creative director SHIP, reader CLEAR). Three rounds at
+   most; report what remains.
 4. You may overrule a fix that fights a rule Ash set. In TVS the reader wanted the motif key cut and the translator
    made static; both were kept (Ash asked for the motif to carry the story) with the reader's real problem fixed
    another way (key tied to the exact need names; tappable progress bars). Say what you overruled and why.
-5. Known false alarms: the phone gate (deliberate), a mono label on a direction where mono is native (drafting title
-   blocks), static grain that is part of the direction's material. Everything else on the slop list is a fix.
+5. The phone gate is deliberate, never a finding. Every slop tell carries a tier: **[never]** is always a fix;
+   **[reason]** is a fix unless the page's exceptions block names it; **[polish]** is reported, never blocks SHIP.
+
+## Exceptions: deliberate breaks, written down
+
+A tell the page breaks on purpose goes in a comment at the top of `work/starter.html`, one line each: the tell
+number, what the page does, and why this page needs it.
+
+```html
+<!-- exception 13 · mono labels on the title blocks · drafting title blocks are set in mono on real drawings -->
+<!-- exception 8 · static paper grain · the risograph direction prints on grained stock -->
+```
+
+The creative director accepts an exception whose reason names this page's subject or direction, and rejects one
+that could sit on any page ("it looks good", "for texture"). A [never] tell cannot be excepted. When the same
+exception appears on three builds in a row, write it into that direction's file instead.
+
+## Hero check (option C only)
+
+After the starter and the hero fragment, run `sweep.py --sizes laptop` and give the creative director only the
+hero frames with this added to its prompt: "Only the first screen exists. Score concept, motif-story fit, hierarchy
+and opening only, then the slop tells on this screen. Verdict SHIP (build the rest) or FIX, at most five fixes."
+Fix, then build the remaining sections. The full review still runs at the end.
 
 ## Placeholders
-`{{HTML_PATH}}`, `{{SHOTS_DIR}}`, `{{DESIGN_PLAN}}` (concept sentence, motif and what each part stands for, palette
-tokens, type pairing, the signature move), `{{BRIEF}}`, `{{SLOP_LIST}}` (paste the list below);
+`{{HTML_PATH}}`, `{{SHOTS_DIR}}`, `{{PLAN_PATH}}` (the path to `work/plan.md`: concept sentence, motif and what each
+part stands for, palette tokens, type pairing, the signature move), `{{BRIEF}}` (who the client is, who the reader
+is, what the page must make them do; nothing about the design), `{{SLOP_LIST}}` (paste the list below);
 `{{PERSONA}}`, `{{READER_ROLE}}`, `{{FACTS}}` (the path to facts.md).
 Suggested default `{{PERSONA}}` when the brief names none: "the person this page is meant to convince: {{READER_ROLE}}, reading on a laptop between meetings, smart but outside this field". Two passes with different personas (decision-maker and the person who would use the offer) catch different gaps when the page has two audiences.
 
@@ -31,15 +58,15 @@ You are a tough creative director at an independent studio known for work that i
 INPUTS
 - Page file: {{HTML_PATH}}
 - Scroll-through frames: {{SHOTS_DIR}} (laptop-*.png at 1280x800, tablet-*.png at 1024x768 and 768x1024, final-*.png with every finished state). Frames are in scroll order.
-- Design plan the builder committed to: {{DESIGN_PLAN}} (concept in one sentence, motif and what it stands for, palette tokens, type pairing, motion set-piece)
+- Design plan the builder committed to: {{PLAN_PATH}} (do NOT open it until step 3)
 - Brief: {{BRIEF}} (who the client is, who the reader is, what the page must make the reader do)
 
 METHOD
-1. Look at every frame in order before opening the code, the way a viewer meets the page. Note your first impression of each frame in five words.
-2. Run two story tests on the frames. Words covered: from the pictures alone, can you tell who this is about, what changes and how it ends? Pictures covered: read only the copy; if the whole story still arrives, the pictures are decoration. Note where each test fails and whether that is the right place (words should carry names, numbers, quotes and the ask; pictures should carry relations, change, scale and feeling).
-3. Then read the HTML/CSS/JS for motion, tokens, and structure you cannot see in stills.
+1. Look at every frame in order before opening anything else, the way a viewer meets the page. Note your first impression of each frame in five words. If a frame is blank, half-drawn or shows the wrong thing, stop and answer RECAPTURE with the frames to retake.
+2. Write your cold read from the frames alone: the one idea the page is built on, and what each part of the drawing stands for. Then run two story tests on the frames. Words covered: from the pictures alone, can you tell who this is about, what changes and how it ends? Pictures covered: read only the copy; if the whole story still arrives, the pictures are decoration. Note where each test fails and whether that is the right place (words should carry names, numbers, quotes and the ask; pictures should carry relations, change, scale and feeling).
+3. Only now open the plan. Where your cold read and the plan disagree, the page has not said what the builder meant: that gap is a finding, and the page is fixed, never the reading. Then read the HTML/CSS/JS for motion, tokens, structure you cannot see in stills, and the exceptions block at the top.
 4. Score the 12 criteria below from 1 to 5 using the anchors. Score what is on the page, not what the plan intended. A 4 means "good, one small issue"; a 2 means "below the 3 anchor".
-5. Check the page against the AI-slop tell list. Every tell found is a fix.
+5. Check the page against the AI-slop tell list. A [never] tell is always a fix; a [reason] tell is a fix unless the exceptions block names it with a reason about this page's subject or direction; a [polish] tell is listed but never blocks SHIP.
 6. Write ranked fixes. Each fix names the frame or section id, the problem, and the exact change: the CSS property and value, the SVG change, the layout change, or the replacement copy word for word. "Improve hierarchy" is not a fix. "In #s-cost, set the h2 to clamp(2.4rem,6vw,4rem), drop the paragraph to 1.05rem muted, and remove the second bold phrase" is a fix.
 
 CRITERIA (1 / 3 / 5 anchors)
@@ -92,17 +119,20 @@ CRITERIA (1 / 3 / 5 anchors)
    3: Works everywhere, but compositions feel accidental (stacked without rethinking; the motif loses meaning on tablet).
    5: Each frame is recomposed for an upright tablet; the motif still reads; the reduced-motion page is a deliberate static story. (Phones see a deliberate "open on your laptop" gate; that is correct, not a fault.)
 
-AI-SLOP TELLS (each one found is a fix; quote where you saw it)
+AI-SLOP TELLS (quote where you saw each; the tier in brackets says whether it is a fix, see method step 5)
 {{SLOP_LIST}}
 
 VERDICT RULES
-- SHIP: no criterion below 4, and no slop tells.
+- RECAPTURE: a frame is blank, half-drawn or wrong. List the frames to retake and stop.
+- SHIP: no criterion below 4, and no open [never] or [reason] tells.
 - REVISE: concept (1) and motif (2) are 3 or higher, and everything else is fixable in place.
 - RETHINK: concept or motif scores 2 or lower, or originality (8) scores 1. Say what the new concept should hinge on in two sentences.
 
 OUTPUT (exactly this shape, nothing before it)
-VERDICT: SHIP | REVISE | RETHINK
+VERDICT: RECAPTURE | SHIP | REVISE | RETHINK
 ONE-LINE READ: <what this page feels like to a viewer, in under 20 words>
+COLD READ: <the idea and what the drawing's parts stand for, from the frames alone>
+PLAN MATCH: <where the cold read and the plan disagree, or "matches">
 SCORES: concept n, motif n, hierarchy n, type n, colour n, motion n, rhythm n, originality n, polish n, hand n, open-close n, tablet-still n. TOTAL n/60
 STORY TESTS: words covered <what the frames alone say>; pictures covered <what the copy alone says>
 SLOP TELLS FOUND: <tell> at <frame or #id>; ... (or "none")
@@ -116,60 +146,60 @@ IF RETHINK: <two sentences on the stronger concept and motif>
 ## The slop list (paste into {{SLOP_LIST}})
 
 Colour and surface
-1. Purple, violet, pink or cyan to blue gradients, especially behind the hero. (CVH, WAB, IMP, UUPM, TASTE, HM, BLU)
-2. Gradient-filled headline text. (IMP, TASTE, HM)
-3. Aurora or mesh blobs, floating orbs, glows and halos as decoration. (IMP, TASTE, HM, BLU)
-4. The house looks: cream ground with high-contrast serif and terracotta accent; near-black with one neon or acid accent; broadsheet hairlines with zero radius and dense columns. (FD, IMP, TASTE)
-5. Decorative glassmorphism, backdrop-blur panels, floating blurred pill navigation. (IMP, TASTE, HM, UUPM)
-6. One radius and one soft grey shadow on everything; "ghost cards" (1px border plus wide soft shadow); oversized radii on small cards. (FD, IMP, SS, TASTE)
-7. Thick coloured side-stripe borders on cards or callouts. (IMP, HM)
-8. Grain, grid-line, stripe, crosshair or crop-mark overlays standing in for an idea. (IMP, TASTE)
-9. Stock near-black (#0B0B0B, #111) or pure #000/#fff instead of neutrals tinted from the brand hue; dark mode as a straight inversion. (FD, IMP, HM, UUPM)
-10. Accent sprayed everywhere (well over about 5 to 10% of a screen) so it means nothing; grey text on colour. (HM, CD, IMP)
+1. [never] Purple, violet, pink or cyan to blue gradients, especially behind the hero. (CVH, WAB, IMP, UUPM, TASTE, HM, BLU)
+2. [reason] Gradient-filled headline text. (IMP, TASTE, HM)
+3. [reason] Aurora or mesh blobs, floating orbs, glows and halos as decoration. (IMP, TASTE, HM, BLU)
+4. [reason] The house looks: cream ground with high-contrast serif and terracotta accent; near-black with one neon or acid accent; broadsheet hairlines with zero radius and dense columns. (FD, IMP, TASTE)
+5. [reason] Decorative glassmorphism, backdrop-blur panels, floating blurred pill navigation. (IMP, TASTE, HM, UUPM)
+6. [reason] One radius and one soft grey shadow on everything; "ghost cards" (1px border plus wide soft shadow); oversized radii on small cards. (FD, IMP, SS, TASTE)
+7. [reason] Thick coloured side-stripe borders on cards or callouts. (IMP, HM)
+8. [reason] Grain, grid-line, stripe, crosshair or crop-mark overlays standing in for an idea. (IMP, TASTE)
+9. [reason] Stock near-black (#0B0B0B, #111) or pure #000/#fff instead of neutrals tinted from the brand hue; dark mode as a straight inversion. (FD, IMP, HM, UUPM)
+10. [reason] Accent sprayed everywhere (well over about 5 to 10% of a screen) so it means nothing; grey text on colour. (HM, CD, IMP)
 
 Type
-11. Inter, Roboto, Open Sans or system default as the whole personality, or a "fashionable reflex" face chosen without a subject reason (Space Grotesk, Fraunces, Playfair, Instrument Sans, DM Sans, Outfit, Plus Jakarta). (WAB, IMP, TASTE, HM)
-12. One headline word set apart in italic, serif, colour or underline. (FD, IMP, TASTE, HM)
-13. Tracked-out all-caps eyebrow or kicker above every heading; monospace as "technical" decoration. (FD, IMP, TASTE, HM; CVH's house style does this)
-14. Pill badge or "New" chip above the hero headline. (IMP, TASTE)
-15. Hero headline running three or more lines; a sentence posing as a headline. (IMP, TASTE, HM)
-16. Flat hierarchy: many near-equal sizes, headings barely bigger than body; centred body paragraphs; measure past 80 characters. (IMP, TASTE, FD)
+11. [reason] Inter, Roboto, Open Sans or system default as the whole personality, or a "fashionable reflex" face chosen without a subject reason (Space Grotesk, Fraunces, Playfair, Instrument Sans, DM Sans, Outfit, Plus Jakarta). (WAB, IMP, TASTE, HM)
+12. [reason] One headline word set apart in italic, serif, colour or underline. (FD, IMP, TASTE, HM)
+13. [reason] Tracked-out all-caps eyebrow or kicker above every heading; monospace as "technical" decoration. (FD, IMP, TASTE, HM; CVH's house style does this)
+14. [reason] Pill badge or "New" chip above the hero headline. (IMP, TASTE)
+15. [reason] Hero headline running three or more lines; a sentence posing as a headline. (IMP, TASTE, HM)
+16. [reason] Flat hierarchy: many near-equal sizes, headings barely bigger than body; centred body paragraphs; measure past 80 characters. (IMP, TASTE, FD)
 
 Layout
-17. The SaaS kit: hero, three identical icon-in-rounded-square cards, logo strip, testimonials, pricing, FAQ, in that stock order. (FD, CVH, IMP, TASTE, HM)
-18. Default hero: centred headline, subhead, primary plus ghost button, tilted device mockup or abstract 3D blob; or a 100vh centred one-liner. (FD, IMP, HM)
-19. Hero-metric template: big number, small label, stat row, gradient accent; a stat as the hero's only headline. (FD, IMP, HM)
-20. Numbered markers (01 / 02 / 03, "Step 02") on content that is not a sequence. (FD, IMP, TASTE, HM)
-21. Cards nested in cards, or a card around everything. (IMP, HM)
-22. Every section the same layout, height, and padding; bento grid of rounded tiles as the default. (IMP, TASTE, HM, SS)
-23. The "AI nav" (wordmark, four or five links, right CTA, sticky white bar with hairline) and the "AI footer" (four link columns, social row). (HM, TASTE)
-24. Fake dashboards of grey bars and donuts; re-drawn browser or phone chrome. (TASTE, HM, CVH)
-25. Decorative wave or blob SVG dividers between sections. (TASTE, HM)
+17. [reason] The SaaS kit: hero, three identical icon-in-rounded-square cards, logo strip, testimonials, pricing, FAQ, in that stock order. (FD, CVH, IMP, TASTE, HM)
+18. [reason] Default hero: centred headline, subhead, primary plus ghost button, tilted device mockup or abstract 3D blob; or a 100vh centred one-liner. (FD, IMP, HM)
+19. [reason] Hero-metric template: big number, small label, stat row, gradient accent; a stat as the hero's only headline. (FD, IMP, HM)
+20. [reason] Numbered markers (01 / 02 / 03, "Step 02") on content that is not a sequence. (FD, IMP, TASTE, HM)
+21. [never] Cards nested in cards, or a card around everything. (IMP, HM)
+22. [reason] Every section the same layout, height, and padding; bento grid of rounded tiles as the default. (IMP, TASTE, HM, SS)
+23. [reason] The "AI nav" (wordmark, four or five links, right CTA, sticky white bar with hairline) and the "AI footer" (four link columns, social row). (HM, TASTE)
+24. [reason] Fake dashboards of grey bars and donuts; re-drawn browser or phone chrome. (TASTE, HM, CVH)
+25. [reason] Decorative wave or blob SVG dividers between sections. (TASTE, HM)
 
 Imagery and icons
-26. Emoji as bullets or icons (sparkles, rocket, lightning); "AI-powered" badges. (CVH, IMP, UUPM, TASTE, HM)
-27. Two icon sets, or icon strokes that do not match the type weight. (BUI, UUPM, HM)
-28. Generic AI illustration (blobby people, cinematic lighting), isometric stock scenes, crude doodle SVGs used as filler. (IMP, HM, CVH)
-29. Stock photos passed off as the client's own; CSS boxes where a real picture belongs. (TASTE, CVH)
-30. Mixed hands: a sketch here, a flat icon there, a 3D render elsewhere. (rubric criterion 10)
+26. [never] Emoji as bullets or icons (sparkles, rocket, lightning); "AI-powered" badges. (CVH, IMP, UUPM, TASTE, HM)
+27. [polish] Two icon sets, or icon strokes that do not match the type weight. (BUI, UUPM, HM)
+28. [reason] Generic AI illustration (blobby people, cinematic lighting), isometric stock scenes, crude doodle SVGs used as filler. (IMP, HM, CVH)
+29. [never] Stock photos passed off as the client's own; CSS boxes where a real picture belongs. (TASTE, CVH)
+30. [reason] Mixed hands: a sketch here, a flat icon there, a 3D render elsewhere. (rubric criterion 10)
 
 Motion
-31. The same fade-and-rise reveal on every section; hover lift on every card. (FD, IMP, TASTE, HM, AN)
-32. Content at opacity 0 until a scroll trigger fires, so stills, print, failed scripts and reduced motion show blank bands. (CVH, IMP, TASTE, BUI)
-33. Parallax or scroll-jacking for its own sake; pinned scenes that take three screens to say one thing. (TASTE, HM)
-34. Bounce, elastic or overshoot easing; `transition: all`; animating layout properties; no reduced-motion path. (BUI, AN, IMP, HM, UUPM)
-35. Pulsing "live" dots, blinking cursors, "AI is thinking" shimmer, loops that do nothing. (IMP, TASTE)
-36. Counters ticking up to numbers nobody supplied; marquees or carousels with no pause; custom cursors and cursor followers. (IMP, TASTE, HM)
+31. [reason] The same fade-and-rise reveal on every section; hover lift on every card. (FD, IMP, TASTE, HM, AN)
+32. [never] Content at opacity 0 until a scroll trigger fires, so stills, print, failed scripts and reduced motion show blank bands. (CVH, IMP, TASTE, BUI)
+33. [reason] Parallax or scroll-jacking for its own sake; pinned scenes that take three screens to say one thing. (TASTE, HM)
+34. [never] Bounce, elastic or overshoot easing; `transition: all`; animating layout properties; no reduced-motion path. (BUI, AN, IMP, HM, UUPM)
+35. [reason] Pulsing "live" dots, blinking cursors, "AI is thinking" shimmer, loops that do nothing. (IMP, TASTE)
+36. [never] Counters ticking up to numbers nobody supplied; marquees or carousels with no pause; custom cursors and cursor followers. (IMP, TASTE, HM)
 
 Copy and proof
-37. Slot headings: "Our approach", "Why choose us", "Features", "How it works". (CVH, CD)
-38. Hype words: unlock, unleash, elevate, seamless, supercharge, empower, streamline, effortless, robust, cutting-edge, next-gen, world-class, revolutionize, reimagined. (CVH, IMP, TASTE, HM)
-39. "Not just X, it's Y" corrections and tricolons ("Fast. Simple. Powerful."); default groups of three. (CVH, CD, IMP, TASTE)
-40. Em dashes, "WORD, dash, fragment" labels, middle-dot meta strings, an arrow on every link. (FD, IMP, TASTE)
-41. "Get started", "Learn more", "Let's build the future together" instead of naming what happens. (FD, IMP, TASTE)
-42. Invented proof: fake logos, testimonials with made-up names, round stats like 99.9% or 10x. (CVH, CD, IMP, TASTE, HM)
-43. Placeholder names (John Doe, Acme, Nexus) and agency furniture ("Est. 2024", "Scroll to explore", coordinates, local time). (TASTE, HM)
-44. Copy that describes how the system is built, or captions that narrate the design, instead of what the reader gets. (FD, TASTE)
+37. [reason] Slot headings: "Our approach", "Why choose us", "Features", "How it works". (CVH, CD)
+38. [never] Hype words: unlock, unleash, elevate, seamless, supercharge, empower, streamline, effortless, robust, cutting-edge, next-gen, world-class, revolutionize, reimagined. (CVH, IMP, TASTE, HM)
+39. [reason] "Not just X, it's Y" corrections and tricolons ("Fast. Simple. Powerful."); default groups of three. (CVH, CD, IMP, TASTE)
+40. [never] Em dashes, "WORD, dash, fragment" labels, middle-dot meta strings, an arrow on every link. (FD, IMP, TASTE)
+41. [reason] "Get started", "Learn more", "Let's build the future together" instead of naming what happens. (FD, IMP, TASTE)
+42. [never] Invented proof: fake logos, testimonials with made-up names, round stats like 99.9% or 10x. (CVH, CD, IMP, TASTE, HM)
+43. [never] Placeholder names (John Doe, Acme, Nexus) and agency furniture ("Est. 2024", "Scroll to explore", coordinates, local time). (TASTE, HM)
+44. [reason] Copy that describes how the system is built, or captions that narrate the design, instead of what the reader gets. (FD, TASTE)
 
 Avoidance-page warning (TASTE): removing every tell without adding a real idea produces its own recognisable look. The fix for slop is a concept (rubric criteria 1 and 2), not a cleaner template.
 

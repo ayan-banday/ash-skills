@@ -8,7 +8,9 @@ particular width, or mid-animation, so reading the code is not enough.
 2. **Copy scan:** `python scripts/scan.py work/index.html --facts work/facts.md`. Fix every hit except quoted examples.
 3. **Sweep:** `python scripts/sweep.py work/index.html --out work/shots/`. It writes final-state frames at
    1280x800, 1024x768, 768x1024 and 744x1133 (iPad mini), live mid-scroll frames at 1280x800, a 390x844 frame (must show
-   only the phone gate), and prints console errors, horizontal overflow and class-name collisions.
+   only the phone gate), and prints console errors, horizontal overflow and class-name collisions. Per laptop
+   screen it also measures: over 80 words, text painted under a shape or box, more than one marker, and marker plus
+   accent over 8%. Fast path: `--sizes laptop` only.
 4. **Look at every frame.** Things to look for:
    - the hero fills exactly one screen and nothing from the next section shows
    - labels crossing lines, labels over each other, text cut at an SVG edge
@@ -25,8 +27,9 @@ particular width, or mid-animation, so reading the code is not enough.
    (the model cannot invoke it).
 
 ## Done means
-Zero scan hits, zero console errors, no overflow at the four tablet and laptop sizes, the phone gate at 390px,
-creative director SHIP or REVISE with every HIGH fix applied, reader CLEAR, published, hand-off note written.
+Zero scan hits, zero console errors, zero sweep measurements open (or each one in the exceptions block), no
+overflow at the swept sizes, the phone gate at 390px, reader CLEAR, published, hand-off note written. Full path
+also: creative director SHIP or REVISE with every HIGH fix applied.
 
 ## Bugs already hit, and the fixes
 
