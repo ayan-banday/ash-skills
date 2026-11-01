@@ -16,7 +16,7 @@ One page per problem, read on a laptop. `example-page.html` is the approved look
 6. **"Why [something about this problem]":** two or three paragraphs, each standing alone (writing rule 1): the mistake people made, with numbers, and the idea that fixed it, ending in the course's name for it.
 7. **"The idea that fixes it":** the `.idea` box: a plain bold first line, then a mini example straight after inside the box that stands on its own. A metaphor follows only if the idea is hard (writing rule 3). Then "What this means in practice:" and two bullets. A paper-board picture (`.board` with an SVG in Patrick Hand) only where it explains faster than words.
 8. **"[N] questions [people who do this] ask about [the problem's object]":** one `.q` block per concept, 3 to 5 in all. Each holds a `.n` label ("Question one"), an `h3` that is a full self-contained question, the teaching paragraphs A to B (what happens, then the name), the factory mini for Managerial Accounting, and the practice pair.
-9. **"How it works, from [start] to [end]":** 3 to 5 steps of one real item's journey, then a `.mini` flow strip.
+9. **"How it works, from [start] to [end]":** 3 steps of one real item's journey (the checker fails a list of 4 or more), then a `.mini` flow strip.
 10. **"How you'd build it"** (procedural: the sheet, tool or routine, part by part) or **"How you'd use it"** (theory: when, with whom, what it produces).
 11. **"How you'd run it":** three rounds, one line each, one where something slips and is fixed.
 12. **"Where else it applies":** one worked example in another kind of tech company with a `.mini` flow, then two more in a line each.
