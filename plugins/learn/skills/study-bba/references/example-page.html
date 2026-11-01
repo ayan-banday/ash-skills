@@ -1,0 +1,432 @@
+<title>Does Each Sale Make Money?</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@500;600&family=Patrick+Hand&display=swap">
+<style>
+/* Palette: Espresso and Sand (Shasta, "money, habits and slow, steady building"). One chapter, read on a laptop. Single dark theme by choice. */
+:root{
+  --bg:#1b1917; --surface:#26221f; --line:#3d3731;
+  --text:#e2ddd9; --muted:#aaa39d; --head:#f5f1ee;
+  --bold:#e4d2b4; --hl:#3f3320; --hl-text:#f1eee9;
+  --bullet:#ce9d95; --link:#dcb2ab;
+  --paper:#f3efec; --ink:#2a2522; --sand:#c9a46a; --sand-f:#efe0c4; --loss:#a4483c; --loss-f:#f6d6d0; --grey:#cfc8c2;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:60px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--text);font:18px/1.65 "Source Serif 4",Georgia,serif;-webkit-font-smoothing:antialiased;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 60px}
+a{color:var(--link)}
+strong,b{color:var(--bold);font-weight:600}
+h1,h2,h3{color:var(--head);font-weight:700;line-height:1.25;margin:0;text-wrap:balance}
+h1{font-size:clamp(30px,5vw,44px);letter-spacing:-.01em}
+h2{font-size:clamp(24px,3.4vw,31px);margin:0 0 18px}
+h3{font-size:21px;margin:38px 0 12px}
+p{margin:0 0 14px;max-width:68ch}
+ul,ol{margin:0 0 16px;padding-left:22px}
+li{margin:6px 0}
+li::marker{color:var(--bullet)}
+.wrap{max-width:780px;margin:0 auto}
+.kicker{font:600 13px Inter,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--bullet);margin-bottom:10px}
+.sub{color:var(--muted);font-style:italic;margin-top:10px}
+section.part{padding:64px 0 34px;border-top:1px solid var(--line)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(27,25,23,.95);border-bottom:1px solid var(--line);margin-inline:calc(-1 * max(16px, env(safe-area-inset-left, 0px)))}
+.bar .in{max-width:780px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:10px 16px}
+.bar a{font:500 14px Inter,system-ui,sans-serif;color:var(--muted);text-decoration:none;white-space:nowrap;padding:6px 10px;border-radius:6px}
+.bar a:hover,.bar a:focus-visible{color:var(--head);background:var(--surface)}
+.cover{padding:72px 0 40px}
+.cover .lede{font-size:21px;margin-top:18px}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:26px}
+.three div{border:1px solid var(--line);border-radius:4px;padding:12px 14px;font:15px/1.45 Inter,system-ui,sans-serif;min-width:0}
+.three div.on{border-color:var(--bold);background:var(--surface)}
+.three span{display:block;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--bullet);margin-bottom:4px}
+@media (max-width:700px){.three{grid-template-columns:1fr}}
+.filled{background:var(--paper);color:var(--ink);border-radius:4px;padding:16px 18px;margin:14px 0 20px;font:15px/1.55 Inter,system-ui,sans-serif;min-width:0}
+.filled b{color:var(--ink);font-weight:600}
+.filled p{max-width:none}
+.filled p:last-child{margin-bottom:0}
+.scroll-x{overflow-x:auto;max-width:100%}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+td,th{padding:6px 10px;border-bottom:1px solid #d9d2cc;text-align:left;vertical-align:top}
+th{font-weight:600;color:#69625d;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+td.r,th.r{text-align:right}
+tr.c td{background:var(--sand-f);font-weight:600}
+.neg{color:var(--loss)}
+.board{background:var(--paper);border-radius:6px;padding:14px 16px;margin:16px 0 8px}
+.board svg{display:block;width:100%;height:auto}
+.hand{font-family:"Patrick Hand",cursive}
+.cap{font:14px/1.5 Inter,system-ui,sans-serif;color:var(--muted);margin:6px 0 20px}
+.idea{font-size:20px;line-height:1.6;padding:18px 22px;border-left:3px solid var(--bold);background:var(--surface);border-radius:4px;margin:6px 0 16px}
+.idea p:last-child{margin-bottom:0}
+.steps{counter-reset:s;list-style:none;padding:0}
+.steps > li{counter-increment:s;position:relative;padding:2px 0 12px 48px;margin:0}
+.steps > li::before{content:counter(s);position:absolute;left:0;top:2px;width:32px;height:32px;border:1.5px solid var(--bold);border-radius:50%;color:var(--bold);font:600 15px/29px Inter,system-ui,sans-serif;text-align:center}
+.q{margin-top:44px;padding-top:6px}
+.q h3{margin-top:0}
+.q .n{font:600 12px Inter,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--bullet)}
+.mini{display:flex;align-items:stretch;margin:14px 0 18px;font:14.5px/1.4 Inter,system-ui,sans-serif}
+.mini > div{flex:1;background:var(--paper);color:var(--ink);border-radius:4px;padding:10px 12px;min-width:0}
+.mini > i{flex:0 0 26px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-style:normal}
+.mini b{color:var(--ink);display:block;font-weight:600}
+@media (max-width:640px){.mini{flex-direction:column}.mini > i{flex-basis:22px;transform:rotate(90deg)}}
+.answer{margin:30px 0 10px;padding:22px 24px;background:var(--surface);border-radius:4px;border-left:3px solid var(--bold)}
+.answer .lab{font:600 13px Inter,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--bold);margin-bottom:8px}
+.answer p:last-child{margin-bottom:0}
+.exam{display:grid;gap:12px}
+.exam > div{border:1px solid var(--line);border-radius:4px;padding:14px 16px}
+.exam .tag{font:600 12px Inter,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--bullet)}
+.exam p{margin:6px 0 0}
+.pair{margin:24px 0 8px;padding:18px 20px 16px;border:1px solid var(--line);border-radius:4px;background:rgba(38,34,31,.5)}
+.pair .lbl{font:600 12px Inter,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--bold);margin:0 0 8px}
+.pair .lbl.turn{margin-top:22px;padding-top:18px;border-top:1px dashed var(--line);color:var(--bullet)}
+.pair .filled{margin:10px 0 14px}
+.pair .filled td:first-child{white-space:nowrap;width:1%}
+.exam .pair p{margin:0 0 14px}
+details.check summary{cursor:pointer;display:inline-block;font:600 14px Inter,system-ui,sans-serif;color:var(--link);padding:6px 12px;border:1px solid var(--line);border-radius:6px}
+details.check summary:hover{background:var(--surface);color:var(--head)}
+details.check summary:focus-visible{outline:2px solid var(--bold);outline-offset:2px}
+details.check[open] summary{margin-bottom:4px}
+a:focus-visible{outline:2px solid var(--bold);outline-offset:2px}
+</style>
+
+<nav class="bar" aria-label="Parts"><div class="in">
+  <a href="#top">Unit 2 in three problems</a><a href="#ch1">The chapter</a><a href="#ch1-habits">Four questions</a><a href="#ch1-answer">The answer</a><a href="#exam">Kiran's paper</a>
+</div></nav>
+
+<div class="wrap">
+
+<header class="cover" id="top">
+  <div class="kicker">Managerial Accounting · Unit 2 · Problem A of three · prototype v3</div>
+  <h1>How do you find out whether each sale makes your startup money or quietly loses it?</h1>
+  <p class="lede"><b>Unit 2 is one question asked three times:</b> what does a sale earn, how many sales do you need, and will the cash last? This page answers the first, and the other two build on it.</p>
+  <div class="three">
+    <div class="on"><span>This page</span>Does each sale make money?</div>
+    <div><span>Next</span>How much must you sell, and how do you plan a year of spending around it?</div>
+    <div><span>Then</span>How do you stop profit numbers fooling you into running out of cash?</div>
+  </div>
+</header>
+
+<section class="part" id="ch1">
+  <h2>How do you find out whether each sale makes your startup money or quietly loses it?</h2>
+  <p class="sub">Startup money, the first problem · about 50 minutes with the worked examples</p>
+
+  <h3>Where you are now</h3>
+  <ul>
+    <li><b>You judge a month by whether the bank balance went up.</b> So what: you can't tell a slow month from a product that loses money.</li>
+    <li><b>When someone says "we make 25%", you can't say 25% of what.</b> So what: you could end up with a 20% margin when you meant 25%.</li>
+    <li><b>Kiran's Oct 9 paper asks you to tell four pairs of money words apart, each with a number.</b> So what: you lose marks if you mix up the definitions.</li>
+  </ul>
+
+  <h3>After this chapter, you can</h3>
+  <p><b>Look at any product, order or discount and say whether it adds money to the business, and how much.</b> You'll know which costs to count against a sale, how to read a profit percentage, and when a cheap extra order is safe.</p>
+
+  <h3>What this looks like for you</h3>
+  <p><b>A scenario, made up for practice.</b> Thread Lab is two students who sell custom hoodies to college clubs at $50 each.</p>
+  <div class="filled">
+    <p><b>Each hoodie</b> costs $20: $12 for the plain unprinted hoodie, $5 for printing and $3 for delivery.</p>
+    <p><b>Every month</b> the studio rent and two small salaries cost $12,000, whatever they sell.</p>
+    <p><b>The symptom:</b> March sold 500 hoodies and made money. April sold 300 and the account fell by $3,000. One founder says the hoodies are underpriced.</p>
+  </div>
+
+  <h3>What usually happens</h3>
+  <ol class="steps">
+    <li><b>April closes $3,000 down, and the founders share the $12,000 out across its 300 hoodies.</b> That puts $40 of rent on each, so a hoodie "costs" $60 against a $50 price.</li>
+    <li><b>They decide each hoodie loses $10 and stop taking small club orders.</b> May sells 200 hoodies.</li>
+    <li><b>May closes $6,000 down.</b> Each hoodie still added $30, but 200 of them filled only $6,000 of the $12,000.</li>
+  </ol>
+
+  <h3>Where the problem lies</h3>
+  <p><b>The founders judged each hoodie with the rent mixed in.</b> The rent stays the same whether one hoodie sells or none, so it tells you nothing about whether a hoodie earns.</p>
+
+  <h3>Why businesses split their costs before judging a sale</h3>
+  <p><b>Businesses with big fixed bills kept dropping products in slow months.</b> Shared-out rent made every product look like a loser. Each product dropped left the same rent on fewer products, so the next one looked worse too.</p>
+  <p><b>The fix was to sort costs by one test before judging anything.</b> Costs that rise with each unit sold go on one side. Costs that stay the same however much you sell go on the other.</p>
+  <p><b>Charging each unit only its own costs became a method of accounts.</b> Only the costs that move with sales are charged to each unit; the fixed bills are charged to the month as one lump. This is called marginal costing, and it is the method Kiran teaches in Unit 2.</p>
+
+  <h3>The idea that fixes it</h3>
+  <div class="idea">
+    <p><b>For each sale, take away only the costs that sale itself causes from its price.</b> What is left is what that sale adds toward rent and salaries. If it is above zero the sale helps, and the month turns a profit once those amounts add up past the rent and salaries.</p>
+  </div>
+  <p><b>Think of a jar with a line painted on it at $12,000.</b> Every hoodie drops $30 into the jar. Nothing in the jar is profit until it fills past the line, and everything above the line is.</p>
+  <p><b>What this means in practice:</b></p>
+  <ul>
+    <li><b>Judge a sale by price minus its own costs, never by a shared-out rent.</b> April's hoodies each added $30, so they were never the problem.</li>
+    <li><b>Judge the month by whether the jar passed the line.</b> April filled the jar to $9,000, short of $12,000, because there were too few sales.</li>
+  </ul>
+
+  <div class="board" role="img" aria-label="The jar for March and April. The line is at 12,000 dollars. March fills to 15,000, above the line by 3,000. April fills to 9,000, short by 3,000.">
+    <svg viewBox="0 0 640 170">
+      <line x1="80" y1="20" x2="80" y2="140" stroke="#2a2522" stroke-width="1.5"/>
+      <rect x="80" y="34" width="480" height="34" rx="3" fill="#c9a46a"/>
+      <rect x="80" y="94" width="288" height="34" rx="3" fill="#c9a46a"/>
+      <rect x="368" y="94" width="96" height="34" rx="3" fill="none" stroke="#a4483c" stroke-width="2" stroke-dasharray="5 4"/>
+      <line x1="464" y1="18" x2="464" y2="146" stroke="#2a2522" stroke-width="2.5"/>
+      <text class="hand" x="10" y="57" font-size="20" fill="#2a2522">March</text>
+      <text class="hand" x="10" y="117" font-size="20" fill="#2a2522">April</text>
+      <text class="hand" x="90" y="57" font-size="18" fill="#2a2522">500 × $30 = $15,000</text>
+      <text class="hand" x="90" y="117" font-size="18" fill="#2a2522">300 × $30 = $9,000</text>
+      <text class="hand" x="470" y="57" font-size="17" fill="#2a2522">+$3,000</text>
+      <text class="hand" x="372" y="117" font-size="17" fill="#a4483c">short $3,000</text>
+      <text class="hand" x="402" y="164" font-size="17" fill="#2a2522">the line: $12,000</text>
+    </svg>
+  </div>
+  <p class="cap">Drawn to scale: each bar is what the month's hoodies dropped into the jar.</p>
+
+  <h3 id="ch1-habits">Four questions finance people ask about every sale</h3>
+  <p><b>Each question below is the reason one of Unit 2's ideas exists.</b> The question comes first, then what happens with Thread Lab's numbers, then the name Kiran uses. Each ends with a worked example and a twin for you to solve.</p>
+
+  <div class="q">
+    <div class="n">Question one</div>
+    <h3>Which of your costs would vanish if you sold nothing this month?</h3>
+    <p><b>The plain hoodie, the printing and the delivery would vanish.</b> They happen only when a hoodie sells, so they rise with every sale. These are called variable costs.</p>
+    <p><b>The rent and salaries would stay.</b> Costs you pay even at zero sales are called fixed costs.</p>
+    <p><b>Price minus the variable costs of one unit is what one sale adds.</b> For Thread Lab, $50 minus $20 leaves $30 per hoodie. That $30 is called the contribution per unit, and Kiran's formula is contribution per unit = selling price − variable cost per unit.</p>
+    <p><b>Add up the month's contributions, then take away the fixed costs, and what remains is profit.</b> Write it in this order every time; "Less:" means subtract, and a number in brackets is money going out. This layout is the marginal costing statement.</p>
+    <div class="filled scroll-x">
+      <table>
+        <thead><tr><th>Line</th><th class="r">March, 500 hoodies</th><th class="r">April, 300 hoodies</th></tr></thead>
+        <tbody>
+          <tr><td>Sales (units × $50)</td><td class="r">$25,000</td><td class="r">$15,000</td></tr>
+          <tr><td>Less: variable costs (units × $20)</td><td class="r">($10,000)</td><td class="r">($6,000)</td></tr>
+          <tr class="c"><td>Contribution</td><td class="r">$15,000</td><td class="r">$9,000</td></tr>
+          <tr><td>Less: fixed costs</td><td class="r">($12,000)</td><td class="r">($12,000)</td></tr>
+          <tr><td>Profit or loss</td><td class="r">$3,000</td><td class="r neg">($3,000)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><b>The contribution line has a second name: the contribution margin.</b> In March it is $15,000, and profit is $3,000. Kiran's key uses exactly this: contribution margin = sales − variable costs, and profit = contribution margin − fixed costs.</p>
+    <p><b>Either line can be read as a share of sales.</b> $15,000 ÷ $25,000 = 60% is the contribution margin ratio. $3,000 ÷ $25,000 = 12% is the profit margin.</p>
+    <div class="pair">
+      <div class="lbl">Worked example: contribution and profit</div>
+      <p><b>In June, Thread Lab sells 450 hoodies at $50.</b> Each costs $20 to make and deliver, and fixed costs are $12,000. Find the profit, the contribution margin ratio and the profit margin.</p>
+      <div class="filled scroll-x"><table>
+        <thead><tr><th>Step</th><th>Working</th></tr></thead><tbody>
+        <tr><td>Contribution per unit</td><td>price − variable cost = $50 − $20 = $30</td></tr>
+        <tr><td>Sales</td><td>450 × $50 = $22,500</td></tr>
+        <tr><td>Less: variable costs</td><td>450 × $20 = ($9,000)</td></tr>
+        <tr class="c"><td>Contribution</td><td>$22,500 − $9,000 = $13,500</td></tr>
+        <tr><td>Less: fixed costs</td><td>($12,000)</td></tr>
+        <tr class="c"><td>Profit</td><td>$13,500 − $12,000 = $1,500</td></tr>
+        <tr><td>Contribution margin ratio</td><td>contribution ÷ sales = $13,500 ÷ $22,500 = 60%</td></tr>
+        <tr><td>Profit margin</td><td>profit ÷ sales = $1,500 ÷ $22,500 = 6.7%</td></tr>
+        </tbody></table></div>
+      
+      <div class="lbl turn">Your turn</div>
+      <p><b>Thread Lab drops the price to $45 and sells 600 hoodies.</b> A cheaper supplier brings the variable cost to $18, and a bigger studio lifts fixed costs to $15,000. Find the same four things.</p>
+      <details class="check"><summary>Show the answer</summary>
+        <div class="filled scroll-x"><table>
+        <thead><tr><th>Step</th><th>Working</th></tr></thead><tbody>
+        <tr><td>Contribution per unit</td><td>$45 − $18 = $27</td></tr>
+        <tr><td>Sales</td><td>600 × $45 = $27,000</td></tr>
+        <tr><td>Less: variable costs</td><td>600 × $18 = ($10,800)</td></tr>
+        <tr class="c"><td>Contribution</td><td>$27,000 − $10,800 = $16,200</td></tr>
+        <tr><td>Less: fixed costs</td><td>($15,000)</td></tr>
+        <tr class="c"><td>Profit</td><td>$16,200 − $15,000 = $1,200</td></tr>
+        <tr><td>Contribution margin ratio</td><td>$16,200 ÷ $27,000 = 60%</td></tr>
+        <tr><td>Profit margin</td><td>$1,200 ÷ $27,000 = 4.4%</td></tr>
+        </tbody></table></div>
+        
+      </details>
+    </div>
+  </div>
+
+  <div class="q">
+    <div class="n">Question two</div>
+    <h3>Which orders add less than nothing?</h3>
+    <p><b>A club wants 40 hoodies by Friday at the usual $50.</b> Rush printing costs $18 a hoodie and a same-day courier $15, on top of the usual $20: $53 a hoodie in all. Each rush hoodie brings in $50.</p>
+    <p><b>Each rush hoodie takes $3 out of the jar.</b> The order brings money in, so nobody notices, and every extra rush hoodie makes the month $3 worse. A sale whose own costs beat its price has a negative contribution, and that is how a sale quietly loses money.</p>
+    <p><b>The fix is a lowest price you accept for rush work.</b> At $54 or more, each rush hoodie adds at least $1 toward the line. That lowest price is called a price floor.</p>
+    <div class="pair">
+      <div class="lbl">Worked example: is this order worth taking?</div>
+      <p><b>A club wants 40 hoodies by Friday at $50.</b> Each needs the usual $20, plus $18 of rush printing and $15 of courier. Should Thread Lab take it?</p>
+      <div class="filled scroll-x"><table>
+        <thead><tr><th>Step</th><th>Working</th></tr></thead><tbody>
+        <tr><td>Variable cost per hoodie</td><td>$20 + $18 + $15 = $53</td></tr>
+        <tr><td>Contribution per hoodie</td><td>price − variable cost = $50 − $53 = −$3</td></tr>
+        <tr class="c"><td>Effect on the month</td><td>40 × −$3 = −$120</td></tr>
+        <tr><td>Decision</td><td>Refuse at $50, or quote $54 or more so each hoodie adds at least $1.</td></tr>
+        </tbody></table></div>
+      
+      <div class="lbl turn">Your turn</div>
+      <p><b>A company wants 100 hoodies for its staff at $40 each.</b> Each needs the usual $20, plus $6 for a custom tag and $4 for a gift box. Should Thread Lab take it?</p>
+      <details class="check"><summary>Show the answer</summary>
+        <div class="filled scroll-x"><table>
+        <thead><tr><th>Step</th><th>Working</th></tr></thead><tbody>
+        <tr><td>Variable cost per hoodie</td><td>$20 + $6 + $4 = $30</td></tr>
+        <tr><td>Contribution per hoodie</td><td>$40 − $30 = $10</td></tr>
+        <tr class="c"><td>Effect on the month</td><td>100 × $10 = $1,000</td></tr>
+        <tr><td>Decision</td><td>Accept. The price is below the usual $50, but each hoodie still adds $10 toward fixed costs.</td></tr>
+        </tbody></table></div>
+        
+      </details>
+    </div>
+  </div>
+
+  <div class="q">
+    <div class="n">Question three</div>
+    <h3>When someone says "25% profit", is it 25% of the cost or 25% of the price?</h3>
+    <p><b>Thread Lab adds a varsity jacket that costs $80 in total, every cost counted, and sells for $100.</b> The profit is $20 a jacket. Measured against the $80 cost, $20 is 25%, and this is called the markup.</p>
+    <p><b>Measured against the $100 price, the same $20 is 20%, and this is called the margin.</b> When a sale makes a profit, the price is bigger than the cost, so the margin is the smaller number of the two.</p>
+    <div class="board" role="img" aria-label="A 100 dollar bar: 80 dollars of cost and 20 dollars of profit. The 20 is 25 percent of the 80 and 20 percent of the 100.">
+      <svg viewBox="0 0 640 110">
+        <rect x="20" y="20" width="480" height="40" rx="3" fill="#cfc8c2"/>
+        <rect x="500" y="20" width="120" height="40" rx="3" fill="#c9a46a"/>
+        <text class="hand" x="230" y="47" font-size="20" fill="#2a2522">cost $80</text>
+        <text class="hand" x="532" y="47" font-size="20" fill="#2a2522">$20</text>
+        <text class="hand" x="20" y="92" font-size="18" fill="#2a2522">$20 ÷ $80 = 25%: markup</text>
+        <text class="hand" x="370" y="92" font-size="18" fill="#2a2522">$20 ÷ $100 = 20%: margin</text>
+      </svg>
+    </div>
+    <p><b>The common mistake is adding 25% to cost when you wanted a 25% margin.</b> $80 plus 25% is $100, which gives only a 20% margin. For a true 25% margin, price = cost ÷ (1 − margin) = $80 ÷ 0.75 = $106.67.</p>
+    <div class="pair">
+      <div class="lbl">Worked example: markup and margin</div>
+      <p><b>Thread Lab sells a cap for $20 that costs $15 in total, every cost counted.</b> Find the markup, the margin, and the price that would give a 40% margin.</p>
+      <div class="filled scroll-x"><table>
+        <thead><tr><th>Step</th><th>Working</th></tr></thead><tbody>
+        <tr><td>Profit</td><td>price − cost = $20 − $15 = $5</td></tr>
+        <tr><td>Markup</td><td>profit ÷ cost = $5 ÷ $15 = 33.3%</td></tr>
+        <tr><td>Margin</td><td>profit ÷ price = $5 ÷ $20 = 25%</td></tr>
+        <tr class="c"><td>Price for a 40% margin</td><td>cost ÷ (1 − margin) = $15 ÷ 0.60 = $25</td></tr>
+        <tr><td>Check</td><td>profit ÷ price = $10 ÷ $25 = 40%</td></tr>
+        </tbody></table></div>
+      
+      <div class="lbl turn">Your turn</div>
+      <p><b>A tote bag costs $24 in total, every cost counted, and sells for $30.</b> Find the markup, the margin, the price for a 40% margin, and the markup at that price.</p>
+      <details class="check"><summary>Show the answer</summary>
+        <div class="filled scroll-x"><table>
+        <thead><tr><th>Step</th><th>Working</th></tr></thead><tbody>
+        <tr><td>Profit</td><td>$30 − $24 = $6</td></tr>
+        <tr><td>Markup</td><td>$6 ÷ $24 = 25%</td></tr>
+        <tr><td>Margin</td><td>$6 ÷ $30 = 20%</td></tr>
+        <tr class="c"><td>Price for a 40% margin</td><td>$24 ÷ 0.60 = $40</td></tr>
+        <tr><td>Markup at $40</td><td>$16 ÷ $24 = 66.7%</td></tr>
+        </tbody></table></div>
+        
+      </details>
+    </div>
+  </div>
+
+  <div class="q">
+    <div class="n">Question four</div>
+    <h3>What does one more unit cost you, compared with the average unit?</h3>
+    <p><b>A club orders 100 embroidered hoodies.</b> Setting the machine up for their logo costs $1,000 once, however many hoodies the order holds, so within this order it is a fixed cost. Each hoodie then costs $40.</p>
+    <p><b>The 100 hoodies cost $5,000 in total, so each one costs $50 on average.</b> Total cost divided by units is called the average cost.</p>
+    <p><b>Making a 101st hoodie adds only its own $40, because the setup is already paid.</b> Total cost goes from $5,000 to $5,040. What one more unit adds to total cost is called the marginal cost.</p>
+    <p><b>The $40 marginal cost is exactly one hoodie's variable cost.</b> Marginal costing is named after it: the method charges each unit only what one more unit causes.</p>
+    <p><b>So one extra hoodie at $45 is a good deal.</b> Against the average it looks like a $5 loss, but the business gains $45 and spends $40, so it ends $5 better off.</p>
+    <p><b>Selling all 100 at $45 is a bad deal.</b> You bring in $4,500 against $5,000 of cost. Price one extra unit against the marginal cost; price the whole order against the average.</p>
+    <div class="pair">
+      <div class="lbl">Worked example: average and marginal cost</div>
+      <p><b>Making 200 tote bags costs $3,000, and making 201 costs $3,012.</b> A shop wants 20 extra bags at $13 each. Should Thread Lab accept, and could it sell all 200 at $13?</p>
+      <div class="filled scroll-x"><table>
+        <thead><tr><th>Step</th><th>Working</th></tr></thead><tbody>
+        <tr><td>Average cost</td><td>total cost ÷ units = $3,000 ÷ 200 = $15</td></tr>
+        <tr><td>Marginal cost</td><td>$3,012 − $3,000 = $12</td></tr>
+        <tr class="c"><td>Extra order</td><td>$13 − $12 = $1 a bag, × 20 = $20 gained. Accept.</td></tr>
+        <tr class="c"><td>All 200 at $13</td><td>200 × $13 = $2,600 against $3,000 of cost, a $400 loss. Refuse.</td></tr>
+        </tbody></table></div>
+      <p><b>Accept an extra order when its price beats what one more unit costs.</b> Sell the whole batch (every unit made in one run) only above the average cost, or it loses money.</p>
+      <div class="lbl turn">Your turn</div>
+      <p><b>50 logo mugs cost $500 to set up, plus $10 a mug.</b> A café wants 10 extra mugs at $14. Find the average and marginal cost, then decide on the café order and on selling all 50 at $14.</p>
+      <details class="check"><summary>Show the answer</summary>
+        <div class="filled scroll-x"><table>
+        <thead><tr><th>Step</th><th>Working</th></tr></thead><tbody>
+        <tr><td>Total cost</td><td>$500 + 50 × $10 = $1,000</td></tr>
+        <tr><td>Average cost</td><td>$1,000 ÷ 50 = $20</td></tr>
+        <tr><td>Marginal cost</td><td>$10, because the setup is already paid</td></tr>
+        <tr class="c"><td>Café order</td><td>10 × ($14 − $10) = $40 gained. Accept.</td></tr>
+        <tr class="c"><td>All 50 at $14</td><td>50 × $14 = $700 against $1,000 of cost, a $300 loss. Refuse.</td></tr>
+        </tbody></table></div>
+        
+      </details>
+    </div>
+  </div>
+
+  <h3>How it works, from one hoodie order to the month's profit</h3>
+  <ol class="steps">
+    <li><b>An order arrives at $50 a hoodie, and you take away only what that hoodie causes: $20.</b> What is left, $30, is its contribution.</li>
+    <li><b>Every order's contribution goes into the month's total.</b> 500 hoodies make $15,000.</li>
+    <li><b>You take the fixed $12,000 off the total once.</b> What remains, $3,000, is the month's profit.</li>
+  </ol>
+  <div class="mini" aria-label="Price, minus own costs, gives contribution, summed, minus fixed costs, gives profit">
+    <div><b>Price</b>$50</div><i>→</i><div><b>Minus its own costs</b>$20</div><i>→</i><div><b>Contribution</b>$30 each</div><i>→</i><div><b>Minus fixed, once</b>$12,000</div><i>→</i><div><b>Profit</b>$3,000</div>
+  </div>
+
+  <h3>How you'd build it</h3>
+  <p><b>One sheet with three parts is enough.</b> A Google Sheet works; nothing fancier is needed until you have many products.</p>
+  <ul>
+    <li><b>A cost list with one extra column: "does this rise with each sale?"</b> Yes means variable, no means fixed.</li>
+    <li><b>One line per product or order type: price minus variable cost.</b> Any line below zero is an order that quietly loses money.</li>
+    <li><b>A monthly statement in Kiran's order:</b> sales, variable costs, contribution, fixed costs, profit. Claude can build it from the cost list.</li>
+  </ul>
+
+  <h3>How you'd run it</h3>
+  <ol class="steps">
+    <li><b>Month one:</b> you sort every cost and find the hoodie adds $30.</li>
+    <li><b>Month two:</b> a rush order shows minus $3 a hoodie, and you quote $54 instead.</li>
+    <li><b>Month three:</b> you filed the $3 delivery as fixed, so contribution read $33. You move it back to variable and the number drops to $30.</li>
+  </ol>
+
+  <h3>Where else it applies</h3>
+  <p><b>Your micro-SaaS with Mohit works the same way, as an invented example.</b> Say a user pays $10 a month and costs $3 in AI usage and card fees. Each user then adds $7 toward the fixed costs of servers (the rented computers the app runs on) and tools.</p>
+  <div class="mini" aria-label="10 dollars a month, minus 3 dollars per user, gives 7 dollars toward fixed costs">
+    <div><b>A user pays</b>$10 a month</div><i>→</i><div><b>Minus what that user causes</b>$3 of AI and card fees</div><i>→</i><div><b>Adds toward servers and tools</b>$7</div>
+  </div>
+  <ul>
+    <li><b>A Jain fest food stall:</b> each plate's price minus its ingredients pays toward the stall fee.</li>
+    <li><b>A paid workshop:</b> each seat's fee minus its kit and lunch pays toward the hall and the speaker.</li>
+  </ul>
+
+  <h3>When to skip it</h3>
+  <p><b>If you have one product, one price and no fixed bills worth naming, skip the split.</b> Money in minus money out tells you the same thing.</p>
+
+  <h3 id="ch1-answer">The answer</h3>
+  <div class="answer">
+    <div class="lab">The answer</div>
+    <p><b>To know if a sale makes money, take its price and subtract only the costs that sale causes.</b> Costs that rise with each sale are variable costs; costs that stay put are fixed costs. What a sale leaves over is its contribution, and above zero means the sale helps.</p>
+    <p><b>Profit comes after contribution.</b> All the contributions together, minus the fixed costs once, give the profit. Kiran's name for counting this way is marginal costing.</p>
+    <p><b>Contribution has a second name, the contribution margin.</b> As a share of sales it is the contribution margin ratio; profit as a share of sales is the profit margin.</p>
+    <p><b>A percentage means nothing until you know what it is a percentage of.</b> Profit over cost is markup, profit over price is margin, and on a profitable sale the margin is the smaller one.</p>
+    <p><b>The next unit costs only what it adds, which is its marginal cost.</b> That can be less than the average cost (total cost divided by units), so one extra order can take a lower price than the whole batch.</p>
+    <p><b>What this unlocks next:</b> how many sales you need before the month stops losing money, which is the jar's line divided by what each sale drops in ($12,000 ÷ $30 = 400 hoodies, called break-even), and then planning a whole year of spending around that number.</p>
+  </div>
+</section>
+
+<section class="part" id="exam">
+  <div class="kicker">For the test</div>
+  <h2>Kiran's Oct 9 questions, answered in this chapter's numbers</h2>
+  <p><b>Each answer says in one sentence how the two words differ, then gives one worked number.</b> The numbers match Kiran's answer key where the key gives them; on the test, use the numbers in the question.</p>
+  <div class="exam">
+    <div><span class="tag">Question d · key item 4</span><p><b>Margin and profit:</b> contribution margin = sales − variable costs; profit = contribution margin − fixed costs. March: $15,000 of margin, $3,000 of profit.</p></div>
+    <div><span class="tag">Question f · key item 6</span><p><b>Average and marginal cost:</b> average = total cost ÷ units ($5,000 ÷ 100 = $50); marginal = the cost one more unit adds ($5,040 − $5,000 = $40).</p></div>
+    <div><span class="tag">Question g · key item 7</span><p><b>Margin and markup:</b> markup = profit ÷ cost ($20 ÷ $80 = 25%); margin = profit ÷ price ($20 ÷ $100 = 20%).</p></div>
+    <div><span class="tag">Question h · key item 8</span><p><b>Break-even (the number of sales where the month stops losing money) = fixed cost ÷ contribution per unit.</b> Fixed cost is what you pay at zero sales ($12,000); contribution per unit is price − variable cost ($50 − $20 = $30). Break-even is $12,000 ÷ $30 = 400 hoodies.</p>
+    <div class="pair">
+      <div class="lbl">Worked example: the terms in break-even</div>
+      <p><b>Break-even is the number of units whose contributions just cover the fixed costs: fixed cost ÷ contribution per unit.</b> A business has fixed costs of $9,000, sells at $40 and has a variable cost of $25. Explain each term and find break-even.</p>
+      <div class="filled scroll-x"><table>
+        <thead><tr><th>Step</th><th>Working</th></tr></thead><tbody>
+        <tr><td>Fixed cost</td><td>paid even at zero sales: $9,000</td></tr>
+        <tr><td>Contribution per unit</td><td>$40 − $25 = $15, what each sale adds toward fixed costs</td></tr>
+        <tr class="c"><td>Break-even</td><td>$9,000 ÷ $15 = 600 units</td></tr>
+        </tbody></table></div>
+      <p><b>Below 600 units the business loses money.</b> Each unit above 600 adds $15 of profit.</p>
+      <div class="lbl turn">Your turn</div>
+      <p><b>Fixed costs are $6,000, the price is $25 and the variable cost is $10.</b> Find each term and the break-even point.</p>
+      <details class="check"><summary>Show the answer</summary>
+        <div class="filled scroll-x"><table>
+        <thead><tr><th>Step</th><th>Working</th></tr></thead><tbody>
+        <tr><td>Fixed cost</td><td>$6,000</td></tr>
+        <tr><td>Contribution per unit</td><td>$25 − $10 = $15</td></tr>
+        <tr class="c"><td>Break-even</td><td>$6,000 ÷ $15 = 400 units</td></tr>
+        </tbody></table></div>
+        
+      </details>
+    </div>
+    </div>
+  </div>
+</section>
+
+</div>
