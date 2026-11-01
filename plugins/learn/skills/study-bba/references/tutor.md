@@ -2,7 +2,7 @@
 
 Claude runs inside the published page on Ash's own account: no key, no setup. He approves it once, the first time he asks. **Publish with `capabilities: {sample: {}}`** or the tab never appears.
 
-**One tab on the right edge, "Ask the tutor".** Clicking it slides a chat panel in from the right. The panel already holds the whole page's text and the section on his screen (the last heading above the middle of the window), plus any text he highlighted. A theory page's "Send to the tutor" buttons open the same panel with his writing sent. There are no buttons scattered through the page. On wide screens the page slides left so the panel covers nothing.
+**One tab on the right edge, "Ask the tutor".** Clicking it slides a chat panel in from the right. The panel already holds the whole page's text and the section on his screen (the last heading above the middle of the window), plus any text he highlighted. A theory page's think boxes (one line that grows, Enter sends) open the same panel with his writing sent. There are no buttons scattered through the page. On wide screens the page slides left so the panel covers nothing.
 
 **Haiku answers, by name.** The script asks for `claude-haiku-5-5` with `modelTier: "quick"`, so it falls back to the fast tier if Haiku is unavailable. Ash chose it: fast and smart enough. The page itself is written by the strongest model.
 
@@ -34,8 +34,11 @@ Claude runs inside the published page on Ash's own account: no key, no setup. He
 .tutor textarea{flex:1;resize:none;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font:inherit}
 .btn{font:600 14px Inter,system-ui,sans-serif;color:var(--ink);background:var(--sand);border:0;border-radius:6px;padding:8px 14px;cursor:pointer}
 .btn:hover,.btn:focus-visible{background:var(--sand-f);outline:none}
-.think{margin:10px 0 14px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
-.think textarea{width:100%;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:10px 12px;font:16px/1.5 "Source Serif 4",Georgia,serif}
+.think{margin:10px 0 14px;display:flex;gap:8px;align-items:flex-end}
+.think textarea{flex:1;min-width:0;min-height:38px;max-height:240px;resize:vertical;background:var(--paper);color:var(--ink);border:1px solid var(--sand);border-radius:8px;padding:8px 12px;font:14px/1.45 Inter,system-ui,sans-serif}
+.think textarea::placeholder{color:#8a817a}
+.think textarea:focus{outline:2px solid var(--sand);outline-offset:1px}
+.think .btn{flex:none;padding:9px 14px}
 .think .btn[hidden]{display:none}
 @media (min-width:1200px){body.tutor-open .wrap,body.tutor-open .bar .in{margin-left:max(16px,calc((100vw - 420px - 780px)/2));margin-right:420px}}
 ```
@@ -59,6 +62,12 @@ Claude runs inside the published page on Ash's own account: no key, no setup. He
   const sample = await claude.use("sample");
   if (!sample) return;
   $("ttab").hidden = false; thinkBtns.forEach(b => b.hidden = false);
+  // The think box: one line that grows as he writes; Enter sends, Shift+Enter adds a line.
+  document.querySelectorAll(".think textarea").forEach(t => {
+    t.placeholder += " Enter sends.";
+    t.oninput = () => { t.style.height = "auto"; t.style.height = Math.min(t.scrollHeight + 2, 240) + "px"; };
+    t.onkeydown = e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); t.nextElementSibling.click(); } };
+  });
   const wrap = document.querySelector(".wrap");
   const page = wrap.innerText.slice(0, 24000);
   let turns = [], topic = "", section = "", ctl;

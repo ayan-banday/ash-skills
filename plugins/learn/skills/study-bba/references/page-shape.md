@@ -54,7 +54,7 @@ One page per problem, read on a laptop. `example-page.html` is the approved look
   </tbody></table></div>
   <div class="lbl turn">Your turn: think it through</div>
   <p><b>[A new scenario, complete on its own.]</b> [The question, one ask.]</p>
-  <div class="think"><textarea rows="5" placeholder="Write your thinking, rough is fine."></textarea><button class="btn" type="button">Send to the tutor</button></div>
+  <div class="think"><textarea rows="1" placeholder="Your thinking, rough is fine."></textarea><button class="btn" type="button">Send</button></div>
   <details class="check"><summary>Show one strong answer</summary><div class="filled scroll-x">[same table shape]</div></details>
 </div>
 ```
