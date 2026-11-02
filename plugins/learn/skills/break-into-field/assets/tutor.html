@@ -76,7 +76,8 @@ HOW TO WRITE
 - 7th-grade words, short sentences, plain verbs. Paragraphs of 3 sentences at most. Simple, not simpler: keep the real mechanism.
 - No praise, hedges, filler, em dashes, or "not X but Y".
 - Numbers he can picture; mark guesses with "say". Invent examples, never facts or statistics about real companies.
-- Format: **bold**, lists with "- ", numbered lines "1. ". No headings, no tables.`;
+- A list holds 3 items at most. With more, group them: up to 3 parent items, each a bold phrase naming the group, with its own items nested under it (indented two spaces).
+- Format: **bold**, lists with "- ", numbered lines "1. ", "2. ", "3. ", nested items indented two spaces. No headings, no tables.`;
 
   const NOTES = `You keep Ash's study notes on one part of his book. Update them from his latest message and the tutor's reply. Ash reads these notes first; a later Claude session reads them too, to know where he stands. Write to Ash as "you", in plain words he understands at a glance, and make them make sense to someone who never saw the chat.
 Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
@@ -100,15 +101,32 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
 
   // ================= Markdown, the tutor's small subset =================
   const inl = s => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/==(.+?)==/g, '<span class="nm">$1</span>');
+  // Lists: a blank line between items keeps one list (so numbers run 1, 2, 3); items indented two spaces nest under the item above.
   function blocks(t) {
-    let out = "", list = null, para = [];
+    const L = String(t).split("\n");
+    let out = "", list = null, para = [], m;
+    const item = s => (m = s.match(/^[-*•]\s+(.*)/)) ? { t: "ul", x: m[1] } : (m = s.match(/^(\d+)[.)]\s+(.*)/)) ? { t: "ol", x: m[2], n: +m[1] } : null;
     const fp = () => { if (para.length) { out += "<p>" + inl(para.join(" ")) + "</p>"; para = []; } };
-    const fl = () => { if (list) { out += `<${list.t}>` + list.items.map(i => "<li>" + inl(i) + "</li>").join("") + `</${list.t}>`; list = null; } };
-    for (const raw of String(t).split("\n")) {
-      const l = raw.trim(); let m;
-      if (!l) { fp(); fl(); continue; }
-      if ((m = l.match(/^[-*•]\s+(.*)/))) { fp(); if (list?.t !== "ul") { fl(); list = { t: "ul", items: [] }; } list.items.push(m[1]); continue; }
-      if ((m = l.match(/^\d+[.)]\s+(.*)/))) { fp(); if (list?.t !== "ol") { fl(); list = { t: "ol", items: [] }; } list.items.push(m[1]); continue; }
+    const fl = () => {
+      if (!list) return;
+      const st = list.t === "ol" && list.start > 1 ? ` start="${list.start}"` : "";
+      out += `<${list.t}${st}>` + list.items.map(i => "<li>" + inl(i.x) +
+        (i.kids ? `<${i.kids.t}>` + i.kids.items.map(k => "<li>" + inl(k) + "</li>").join("") + `</${i.kids.t}>` : "") + "</li>").join("") + `</${list.t}>`;
+      list = null;
+    };
+    for (let k = 0; k < L.length; k++) {
+      const raw = L[k], l = raw.trim(), ind = raw.match(/^\s*/)[0].length;
+      if (!l) {
+        fp();
+        let j = k + 1; while (j < L.length && !L[j].trim()) j++;
+        const nx = j < L.length ? item(L[j].trim()) : null, nind = j < L.length ? L[j].match(/^\s*/)[0].length : 0;
+        if (!(list && nx && (nind >= 2 || nx.t === list.t))) fl();
+        continue;
+      }
+      const it = item(l);
+      if (it && ind >= 2 && list?.items.length) { const last = list.items.at(-1); last.kids = last.kids || { t: it.t, items: [] }; last.kids.items.push(it.x); continue; }
+      if (it) { fp(); if (list?.t !== it.t) { fl(); list = { t: it.t, start: it.n || 1, items: [] }; } list.items.push({ x: it.x }); continue; }
+      if (ind >= 2 && list?.items.length && !para.length) { list.items.at(-1).x += " " + l; continue; }
       if ((m = l.match(/^#{1,4}\s+(.*)/))) { fp(); fl(); out += "<p><b>" + inl(m[1]) + "</b></p>"; continue; }
       fl(); para.push(l);
     }
@@ -151,7 +169,7 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
     });
     const done = order.filter(k => S[k].notes).length, open = order.reduce((a, k) => a + openCount(k), 0);
     const nb = $("notesbtn");
-    if (nb) nb.innerHTML = `My notes · ${done} of ${order.length}` + (open ? ` <b>${open} open</b>` : "");
+    if (nb) nb.innerHTML = `My notes <span class="n">· ${done} of ${order.length} taught back</span>` + (open ? ` <span class="op">· ${open} still open</span>` : "");
     const line = inChapter(chapterOf(cur));
     $("dline").innerHTML = line.map(k => `<button type="button" data-s="${k}" class="${S[k].notes ? "done" : ""} ${k === cur ? "on" : ""}" aria-label="${esc(STATIONS[k].name)}" title="${esc(STATIONS[k].name)}"><i></i></button>`).join("");
     $("dline").querySelectorAll("button").forEach(b => b.onclick = () => openDesk(b.dataset.s, true));

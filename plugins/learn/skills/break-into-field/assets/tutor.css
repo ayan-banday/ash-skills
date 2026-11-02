@@ -48,8 +48,11 @@ body.desk-open .rail{opacity:0;pointer-events:none}
 .aidot.show{display:block}
 
 /* The notes button in the top bar */
-.notesbtn{flex:none;font:600 13px "Overpass Mono",monospace;color:var(--on);background:var(--p1);border:0;border-radius:5px;padding:6px 11px;cursor:pointer;white-space:nowrap;margin-left:auto}
-.notesbtn b{color:var(--on);background:var(--bg);color:var(--acc);border-radius:3px;padding:0 5px;margin-left:2px}
+/* Quiet, like the rest of the bar: dark surface, light text, no pastel fill and no chip inside it (Ash, Nov 2: the pink pill with an orange "open" chip was "garbage") */
+.notesbtn{flex:none;font:500 14px "Atkinson Hyperlegible",sans-serif;color:var(--tx);background:var(--bg2);border:1px solid var(--ln);border-radius:6px;padding:5px 12px;cursor:pointer;white-space:nowrap;margin-left:auto}
+.notesbtn:hover{border-color:var(--mu)}
+.notesbtn .n{color:var(--mu)}
+.notesbtn .op{color:var(--p1)}
 
 /* The desk */
 .desk{position:fixed;top:0;right:0;bottom:0;width:min(480px,100vw);z-index:40;background:var(--bg2);border-left:1px solid var(--ln);box-shadow:-12px 0 36px rgba(0,0,0,.4);display:flex;flex-direction:column;transform:translateX(104%);transition:transform .26s cubic-bezier(.22,1,.36,1);font:15.5px/1.6 "Atkinson Hyperlegible",system-ui,sans-serif;color:var(--tx);overflow:hidden;visibility:hidden}
@@ -86,6 +89,7 @@ body.desk-open .rail{opacity:0;pointer-events:none}
 .reply p{margin:0 0 12px}
 .reply ul,.reply ol{margin:0 0 12px;padding-left:20px}
 .reply li{margin:5px 0}
+.reply li ul,.reply li ol{margin:4px 0 2px;padding-left:18px}
 .reply li::marker{color:var(--acc)}
 .desk .nm{color:var(--on);background:var(--p3);border-radius:3px;padding:0 4px;font-weight:700}
 .reply .wait{color:var(--mu);font-style:italic}

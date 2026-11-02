@@ -109,7 +109,8 @@ HOW TO WRITE
 - 7th-grade words, short sentences, plain verbs. Paragraphs of 3 sentences at most. Simple, not simpler: keep the real mechanism.
 - No praise, hedges, filler, em dashes, or "not X but Y".
 - Numbers he can picture; mark guesses with "say". Invent examples, never facts or statistics about real companies.
-- Format: **bold**, lists with "- ", numbered lines "1. ". No headings, no tables.`;
+- A list holds 3 items at most. With more, group them: up to 3 parent items, each a bold phrase naming the group, with its own items nested under it (indented two spaces).
+- Format: **bold**, lists with "- ", numbered lines "1. ", "2. ", "3. ", nested items indented two spaces. No headings, no tables.`;
   const COUNT = `Count the distinct concepts in Ash's message: ideas he explains, uses or asks about (a concept from the page or any other). Return only JSON: {"n": number, "names": ["short name", ...]}`;
 
   const $ = id => document.getElementById(id);

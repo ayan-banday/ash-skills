@@ -9,6 +9,7 @@ Ash on v2 (Oct 30 2026): "There are a lot of big paragraphs. Break them." The ru
 - **At most 3 sentences and 60 words per paragraph.** A longer one is two ideas; split it.
 - **A paragraph of 2 or more sentences opens with a bold lead-in:** its point in a few plain words, so the bold lines alone tell the story.
 - **Steps, three or more things, and comparisons are bullets, numbered steps or a small table,** never one sentence with "first... then... and finally".
+- **A list never goes past three items** (Ash, Nov 2 2026). When it would, group the items under up to three bold parents and nest them, so each level holds three or fewer.
 - **Bullets: at most 2 sentences and 40 words.** More than 3 bullets are grouped under bold labels.
 - **One idea per paragraph.** When the next sentence starts a new idea, start a new paragraph.
 
