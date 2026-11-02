@@ -176,7 +176,7 @@ HOW TO WRITE
     const bot = document.createElement("div"); bot.className = "bot"; bot.textContent = "Thinking...";
     $("tlog").append(me, route, bot); bot.scrollIntoView({ block: "end" });
     turns.push({ role: "user", content: msg });
-    turns = turns.slice(-6);
+    turns = turns.slice(-30);  // the whole conversation goes along, so follow-ups keep the context
     const r = await judge(msg);
     route.innerHTML = `<b>${r.tier}${r.effort ? " · " + r.effort + " thinking" : ""}</b> ${esc(r.what)}`;
     if (r.tier !== "Haiku") bot.textContent = r.tier + " is thinking it through...";
@@ -233,4 +233,4 @@ HOW TO WRITE
 </script>
 ```
 
-The `(earlier)` line keeps the roles alternating when old turns are trimmed (the tutor sends his last 6 turns). The `UNIT` and `IDEAS` values above are an example from the Managerial Accounting page: replace them for every page. A page published without `sample` hides the tab and the send buttons, and the hidden answers still work. No notes or database for study pages (Ash: "I'm going to barely use that").
+The `(earlier)` line keeps the roles alternating when old turns are trimmed (the tutor sends his last 30 turns, so a back-and-forth keeps its context; every exchange stays in the panel's one scrolling log until he opens the tutor on a different question). The `UNIT` and `IDEAS` values above are an example from the Managerial Accounting page: replace them for every page. A page published without `sample` hides the tab and the send buttons, and the hidden answers still work. No notes or database for study pages (Ash: "I'm going to barely use that").

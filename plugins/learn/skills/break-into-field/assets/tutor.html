@@ -103,7 +103,7 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
   const order = btns.map(b => b.dataset.s);
   const chapterOf = id => STATIONS[id].chapter;
   const inChapter = ch => order.filter(id => chapterOf(id) === ch);
-  const S = {}; for (const id of order) S[id] = { turns: [], notes: null, view: -1 };
+  const S = {}; for (const id of order) S[id] = { turns: [], notes: null };
   if (T.EXAMPLE && S[T.EXAMPLE.station]) S[T.EXAMPLE.station].example = [
     { role: "user", content: T.EXAMPLE.me, route: T.EXAMPLE.route, example: true },
     { role: "assistant", content: T.EXAMPLE.bot, example: true }];
@@ -192,26 +192,25 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
     updateRail(true);
   }
   function pairs() { const t = turnsOf(cur), p = []; for (let i = 0; i < t.length; i += 2) p.push([t[i], t[i + 1]]); return p; }
+  // One conversation per station: every exchange stacks in one scrolling thread, and the newest opens at its top.
   function renderTalk() {
-    const p = pairs(), st = S[cur], info = STATIONS[cur];
-    if (st.view < 0 || st.view >= p.length) st.view = p.length - 1;
+    const p = pairs(), info = STATIONS[cur];
     if (!p.length) {
       $("pTalk").innerHTML = `<div class="start"><div class="big">${esc(info.q)}</div><p class="hint">Type anything, or start from one of these.</p>
         <div class="sug">${(info.sug || []).map(s => `<button type="button">${esc(s)}</button>`).join("")}</div></div>`;
       $("pTalk").querySelectorAll(".sug button").forEach(b => b.onclick = () => { if (sample) send(b.textContent); else { $("din").value = b.textContent; } });
       return;
     }
-    const [me, bot] = p[st.view];
-    $("pTalk").innerHTML = (p.length > 1 ? `<div class="turns">${p.map((_, i) => `<button type="button" data-i="${i}" class="${i === st.view ? "on" : ""}">${i + 1}</button>`).join("")}</div>` : "") +
+    $("pTalk").innerHTML = p.map(([me, bot], i) => `<div class="turn">` +
       `<div class="you"><span class="who">You${me.example ? " · an example" : ""}</span>${esc(me.content)}</div>${routeHTML(me.route)}` +
-      `<div class="reply">${bot ? render(bot.content) : `<span class="wait">${me.route?.deep ? tierOf(me.route) + " is thinking it through..." : "Thinking..."}</span>`}</div>`;
-    $("pTalk").querySelectorAll(".turns button").forEach(b => b.onclick = () => { st.view = +b.dataset.i; renderTalk(); });
-    const pa = $("pTalk").querySelector(".pans");
+      `<div class="reply">${bot ? render(bot.content, i < p.length - 1) : `<span class="wait">${me.route?.deep ? tierOf(me.route) + " is thinking it through..." : "Thinking..."}</span>`}</div></div>`).join("");
+    const pa = $("pTalk").querySelector(".turn:last-child .pans");
     if (pa) {
       pa.oninput = () => { pa.style.height = "auto"; pa.style.height = Math.min(pa.scrollHeight + 2, 200) + "px"; };
       pa.onkeydown = e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); const v = pa.value.trim(); if (v && sample) send("My answers to the practice case:\n" + v); } };
     }
-    $("pTalk").scrollTop = 0;
+    const last = $("pTalk").querySelector(".turn:last-child");
+    $("pTalk").scrollTop = p.length > 1 ? last.offsetTop - 8 : 0;
   }
   const quoteHTML = s => esc(s).replace(/&quot;(.+?)&quot;/g, "<b>“$1”</b>").replace(/“(.+?)”/g, "<b>“$1”</b>").replace(/<b><b>(.+?)<\/b><\/b>/g, "<b>$1</b>");
   function renderNotes() {  // taught-back stations first as pink cards, then the rest as a short list
@@ -268,14 +267,15 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
   async function send(msg) {
     const id = cur, st = S[id], hl = picked;
     const me = { role: "user", content: msg, route: null };
-    st.turns.push(me); st.view = 1e9; $("dsend").disabled = true; renderTalk();
+    st.turns.push(me); $("dsend").disabled = true; renderTalk();
     me.route = await judge(msg); if (cur === id) renderTalk();
     const lead = `${RULES}\n\nTHE BOOK\n${bookText()}\n\nTHE CONCEPT HE OPENED YOU FROM\n${STATIONS[id].name}: ${STATIONS[id].q}` +
       (hl ? `\n\nHE HIGHLIGHTED\n${hl}` : "") + (st.notes ? `\n\nHIS NOTES SO FAR\n${JSON.stringify(st.notes)}` : "");
-    const hist = st.turns.slice(-6).map(t => ({ role: t.role, content: t.content }));
+    // The whole conversation at this station goes along (its last 30 turns), so every follow-up keeps the context.
+    const hist = st.turns.slice(-30).map(t => ({ role: t.role, content: t.content }));
     while (hist.length && hist[0].role !== "user") hist.shift();
     ctl?.abort(); ctl = new AbortController();
-    const out = () => cur === id && tab === "talk" && st.view >= pairs().length - 1 ? $("pTalk").querySelector(".reply") : null;
+    const out = () => cur === id && tab === "talk" ? $("pTalk").querySelector(".turn:last-child .reply") : null;
     try {
       const { text } = await sample([{ role: "user", content: lead }, { role: "assistant", content: "Ready." }, ...hist], {
         ...optsOf(me.route), cache: false, signal: ctl.signal,

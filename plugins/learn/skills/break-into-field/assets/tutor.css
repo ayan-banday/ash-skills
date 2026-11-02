@@ -88,9 +88,7 @@ body.sizing .part > .wrap{transition:none}
 
 .pane{flex:1;min-height:0;overflow-y:auto;padding:16px 18px 20px}
 .pane[hidden]{display:none}
-.turns{display:flex;gap:6px;margin:-2px 0 12px;flex-wrap:wrap}
-.turns button{font:600 12px "Overpass Mono",monospace;color:var(--mu);background:var(--bg3);border:1px solid var(--ln);border-radius:4px;padding:1px 9px;cursor:pointer}
-.turns button.on{color:var(--on);background:var(--p2);border-color:var(--p2)}
+.turn + .turn{margin-top:22px;padding-top:18px;border-top:1px solid var(--ln)}
 .you{background:var(--bg3);border-radius:10px 10px 3px 10px;padding:10px 13px;white-space:pre-wrap;font-size:14.5px}
 .you .who{display:block;font:600 11px "Overpass Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--p2);margin-bottom:2px}
 .route{display:flex;gap:8px;align-items:center;margin:8px 0 14px;font:500 12px "Overpass Mono",monospace;color:var(--mu)}
