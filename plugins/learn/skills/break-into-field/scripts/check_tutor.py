@@ -63,9 +63,9 @@ def main(path):
             warns.append(f"IDEAS for {ch} has {len(ideas[ch])} ideas (aim for 6 to 12)")
     for ch, m_ in ideas.items():
         for name, words in m_.items():
-            short = [w for w in words if len(w.strip()) <= 2 and not (w.startswith(" ") and w.endswith(" "))]
+            short = [w for w in words if len(w.strip()) <= 4 and not w.startswith(" ")]
             if short:
-                warns.append(f"IDEAS {ch} / {name}: short words {short} match inside other words; pad them with spaces")
+                warns.append(f"IDEAS {ch} / {name}: short words {short} match inside other words; start them with a space")
     ex = cfg.get("EXAMPLE")
     if ex and ex.get("station") not in st:
         fails.append("EXAMPLE.station is not a station")

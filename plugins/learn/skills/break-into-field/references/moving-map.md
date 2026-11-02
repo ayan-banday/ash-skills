@@ -47,7 +47,7 @@ The map sits on a sticky stage while short captions scroll past it. Each step ch
 5. **What opens last, and the top.** The last layer lights and the lines reach the outcome. The stage releases.
 
 - **One bright thing per step,** in the accent; everything else stays dim but visible, so the picture builds.
-- **A caption per step, 20 words or fewer,** in the empty part of the picture (the sky beside a mountain), never covering a stop.
+- **A caption per step, 20 words or fewer,** in the empty part of the picture, never covering a stop.
 - **The last step needs room to settle:** give the step track a tail (about 45% of the screen height) so the stage stays pinned while step 5 plays, then releases to the map at rest.
 - **Pinned for 3 viewport heights at most.** Lines draw at pen speed; nothing bounces, flies or loops.
 

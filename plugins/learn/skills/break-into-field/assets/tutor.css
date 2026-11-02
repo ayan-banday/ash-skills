@@ -20,6 +20,9 @@
   body.tutor .part > .wrap{margin-left:max(24px,calc((100vw - 760px - 470px)/2));margin-right:auto}
   body.desk-open .part > .wrap{margin-left:max(24px,calc((100vw - var(--deskw,480px) - 20px - 760px)/2));max-width:min(760px,calc(100vw - var(--deskw,480px) - 48px))}
   body.desk-open .stn:not(.inline){display:none}
+  /* Wide parts (the map, the shelves) and the top bar shrink too, so the open desk covers nothing */
+  body.desk-open .part > .wide{margin-left:24px;margin-right:0;max-width:calc(100vw - var(--deskw,480px) - 48px)}
+  body.desk-open .bar > .wide{margin-left:0;margin-right:0;max-width:calc(100vw - var(--deskw,480px))}
 }
 
 /* The sticky chapter rail: the current chapter's stations as a short transit line */

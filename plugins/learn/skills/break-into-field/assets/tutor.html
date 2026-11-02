@@ -2,7 +2,7 @@
      Paste once, just before </body>, AFTER the <script> that sets window.TUTOR (references/tutor.md).
      Same for every book: change nothing here; everything per book lives in window.TUTOR. -->
 <nav class="rail" id="trail" aria-label="Teach it back stations in this chapter"></nav>
-<button class="aidot" id="aidot" type="button" aria-label="Ask the tutor about this" title="Ask the tutor about this">✦</button>
+<button class="aidot" id="aidot" type="button" aria-label="Ask the tutor about this">✦</button>
 <aside class="desk" id="desk" aria-label="Teach it back">
   <div class="grip" id="dgrip" role="separator" aria-orientation="vertical" aria-label="Drag to change the chat's width" tabindex="0" title="Drag to change the width. Double-click resets it."></div>
   <div class="top">
@@ -30,8 +30,12 @@
 <script>
 // <count> How many ideas a message holds, and so which model answers. Pure: unit-tested in Node.
 function countIdeas(msg, ideas) {
-  const low = " " + String(msg).toLowerCase().replace(/\s+/g, " ") + " ";
-  const names = Object.keys(ideas || {}).filter(k => ideas[k].some(w => low.includes(String(w).toLowerCase())));
+  // Punctuation becomes spaces, so a word list entry starting with a space (" rank") matches only as a whole word.
+  const low = " " + String(msg).toLowerCase().replace(/[^a-z0-9.%₹'\-]+/g, " ").replace(/\.(?=\s|$)/g, " ") + " ";
+  const esc_ = w => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  // " loop" is a whole word, with simple endings allowed (loops, looped): never "loophole".
+  const hit = w => { w = String(w).toLowerCase(); return w.startsWith(" ") ? new RegExp(" " + esc_(w.trim()) + "(s|es|d|ed|ing)? ").test(low) : low.includes(w); };
+  const names = Object.keys(ideas || {}).filter(k => ideas[k].some(hit));
   const asks = (String(msg).match(/\?/g) || []).length;
   const words = String(msg).trim().split(/\s+/).filter(Boolean).length;
   const n = Math.max(names.length, asks);
@@ -320,7 +324,9 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
   function updateRail(force) {
     const y = innerHeight * 0.45;
     const sec = [...document.querySelectorAll("section, header, footer")].find(s => { const r = s.getBoundingClientRect(); return r.top <= y && r.bottom > y; });
-    const here = btns.filter(b => b.closest("section, header, footer") === sec);
+    let here = btns.filter(b => b.closest("section, header, footer") === sec);
+    // No stations here (the cover, the recipe, the sources): show the nearest chapter's rail, so a station is always in reach.
+    if (!here.length) { const ref = nearestAbove(y) || btns[0], rs = ref?.closest("section, header, footer"); here = btns.filter(b => b.closest("section, header, footer") === rs); }
     if (!here.length) { rail.classList.remove("show"); railKey = ""; return; }
     // A part with one station: no rail while that station is already on screen.
     if (here.length === 1) { const r = here[0].getBoundingClientRect(); if (r.bottom > 60 && r.top < innerHeight) { rail.classList.remove("show"); return; } }
@@ -359,9 +365,14 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
   dot.onmousedown = e => e.preventDefault();
   dot.onclick = () => {
     const s = getSelection(), text = s.toString().trim().slice(0, 1500), node = s.anchorNode;
+    // The nearest station above the highlight in the same section; else that section's first station;
+    // only when the section has none, the next station after it (or the last one in the book).
+    const secOf = el => el?.closest?.("section, header, footer");
+    const sec = node && secOf(node.nodeType === 1 ? node : node.parentElement);
+    const inSec = btns.filter(b => secOf(b) === sec);
     let near = null;
-    for (const b of btns) if (node && (b.compareDocumentPosition(node) & Node.DOCUMENT_POSITION_FOLLOWING)) near = b;
-    near = near || btns.find(b => node && (b.compareDocumentPosition(node) & Node.DOCUMENT_POSITION_PRECEDING)) || btns[0];
+    for (const b of inSec) if (b.compareDocumentPosition(node) & Node.DOCUMENT_POSITION_FOLLOWING) near = b;
+    near = near || inSec[0] || btns.find(b => node && (b.compareDocumentPosition(node) & Node.DOCUMENT_POSITION_PRECEDING)) || btns.at(-1);
     dot.classList.remove("show");
     openDesk(near.dataset.s, true); setPicked(text);
   };
