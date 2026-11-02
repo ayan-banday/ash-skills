@@ -5,6 +5,8 @@ description: "[course] How do I write a Day N lesson or course page students act
 
 # Course Writer
 
+**Read `/write:match-ash-style` first** (`../match-ash-style/SKILL.md`): Ash's writing and design rules for every case. This skill's own rules win where they are newer or more specific.
+
 Writes the pages a student reads in a course. Two kinds:
 
 - **Daily module:** a "Day N" page a student reads in a few minutes, then does one small action. Its jobs and their order are below.

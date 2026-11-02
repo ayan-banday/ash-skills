@@ -5,6 +5,8 @@ description: "How do I test whether a design feels right before building it prop
 
 # Prototype
 
+**Read `/write:match-ash-style` first** (`../../../write/skills/match-ash-style/SKILL.md`): Ash's writing and design rules for every case. This skill's own rules win where they are newer or more specific.
+
 A prototype is **throwaway code that answers a question**. The question decides the shape.
 
 ## Pick a branch

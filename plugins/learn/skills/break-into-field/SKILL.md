@@ -5,6 +5,8 @@ description: "How do I break into a whole field I know nothing about, like techn
 
 # Break into a field
 
+**Read `/write:match-ash-style` first** (`../../../write/skills/match-ash-style/SKILL.md`): Ash's writing and design rules for every case. This skill's own rules win where they are newer or more specific.
+
 Build a study book that takes Ash from "I don't know what I don't know" to seeing which problems in his work the field can solve, and briefing Claude to build the answer. Technology was the first field (Fuji ticket 34, Oct 30 2026). The rules below came from Ash's feedback on that first version, so follow them over your own taste.
 
 **Shasta's rules still hold** (`CLAUDE.md` and `_rules/Clusters.md` in the Shasta repo). Where this skill is more specific, it wins: a book is not one study page, so the page checker's shape rules don't apply to it.

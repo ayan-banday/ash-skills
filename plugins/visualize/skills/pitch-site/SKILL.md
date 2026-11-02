@@ -5,6 +5,8 @@ description: "[website] How do I make an outside reader say 'Hell yeah, let's do
 
 # Clear proposal site
 
+**Read `/write:match-ash-style` first** (`../../../write/skills/match-ash-style/SKILL.md`): Ash's writing and design rules for every case. This skill's own rules win where they are newer or more specific.
+
 This skill turns a brief into one web page that a busy reader understands without reading: their own asks quoted
 back, a drawing from their world that draws itself on and carries the argument, one answered section per ask, the
 capabilities shown as drawn patterns instead of lists, what the reader gets highlighted in colour, and one concrete

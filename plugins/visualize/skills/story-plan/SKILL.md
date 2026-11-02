@@ -5,6 +5,8 @@ description: "How do I turn an abstract idea into a story people watch? Turn any
 
 # Visual storytelling
 
+**Read `/write:match-ash-style` first** (`../../../write/skills/match-ash-style/SKILL.md`): Ash's writing and design rules for every case. This skill's own rules win where they are newer or more specific.
+
 This skill plans a story the reader can follow with their eyes. It does not build pages. It gives any building skill
 a thesis, a world, and a storyboard that says, screen by screen, what is bright, what moves, which few words
 appear and how tense the moment is. Words carry names, numbers, quotes and the ask; the picture carries everything

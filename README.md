@@ -46,6 +46,7 @@ Then type `/` and a plugin's name to see its skills: `/write`, `/visualize`, `/p
 |---|---|---|
 | `course-lesson (udyaan)` | How do I write a Day N lesson or course page students actually read? | Lessons in a plain, spoken voice. Each day moves the student one step, follows one running student as the example, and ends in one small task. It can also run a whole week past fresh reviewers. |
 | `headline-angles (substack)` | How do I find the headline that makes people open my Substack post? | 10 headline and subheadline angles, ranked, built from your idea and your reader's fear and wanted outcome. |
+| `match-ash-style` | How do I write and design anything Ash or his readers will see, so he never has to correct the same thing twice? | Ash's writing and design rules in one place, by case: who reads it and on what screen. Every building skill reads it first, and it fixes the draft before Ash sees it. |
 | `re-explain (matt)` | How do I get Claude to re-explain a reply that didn't make sense? | Claude stops and pitches its last message again, more simply. |
 | `agent-docs (matt)` | How do I write a skill or CLAUDE.md that Claude follows every time? | The rules for writing for agents: steps with done tests, pointers that fire, and cutting what Claude would do anyway. |
 

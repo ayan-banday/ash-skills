@@ -5,6 +5,8 @@ description: "How do I learn a topic the Shasta way? Ash's way of learning any t
 
 # Study
 
+**Read `/write:match-ash-style` first** (`../../../write/skills/match-ash-style/SKILL.md`): Ash's writing and design rules for every case. This skill's own rules win where they are newer or more specific.
+
 Ash learns by first principles, mental models and thinking tools, so he understands enough to experiment on his own. The full process lives in Shasta's rule files. This skill points at them; **the rule files win** if anything here disagrees.
 
 ## Find Shasta

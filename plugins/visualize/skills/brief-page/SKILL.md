@@ -5,6 +5,8 @@ description: "[for teammates] How do I brief a teammate so they arrive knowing w
 
 # Clear visual HTML: the brief page
 
+**Read `/write:match-ash-style` first** (`../../../write/skills/match-ash-style/SKILL.md`): Ash's writing and design rules for every case. This skill's own rules win where they are newer or more specific.
+
 This skill turns an idea into one HTML page that a teammate reads alone before a session. **Nobody presents it.** The page has to explain itself to someone who dislikes reading, so they arrive primed: they know the plan, why it is shaped that way, what it will look like, and what they'll be asked to decide.
 
 Two jobs matter equally. **The words answer the reader's questions in plain sentences,** and **every idea with a shape gets a drawing that shows the shape.** The drawings come from pitch-site's catalogue, kept static: they explain, they don't perform.
