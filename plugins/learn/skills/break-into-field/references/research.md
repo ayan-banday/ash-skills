@@ -4,14 +4,16 @@ The aim is how the field's experts think: philosophies, mental models, first pri
 
 ## Steps
 
-1. **Write a brief for the chapter** before any reading: the reader, the chapter's problem, four to six numbered questions the chapter needs answered, and the output format. One paragraph each. The brief is what every reader agent gets.
-2. **Pick the best source per question,** never a ranked list of people. Some people are best for philosophy (for AI: Karpathy, Matt Pocock), some for the practical side (Greg Isenberg for sites), some for the basics (CS50), some for product thinking (Lenny). Ask: who has thought hardest about this exact question?
-3. **Grep the field's findings file before any reading.** Shasta, beside the field's book: `<area>\books\<book title> findings.md` (technology: `03 Build Software (Computer Science)\books\Breaking Into Technology findings.md`; moved from Fuji on Oct 30 2026). What it already answers is never read again. Its shape and the one-line rule for appending are in Shasta's `_rules/Menus and Learning Briefs.md`, "Findings files".
-4. **Text first, saved once.** A source is fetched by the chain in Shasta's `_rules/Taking In Sources.md` (Firecrawl's YouTube transcript, a text transcript page, the laptop script, or stop) and saved in Shasta with a summary and an index of two-minute blocks. That save is the only full read it ever gets. Never guess what a video says.
-5. **One cheap reader per angle, not per person, reading index first.** Each Haiku agent (model `haiku`) gets the brief, one angle (philosophy, agents, practice) and the `## Index` of its sources, picks blocks from the index, prints only those (`transcript.py show`), and returns findings in the file's shape: question number, the idea in one plain line, the exact quote, one line of context, the source with `[mm:ss]`. No summaries. A different angle per reader is how an idea is paid for once.
+The pipeline is Shasta's "A research run" in `_rules/Taking In Sources.md` (any field, any project). For a book it runs like this:
+
+1. **Write a brief for the chapter** before any reading: the reader, the chapter's problem, four to six numbered questions the chapter needs answered, and the output format. One paragraph each. The brief is what every agent gets.
+2. **Check in, then pick sources yourself.** Ash approves the outcome, the problems and the trusted channels or people (in the grilling, or in answers he gives up front). Within those, the run picks the best source per question by its own judgment; a source outside them waits for his yes. Never a ranked list of people: ask who has thought hardest about this exact question.
+3. **Grep before fetching.** The field's findings file (Shasta, beside the field's book: `<area>ooks\<book title> findings.md`) and the areas' `Sources Index.md` files. What they already answer or hold is never fetched or read again.
+4. **Scout, then fetch, with Haiku agents only.** One scout lists two or three candidate videos per question from the trusted channels. Fetchers (5 or 6 videos each) save the transcript in full through TubeLab first (the chain in `Taking In Sources.md`), and write the index plus three "What it's about" lines in that same read. The main chat never calls TubeLab: short transcripts come back inline into whoever called.
+5. **One reader per question, index first.** Each Haiku agent (model `haiku`) gets the brief, its question and the `## Index` of its sources, picks blocks from the index, prints only those (`transcript.py show`), and returns findings in the file's shape: question number, the idea in one plain line, the exact quote, one line of context, the source with `[mm:ss]`. No summaries.
 6. **Later readers report only what's new** against the findings file.
-   - A suggestion, not a rule: when a question needs only a handful of blocks, the main chat opens them with `transcript.py show` instead of starting a 55k-token agent. Agents are for reading across many blocks or sources. (Shasta's `_rules/Menus and Learning Briefs.md`, "Reading transcripts".)
-7. **Sonnet only to combine,** when a chapter needs synthesis notes. The main chat never reads a transcript.
+   - A suggestion, not a rule: when a question needs only a handful of blocks, the main chat opens them with `transcript.py show` instead of starting a 55k-token agent.
+7. **Sonnet only to combine,** when a chapter needs synthesis notes. The main chat reads findings and indexes, never a whole transcript.
 8. **Append the findings** to the field's file under the chapter's brief. Grow the file; never rewrite old findings.
 
 ## What the chapter takes from the findings

@@ -11,10 +11,10 @@ Build a study book that takes Ash from "I don't know what I don't know" to seein
 
 ## Steps
 
-1. **Grill before any map.** Follow `references/grilling.md`. Done when Ash has said yes to: the outcome in his own words, the one real project that is the book's spine, the field's shelves, and the sources. Save the decisions to the ticket, never his words.
+1. **Grill before any map.** Follow `references/grilling.md`. Done when Ash has said yes to: the outcome in his own words, the one real project that is the book's spine, the field's shelves, and the sources. When Ash hands over these answers up front and says not to grill him, take them as given and go. Save the decisions to the ticket, never his words.
 2. **Draw the problem map as a moving map.** Order it by `references/unlock-order.md`, draw it by `references/moving-map.md`. Done when every problem names what it waits on, the motif draws on layer by layer as Ash scrolls, the first chapter is the open problem the most others wait on, and the map rests fully labelled.
 3. **Draw the shelves.** Follow "The shelves" in `references/book-shape.md`. Done when each shelf has its fields, each field has its words and one problem from Ash's world, and the shelves he hasn't touched carry suggested problems.
-4. **Research only what the next chapter needs.** Follow `references/research.md`. Done when the brief's questions each have the one best source, read by cheap agents that return exact quotes with context.
+4. **Research only what the next chapter needs.** Follow `references/research.md`. Done when the brief's questions each have the one best source, fetched, indexed and read by Haiku agents that return exact quotes with context, and the main chat never fetched a transcript.
 5. **Build the chapter straight into the book's HTML.** Follow the chapter skeleton in `references/book-shape.md` and every rule in `references/writing-rules.md` while writing, so the first draft is already close. No markdown draft first: writing it twice costs twice. Write in short paragraphs from the first line ("Short paragraphs, one idea each": at most 3 sentences and 60 words, a bold lead-in on every paragraph of two or more sentences). Run `python scripts/check_chapter.py <book.html>`; it checks every chapter and every paragraph in the book. Done when it prints no FAIL.
 6. **One critic pass on the HTML.** Follow `references/critic.md`: one fresh agent reads the chapter's text as Ash and reports the few things to fix. Fix them, rerun the script, done. A second pass only if the critic's own answer to the chapter's question disagrees with the chapter's.
 7. **Publish** as a private artifact (`references/look.md`) and check it at 1280 px: the map at each scroll step, the shelves, each chapter; and no sideways scroll at 390 px. Done when the page renders and the artifact link is in the ticket.
@@ -23,7 +23,7 @@ Build a study book that takes Ash from "I don't know what I don't know" to seein
 ## Where things live
 
 - **The book's HTML:** Shasta, `<Area>/books/<Book title>.html`, plus the artifact link in the Fuji ticket.
-- **Research findings:** Fuji, `ranges/self/build-fuji/research/<ticket>-<field>-sources.md`, one file per field, grown by each chapter.
+- **Research findings:** Shasta, `<Area>/books/<Book title> findings.md`, one file per field, grown by each chapter (moved from Fuji on Oct 30 2026).
 - **The grilling's decisions:** the Fuji ticket's Answer. The field's book gets one ticket per chapter once the map exists, ordered by the unlock order.
 
 ## Reference
