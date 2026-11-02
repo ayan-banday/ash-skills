@@ -10,7 +10,7 @@ Ash starts it with "study: <question>", usually from his phone. Saying it is his
 4. **Make the phone page.** Read his taste library first (see SKILL.md, "Taste"). Publish it as a private claude.ai artifact. On one phone screen:
    - the hypothesis, in his words
    - **the verdict first:** holds / doesn't hold / not sure yet
-   - three reasons, one line each
+   - up to three reasons, one line each, never restating the verdict
    - one next step
    - sources behind a tap
 5. **Notify him** with the page link: a push notification if the tool exists in the session, else the final message (the Claude app notifies him). The message is one line: "<verdict>: <hypothesis>. Open link."

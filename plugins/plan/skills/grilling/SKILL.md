@@ -34,7 +34,7 @@ Suggestion: <your answer, one line, with the reason if it isn't obvious>
 
 ## Studies that run on their own
 
-When Ash says "study: <question>" (in chat, from his phone), follow `references/study.md`: a mini-grill of 1 or 2 questions with suggestions, then run alone, then a phone page and a notification. His saying "study:" is his yes to run it.
+When Ash says "study: <question>" (in chat, from his phone), follow `references/study.md`: a mini-grill of 1 or 2 questions with suggestions, then run alone, then a phone page (an artifact link, never a file path) and a notification. His saying "study:" is his yes to run it.
 
 ## Taste
 
