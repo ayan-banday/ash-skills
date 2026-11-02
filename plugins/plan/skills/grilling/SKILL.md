@@ -38,4 +38,4 @@ When Ash says "study: <question>" (in chat, from his phone), follow `references/
 
 ## Taste
 
-Anything Ash will see (a prototype, a study page) reads his taste library first: his design language, colours, typography and writing voice. It is being built in its own session; until it lands, use the phone rules in `/visualize:brief-page`.
+Anything Ash will see (a prototype, a study page) reads his taste library first: his design language, colours, typography and writing voice. It lives in `/write:match-ash-style` (`../../../write/skills/match-ash-style/SKILL.md`), which has a "phone study page" case. If that file isn't there yet, use the phone rules in `/visualize:brief-page`.
