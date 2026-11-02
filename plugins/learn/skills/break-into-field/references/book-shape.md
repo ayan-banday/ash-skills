@@ -41,6 +41,8 @@ The chapter title is the problem as a question: "How do students hand in their w
 13. **"When to skip it":** one or two lines, A to B.
 14. **"The answer":** the concept, what it means for him practically, and the transfer, with every term embedded right after its plain meaning, in short paragraphs with bold lead-ins. **"The answer" is the last heading of the chapter,** so "What this unlocks next" is a bold line inside the answer block, never its own heading: the problems on the map now open, by their plain names.
 
+**Stations for the tutor** (`tutor.md`): 3 to 6 per chapter, each an empty `<button class="stn" data-s="...">` placed right before the heading of a big concept: "The idea that fixes it", each key habit worth teaching back, "How you'd build it". Parts 1 to 3 get one each only where teaching back helps (an `inline` station in the map and shelves parts). Never a box inside the text.
+
 **Every chapter follows "Short paragraphs, one idea each" in `writing-rules.md`**, and calls problems by their plain names, never map IDs.
 
 Cut from every chapter: "What you'll learn", first principles and mental models listed up front, "Judge a build", "Words you now own", a glossary, timestamps, people's names, quotes as teaching, a decision procedure at the end, practice exercises, check-yourself questions.

@@ -44,7 +44,7 @@ Write the page straight into HTML. Copy the `<head>`, CSS and nav from `referenc
 
 - **Procedural subjects:** each concept ends in a worked example pair: the worked example in exam layout, then "Your turn" with new numbers and the answer hidden in `<details>`.
 - **Theory subjects:** each concept ends in a worked scenario pair: one scenario reasoned through step by step, then "Your turn: think it through" with a new scenario, a box he writes in, a send button to the tutor, and one strong answer hidden in `<details>` to compare.
-- **Write it with the strongest model available.** The cheap model only answers inside the page: a Haiku-written page came out thinner than the example.
+- **Write it with the strongest model available.** Haiku and Sonnet only answer inside the page (`references/tutor.md`): a Haiku-written page came out thinner than the example.
 
 Done when every concept from step 1 that belongs to the picked problem is taught and practised, and every number adds up (recheck each sum).
 

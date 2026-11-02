@@ -1,0 +1,143 @@
+/* ===== The tutor inside the book (break-into-field assets/tutor.css) =====
+   Uses only the 12 palette tokens from scripts/palette.py. Paste after the book's own CSS. */
+
+/* Stations: a ring and its question in the right margin beside the concept */
+.stn-wrap{position:relative}
+.stn{position:absolute;left:calc(100% + 26px);width:200px;display:flex;gap:12px;align-items:flex-start;text-align:left;background:none;border:0;padding:0;cursor:pointer;font:600 14px/1.35 Overpass,sans-serif;color:var(--tx);margin-top:8px}
+.stn .ring{flex:none;width:24px;height:24px;border-radius:50%;border:4px solid var(--p1);background:var(--bg);margin-top:-1px}
+.stn.done .ring{background:var(--p1)}
+.stn:hover .q,.stn:focus-visible .q{text-decoration:underline;text-decoration-color:var(--p1);text-decoration-thickness:2px;text-underline-offset:3px}
+.stn:focus-visible{outline:none}.stn:focus-visible .ring{box-shadow:0 0 0 3px var(--tx)}
+.stn .st{display:block;margin-top:5px;font:500 12px "Overpass Mono",monospace;color:var(--mu)}
+.stn .st b{color:var(--acc);font-weight:600}
+.stn .kk{display:none}
+/* Under 1200 px, and in wide parts, a station is an inline card above its heading */
+.stn.inline{position:static;width:auto;margin:26px 0 -10px;padding:12px 14px;background:var(--bg2);border:1px solid var(--ln);border-radius:8px}
+.stn.inline .kk{display:block;font:600 11px "Overpass Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--p1);margin-bottom:2px}
+@media (max-width:1199px){.stn{position:static;width:auto;margin:26px 0 -10px;padding:12px 14px;background:var(--bg2);border:1px solid var(--ln);border-radius:8px}.stn .kk{display:block;font:600 11px "Overpass Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--p1);margin-bottom:2px}}
+/* At 1200 px and wider the reading column moves left to make room for the margin and the rail */
+@media (min-width:1200px){
+  body.tutor .part > .wrap{margin-left:max(24px,calc((100vw - 760px - 470px)/2));margin-right:auto}
+  body.desk-open .part > .wrap{margin-left:max(24px,calc((100vw - 500px - 760px)/2))}
+  body.desk-open .stn:not(.inline){display:none}
+}
+
+/* The sticky chapter rail: the current chapter's stations as a short transit line */
+.rail{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:15;display:flex;flex-direction:column;align-items:flex-end;gap:0;pointer-events:none;opacity:0;transition:opacity .25s}
+.rail.show{opacity:1;pointer-events:auto}
+body.desk-open .rail{opacity:0;pointer-events:none}
+.rail .rk{font:600 10.5px "Overpass Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);margin-bottom:8px;margin-right:-2px}
+.rail button{position:relative;display:flex;align-items:center;justify-content:flex-end;gap:10px;background:none;border:0;padding:7px 0;cursor:pointer;color:var(--tx);font:600 13px/1.3 Overpass,sans-serif;text-align:right}
+.rail button + button::before{content:"";position:absolute;right:7px;top:-7px;height:14px;width:4px;background:var(--ln);border-radius:2px}
+.rail i{flex:none;display:block;width:18px;height:18px;border-radius:50%;border:3px solid var(--p1);background:var(--bg)}
+.rail button.done i{background:var(--p1)}
+.rail button.on i{width:24px;height:24px;border-width:4px;box-shadow:0 0 0 4px var(--ln);margin-right:-3px}
+.rail .q{display:none;max-width:190px;background:var(--bg2);border:1px solid var(--ln);border-radius:8px;padding:7px 10px}
+.rail .q small{display:block;font:500 11px "Overpass Mono",monospace;color:var(--mu);margin-top:3px}
+.rail.wide-ok button.on:not(.seen) .q{display:block}
+.rail button:hover .q,.rail button:focus-visible .q{display:block}
+.rail button:focus-visible{outline:none}.rail button:focus-visible i{box-shadow:0 0 0 3px var(--tx)}
+@media (max-width:899px){.rail{display:none}}
+
+/* Selection: a pastel, never the browser blue */
+::selection{background:color-mix(in srgb,var(--p1) 42%,transparent);color:var(--tx)}
+.desk ::selection{color:var(--tx)}
+
+/* The selection dot */
+.aidot{position:absolute;z-index:35;display:none;width:26px;height:26px;border-radius:50%;border:0;background:var(--acc);color:var(--on);font:700 14px/26px Overpass,sans-serif;text-align:center;cursor:pointer;box-shadow:0 0 0 4px rgba(0,0,0,.35);padding:0}
+.aidot.show{display:block}
+
+/* The notes button in the top bar */
+.notesbtn{flex:none;font:600 13px "Overpass Mono",monospace;color:var(--on);background:var(--p1);border:0;border-radius:5px;padding:6px 11px;cursor:pointer;white-space:nowrap;margin-left:auto}
+.notesbtn b{color:var(--on);background:var(--bg);color:var(--acc);border-radius:3px;padding:0 5px;margin-left:2px}
+
+/* The desk */
+.desk{position:fixed;top:0;right:0;bottom:0;width:min(480px,100vw);z-index:40;background:var(--bg2);border-left:1px solid var(--ln);box-shadow:-12px 0 36px rgba(0,0,0,.4);display:flex;flex-direction:column;transform:translateX(104%);transition:transform .26s cubic-bezier(.22,1,.36,1);font:15.5px/1.6 "Atkinson Hyperlegible",system-ui,sans-serif;color:var(--tx);overflow:hidden;visibility:hidden}
+.desk.open{transform:none;visibility:visible}
+@media (prefers-reduced-motion: reduce){.desk{transition:none}}
+.desk b,.desk strong{color:var(--tx);font-weight:700}
+.desk .top{background:var(--bg3);padding:14px 18px 0}
+.desk .row1{display:flex;justify-content:space-between;align-items:center}
+.desk .kk{font:600 11.5px "Overpass Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--p1)}
+.desk .x{background:none;border:0;color:var(--mu);font-size:26px;line-height:1;cursor:pointer;padding:0 2px}
+.desk .x:hover{color:var(--tx)}
+.desk .cn{font:800 18px/1.3 Overpass,sans-serif;margin:5px 0 12px}
+.dline{display:flex;align-items:center;position:relative;margin:2px 4px 0}
+.dline::before{content:"";position:absolute;left:8px;right:8px;top:50%;height:4px;margin-top:-2px;background:var(--ln);border-radius:2px}
+.dline button{position:relative;flex:1;display:flex;justify-content:center;background:none;border:0;padding:4px 0;cursor:pointer}
+.dline button:first-child{justify-content:flex-start}.dline button:last-child{justify-content:flex-end}
+.dline button:only-child{justify-content:center}
+.dline i{display:block;width:14px;height:14px;border-radius:50%;border:3px solid var(--mu);background:var(--bg3)}
+.dline button.done i{background:var(--p1);border-color:var(--p1)}
+.dline button.on i{width:20px;height:20px;border-color:var(--tx);background:var(--p1);box-shadow:0 0 0 4px var(--ln)}
+.desk .tabs{display:flex;gap:4px;margin-top:10px}
+.desk .tabs button{font:700 13px Overpass,sans-serif;color:var(--mu);background:none;border:0;border-bottom:3px solid transparent;padding:4px 8px 7px;cursor:pointer}
+.desk .tabs button.on{color:var(--tx);border-bottom-color:var(--p1)}
+
+.pane{flex:1;min-height:0;overflow-y:auto;padding:16px 18px 20px}
+.pane[hidden]{display:none}
+.turns{display:flex;gap:6px;margin:-2px 0 12px;flex-wrap:wrap}
+.turns button{font:600 12px "Overpass Mono",monospace;color:var(--mu);background:var(--bg3);border:1px solid var(--ln);border-radius:4px;padding:1px 9px;cursor:pointer}
+.turns button.on{color:var(--on);background:var(--p2);border-color:var(--p2)}
+.you{background:var(--bg3);border-radius:10px 10px 3px 10px;padding:10px 13px;white-space:pre-wrap;font-size:14.5px}
+.you .who{display:block;font:600 11px "Overpass Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--p2);margin-bottom:2px}
+.route{display:flex;gap:8px;align-items:center;margin:8px 0 14px;font:500 12px "Overpass Mono",monospace;color:var(--mu)}
+.route .m{color:var(--on);background:var(--p2);border-radius:3px;padding:0 7px;font-weight:600}
+.reply p{margin:0 0 12px}
+.reply ul,.reply ol{margin:0 0 12px;padding-left:20px}
+.reply li{margin:5px 0}
+.reply li::marker{color:var(--acc)}
+.desk .nm{color:var(--on);background:var(--p3);border-radius:3px;padding:0 4px;font-weight:700}
+.reply .wait{color:var(--mu);font-style:italic}
+.practice{background:var(--bg3);border-top:3px solid var(--p2);border-radius:8px;padding:12px 14px;margin:14px 0 4px}
+.practice .lb{font:600 11px "Overpass Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--p2);margin-bottom:4px}
+.practice ol{margin:6px 0 10px;padding-left:20px}
+.practice textarea{width:100%;min-height:40px;resize:none;background:var(--bg);color:var(--tx);border:1px solid var(--ln);border-radius:8px;padding:8px 11px;font:14.5px/1.45 "Atkinson Hyperlegible",sans-serif}
+.practice textarea:focus{outline:2px solid var(--p2);outline-offset:0}
+.start .big{font:800 19px/1.3 Overpass,sans-serif;margin:2px 0 6px}
+.start .hint{color:var(--mu);font-size:14.5px;margin:0 0 12px}
+.sug{display:flex;flex-direction:column;gap:6px}
+.sug button{text-align:left;font:14px/1.45 "Atkinson Hyperlegible",sans-serif;color:var(--tx);background:var(--bg3);border:0;border-radius:8px;padding:8px 11px;cursor:pointer}
+.sug button::before{content:"→ ";color:var(--p1)}
+.sug button:hover{box-shadow:inset 0 0 0 1px var(--p1)}
+.err{color:var(--acc);font-size:14px;margin-top:8px}
+
+.ncard{background:var(--p1);color:var(--on);border-radius:10px;padding:12px 14px;margin:0 0 12px;font-size:14.5px;line-height:1.5}
+.ncard h4{margin:0 0 4px;font:800 15px/1.3 Overpass,sans-serif;color:var(--on);display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.ncard h4 button{font:600 11.5px "Overpass Mono",monospace;color:var(--on);background:none;border:1px solid currentColor;border-radius:12px;padding:1px 8px;cursor:pointer;white-space:nowrap;opacity:.8}
+.ncard .lb{font:600 11px "Overpass Mono",monospace;letter-spacing:.06em;text-transform:uppercase;opacity:.7;margin:8px 0 2px}
+.ncard b,.ncard q{color:var(--on);font-weight:700;quotes:"\201C" "\201D"}
+.ncard ul{margin:0;padding-left:18px}.ncard li::marker{color:var(--on)}.ncard li{margin:3px 0}
+.ncard.empty{background:none;color:var(--mu);border:1px dashed var(--ln)}
+.ncard.empty h4{color:var(--tx)}.ncard.empty h4 button{color:var(--p2)}
+.nrest{display:flex;flex-direction:column;gap:2px}
+.nrest button{display:flex;gap:10px;align-items:baseline;text-align:left;background:none;border:0;border-radius:6px;padding:5px 8px;color:var(--tx);font:14px/1.4 "Atkinson Hyperlegible",sans-serif;cursor:pointer}
+.nrest button:hover{background:var(--bg3)}
+.nrest button span{flex:none;width:72px;font:600 11px "Overpass Mono",monospace;color:var(--mu);text-transform:uppercase;letter-spacing:.04em}
+#pNotes .hint{color:var(--mu);font-size:14.5px}
+.nch{font:600 11px "Overpass Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);margin:16px 0 8px}
+.nch:first-child{margin-top:0}
+
+.compose{border-top:1px solid var(--ln);padding:12px 18px 14px;background:var(--bg2)}
+.compose[hidden]{display:none}
+.hl{font-size:13px;color:var(--mu);border-left:3px solid var(--acc);padding:1px 9px;margin-bottom:8px;max-height:3.1em;overflow:hidden;display:flex;justify-content:space-between;gap:8px}
+.hl[hidden]{display:none}
+.hl button{background:none;border:0;color:var(--mu);cursor:pointer;font-size:16px;line-height:1}
+.compose textarea{width:100%;resize:none;min-height:46px;max-height:220px;background:var(--bg);color:var(--tx);border:1px solid var(--ln);border-radius:8px;padding:9px 12px;font:15.5px/1.45 "Atkinson Hyperlegible",sans-serif}
+.compose textarea::placeholder{color:var(--mu)}
+.compose textarea:focus{outline:2px solid var(--p1);outline-offset:0}
+.moves{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0 0}
+.moves button{white-space:nowrap;font:600 11.5px "Overpass Mono",monospace;color:var(--p2);background:none;border:1px solid var(--ln);border-radius:20px;padding:3px 10px;cursor:pointer}
+.moves button:hover{border-color:var(--p2)}
+.compose .rw{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:10px}
+.sw{display:flex;align-items:center;gap:8px;font:600 12px "Overpass Mono",monospace;color:var(--mu);cursor:pointer;user-select:none;position:relative}
+.sw input{position:absolute;opacity:0;pointer-events:none}
+.sw .tr{width:32px;height:19px;border-radius:10px;background:var(--bg3);border:1px solid var(--ln);position:relative}
+.sw .tr::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:var(--mu);transition:transform .15s}
+.sw input:checked + .tr{background:var(--p2)}
+.sw input:checked + .tr::after{transform:translateX(13px);background:var(--on)}
+.sw input:focus-visible + .tr{outline:2px solid var(--tx);outline-offset:2px}
+.send{font:800 13.5px Overpass,sans-serif;color:var(--on);background:var(--p1);border:0;border-radius:6px;padding:8px 16px;cursor:pointer}
+.send:disabled{opacity:.45;cursor:default}
+.off{font-size:13px;color:var(--mu);margin-top:8px}
+.off[hidden]{display:none}

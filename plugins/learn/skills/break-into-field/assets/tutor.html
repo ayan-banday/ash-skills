@@ -1,0 +1,370 @@
+<!-- ===== The tutor inside the book (break-into-field assets/tutor.html) =====
+     Paste once, just before </body>, AFTER the <script> that sets window.TUTOR (references/tutor.md).
+     Same for every book: change nothing here; everything per book lives in window.TUTOR. -->
+<nav class="rail" id="trail" aria-label="Teach it back stations in this chapter"></nav>
+<button class="aidot" id="aidot" type="button" aria-label="Ask the tutor about this" title="Ask the tutor about this">✦</button>
+<aside class="desk" id="desk" aria-label="Teach it back">
+  <div class="top">
+    <div class="row1"><span class="kk" id="dkk">Teach it back</span><button class="x" id="dx" type="button" aria-label="Close">×</button></div>
+    <div class="cn" id="dcn"></div>
+    <div class="dline" id="dline"></div>
+    <div class="tabs"><button type="button" id="tabTalk" class="on">Talk</button><button type="button" id="tabNotes">My notes</button></div>
+  </div>
+  <div class="pane" id="pTalk" aria-live="polite"></div>
+  <div class="pane" id="pNotes" hidden></div>
+  <form class="compose" id="df">
+    <div class="hl" id="dhl" hidden><span id="dhlt"></span><button type="button" id="dhlx" aria-label="Drop the highlight">×</button></div>
+    <textarea id="din" rows="2" placeholder="Ask anything about this part…" aria-label="Your message"></textarea>
+    <div class="moves" id="dmoves"></div>
+    <div class="rw">
+      <label class="sw" title="Off: Haiku for one or two ideas, Sonnet for more. On: always Sonnet."><input type="checkbox" id="ddeep"><span class="tr"></span><span>Always think deeper</span></label>
+      <button class="send" id="dsend">Send</button>
+    </div>
+    <div class="off" id="doff" hidden>The tutor needs Claude: open this page in Claude to talk to it. Your stations and notes still show.</div>
+  </form>
+</aside>
+<script>
+// <count> How many ideas a message holds, and so which model answers. Pure: unit-tested in Node.
+function countIdeas(msg, ideas) {
+  const low = " " + String(msg).toLowerCase().replace(/\s+/g, " ") + " ";
+  const names = Object.keys(ideas || {}).filter(k => ideas[k].some(w => low.includes(String(w).toLowerCase())));
+  const asks = (String(msg).match(/\?/g) || []).length;
+  const words = String(msg).trim().split(/\s+/).filter(Boolean).length;
+  const n = Math.max(names.length, asks);
+  return { n, names, words, askHaiku: n <= 2 && words > 70 };
+}
+function pickModel(n, deep) {
+  return deep || n > 2
+    ? { tier: "Sonnet", opts: { model: "claude-sonnet-5-5", modelTier: "default", effort: "low" } }
+    : { tier: "Haiku", opts: { model: "claude-haiku-5-5", modelTier: "quick" } };
+}
+// </count>
+(async () => {
+  const T = window.TUTOR;
+  if (!T || !T.STATIONS) return;
+  const { BOOK, ASH, STATIONS, IDEAS = {} } = T;
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  document.body.classList.add("tutor");
+
+  // ================= The prompts (spec, Nov 2 2026; verbatim) =================
+  const RULES = `You are a ten-year expert in ${BOOK.field}. You sit beside Ash's study book "${BOOK.title}" as his tutor.
+
+WHO ASH IS
+${ASH}
+The book's outcome: ${BOOK.outcome}
+His work it serves: ${BOOK.work}
+
+WHAT YOU KNOW
+Below are the book, the concept he opened you from, anything he highlighted, and his notes so far. Use the book's words where they are right. You know far more than the book: use it. Your job is the best answer for his outcome. Where the book is wrong or thin, say so in one plain sentence and give the better answer.
+
+READ HIS MESSAGE, THEN PICK ONE
+A question: answer it straight, as deep as he asked, and stop.
+A teach-back or brain-dump (he explains what he got, or how he'd use it):
+1. Start with what he has, as a short list of 2 to 4 points in his own words (quote his phrasing). Then the whole of it in one sharper sentence of your own, in bold.
+2. Fix the one gap that matters most for his work: what goes wrong, with a small scene and numbers he can picture, and what to do instead. No real gap: skip this.
+3. Add one idea from beyond the book that upgrades his plan. Say the idea in plain words first. Then a picture from daily life, in two sentences. Then its name, wrapped in double equals signs: "That's called a ==leading indicator==." Then the same idea in a far-away field (a kitchen, a cricket team, a hospital), vivid and exact. Then what it changes in his work. Keep this step to at most three paragraphs; only the first opens with a bold point, the others open in plain words.
+4. Then a line holding only three dashes: ---
+   After it, a practice case: one bold opening sentence that names the case, then a short new situation unlike the book's example, with a named person and numbers, then up to 3 numbered questions about it. Each question names the person and the thing, so it makes sense read alone. None can be answered by copying your reply, and each can be worked out from the numbers given.
+
+HOW TO WRITE
+- Never use template labels: no "Sharper:", "What you said", "Gap:", "Beyond the book", "Far away:", "Practice:", "Questions". Each paragraph opens with a bold phrase that IS its point, specific to his message. Reading only the bold phrases gives the whole answer. Bold nothing else.
+  The bold phrase is the first words of its paragraph and a claim about his message or his plan. Never a general heading ("Some numbers move early"), never praise ("You already have the parts"), never a paragraph that is only a bold sentence. The beyond-the-book idea opens on his own plan too ("Your Monday number arrives late, so add an early one."); a sentence true for any reader ("Some numbers move before the goal does") is a heading.
+  Bad: **Keep that, change one thing: read it weekly.**
+  Good: **Checking the numbers every day will fool you.** Say chatform gets about 1,000 views a day...
+- Meaning first, name after. Explain every term in plain words the first time. Wrap only new concept names in == ==, at most two per reply.
+- 7th-grade words, short sentences, plain verbs. Paragraphs of 3 sentences at most. Simple, not simpler: keep the real mechanism.
+- No praise, hedges, filler, em dashes, or "not X but Y".
+- Numbers he can picture; mark guesses with "say". Invent examples, never facts or statistics about real companies.
+- Format: **bold**, lists with "- ", numbered lines "1. ". No headings, no tables.`;
+
+  const NOTES = `You keep Ash's study notes on one part of his book. Update them from his latest message and the tutor's reply. Ash reads these notes first; a later Claude session reads them too, to know where he stands. Write to Ash as "you", in plain words he understands at a glance, and make them make sense to someone who never saw the chat.
+Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
+- got: what you now understand, 1 to 3 plain sentences, specific to your work. Quote Ash's own words in "double quotes" where they carry his idea. Never quote the tutor. Never generic ("understands analytics" is useless).
+- open: 0 to 3 things still open. Each is one plain sentence: what you got wrong or haven't worked out, and why it matters. Drop ones you have closed.
+- plan: what you decided to do or apply, in one or two sentences, with the names, numbers and dates you gave. Empty string if nothing yet.`;
+
+  const COUNT = `Count the distinct concepts in Ash's message: ideas he explains, uses or asks about (a concept from the book or any other). Return only JSON: {"n": number, "names": ["short name", ...]}`;
+
+  // ================= Stations found on the page =================
+  const btns = [...document.querySelectorAll(".stn[data-s]")].filter(b => STATIONS[b.dataset.s]);
+  const order = btns.map(b => b.dataset.s);
+  const chapterOf = id => STATIONS[id].chapter;
+  const inChapter = ch => order.filter(id => chapterOf(id) === ch);
+  const S = {}; for (const id of order) S[id] = { turns: [], notes: null, view: -1 };
+  if (T.EXAMPLE && S[T.EXAMPLE.station]) S[T.EXAMPLE.station].example = [
+    { role: "user", content: T.EXAMPLE.me, route: T.EXAMPLE.route, example: true },
+    { role: "assistant", content: T.EXAMPLE.bot, example: true }];
+  let cur = order[0], tab = "talk", ctl = null, picked = "", sample = null, db = null;
+  const docId = id => `${BOOK.id}__${id}`;
+
+  // ================= Markdown, the tutor's small subset =================
+  const inl = s => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/==(.+?)==/g, '<span class="nm">$1</span>');
+  function blocks(t) {
+    let out = "", list = null, para = [];
+    const fp = () => { if (para.length) { out += "<p>" + inl(para.join(" ")) + "</p>"; para = []; } };
+    const fl = () => { if (list) { out += `<${list.t}>` + list.items.map(i => "<li>" + inl(i) + "</li>").join("") + `</${list.t}>`; list = null; } };
+    for (const raw of String(t).split("\n")) {
+      const l = raw.trim(); let m;
+      if (!l) { fp(); fl(); continue; }
+      if ((m = l.match(/^[-*•]\s+(.*)/))) { fp(); if (list?.t !== "ul") { fl(); list = { t: "ul", items: [] }; } list.items.push(m[1]); continue; }
+      if ((m = l.match(/^\d+[.)]\s+(.*)/))) { fp(); if (list?.t !== "ol") { fl(); list = { t: "ol", items: [] }; } list.items.push(m[1]); continue; }
+      if ((m = l.match(/^#{1,4}\s+(.*)/))) { fp(); fl(); out += "<p><b>" + inl(m[1]) + "</b></p>"; continue; }
+      fl(); para.push(l);
+    }
+    fp(); fl(); return out;
+  }
+  function render(t, live) {
+    const i = t.search(/^\s*---\s*$/m);
+    if (i < 0) return blocks(t);
+    const body = t.slice(0, i), prac = t.slice(i).replace(/^\s*---\s*$/m, "");
+    return blocks(body) + `<div class="practice"><div class="lb">Try it</div>${blocks(prac)}` +
+      (live ? "" : `<textarea class="pans" rows="1" placeholder="Answer here, in your own words. Enter sends." aria-label="Your answers to the practice case"></textarea>`) + `</div>`;
+  }
+
+  // ================= Which model =================
+  async function judge(msg) {
+    if ($("ddeep").checked) return { deep: true, forced: true, names: [] };
+    const c = countIdeas(msg, IDEAS[chapterOf(cur)] || Object.assign({}, ...Object.values(IDEAS)));
+    if (c.askHaiku && sample) {
+      try {
+        const r = await sample.json(`${COUNT}\n\nASH'S MESSAGE\n${msg}`, { model: "claude-haiku-5-5", modelTier: "quick", cache: false });
+        if (r?.n > c.n) return { deep: r.n > 2, names: (r.names || []).map(String).slice(0, 5) };
+      } catch (e) {}
+    }
+    return { deep: pickModel(c.n, false).tier === "Sonnet", names: c.names };
+  }
+  function routeHTML(r) {
+    if (!r) return "";
+    const what = r.forced ? "you asked for deeper" : r.names?.length ? `${r.names.length} idea${r.names.length > 1 ? "s" : ""}: ${r.names.join(", ")}` : "one idea";
+    return `<div class="route"><span class="m">${r.deep ? "Sonnet" : "Haiku"}</span><span>${esc(what)}</span></div>`;
+  }
+
+  // ================= Rendering =================
+  const openCount = id => S[id].notes?.open?.length || 0;
+  const turnsOf = id => S[id].turns.length ? S[id].turns : (S[id].example || []);
+  function renderStations() {
+    btns.forEach(b => {
+      const id = b.dataset.s, n = S[id].notes;
+      b.classList.toggle("done", !!n);
+      b.querySelector(".st").innerHTML = n ? (openCount(id) ? `<b>${openCount(id)} still open</b> · taught back` : "taught back") : "";
+    });
+    const done = order.filter(k => S[k].notes).length, open = order.reduce((a, k) => a + openCount(k), 0);
+    const nb = $("notesbtn");
+    if (nb) nb.innerHTML = `My notes · ${done} of ${order.length}` + (open ? ` <b>${open} open</b>` : "");
+    const line = inChapter(chapterOf(cur));
+    $("dline").innerHTML = line.map(k => `<button type="button" data-s="${k}" class="${S[k].notes ? "done" : ""} ${k === cur ? "on" : ""}" aria-label="${esc(STATIONS[k].name)}" title="${esc(STATIONS[k].name)}"><i></i></button>`).join("");
+    $("dline").querySelectorAll("button").forEach(b => b.onclick = () => openDesk(b.dataset.s, true));
+    updateRail(true);
+  }
+  function pairs() { const t = turnsOf(cur), p = []; for (let i = 0; i < t.length; i += 2) p.push([t[i], t[i + 1]]); return p; }
+  function renderTalk() {
+    const p = pairs(), st = S[cur], info = STATIONS[cur];
+    if (st.view < 0 || st.view >= p.length) st.view = p.length - 1;
+    if (!p.length) {
+      $("pTalk").innerHTML = `<div class="start"><div class="big">${esc(info.q)}</div><p class="hint">Type anything, or start from one of these.</p>
+        <div class="sug">${(info.sug || []).map(s => `<button type="button">${esc(s)}</button>`).join("")}</div></div>`;
+      $("pTalk").querySelectorAll(".sug button").forEach(b => b.onclick = () => { if (sample) send(b.textContent); else { $("din").value = b.textContent; } });
+      return;
+    }
+    const [me, bot] = p[st.view];
+    $("pTalk").innerHTML = (p.length > 1 ? `<div class="turns">${p.map((_, i) => `<button type="button" data-i="${i}" class="${i === st.view ? "on" : ""}">${i + 1}</button>`).join("")}</div>` : "") +
+      `<div class="you"><span class="who">You${me.example ? " · an example" : ""}</span>${esc(me.content)}</div>${routeHTML(me.route)}` +
+      `<div class="reply">${bot ? render(bot.content) : `<span class="wait">${me.route?.deep ? "Sonnet is thinking it through..." : "Thinking..."}</span>`}</div>`;
+    $("pTalk").querySelectorAll(".turns button").forEach(b => b.onclick = () => { st.view = +b.dataset.i; renderTalk(); });
+    const pa = $("pTalk").querySelector(".pans");
+    if (pa) {
+      pa.oninput = () => { pa.style.height = "auto"; pa.style.height = Math.min(pa.scrollHeight + 2, 200) + "px"; };
+      pa.onkeydown = e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); const v = pa.value.trim(); if (v && sample) send("My answers to the practice case:\n" + v); } };
+    }
+    $("pTalk").scrollTop = 0;
+  }
+  const quoteHTML = s => esc(s).replace(/&quot;(.+?)&quot;/g, "<b>“$1”</b>").replace(/“(.+?)”/g, "<b>“$1”</b>").replace(/<b><b>(.+?)<\/b><\/b>/g, "<b>$1</b>");
+  function renderNotes() {  // taught-back stations first as pink cards, then the rest as a short list
+    const taught = order.filter(k => S[k].notes), rest = order.filter(k => !S[k].notes);
+    let html = "", last = "";
+    for (const k of taught) {
+      const n = S[k].notes, ch = chapterOf(k);
+      if (ch !== last) { html += `<div class="nch">${esc(ch)}</div>`; last = ch; }
+      html += `<div class="ncard"><h4><span>${esc(STATIONS[k].name)}</span><button type="button" data-s="${k}">Talk about it</button></h4>` +
+        `<div class="lb">What you've got</div><div>${quoteHTML(n.got)}</div>` +
+        (n.open?.length ? `<div class="lb">Still open</div><ul>${n.open.map(g => "<li>" + quoteHTML(g) + "</li>").join("")}</ul>` : "") +
+        (n.plan ? `<div class="lb">Your plan</div><div>${quoteHTML(n.plan)}</div>` : "") + `</div>`;
+    }
+    if (!taught.length) html += `<p class="hint">Nothing taught back yet. Open any station and tell it what you got: your notes appear here.</p>`;
+    if (rest.length) html += `<div class="nch">Not taught back yet</div><div class="nrest">` +
+      rest.map(k => `<button type="button" data-s="${k}"><span>${esc(chapterOf(k))}</span>${esc(STATIONS[k].name)}</button>`).join("") + `</div>`;
+    $("pNotes").innerHTML = html;
+    $("pNotes").querySelectorAll("h4 button, .nrest button").forEach(b => b.onclick = () => openDesk(b.dataset.s, true, "talk"));
+  }
+  function setTab(t) {
+    tab = t; $("tabTalk").classList.toggle("on", t === "talk"); $("tabNotes").classList.toggle("on", t === "notes");
+    $("pTalk").hidden = t !== "talk"; $("pNotes").hidden = t !== "notes"; $("df").hidden = t !== "talk";
+    if (t === "notes") renderNotes();
+  }
+  function setPicked(s) { picked = s; $("dhl").hidden = !s; $("dhlt").textContent = s ? "“" + s + "”" : ""; }
+  function renderMoves() {
+    const short = BOOK.short || "my work";
+    const moves = [["Give me a practice case", "Give me a practice case on this, with a named person and numbers."],
+      ["Apply it to " + short, `Apply this to ${short}: what would I do first, step by step?`],
+      ["Let me explain it back", "Let me explain it back: ", true]];
+    $("dmoves").innerHTML = moves.map((m, i) => `<button type="button" data-i="${i}">${esc(m[0])}</button>`).join("");
+    $("dmoves").querySelectorAll("button").forEach(b => b.onclick = () => {
+      const m = moves[+b.dataset.i];
+      if (m[2] || !sample) { $("din").value = m[1]; $("din").focus(); $("din").setSelectionRange(m[1].length, m[1].length); }
+      else send(m[1]);
+    });
+  }
+
+  function openDesk(id, keepPick, t = "talk") {
+    if (id !== cur) ctl?.abort();
+    cur = id;
+    if (!keepPick) setPicked("");
+    $("dkk").textContent = "Teach it back · " + chapterOf(id);
+    $("dcn").textContent = STATIONS[id].name;
+    $("desk").classList.add("open"); document.body.classList.add("desk-open");
+    renderStations(); setTab(t); renderTalk();
+    if (t === "talk" && !$("din").disabled) $("din").focus({ preventScroll: true });
+  }
+  function closeDesk() { ctl?.abort(); $("desk").classList.remove("open"); document.body.classList.remove("desk-open"); updateRail(true); }
+
+  // ================= Talking =================
+  const bookEl = document.querySelector(T.TEXT || "main") || document.body;
+  const bookText = () => bookEl.innerText.slice(0, 60000);
+  async function send(msg) {
+    const id = cur, st = S[id], hl = picked;
+    const me = { role: "user", content: msg, route: null };
+    st.turns.push(me); st.view = 1e9; $("dsend").disabled = true; renderTalk();
+    me.route = await judge(msg); if (cur === id) renderTalk();
+    const lead = `${RULES}\n\nTHE BOOK\n${bookText()}\n\nTHE CONCEPT HE OPENED YOU FROM\n${STATIONS[id].name}: ${STATIONS[id].q}` +
+      (hl ? `\n\nHE HIGHLIGHTED\n${hl}` : "") + (st.notes ? `\n\nHIS NOTES SO FAR\n${JSON.stringify(st.notes)}` : "");
+    const hist = st.turns.slice(-6).map(t => ({ role: t.role, content: t.content }));
+    while (hist.length && hist[0].role !== "user") hist.shift();
+    ctl?.abort(); ctl = new AbortController();
+    const out = () => cur === id && tab === "talk" && st.view >= pairs().length - 1 ? $("pTalk").querySelector(".reply") : null;
+    try {
+      const { text } = await sample([{ role: "user", content: lead }, { role: "assistant", content: "Ready." }, ...hist], {
+        ...pickModel(me.route.deep ? 3 : 0, false).opts, cache: false, signal: ctl.signal,
+        onText: ({ text }) => { const o = out(); if (o) o.innerHTML = render(text, true); }
+      });
+      st.turns.push({ role: "assistant", content: text });
+      if (cur === id) { setPicked(""); renderTalk(); }
+      saveChat(id);
+      saveNotes(id, msg, text);
+    } catch (e) {
+      st.turns.pop();
+      if (cur === id) {
+        renderTalk();
+        if (e?.code !== "cancelled" && e?.name !== "AbortError") $("pTalk").insertAdjacentHTML("beforeend", `<div class="err">${esc({ not_granted: "The tutor needs your OK to use Claude.", rate_limited: "Too many questions at once. Try again in a minute." }[e?.code] || "Something went wrong. Send it again.")}</div>`);
+      }
+      if (e?.code !== "cancelled" && e?.name !== "AbortError") $("din").value = msg;
+    } finally { $("dsend").disabled = !sample; }
+  }
+  async function saveChat(id) {
+    const turns = S[id].turns.slice(-40).map(t => ({ role: t.role, content: t.content, route: t.route || null }));
+    try { await db?.doc(`chats/${docId(id)}`).set({ book: BOOK.title, chapter: chapterOf(id), concept: STATIONS[id].name, turns, updated: new Date().toISOString() }); } catch (e) {}
+  }
+  async function saveNotes(id, msg, reply) {
+    try {
+      const prev = S[id].notes ? JSON.stringify(S[id].notes) : "none yet";
+      const n = await sample.json(`${NOTES}\n\nTHE PART OF THE BOOK\n${STATIONS[id].name}\n\nPREVIOUS NOTES\n${prev}\n\nASH'S MESSAGE\n${msg}\n\nTUTOR'S REPLY\n${reply}`, { model: "claude-haiku-5-5", modelTier: "quick", cache: false });
+      if (!n?.got) return;
+      S[id].notes = { got: String(n.got), open: (n.open || []).map(String).slice(0, 3), plan: String(n.plan || "") };
+      renderStations(); if (tab === "notes") renderNotes();
+      await db?.doc(`notes/${docId(id)}`).set({ book: BOOK.title, chapter: chapterOf(id), concept: STATIONS[id].name, ...S[id].notes, updated: new Date().toISOString() });
+    } catch (e) { /* notes are best-effort; the chat already answered */ }
+  }
+
+  // ================= The sticky rail: a station always in reach =================
+  const rail = $("trail");
+  let railKey = "";
+  function nearestAbove(y) {  // the last station whose top is above the reading line, in its chapter
+    let best = null;
+    for (const b of btns) { const r = b.getBoundingClientRect(); if (r.top <= y) best = b; }
+    return best;
+  }
+  function updateRail(force) {
+    const y = innerHeight * 0.45;
+    const sec = [...document.querySelectorAll("section, header, footer")].find(s => { const r = s.getBoundingClientRect(); return r.top <= y && r.bottom > y; });
+    const here = btns.filter(b => b.closest("section, header, footer") === sec);
+    if (!here.length) { rail.classList.remove("show"); railKey = ""; return; }
+    // A part with one station: no rail while that station is already on screen.
+    if (here.length === 1) { const r = here[0].getBoundingClientRect(); if (r.bottom > 60 && r.top < innerHeight) { rail.classList.remove("show"); return; } }
+    const above = nearestAbove(y);
+    const on = here.includes(above) ? above : here[0];
+    const wideOk = innerWidth >= 1200 && !!on.closest(".part > .wrap") && !on.classList.contains("inline");
+    const key = here.map(b => b.dataset.s).join() + "|" + on.dataset.s + "|" + wideOk + "|" + order.map(k => S[k].notes ? 1 : 0).join("");
+    rail.classList.add("show");
+    // The big ring's question shows beside it unless its own margin station is already on screen.
+    const r = on.getBoundingClientRect(), seen = !on.classList.contains("inline") && innerWidth >= 1200 && r.bottom > 60 && r.top < innerHeight;
+    rail.querySelectorAll("button").forEach(x => x.classList.toggle("seen", seen && x.dataset.s === on.dataset.s));
+    if (key === railKey && !force) return;
+    railKey = key;
+    rail.classList.toggle("wide-ok", wideOk);
+    rail.innerHTML = `<span class="rk">${esc(chapterOf(here[0].dataset.s))}</span>` + here.map(b => {
+      const id = b.dataset.s;
+      return `<button type="button" data-s="${id}" class="${S[id].notes ? "done" : ""} ${b === on ? "on" : ""}" aria-label="Teach it back: ${esc(STATIONS[id].q)}"><span class="q">${esc(STATIONS[id].q)}${openCount(id) ? `<small>${openCount(id)} still open</small>` : ""}</span><i></i></button>`;
+    }).join("");
+    rail.querySelectorAll("button").forEach(x => { x.onclick = () => openDesk(x.dataset.s); x.classList.toggle("seen", seen && x.dataset.s === on.dataset.s); });
+  }
+  let raf = 0;
+  addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; updateRail(); }); }, { passive: true });
+  addEventListener("resize", () => updateRail(true));
+
+  // ================= The selection dot =================
+  const dot = $("aidot");
+  document.addEventListener("mouseup", e => {
+    if (e.target.closest?.(".desk") || e.target === dot) return;
+    setTimeout(() => {
+      const s = getSelection(), t = s.toString().trim();
+      if (!t || !s.rangeCount || !s.anchorNode || !bookEl.contains(s.anchorNode) || s.anchorNode.parentElement?.closest(".desk,.rail,.stn")) { dot.classList.remove("show"); return; }
+      const r = s.getRangeAt(0).getBoundingClientRect();
+      dot.style.left = Math.min(r.right + scrollX + 4, scrollX + innerWidth - 36) + "px"; dot.style.top = (r.top + scrollY - 30) + "px"; dot.classList.add("show");
+    }, 0);
+  });
+  dot.onmousedown = e => e.preventDefault();
+  dot.onclick = () => {
+    const s = getSelection(), text = s.toString().trim().slice(0, 1500), node = s.anchorNode;
+    let near = null;
+    for (const b of btns) if (node && (b.compareDocumentPosition(node) & Node.DOCUMENT_POSITION_FOLLOWING)) near = b;
+    near = near || btns.find(b => node && (b.compareDocumentPosition(node) & Node.DOCUMENT_POSITION_PRECEDING)) || btns[0];
+    dot.classList.remove("show");
+    openDesk(near.dataset.s, true); setPicked(text);
+  };
+
+  // ================= Wiring =================
+  btns.forEach(b => {
+    const st = STATIONS[b.dataset.s];
+    b.innerHTML = `<span class="ring"></span><span class="tx"><span class="kk">Teach it back</span><span class="q">${esc(st.q)}</span><span class="st"></span></span>`;
+    b.setAttribute("aria-label", "Teach it back: " + st.q);
+    b.parentElement.classList.add("stn-wrap");
+    b.onmousedown = e => e.preventDefault();
+    b.onclick = () => openDesk(b.dataset.s);
+  });
+  $("dhlx").onclick = () => setPicked("");
+  $("dx").onclick = closeDesk;
+  $("tabTalk").onclick = () => setTab("talk");
+  $("tabNotes").onclick = () => setTab("notes");
+  if ($("notesbtn")) $("notesbtn").onclick = () => openDesk(cur, true, "notes");
+  addEventListener("keydown", e => { if (e.key === "Escape" && $("desk").classList.contains("open")) closeDesk(); });
+  const ta = $("din");
+  ta.oninput = () => { ta.style.height = "auto"; ta.style.height = Math.min(ta.scrollHeight + 2, 220) + "px"; };
+  ta.onkeydown = e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); $("df").requestSubmit(); } };
+  $("df").onsubmit = e => { e.preventDefault(); const v = ta.value.trim(); if (v && sample) { ta.value = ""; ta.oninput(); send(v); } };
+  renderMoves(); renderStations();
+
+  // ================= Claude and the page's database =================
+  const use = n => window.claude?.use ? window.claude.use(n).catch(() => null) : Promise.resolve(null);
+  [sample, db] = await Promise.all([use("sample"), use("db")]);
+  if (!sample) { $("doff").hidden = false; $("dsend").disabled = true; ta.disabled = true; }
+  if (db) {
+    const mine = d => { const [b, id] = d.id.split("__"); return b === BOOK.id && S[id] ? id : null; };
+    try {
+      const [notes, chats] = await Promise.all([db.collection("notes").get(), db.collection("chats").get()]);
+      for (const d of notes.docs) { const id = mine(d), v = d.data(); if (id && v?.got) S[id].notes = { got: v.got, open: v.open || [], plan: v.plan || "" }; }
+      for (const d of chats.docs) { const id = mine(d), v = d.data(); if (id && Array.isArray(v?.turns) && !S[id].turns.length) { S[id].turns = v.turns.filter(t => t && t.role && t.content); if (S[id].turns.at(-1)?.role === "user") S[id].turns.pop(); } }
+      renderStations(); if ($("desk").classList.contains("open")) { tab === "notes" ? renderNotes() : renderTalk(); }
+    } catch (e) {}
+  }
+})();
+</script>

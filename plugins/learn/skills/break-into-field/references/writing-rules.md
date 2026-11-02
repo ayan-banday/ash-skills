@@ -1,6 +1,6 @@
 # How Ash wants to be taught
 
-From his feedback on the first technology book (Oct 30 2026). Shasta's `_rules/Clusters.md` writing rules and the pitch-site `copy-rules.md` hold underneath; these are the ones the first version broke. Each has the bad line from that version and the fix.
+From his feedback on the first technology book (Oct 30 2026). Shasta's `_rules/Clusters.md` writing rules hold underneath; these are the ones the first version broke. Each has the bad line from that version and the fix.
 
 ## Short paragraphs, one idea each
 

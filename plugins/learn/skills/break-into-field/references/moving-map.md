@@ -2,11 +2,27 @@
 
 Ash on v2's map (Oct 30 2026): "The mind map can be shown in a much better way, like a pitch site, a thing that moves, a visualization, with a motif." v2 drew boxes in lanes with arrows; it was correct and flat. The map is the one screen of the book that should be watched, not read.
 
-The craft comes from two skills: `/visualize:pitch-site` (a motif that draws itself on, one accent for impact; `references/motion.md`) and `/visualize:story-plan` (one living metaphor, one bright thing per screen, act then words). Read pitch-site's `motion.md` rules 1 to 8, 13 and 14 before building.
+The craft, in short: one object holds still while the story changes on it; each step changes one thing; lines draw at pen speed; one accent does the pointing; everything reads at rest and under reduced motion. This file holds every rule the map needs, so build from it alone.
 
 ## The motif carries the unlock order
 
-**Pick one object from Ash's world whose shape already means "some things open before others".** Each part of it must carry one fact of the map, or it goes:
+**The picture comes from the field's own world, and its structure matches the map's shape** (Ash, Nov 2 2026: the skill "tends to just overuse the same visuals"; the mountain "is not helpful and thoughtful"). Clarity comes first, variety second.
+
+| The map's shape | A picture that fits |
+|---|---|
+| routes or channels that people travel | a transit map: lines, stations, interchanges |
+| things that wait on each other | a circuit, or a build plan |
+| growth over time | a plant's branches |
+| a process with passes | a print run, or a kitchen line |
+| parallel teams or tracks | lanes of a running track |
+
+- **The test:** could this picture belong to any other book? If yes, pick again. Cover the labels: can you still see what opens first, what waits on what, and where Chapter 1 is? If not, the picture is decoration.
+- **Offer two or three picture options in one line each** during the book's grilling, recommended first, then build the one Ash picks.
+- **Labels land in plain words:** what happens, in one to three words.
+- **Never** labelled concentric rings or stacked bands for an idea that matters, a horizontal step strip, a grid of boxes, or a glow that follows the cursor.
+- **The mountain is no longer the default.** Breaking Into Growth keeps its mountain; every new book picks its own picture.
+
+Each part of the picture must carry one fact of the map, or it goes:
 
 | Map fact | In the motif |
 |---|---|
@@ -18,13 +34,11 @@ The craft comes from two skills: `/visualize:pitch-site` (a motif that draws its
 | how many wait on a problem | how many lines leave its stop |
 | a chapter | the stop lit, with its chapter number |
 
-**The default is the mountain** (Fuji, Shasta, Olympus, base camp are already Ash's words): the summit is the outcome, each group is a route up one face, altitude is the layer, each problem is a camp, ropes run from a camp to the camps that wait on it. Base camp is what's open now.
-- **Other worlds that pass the test:** a river delta (water reaches the next channel only when the one before fills); a garden (Udyaan means garden: beds that can be planted once the soil is ready); a metro map (a line opens station by station).
-- **The test:** cover the labels. Can you still see what opens first, what waits on what, and where Chapter 1 is? If not, the motif is decoration.
+**Example, the mountain (Breaking Into Growth):** the summit is the outcome, each group a route up one face, altitude the layer, each problem a camp, ropes from a camp to the camps that wait on it. **Example, a transit map:** the outcome is the terminus, each group a line, distance from the start the layer, each problem a station, interchanges where one problem waits on another.
 
 ## How it moves: a pinned stage, five steps at most
 
-The map sits on a sticky stage while short captions scroll past it. Each step changes one thing, and scrolling back undoes it (pitch-site `motion.md`, "The pinned stage").
+The map sits on a sticky stage while short captions scroll past it. Each step changes one thing, and scrolling back undoes it.
 
 1. **The outcome.** The motif's outline draws on like a pen; only the top is lit, with the outcome in one line.
 2. **The routes.** Each group draws as a faint construction line (dashed, about 30% ink), with its plain name.
@@ -35,7 +49,7 @@ The map sits on a sticky stage while short captions scroll past it. Each step ch
 - **One bright thing per step,** in the accent; everything else stays dim but visible, so the picture builds.
 - **A caption per step, 20 words or fewer,** in the empty part of the picture (the sky beside a mountain), never covering a stop.
 - **The last step needs room to settle:** give the step track a tail (about 45% of the screen height) so the stage stays pinned while step 5 plays, then releases to the map at rest.
-- **Pinned for 3 viewport heights at most.** Lines draw at pen speed (`motion.md` rule 3); nothing bounces, flies or loops.
+- **Pinned for 3 viewport heights at most.** Lines draw at pen speed; nothing bounces, flies or loops.
 
 ## It stays studyable
 
