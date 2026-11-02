@@ -61,9 +61,10 @@ sheet, the copy scan, the sweep's word and marker checks, and the uninitiated re
 ### 0. Grill first: one session on what the page must say
 Ash is often not yet clear on what the page must say, so every build opens with one grilling
 (`references/intake.md`, "The grilling"). Lead with your best interpretation: what happened, the reader, **the
-message spine** (3 to 6 plain sentences the page must get across, ending in the action) and **the motif call**
-(whether a motif helps at all, and if so 2 or 3 options, each with the information it carries). Then at most four
-lettered questions where you are unsure, always including **phone, laptop or both** and **the stakes** (which sets
+message spine** (3 to 6 questions the reader would ask, in order, each with a one-line plain answer in the
+sender's voice, ending in the action) and **the motif call** (whether a motif helps at all; reuse a format Ash names;
+otherwise 2 or 3 options, each said as what the reader will see). Talk in everyday words, never designer terms. Then
+at most four lettered questions where you are unsure, always including **phone, laptop or both** and **the stakes** (which sets
 the path above). Save the agreed spine to `work/message.md`. Nothing is built before he answers, unless he says
 "don't ask".
 
@@ -95,8 +96,9 @@ words, tension) and checks it; `../story-plan/references/handoff.md` says how th
 and storyboard back to Ash before building.
 
 ### 5. Copy first
-Write all copy into `work/story.md` before any markup, one screen per spine sentence from `work/message.md`,
-following `references/copy-rules.md` (question or statement, plain full sentences, fewest words) and
+Write all copy into `work/story.md` before any markup, one screen per spine row from `work/message.md`,
+following `references/copy-rules.md` (the reader's question as headline, the answer under it, the sender's voice,
+fewest words) and
 `references/writing-rules.md`, then run
 `python scripts/scan.py work/story.md --facts work/facts.md`.
 
@@ -142,7 +144,7 @@ build to `references/builds-log.md`. Tell Ash to run `/verify`; the model cannot
 ## Rules that are easy to get wrong
 
 - **The motif adds information or it goes.** On every screen it shows something the words do not (which part, what is done, how far along). The Mughal-garden build held too many ideas and confused its readers.
-- **The copy says the spine, in Ash's spoken words.** Each screen says one sentence of the agreed message; a line that is clear but says something else still fails. Steps and facts are statements ("We help students form teams."); a question only where the reader would wonder (`references/copy-rules.md`).
+- **The copy says the spine, in Ash's spoken words.** Each screen answers one row of the agreed spine; a line that is clear but says something else still fails. The headline is the reader's question ("What do students get?"), the line under it answers straight. When Ash sends the page himself he is "I" ("I kept the 14 days."), never a corporate "we"; no tool names the reader doesn't need (`references/copy-rules.md`).
 - **Phones get the appetizer, never a squeezed desktop page.** Phone only: build `references/phone.md` alone. Both: the laptop page plus a phone cut from the same facts that ends by sending the reader to the laptop page. Laptop only: the phone gate.
 - **The motif carries the whole page, hero to close.** Two builds "opened strong, then drifted into rounded cards and never came back" (creative director, on TVS and on the first Coastline draft). Asks hang off the drawing; the close resolves every ask on it.
 - **The motif builds down the page.** Each section shows the drawing one stage further on. Identical dimmed copies of the finished motif read as "a paperclip".
@@ -168,7 +170,7 @@ build to `references/builds-log.md`. Tell Ash to run `/verify`; the model cannot
 ## Files
 
 - `references/intake.md`: the grilling (interpretation first, the message spine, the motif call), the brief, the facts sheet, the inspiration question, the story-map playback.
-- `references/copy-rules.md`: writing from the message spine, question or statement, the metaphor in the drawing, cutting words, before and after pairs, the copy check.
+- `references/copy-rules.md`: writing from the message spine, question headlines, the sender's voice, the metaphor in the drawing, cutting words, before and after pairs, the copy check.
 - `references/phone.md`: the phone appetizer: three templates (scroll website, swipe deck, tear-off pad) and how to invent the next, motifs that add information, progress without counters, the screen kit, the critic.
 - `references/story.md`: the argument, the default page order, section anatomy, the close, narrative frames, routes and alternatives.
 - `references/recipes.md`: architecture, direction, signature move and close; eight recipes that read differently.

@@ -6,12 +6,15 @@ rules (`/write:course-lesson` and its round-2 changes), cut down to what a page 
 
 The first TVS phone draft talked in its metaphor ("Leaders steer. Let them see the road ahead." "TVS already has the
 frame.") and Ash called it garbage: "we don't really talk like that". The fix made every headline a question, which
-was clearer but long, and some lines still said something other than what he meant.
+was clearer. A later rule turned steps back into "we" statements, and the Udyaan onboarding spine (2026-11-02) came
+out announcing ("We heard you. The 14 days stay.") in a "we" Ash never speaks in: "There's no 'we', this is 'I'."
+Headlines are questions again, in the sender's voice.
 
 ## Contents
 - The two tests
 - Write from the message spine
-- Question or statement
+- Headlines are the reader's questions
+- The sender's voice
 - The drawing carries the metaphor
 - Plain, full sentences
 - Cutting words without losing clarity
@@ -27,28 +30,36 @@ was clearer but long, and some lines still said something other than what he mea
 
 ## Write from the message spine
 
-The grilling ends with the message spine: 3 to 6 plain sentences the page must get across, in order, ending in the
-action (`intake.md`). Each screen traces to one spine sentence. When the content is a sequence (a 14-day plan),
-one spine sentence may cover several screens, one step each; the screens still say that sentence between them. Write the copy from it, then check the copy
-against it line by line. If a screen's headline and bold phrase, read alone, don't give its spine sentence, rewrite
-the screen. Polish never fixes a line that says the wrong thing.
+The grilling ends with the message spine: 3 to 6 questions the reader would ask, in order, each with a one-line
+plain answer, ending in the action (`intake.md`). Each screen traces to one spine row: the question is its headline,
+the answer is the line under it. When the content is a sequence (a 14-day plan), one row may cover several screens,
+one step each. Write the copy from the spine, then check it line by line. If a screen's headline and bold phrase,
+read alone, don't give its row, rewrite the screen. Polish never fixes a line that says the wrong thing.
 
-## Question or statement
+## Headlines are the reader's questions
 
-Not everything is a question. Pick by what the reader needs at that point.
+The headline is the question the reader would ask at that point; the line under it answers it straight, in the
+first words. A headline that announces ("We heard you.", "The 14 days stay.") makes the reader guess what the
+section is about.
 
-- **A statement when the content is a step or a fact they just need to know.** Steps in a plan, what we do, what
-  they get. Say it in "we" or "they" as a person would: "We collect each student's details with one form." "We help
-  students form teams." A question here only delays the answer.
-- **A question when the reader would actually wonder:** an open decision, a doubt, a choice they make. "What do
-  students get?" (nobody has decided yet), "Where should we start?", "Who do we talk to?".
-- **A choice the reader makes may be a question** ("Which farm problem will you pick?"), because they are the one
-  deciding.
-- **The hero can be the one big question the page answers,** or the plain promise.
+| Headline (the reader's question) | The answer under it |
+|---|---|
+| What changed after your feedback? | I kept the 14 days. I changed what students get, how feedback works, and how we test it first. |
+| What do students get? | What they asked for, from their own project. Want an internship? A proof pack for your resume. |
+| Is this good enough to start with? | If yes, send me 5 students for the first batch. If not, reply with one thing to change. |
+
+- **A short statement only for a step nobody would ask about** (a date, a reminder). Questions are the default for
+  a plan and a pitch.
 - **Never a question whose answer is already on screen** (a "When do teams form?" page with a huge 4 printed on it),
   and never two questions in a row that ask the same thing ("Where should we start?" then "How do we start?").
-- **Rough balance:** a plan or a process is mostly statements; a pitch to a client mixes both; a page about an open
-  choice can lean on questions.
+- **Leave out the sender's tools and internal specifics.** "A short form", never the form tool's name. The reader
+  gets what they need to act; the specifics go to the full plan.
+
+## The sender's voice
+
+Write as the person sending it would talk. When Ash sends a page himself, he is "I" ("I kept the 14 days.", "send
+me 5 students"). "We" is only for what the reader and sender, or the team, do together ("how we test it first").
+An organisation's name ("JAIN can help...") is for a client proposal sent on its behalf.
 
 ## The drawing carries the metaphor
 
@@ -106,14 +117,14 @@ Not everything is a question. Pick by what the reader needs at that point.
 | The two-minute version. The full proposal waits on your laptop. | This is the 2-minute version. Open this on a laptop to see the full proposal. | Full sentences; a straight instruction. |
 | TVS already has the frame. | What does the motorbike stand for? (then one plain explanation) | The metaphor is explained once instead of decoded. |
 | Leaders steer. Let them see the road ahead. | How do we help experts lead people? | Says the need in the reader's words. |
-| When do teams form? (on a page printed "Day 4") | We help students form teams. | A step is a statement; the day is already on screen. |
-| How does a student join? | We collect each student's details with one form. | A plain step; nothing to wonder about. |
-| What do students get? | What do students get? | Stays a question: it is still undecided. |
+| We heard you. The 14 days stay. | What changed after your feedback? (then: I kept the 14 days...) | Says what the section answers, in Ash's own "I". |
+| Before Day 1, a chat form asks each student what they want. | How do we find out what students want? (then: one short form before Day 1) | The reader's question, and no tool names. |
 
 ## The copy check
 
-1. Put the spine sentences next to each screen's headline and bold phrase. Every pair must match in meaning.
-2. Read the headlines alone, in order. They should tell the message without the body.
+1. Put each spine row next to its screen's headline and bold phrase. Every pair must match in meaning.
+2. Read the headlines alone, in order. They should be the reader's questions in the order they'd ask them.
+   Then read the line under each: it answers its headline in the first words, in the sender's voice.
 3. Count questions: none whose answer is on screen, no two in a row asking the same thing.
 4. Run `python scripts/scan.py` (dashes, hedges, hype, negative parallelism, slot headings, unsourced numbers).
 5. Put each card next to its headline: the card must add a fact. Repeats fail.

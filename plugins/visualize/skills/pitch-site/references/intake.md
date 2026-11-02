@@ -21,12 +21,27 @@ message itself. It settles two things: **exactly what the page communicates, and
 in plain words:
 - **What happened:** the meeting, the feedback or the moment that led to this page, as you understand it.
 - **The reader:** who opens it, what they already know, what they care about.
-- **The message spine:** the 3 to 6 sentences the page must get across, in order, each one a full sentence a person
-  would say out loud ("We collect each student's details with one form." "We help students form teams by subject.").
-  The last one is the action. This is what the copy is written from and checked against.
-- **The motif call:** whether the page needs a motif at all. A plain list of steps for a team may need none. If one
-  helps, offer 2 or 3, each with the one piece of information it carries ("a tear-off calendar: how far through the
-  14 days"), recommended first. "No motif" is a real option.
+- **The message spine:** the 3 to 6 questions the reader would ask, in the order they'd ask them, each with a
+  one-line plain answer in the sender's voice (`copy-rules.md`, "Headlines are the reader's questions"). Show it as
+  a two-column table, question and answer. The last row is the action. This is what the copy is written from and
+  checked against. The Udyaan onboarding page for Ash's own team:
+
+  | The reader's question | The answer |
+  |---|---|
+  | What changed after your feedback? | I kept the 14 days. I changed what students get, how feedback works, and how we test it first. |
+  | How do we find out what students want? | Before Day 1, each student fills one short form about what they want from a project. |
+  | How do we test it first? | As Hardik said: small batches of 5, then we fix what breaks and go bigger. |
+  | Is this good enough to start with? | If yes, send me 5 students for the first batch. If not, reply with one thing to change. |
+
+- **The motif call:** whether the page needs a motif at all. A plain list of steps for a team may need none. When
+  Ash names a format he has used before ("the calendar"), reuse it and skip this. Otherwise, if one helps, offer 2
+  or 3, each said as what the reader will see ("one question per calendar page, swiped sideways: shows how far
+  through the 14 days they are"), recommended first. "No motif" is a real option.
+
+**Talk to Ash in everyday words.** Every option says what the reader will see or do, never a designer term ("a deck
+you deal", "a pack that fills" lost him: "I have no idea what you're talking about"). Offer only the choices the
+brief leaves open; a page name or a container style is a question only when Ash asked for one or the brief truly
+leaves it open.
 
 **2. Ask only where you are unsure,** at most four questions (skip any the brief already answers, such as the device), each standing on its own, with lettered options and
 the recommended one first so "A" accepts it. Always include the device:
@@ -39,13 +54,15 @@ build spends (SKILL.md, "Two paths"):
 > reader decides on it (full path), C) high, and check the hero before building the rest."
 
 Recommend A for anything Ash presents himself or sends to his own team; B for a client, partner or funder.
-Other good questions: which spine sentence matters most if the
+Other good questions: which spine answer matters most if the
 reader keeps only one; what the reader distrusts; the inspiration question below.
 
 **3. Save the agreed spine** to `work/message.md`, and write `work/facts.md` in the same pass: every number, name
 and example the page may use, with its source. Anything marked undecided gets no number on a page for the people it
 would be promised to (students see "a stipend is one idea", never "₹2,000–3,000"). Each fear the interpretation
-names for the reader gets a spine sentence, or a note that the page leaves it out on purpose. Every screen's copy is written from one spine sentence, and the
+names for the reader gets a spine row, or a note that the page leaves it out on purpose. The spine names none of
+the sender's tools or internal specifics the reader doesn't need ("a short form", never the form tool's name);
+those go to the full plan. Every screen's copy is written from one spine row, and the
 copy check compares the two (`references/copy-rules.md`). Build only after he answers.
 
 ## What you need before writing anything

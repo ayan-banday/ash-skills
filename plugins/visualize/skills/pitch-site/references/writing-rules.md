@@ -2,7 +2,7 @@
 
 The base rules are brief-page's `references/writing-rules.md` (7th-grade words, headings that carry the
 answer, one or two highlighted phrases per paragraph, no filler). Read `copy-rules.md` first: it decides what each
-line says (the message spine), when a heading is a question or a statement, and how to cut words. Where the two
+line says (the message spine), the reader's question as the heading, the sender's voice, and how to cut words. Where the two
 disagree, `copy-rules.md` wins. This file adds what a proposal for a reader who
 won't read needs on top, with the TVS lines that taught each rule.
 
@@ -34,8 +34,9 @@ argument in order, the copy is not done.
 
 ## Headlines
 
-- **Say what the section is about, as an action:** "Give every leader the full picture", "See inside your supplier
-  plants", "Bring every process online". Ash asked for "a little bit more of a funk" over flat labels.
+- **Say what the section is about:** the reader's question by default ("What do students get?", `copy-rules.md`).
+  On a laptop proposal a section heading may instead be an action in the client's world ("See inside your supplier
+  plants"); Ash asked for "a little bit more of a funk" over flat labels. Never an announcement ("We heard you.").
 - **Collaborative, never credit-taking:** "How JAIN can support...", "can help...". Never imply the reader lacks
   something ("we're not roasting them"). TVS v2's "building leaders at every level" became "supporting them and giving them data".
 - **No slot headings:** "Our approach", "Why us", "Next steps", "Overview". The heading is the content.
