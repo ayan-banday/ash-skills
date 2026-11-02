@@ -7,14 +7,14 @@ rules (`/write:course-lesson` and its round-2 changes), cut down to what a page 
 The first TVS phone draft talked in its metaphor ("Leaders steer. Let them see the road ahead." "TVS already has the
 frame.") and Ash called it garbage: "we don't really talk like that". The fix made every headline a question, which
 was clearer. A later rule turned steps back into "we" statements, and the Udyaan onboarding spine (2026-11-02) came
-out announcing ("We heard you. The 14 days stay.") in a "we" Ash never speaks in: "There's no 'we', this is 'I'."
-Headlines are questions again, in the sender's voice.
+out announcing ("We heard you.") in a "we" Ash didn't mean. His fix: questions as headlines, plain answers, and
+"We don't need to use personal pronouns."
 
 ## Contents
 - The two tests
 - Write from the message spine
 - Headlines are the reader's questions
-- The sender's voice
+- No personal pronouns by default
 - The drawing carries the metaphor
 - Plain, full sentences
 - Cutting words without losing clarity
@@ -44,9 +44,13 @@ section is about.
 
 | Headline (the reader's question) | The answer under it |
 |---|---|
-| What changed after your feedback? | I kept the 14 days. I changed what students get, how feedback works, and how we test it first. |
-| What do students get? | What they asked for, from their own project. Want an internship? A proof pack for your resume. |
-| Is this good enough to start with? | If yes, send me 5 students for the first batch. If not, reply with one thing to change. |
+| How do we find out what students want as incentives? | We send them a form. |
+| What do students get? | What they asked for, from their own project. |
+| What about trophies and money? | Trophies and certificates still come after Day 14, read out in class. Money goes to Shraddha ma'am. |
+| How does feedback get simpler? | A quick WhatsApp update every 2 or 3 days; AI drafts the feedback, the mentor checks it. |
+| Who works with whom? | Teams of two, three at most. |
+| How do we test this? | Small batches of 5, as Hardik said. |
+| (the close) | Send 5 high-intent, high-energy students for the first batch. If not, reply "Change." |
 
 - **A short statement only for a step nobody would ask about** (a date, a reminder). Questions are the default for
   a plan and a pitch.
@@ -55,11 +59,12 @@ section is about.
 - **Leave out the sender's tools and internal specifics.** "A short form", never the form tool's name. The reader
   gets what they need to act; the specifics go to the full plan.
 
-## The sender's voice
+## No personal pronouns by default
 
-Write as the person sending it would talk. When Ash sends a page himself, he is "I" ("I kept the 14 days.", "send
-me 5 students"). "We" is only for what the reader and sender, or the team, do together ("how we test it first").
-An organisation's name ("JAIN can help...") is for a client proposal sent on its behalf.
+Answers say the thing without "I" or "we": "The 14 days stay." "Students send a quick update on WhatsApp." Ash:
+"We don't need to use personal pronouns." The grilling asks "Do you want to use 'I'?"; use "I" only when he says
+yes. A question may use "we" as the reader's own question ("How do we test this?"). An organisation's name ("JAIN
+can help...") is for a client proposal sent on its behalf.
 
 ## The drawing carries the metaphor
 
@@ -117,14 +122,14 @@ An organisation's name ("JAIN can help...") is for a client proposal sent on its
 | The two-minute version. The full proposal waits on your laptop. | This is the 2-minute version. Open this on a laptop to see the full proposal. | Full sentences; a straight instruction. |
 | TVS already has the frame. | What does the motorbike stand for? (then one plain explanation) | The metaphor is explained once instead of decoded. |
 | Leaders steer. Let them see the road ahead. | How do we help experts lead people? | Says the need in the reader's words. |
-| We heard you. The 14 days stay. | What changed after your feedback? (then: I kept the 14 days...) | Says what the section answers, in Ash's own "I". |
-| Before Day 1, a chat form asks each student what they want. | How do we find out what students want? (then: one short form before Day 1) | The reader's question, and no tool names. |
+| We heard you. The 14 days stay. | What changed? (then: The 14 days stay...) | Says what the section answers; no pronoun. |
+| Before Day 1, a chat form asks each student what they want. | How do we find out what students want as incentives? (then: We send them a form.) | The reader's question, and no tool names. |
 
 ## The copy check
 
 1. Put each spine row next to its screen's headline and bold phrase. Every pair must match in meaning.
 2. Read the headlines alone, in order. They should be the reader's questions in the order they'd ask them.
-   Then read the line under each: it answers its headline in the first words, in the sender's voice.
+   Then read the line under each: it answers its headline in the first words, with no personal pronoun unless Ash asked for "I".
 3. Count questions: none whose answer is on screen, no two in a row asking the same thing.
 4. Run `python scripts/scan.py` (dashes, hedges, hype, negative parallelism, slot headings, unsourced numbers).
 5. Put each card next to its headline: the card must add a fact. Repeats fail.

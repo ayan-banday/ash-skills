@@ -31,8 +31,8 @@ about 350 words over 10 screens, cards and labels included.
 
 The same plan or pitch can take very different shapes. These three are proven; use them as starting points, and
 invent a new container the same way when none fits. When Ash names one he has used before ("the calendar"),
-reuse it. Describe any option to him as what the reader sees ("one question per calendar page, swiped sideways"),
-never in designer terms.
+reuse it. Offer options by name, each followed by what the reader sees and does ("a deck you deal: cards sit in a stack and
+you flick the top one away, so the pile shrinks").
 
 
 - **Website (the default).** A vertical scroll. Copy sits at the top of each screen; the motif is pinned below it
@@ -82,7 +82,7 @@ If the motif can't carry it, use something from the subject's world (a fuel gaug
 ## Copy for a thumb
 
 The copy rules for every page are in `copy-rules.md`: write each screen from one row of the message spine, the
-reader's question as the headline and the plain answer under it, in the sender's voice, the metaphor in the drawing
+reader's question as the headline and the plain answer under it, with no personal pronouns by default, the metaphor in the drawing
 and never in the sentence, eight-word headlines. On a phone, also:
 
 - **One headline per screen** in the display face, one sentence under it (two at most). There is no fixed word

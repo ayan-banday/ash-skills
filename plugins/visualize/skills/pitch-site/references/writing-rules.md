@@ -2,7 +2,7 @@
 
 The base rules are brief-page's `references/writing-rules.md` (7th-grade words, headings that carry the
 answer, one or two highlighted phrases per paragraph, no filler). Read `copy-rules.md` first: it decides what each
-line says (the message spine), the reader's question as the heading, the sender's voice, and how to cut words. Where the two
+line says (the message spine), the reader's question as the heading, no personal pronouns by default, and how to cut words. Where the two
 disagree, `copy-rules.md` wins. This file adds what a proposal for a reader who
 won't read needs on top, with the TVS lines that taught each rule.
 

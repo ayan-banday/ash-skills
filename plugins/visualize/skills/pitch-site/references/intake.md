@@ -22,29 +22,33 @@ in plain words:
 - **What happened:** the meeting, the feedback or the moment that led to this page, as you understand it.
 - **The reader:** who opens it, what they already know, what they care about.
 - **The message spine:** the 3 to 6 questions the reader would ask, in the order they'd ask them, each with a
-  one-line plain answer in the sender's voice (`copy-rules.md`, "Headlines are the reader's questions"). Show it as
-  a two-column table, question and answer. The last row is the action. This is what the copy is written from and
-  checked against. The Udyaan onboarding page for Ash's own team:
+  one-line plain answer and no personal pronouns (`copy-rules.md`, "Headlines are the reader's questions"). Show it
+  as the page structure: one row per page, headline question | answer. The last row is the action. This is what
+  the copy is written from and checked against. Ash's final spine for the Udyaan onboarding page (2026-11-02):
 
-  | The reader's question | The answer |
+  | Headline (the reader's question) | The answer |
   |---|---|
-  | What changed after your feedback? | I kept the 14 days. I changed what students get, how feedback works, and how we test it first. |
-  | How do we find out what students want? | Before Day 1, each student fills one short form about what they want from a project. |
-  | How do we test it first? | As Hardik said: small batches of 5, then we fix what breaks and go bigger. |
-  | Is this good enough to start with? | If yes, send me 5 students for the first batch. If not, reply with one thing to change. |
+  | How do we find out what students want as incentives? | We send them a form. |
+  | What do students get? | What they asked for, from their own project. |
+  | What about trophies and money? | Trophies and certificates still come after Day 14, read out in class. Money goes to Shraddha ma'am. |
+  | How does feedback get simpler? | A quick WhatsApp update every 2 or 3 days; AI drafts the feedback, the mentor checks it. |
+  | Who works with whom? | Teams of two, three at most. |
+  | How do we test this? | Small batches of 5, as Hardik said. |
+  | (the close) | Send 5 high-intent, high-energy students for the first batch. If not, reply "Change." |
 
 - **The motif call:** whether the page needs a motif at all. A plain list of steps for a team may need none. When
   Ash names a format he has used before ("the calendar"), reuse it and skip this. Otherwise, if one helps, offer 2
-  or 3, each said as what the reader will see ("one question per calendar page, swiped sideways: shows how far
-  through the 14 days they are"), recommended first. "No motif" is a real option.
+  or 3 formats, recommended first. "No motif" is a real option.
 
-**Talk to Ash in everyday words.** Every option says what the reader will see or do, never a designer term ("a deck
-you deal", "a pack that fills" lost him: "I have no idea what you're talking about"). Offer only the choices the
-brief leaves open; a page name or a container style is a question only when Ash asked for one or the brief truly
-leaves it open.
+**Name each option, then say it plainly.** Ash likes getting format and design options with their real names: they
+give him words to design in. What lost him was a name with no explanation ("a deck you deal": "I have no idea what
+you're talking about"). So every option is its name plus what the reader will see and do: "a deck you deal: cards
+sit in a stack and you flick the top one away, so the pile shrinks"; "a tear-off calendar: one question per page,
+tap to tear it off, so the pad gets thinner".
 
 **2. Ask only where you are unsure,** at most four questions (skip any the brief already answers, such as the device), each standing on its own, with lettered options and
-the recommended one first so "A" accepts it. Always include the device:
+the recommended one first so "A" accepts it. Always include the voice ("Do you want to use 'I'? Default: no
+pronouns.") and the device:
 > "Where will they open it? A) phone only, B) a laptop page plus a phone appetizer that sends them to it,
 > C) laptop only, phones see the gate."
 
