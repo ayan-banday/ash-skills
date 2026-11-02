@@ -14,9 +14,11 @@ Made inside a Fuji grilling where Ash planned how to keep Udyaan students workin
 **After you read this, you can design why someone keeps working: students now, your own team later.**
 
 **What usually happens**
-1. **Day 1:** students pick a problem off a list. It feels like a task someone handed them.
-2. **Day 5:** a trophy is announced for the best project. Three teams who think they can win push harder. The rest quietly decide it isn't for them.
-3. **Day 20:** the trophies were handed out on Day 14, and posts drop to almost nothing. The thing they were working for is over.
+| When | What happens | What you see |
+|---|---|---|
+| **Day 1** | Students pick a problem off a list | It feels like a task someone handed them |
+| **Day 5** | A trophy is announced for the best project | Three teams who think they can win push harder; the rest decide it isn't for them |
+| **Day 20** | The trophies were handed out on Day 14 | **Cost:** posts drop to almost nothing, because the thing they worked for is over |
 
 **Where the problem lies**
 

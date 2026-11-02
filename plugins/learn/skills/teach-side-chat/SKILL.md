@@ -40,7 +40,7 @@ Done when every question makes sense with the chat hidden and each problem holds
 Title: the picked question, word for word. These sections, in order, headings in bold, about 1,000 to 1,300 words in all. Over that, cut "How it works" to 4 steps and "When it isn't enough" to 2 bullets. **Three new names per chapter at most:** the main idea's, plus up to two in "When it isn't enough". The test line adds none, and a word from the far-away field ("mise en place") doesn't count.
 
 - **Where you are now:** 2 or 3 bullets of where he stands, from the chat (state it, never retell what was said or built), each ending with what it costs him so far (a cost not yet paid takes "say" or "could"). Then one bold line, no heading: "After you read this, you can [what it lets him do in his work]."
-- **What usually happens:** the failure as 2 to 4 numbered steps, with days, counts and what he sees.
+- **What usually happens:** the failure as a table (When | What happens | What you see), 2 to 4 short rows with days and counts, the last ending in the cost.
 - **Where the problem lies:** the root cause in bold, with someone doing something: "**The AI reads, answers and forgets.**"
 - **The idea that fixes it:** one or two bold sentences, under 40 words together, that a 7th grader who never saw the chat could act on: who does what, to what, and what follows. Then the metaphor from daily life in 2 or 3 sentences, from a different world than the far-away example. Then the name: "That list is called an index."
 - **How it works, from [start] to [end]:** name it for the real journey. 3 to 5 numbered steps, each what happens then what it produces. Then a text diagram in a code block, and a "today" against "with this" table when two ways are compared.
@@ -74,5 +74,5 @@ Reading only the bold phrases of any section gives its point.
 8. **Bullets of 2 or 3, steps of 3 to 5,** paragraphs of 3 sentences at most.
 9. **Invent examples, never facts.** Made-up students, numbers and scenes are fine (mark guesses "say"); made-up statistics, studies, company results or quotes are not. Real people and companies only when the chat names them, with nothing claimed about them you aren't sure of. Arithmetic on the chat's own numbers is fine.
 10. **Say the claim:** no slogans, aphorisms, "not X but Y", bold "X, not Y" lines or em dashes. A contrast with real numbers is fine.
-11. **Vary the format** when it explains faster: table, text diagram, block quote. Text only, since the chat may be a terminal.
+11. **Show sequences, comparisons and parallel points as a Markdown table,** a few keywords per cell, so Ash reads them by their keywords; vary with a text diagram or block quote when that explains faster. Taking more space is fine when it reads faster. A code-block diagram puts a blank line between sections, and no section's text wraps under the next label. Text only, since the chat may be a terminal.
 12. **Never summarise the chat back to him.** He was there.

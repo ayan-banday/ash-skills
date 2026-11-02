@@ -26,9 +26,11 @@ Made beside a Fuji session where Ash planned how Shasta reads YouTube transcript
 **The real problem**
 
 **Every question to Shasta pays for reading all 20 hours of video again.**
-1. **Monday:** you ask about pricing, and an AI reads all 20 hours to find six quotes.
-2. **Thursday:** you ask about landing pages, and it reads the same 20 hours again, because nothing from Monday was kept.
-3. **Week 3:** you add two videos, YouTube starts blocking the repeat fetches, and every question costs 22 hours of reading.
+| When | What happens | What you see |
+|---|---|---|
+| **Monday** | You ask about pricing; an AI reads all 20 hours | Six quotes |
+| **Thursday** | You ask about landing pages; it reads the same 20 hours again | Nothing from Monday was kept |
+| **Week 3** | You add two videos; YouTube blocks repeat fetches | **Cost:** every question reads 22 hours |
 
 **Done when:** by Sunday, a new question about the 20 videos costs about one hour of reading, and every answer points at the minute it came from.
 

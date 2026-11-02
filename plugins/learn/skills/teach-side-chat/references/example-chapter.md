@@ -29,9 +29,11 @@ Made beside the Fri Oct 30 grilling of Fuji ticket 34, where Ash designed a pipe
 **After you read this, you can ask Shasta any question about those 20 videos, any week, and pay for about one hour of reading instead of 20.**
 
 **What usually happens**
-1. **Monday:** you ask about pricing. The AI reads all 20 hours and gives you the quotes.
-2. **Thursday:** you ask about landing pages. The AI reads the same 20 hours again, because nothing from Monday was kept except Monday's answer.
-3. **Week 3:** you add two new videos. Now every question costs 22 hours of reading.
+| When | What happens | What you see |
+|---|---|---|
+| **Monday** | You ask about pricing; the AI reads all 20 hours | The quotes |
+| **Thursday** | You ask about landing pages; the AI reads the same 20 hours again | Nothing from Monday was kept but its answer |
+| **Week 3** | You add two new videos | **Cost:** every question reads 22 hours |
 
 **Where the problem lies**
 
