@@ -4,6 +4,7 @@
 <nav class="rail" id="trail" aria-label="Teach it back stations in this chapter"></nav>
 <button class="aidot" id="aidot" type="button" aria-label="Ask the tutor about this" title="Ask the tutor about this">✦</button>
 <aside class="desk" id="desk" aria-label="Teach it back">
+  <div class="grip" id="dgrip" role="separator" aria-orientation="vertical" aria-label="Drag to change the chat's width" tabindex="0" title="Drag to change the width. Double-click resets it."></div>
   <div class="top">
     <div class="row1"><span class="kk" id="dkk">Teach it back</span><button class="x" id="dx" type="button" aria-label="Close">×</button></div>
     <div class="cn" id="dcn"></div>
@@ -17,7 +18,10 @@
     <textarea id="din" rows="2" placeholder="Ask anything about this part…" aria-label="Your message"></textarea>
     <div class="moves" id="dmoves"></div>
     <div class="rw">
-      <label class="sw" title="Off: Haiku for one or two ideas, Sonnet for more. On: always Sonnet."><input type="checkbox" id="ddeep"><span class="tr"></span><span>Always think deeper</span></label>
+      <div class="pick">
+        <label title="Auto: Haiku for one or two ideas, Sonnet for more."><span>Model</span><select id="dmodel"><option value="auto">Auto</option><option value="haiku">Haiku</option><option value="sonnet">Sonnet</option><option value="opus">Opus</option></select></label>
+        <label title="How long the model thinks before it answers."><span>Thinking</span><select id="deffort"><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></label>
+      </div>
       <button class="send" id="dsend">Send</button>
     </div>
     <div class="off" id="doff" hidden>The tutor needs Claude: open this page in Claude to talk to it. Your stations and notes still show.</div>
@@ -33,10 +37,16 @@ function countIdeas(msg, ideas) {
   const n = Math.max(names.length, asks);
   return { n, names, words, askHaiku: n <= 2 && words > 70 };
 }
-function pickModel(n, deep) {
-  return deep || n > 2
-    ? { tier: "Sonnet", opts: { model: "claude-sonnet-5-5", modelTier: "default", effort: "low" } }
-    : { tier: "Haiku", opts: { model: "claude-haiku-5-5", modelTier: "quick" } };
+const MODELS = {
+  Haiku: { model: "claude-haiku-5-5", modelTier: "quick" },
+  Sonnet: { model: "claude-sonnet-5-5", modelTier: "default" },
+  Opus: { model: "claude-opus-5-5", modelTier: "complex" }
+};
+// Auto: Haiku for one or two ideas, Sonnet at low thinking for more. A model he picks answers at the thinking he picks.
+function pickModel(n, pick) {
+  const name = pick && pick.model !== "auto" ? pick.model[0].toUpperCase() + pick.model.slice(1) : null;
+  if (name && MODELS[name]) return { tier: name, effort: pick.effort, opts: { ...MODELS[name], effort: pick.effort } };
+  return n > 2 ? { tier: "Sonnet", effort: "low", opts: { ...MODELS.Sonnet, effort: "low" } } : { tier: "Haiku", opts: { ...MODELS.Haiku } };
 }
 // </count>
 (async () => {
@@ -142,21 +152,26 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
   }
 
   // ================= Which model =================
+  // A route is { tier, effort, names, forced }: which model answers, how hard it thinks, and why.
+  const route = (m, names, forced) => ({ tier: m.tier, effort: m.effort || "", names, forced: !!forced, deep: m.tier !== "Haiku" });
   async function judge(msg) {
-    if ($("ddeep").checked) return { deep: true, forced: true, names: [] };
+    const pick = choice();
+    if (pick.model !== "auto") return route(pickModel(0, pick), [], true);
     const c = countIdeas(msg, IDEAS[chapterOf(cur)] || Object.assign({}, ...Object.values(IDEAS)));
     if (c.askHaiku && sample) {
       try {
-        const r = await sample.json(`${COUNT}\n\nASH'S MESSAGE\n${msg}`, { model: "claude-haiku-5-5", modelTier: "quick", cache: false });
-        if (r?.n > c.n) return { deep: r.n > 2, names: (r.names || []).map(String).slice(0, 5) };
+        const r = await sample.json(`${COUNT}\n\nASH'S MESSAGE\n${msg}`, { ...MODELS.Haiku, cache: false });
+        if (r?.n > c.n) return route(pickModel(r.n), (r.names || []).map(String).slice(0, 5));
       } catch (e) {}
     }
-    return { deep: pickModel(c.n, false).tier === "Sonnet", names: c.names };
+    return route(pickModel(c.n), c.names);
   }
+  const tierOf = r => r?.tier || (r?.deep ? "Sonnet" : "Haiku");  // chats saved before the picker carry only `deep`
+  const optsOf = r => ({ ...MODELS[tierOf(r)], ...(r?.effort ? { effort: r.effort } : r?.deep && !r?.tier ? { effort: "low" } : {}) });
   function routeHTML(r) {
     if (!r) return "";
-    const what = r.forced ? "you asked for deeper" : r.names?.length ? `${r.names.length} idea${r.names.length > 1 ? "s" : ""}: ${r.names.join(", ")}` : "one idea";
-    return `<div class="route"><span class="m">${r.deep ? "Sonnet" : "Haiku"}</span><span>${esc(what)}</span></div>`;
+    const what = r.forced ? "you picked it" : r.names?.length ? `${r.names.length} idea${r.names.length > 1 ? "s" : ""}: ${r.names.join(", ")}` : "one idea";
+    return `<div class="route"><span class="m">${esc(tierOf(r))}${r.effort ? " · " + esc(r.effort) + " thinking" : ""}</span><span>${esc(what)}</span></div>`;
   }
 
   // ================= Rendering =================
@@ -189,7 +204,7 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
     const [me, bot] = p[st.view];
     $("pTalk").innerHTML = (p.length > 1 ? `<div class="turns">${p.map((_, i) => `<button type="button" data-i="${i}" class="${i === st.view ? "on" : ""}">${i + 1}</button>`).join("")}</div>` : "") +
       `<div class="you"><span class="who">You${me.example ? " · an example" : ""}</span>${esc(me.content)}</div>${routeHTML(me.route)}` +
-      `<div class="reply">${bot ? render(bot.content) : `<span class="wait">${me.route?.deep ? "Sonnet is thinking it through..." : "Thinking..."}</span>`}</div>`;
+      `<div class="reply">${bot ? render(bot.content) : `<span class="wait">${me.route?.deep ? tierOf(me.route) + " is thinking it through..." : "Thinking..."}</span>`}</div>`;
     $("pTalk").querySelectorAll(".turns button").forEach(b => b.onclick = () => { st.view = +b.dataset.i; renderTalk(); });
     const pa = $("pTalk").querySelector(".pans");
     if (pa) {
@@ -263,7 +278,7 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
     const out = () => cur === id && tab === "talk" && st.view >= pairs().length - 1 ? $("pTalk").querySelector(".reply") : null;
     try {
       const { text } = await sample([{ role: "user", content: lead }, { role: "assistant", content: "Ready." }, ...hist], {
-        ...pickModel(me.route.deep ? 3 : 0, false).opts, cache: false, signal: ctl.signal,
+        ...optsOf(me.route), cache: false, signal: ctl.signal,
         onText: ({ text }) => { const o = out(); if (o) o.innerHTML = render(text, true); }
       });
       st.turns.push({ role: "assistant", content: text });
@@ -350,6 +365,29 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
     dot.classList.remove("show");
     openDesk(near.dataset.s, true); setPicked(text);
   };
+
+  // ================= The model picker, remembered in this browser =================
+  const store = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} } };
+  function choice() { return { model: $("dmodel").value, effort: $("deffort").value }; }
+  try { const p = JSON.parse(store.get("tutor-pick") || "{}"); if (p.model) $("dmodel").value = p.model; if (p.effort) $("deffort").value = p.effort; } catch (e) {}
+  const syncPick = () => { $("deffort").disabled = $("dmodel").value === "auto"; $("deffort").title = $("deffort").disabled ? "Auto picks the thinking: none for Haiku, low for Sonnet." : ""; };
+  $("dmodel").onchange = $("deffort").onchange = () => { syncPick(); store.set("tutor-pick", JSON.stringify(choice())); };
+  syncPick();
+
+  // ================= The desk's width: drag its left edge =================
+  const desk = $("desk"), grip = $("dgrip");
+  function setW(w, save) {
+    const v = Math.round(Math.max(360, Math.min(w, innerWidth * 0.75)));
+    document.documentElement.style.setProperty("--deskw", v + "px");
+    if (save) store.set("tutor-desk-w", v);
+  }
+  if (+store.get("tutor-desk-w")) setW(+store.get("tutor-desk-w"));
+  const sizing = on => { desk.classList.toggle("sizing", on); document.body.classList.toggle("sizing", on); };
+  grip.onpointerdown = e => { e.preventDefault(); grip.setPointerCapture(e.pointerId); sizing(true); };
+  grip.onpointermove = e => { if (grip.hasPointerCapture(e.pointerId)) setW(innerWidth - e.clientX); };
+  grip.onlostpointercapture = () => { sizing(false); setW(desk.getBoundingClientRect().width, true); updateRail(true); };
+  grip.ondblclick = () => { document.documentElement.style.removeProperty("--deskw"); store.set("tutor-desk-w", null); };
+  grip.onkeydown = e => { const k = { ArrowLeft: 40, ArrowRight: -40 }[e.key]; if (k) { e.preventDefault(); setW(desk.getBoundingClientRect().width + k, true); } };
 
   // ================= Wiring =================
   btns.forEach(b => {

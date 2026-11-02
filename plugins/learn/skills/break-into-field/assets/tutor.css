@@ -18,7 +18,7 @@
 /* At 1200 px and wider the reading column moves left to make room for the margin and the rail */
 @media (min-width:1200px){
   body.tutor .part > .wrap{margin-left:max(24px,calc((100vw - 760px - 470px)/2));margin-right:auto}
-  body.desk-open .part > .wrap{margin-left:max(24px,calc((100vw - 500px - 760px)/2))}
+  body.desk-open .part > .wrap{margin-left:max(24px,calc((100vw - var(--deskw,480px) - 20px - 760px)/2));max-width:min(760px,calc(100vw - var(--deskw,480px) - 48px))}
   body.desk-open .stn:not(.inline){display:none}
 }
 
@@ -55,9 +55,18 @@ body.desk-open .rail{opacity:0;pointer-events:none}
 .notesbtn .op{color:var(--p1)}
 
 /* The desk */
-.desk{position:fixed;top:0;right:0;bottom:0;width:min(480px,100vw);z-index:40;background:var(--bg2);border-left:1px solid var(--ln);box-shadow:-12px 0 36px rgba(0,0,0,.4);display:flex;flex-direction:column;transform:translateX(104%);transition:transform .26s cubic-bezier(.22,1,.36,1);font:15.5px/1.6 "Atkinson Hyperlegible",system-ui,sans-serif;color:var(--tx);overflow:hidden;visibility:hidden}
+.desk{position:fixed;top:0;right:0;bottom:0;width:min(var(--deskw,480px),100vw);z-index:40;background:var(--bg2);border-left:1px solid var(--ln);box-shadow:-12px 0 36px rgba(0,0,0,.4);display:flex;flex-direction:column;transform:translateX(104%);transition:transform .26s cubic-bezier(.22,1,.36,1);font:15.5px/1.6 "Atkinson Hyperlegible",system-ui,sans-serif;color:var(--tx);overflow:hidden;visibility:hidden}
 .desk.open{transform:none;visibility:visible}
 @media (prefers-reduced-motion: reduce){.desk{transition:none}}
+/* The grip: drag the desk's left edge to widen it (keeps the full height; 360 px to three quarters of the window) */
+.grip{position:absolute;left:0;top:0;bottom:0;width:10px;z-index:3;cursor:col-resize;touch-action:none}
+.grip::after{content:"";position:absolute;left:3px;top:50%;width:4px;height:48px;margin-top:-24px;border-radius:2px;background:var(--ln);transition:background .15s}
+.grip:hover::after,.grip:focus-visible::after,.desk.sizing .grip::after{background:var(--p1)}
+.grip:focus-visible{outline:none}
+.desk.sizing{transition:none}
+body.sizing{cursor:col-resize;user-select:none}
+body.sizing .part > .wrap{transition:none}
+@media (max-width:699px){.grip{display:none}}
 .desk b,.desk strong{color:var(--tx);font-weight:700}
 .desk .top{background:var(--bg3);padding:14px 18px 0}
 .desk .row1{display:flex;justify-content:space-between;align-items:center}
@@ -134,13 +143,13 @@ body.desk-open .rail{opacity:0;pointer-events:none}
 .moves button{white-space:nowrap;font:600 11.5px "Overpass Mono",monospace;color:var(--p2);background:none;border:1px solid var(--ln);border-radius:20px;padding:3px 10px;cursor:pointer}
 .moves button:hover{border-color:var(--p2)}
 .compose .rw{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:10px}
-.sw{display:flex;align-items:center;gap:8px;font:600 12px "Overpass Mono",monospace;color:var(--mu);cursor:pointer;user-select:none;position:relative}
-.sw input{position:absolute;opacity:0;pointer-events:none}
-.sw .tr{width:32px;height:19px;border-radius:10px;background:var(--bg3);border:1px solid var(--ln);position:relative}
-.sw .tr::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:var(--mu);transition:transform .15s}
-.sw input:checked + .tr{background:var(--p2)}
-.sw input:checked + .tr::after{transform:translateX(13px);background:var(--on)}
-.sw input:focus-visible + .tr{outline:2px solid var(--tx);outline-offset:2px}
+/* The model picker: two quiet selects beside Send */
+.pick{display:flex;gap:10px;flex-wrap:wrap;min-width:0}
+.pick label{display:flex;align-items:center;gap:6px;font:600 11px "Overpass Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--mu)}
+.pick select{font:600 13px Overpass,sans-serif;color:var(--tx);background:var(--bg3);border:1px solid var(--ln);border-radius:6px;padding:4px 6px;cursor:pointer}
+.pick select:hover{border-color:var(--mu)}
+.pick select:disabled{opacity:.45;cursor:default}
+.pick select:focus-visible{outline:2px solid var(--p1);outline-offset:1px}
 .send{font:800 13.5px Overpass,sans-serif;color:var(--on);background:var(--p1);border:0;border-radius:6px;padding:8px 16px;cursor:pointer}
 .send:disabled{opacity:.45;cursor:default}
 .off{font-size:13px;color:var(--mu);margin-top:8px}

@@ -4,7 +4,7 @@ Claude runs inside the published page on Ash's own account: no key, no setup. He
 
 **One tab on the right edge, "Ask the tutor".** Clicking it slides a chat panel in from the right. Every call sends the whole page's text, the think box's own scenario when he sends from one, and anything he highlighted before opening the panel (shown as a quoted chip he can drop). It never sends "the section on screen": the highlight is what matters (Ash, Nov 2 2026). A theory page's think boxes (one line that grows, Enter sends) open the same panel with his writing sent. There are no buttons scattered through the page. On wide screens the page slides left so the panel covers nothing.
 
-**Haiku or Sonnet, by how many ideas the message holds** (the same rule as break-into-field's tutor). Each page carries a small `IDEAS` map: the unit's concepts, each with the words that point at it (plain synonyms too). One or two ideas (or question marks) go to Haiku (`claude-haiku-5-5`, `modelTier: "quick"`); more than two go to Sonnet (`claude-sonnet-5-5`, `modelTier: "default"`, `effort: "low"`). A message over 70 words that names two ideas or fewer is counted by Haiku first. The **Always think deeper** switch in the panel forces Sonnet. A small chip under his message names the model and the ideas it found. The page itself is written by the strongest model.
+**Haiku or Sonnet, by how many ideas the message holds** (the same rule as break-into-field's tutor). Each page carries a small `IDEAS` map: the unit's concepts, each with the words that point at it (plain synonyms too). One or two ideas (or question marks) go to Haiku (`claude-haiku-5-5`, `modelTier: "quick"`); more than two go to Sonnet (`claude-sonnet-5-5`, `modelTier: "default"`, `effort: "low"`). A message over 70 words that names two ideas or fewer is counted by Haiku first. Under the input, **Model** (Auto, Haiku, Sonnet, Opus) and **Thinking** (Low, Medium, High) let him pick; Auto keeps the rule above, and a picked model answers at the picked thinking (`effort`). The panel's left edge drags to any width from 340 px to three quarters of the window (double-click resets); both choices are remembered in his browser. A small chip under his message names the model, the thinking and why. The page itself is written by the strongest model.
 
 ## The voice (lives in `RULES` in the script; the same prompt as break-into-field's tutor, filled for the BBA)
 
@@ -22,7 +22,7 @@ Claude runs inside the published page on Ash's own account: no key, no setup. He
 .tutor-tab{position:fixed;right:0;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;z-index:30;font:600 14px Inter,system-ui,sans-serif;letter-spacing:.04em;color:var(--ink);background:var(--sand);border:0;border-radius:8px 0 0 8px;padding:16px 9px;cursor:pointer}
 .tutor-tab:hover,.tutor-tab:focus-visible{background:var(--sand-f);outline:none}
 .tutor-tab[hidden]{display:none}
-.tutor{position:fixed;top:0;right:0;bottom:0;width:min(400px,100vw);z-index:40;background:var(--surface);border-left:1px solid var(--line);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .2s ease;font:15px/1.55 Inter,system-ui,sans-serif}
+.tutor{position:fixed;top:0;right:0;bottom:0;width:min(var(--tutorw,400px),100vw);z-index:40;background:var(--surface);border-left:1px solid var(--line);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .2s ease;font:15px/1.55 Inter,system-ui,sans-serif}
 .tutor.open{transform:none}
 @media (prefers-reduced-motion: reduce){.tutor{transition:none}}
 .tutor header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);color:var(--head);font-weight:600}
@@ -49,8 +49,18 @@ Claude runs inside the published page on Ash's own account: no key, no setup. He
 .tutor .route b{color:var(--ink);background:var(--sand);border-radius:3px;padding:0 6px;font-weight:600}
 .tutor .bot .nm{color:var(--ink);background:var(--sand-f);border-radius:3px;padding:0 4px;font-weight:600}
 .tutor .bot hr{border:0;border-top:1px solid var(--line);margin:12px 0}
-.tutor .deep{display:flex;align-items:center;gap:6px;padding:0 16px 10px;font:500 12.5px Inter,system-ui,sans-serif;color:var(--muted);cursor:pointer}
-@media (min-width:1200px){body.tutor-open .wrap,body.tutor-open .bar .in{margin-left:max(16px,calc((100vw - 420px - 780px)/2));margin-right:420px}}
+.tutor .pick{display:flex;gap:12px;flex-wrap:wrap;padding:0 16px 10px;font:500 12.5px Inter,system-ui,sans-serif;color:var(--muted)}
+.tutor .pick label{display:flex;align-items:center;gap:6px}
+.tutor .pick select{font:500 13px Inter,system-ui,sans-serif;color:var(--text);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:3px 6px;cursor:pointer}
+.tutor .pick select:disabled{opacity:.45;cursor:default}
+.tutor .grip{position:absolute;left:0;top:0;bottom:0;width:10px;z-index:3;cursor:col-resize;touch-action:none}
+.tutor .grip::after{content:"";position:absolute;left:3px;top:50%;width:4px;height:48px;margin-top:-24px;border-radius:2px;background:var(--line)}
+.tutor .grip:hover::after,.tutor .grip:focus-visible::after,.tutor.sizing .grip::after{background:var(--sand)}
+.tutor .grip:focus-visible{outline:none}
+.tutor.sizing{transition:none}
+body.sizing{cursor:col-resize;user-select:none}
+@media (max-width:699px){.tutor .grip{display:none}}
+@media (min-width:1200px){body.tutor-open .wrap,body.tutor-open .bar .in{margin-left:max(16px,calc((100vw - var(--tutorw,400px) - 20px - 780px)/2));margin-right:calc(var(--tutorw,400px) + 20px)}}
 ```
 
 **HTML and script,** just before the end of the page:
@@ -58,12 +68,16 @@ Claude runs inside the published page on Ash's own account: no key, no setup. He
 ```html
 <button class="tutor-tab" id="ttab" type="button" hidden>Ask the tutor</button>
 <aside class="tutor" id="tutor" aria-label="Tutor">
+  <div class="grip" id="tgrip" role="separator" aria-orientation="vertical" aria-label="Drag to change the width of the tutor" tabindex="0" title="Drag to change the width. Double-click resets it."></div>
   <header><span>Tutor</span><button class="x" id="tx" type="button" aria-label="Close">×</button></header>
   <div class="ctx" id="tctx"></div>
   <div class="log" id="tlog" aria-live="polite"></div>
   <div class="hlchip" id="thl" hidden><span id="thlt"></span><button type="button" id="thlx" aria-label="Drop the highlight">×</button></div>
   <form id="tf"><textarea id="tin" rows="2" placeholder="What's confusing you?"></textarea><button class="btn">Ask</button></form>
-  <label class="deep" title="Off: Haiku for one or two ideas, Sonnet for more. On: always Sonnet."><input type="checkbox" id="tdeep"> Always think deeper</label>
+  <div class="pick">
+    <label title="Auto: Haiku for one or two ideas, Sonnet for more.">Model <select id="tmodel"><option value="auto">Auto</option><option value="haiku">Haiku</option><option value="sonnet">Sonnet</option><option value="opus">Opus</option></select></label>
+    <label title="How long the model thinks before it answers.">Thinking <select id="teffort"><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></label>
+  </div>
 </aside>
 <script>
 (async () => {
@@ -130,16 +144,19 @@ HOW TO WRITE
   const page = wrap.innerText.slice(0, 60000);
   let turns = [], topic = "", scenario = "", picked = "", ctl;
 
-  // Haiku for one or two ideas, Sonnet for more; the switch forces Sonnet.
+  // Auto: Haiku for one or two ideas, Sonnet at low thinking for more. A model he picks answers at the thinking he picks.
+  const MODELS = { Haiku: { model: "claude-haiku-5-5", modelTier: "quick" }, Sonnet: { model: "claude-sonnet-5-5", modelTier: "default" }, Opus: { model: "claude-opus-5-5", modelTier: "complex" } };
   async function judge(msg) {
-    if ($("tdeep").checked) return { deep: true, what: "you asked for deeper" };
+    const m = $("tmodel").value;
+    if (m !== "auto") { const tier = m[0].toUpperCase() + m.slice(1), effort = $("teffort").value; return { tier, effort, opts: { ...MODELS[tier], effort }, what: "you picked it" }; }
     const low = " " + msg.toLowerCase() + " ";
     let names = Object.keys(IDEAS).filter(k => IDEAS[k].some(w => low.includes(w)));
     let n = Math.max(names.length, (msg.match(/\?/g) || []).length);
     if (n <= 2 && msg.trim().split(/\s+/).length > 70) {
       try { const r = await sample.json(`${COUNT}\n\nASH'S MESSAGE\n${msg}`, { model: "claude-haiku-5-5", modelTier: "quick", cache: false }); if (r?.n > n) { n = r.n; names = (r.names || []).slice(0, 5); } } catch (e) {}
     }
-    return { deep: n > 2, what: names.length ? `${names.length} idea${names.length > 1 ? "s" : ""}: ${names.join(", ")}` : "one idea" };
+    const what = names.length ? `${names.length} idea${names.length > 1 ? "s" : ""}: ${names.join(", ")}` : "one idea";
+    return n > 2 ? { tier: "Sonnet", effort: "low", opts: { ...MODELS.Sonnet, effort: "low" }, what } : { tier: "Haiku", effort: "", opts: { ...MODELS.Haiku }, what };
   }
   function setPicked(s) { picked = s; $("thl").hidden = !s; $("thlt").textContent = s ? "“" + s + "”" : ""; }
   function open(title, text) {
@@ -161,15 +178,14 @@ HOW TO WRITE
     turns.push({ role: "user", content: msg });
     turns = turns.slice(-6);
     const r = await judge(msg);
-    route.innerHTML = `<b>${r.deep ? "Sonnet" : "Haiku"}</b> ${esc(r.what)}`;
-    if (r.deep) bot.textContent = "Sonnet is thinking it through...";
+    route.innerHTML = `<b>${r.tier}${r.effort ? " · " + r.effort + " thinking" : ""}</b> ${esc(r.what)}`;
+    if (r.tier !== "Haiku") bot.textContent = r.tier + " is thinking it through...";
     ctl?.abort(); ctl = new AbortController();
     const lead = `${RULES}\n\nTHE PAGE\n${page}` + (scenario ? `\n\nTHE SCENARIO HE WROTE ABOUT\n${scenario}` : "") + (picked ? `\n\nHE HIGHLIGHTED\n${picked}` : "");
     const first = turns[0].role === "user" ? [] : [{ role: "user", content: "(earlier)" }];
-    const model = r.deep ? { model: "claude-sonnet-5-5", modelTier: "default", effort: "low" } : { model: "claude-haiku-5-5", modelTier: "quick" };
     try {
       const { text } = await sample([{ role: "user", content: lead }, { role: "assistant", content: "Ready." }, ...first, ...turns], {
-        ...model, cache: false, signal: ctl.signal,
+        ...r.opts, cache: false, signal: ctl.signal,
         onText: ({ text }) => show(bot, text)
       });
       show(bot, text);
@@ -180,6 +196,22 @@ HOW TO WRITE
       turns.pop();
     }
   }
+
+  // The model picker and the tutor's width, remembered in this browser.
+  const store = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} } };
+  try { const p = JSON.parse(store.get("tutor-pick") || "{}"); if (p.model) $("tmodel").value = p.model; if (p.effort) $("teffort").value = p.effort; } catch (e) {}
+  const syncPick = () => { $("teffort").disabled = $("tmodel").value === "auto"; };
+  $("tmodel").onchange = $("teffort").onchange = () => { syncPick(); store.set("tutor-pick", JSON.stringify({ model: $("tmodel").value, effort: $("teffort").value })); };
+  syncPick();
+  const panel = $("tutor"), grip = $("tgrip");
+  const setW = (w, save) => { const v = Math.round(Math.max(340, Math.min(w, innerWidth * 0.75))); document.documentElement.style.setProperty("--tutorw", v + "px"); if (save) store.set("tutor-w", v); };
+  if (+store.get("tutor-w")) setW(+store.get("tutor-w"));
+  const sizing = on => { panel.classList.toggle("sizing", on); document.body.classList.toggle("sizing", on); };
+  grip.onpointerdown = e => { e.preventDefault(); grip.setPointerCapture(e.pointerId); sizing(true); };
+  grip.onpointermove = e => { if (grip.hasPointerCapture(e.pointerId)) setW(innerWidth - e.clientX); };
+  grip.onlostpointercapture = () => { sizing(false); setW(panel.getBoundingClientRect().width, true); };
+  grip.ondblclick = () => { document.documentElement.style.removeProperty("--tutorw"); store.set("tutor-w", null); };
+  grip.onkeydown = e => { const k = { ArrowLeft: 40, ArrowRight: -40 }[e.key]; if (k) { e.preventDefault(); setW(panel.getBoundingClientRect().width + k, true); } };
 
   // Keep a highlight: pressing the tab must not clear the selection.
   $("ttab").onmousedown = e => e.preventDefault();
