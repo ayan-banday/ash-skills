@@ -13,14 +13,14 @@ Ash opens this inside or beside a session where he's building something: code, a
 
 **Ash:** 20, builds with AI daily, strong in marketing and the big picture. In technology he doesn't know what he doesn't know. Reads in short bursts. Learns from one real problem, a principle, and the same principle in a very different place. Rejects designs that throw away what he already built.
 
-**Before the first design of a session, read `references/example-design.md`:** the menu and design to match for shape and plainness.
+**Before the first design of a session, read `references/example-design.md`:** the menu and design to match for shape and plainness. **Before the first chapter, read `references/example-chapter.md`:** the chapter Ash approved.
 
 ## Steps
 
 ### 1. Read the context and write your own prompt
 
-Read the whole chat and the work it points at (the ticket, spec, page or files it names). Then write down, silently:
-- **The outcome, with its date when the chat gives one:** what Ash wants done, and by when ("a plan the team accepts at Thursday's 10 am meeting").
+Read the whole chat and the work it points at (the ticket, spec, page or files it names). Then write down, silently. **None of it reaches Ash,** not in the menu, the design or a skipped menu:
+- **The outcome, with its date when the chat gives one:** what Ash wants done, and by when ("a plan the team accepts at Thursday's 10 am meeting"). **Inside a grilling, it's the ticket's or grilling's outcome** (see step 5).
 - **What's settled:** the decisions, numbers and ideas Ash or his team already chose. They stay unless one of his calls changes them.
 - **What he already has:** projects, pages, code and people that might already do the job. Search for them before offering any option: in Fuji, his maps in `olympus.md` and each map's fog. A "which one" call lists his own projects first.
 - **Your prompt,** one sentence: "You've [done this] for ten years. [Who] uses this [when, with how much time]. What are the [number] questions they're really asking, and what's the smallest thing that answers each?"
@@ -31,18 +31,16 @@ Done when you can say the outcome with its date and your prompt names the expert
 
 Send only this:
 
-**The prompt I gave myself:** *[your prompt]*
-
 **Your chat has [two or three] big problems. [Which unlocks which, in one short sentence.] I'd start with [letter].**
 
 Then each big problem as a bold "How do you…" line, lettered, with 2 or 3 numbered "How do you…" questions under it: the smaller design decisions inside it. End with **Pick a letter for the whole design, a number for one piece, or name your own.**
 
 - **A big problem is what the work is really about,** said so a stranger who never saw the chat gets it. Not a topic ("RAG"), not a summary of what he did.
-- **The first problem is the one the outcome can't ship without by its date.** Problems the outcome can ship without go last.
+- **The first problem is the one the outcome can't ship without by its date.** Inside a grilling, every big problem is one that blocks the grilling's outcome. Problems the outcome can ship without go last.
 - **Every question stands alone:** no "he", "the owner" or "the bigger version" that only the chat explains.
 - **Each big problem holds at least one question nobody in the chat raised** that the experts would. Questions and requests already raised, by Ash, his team or Claude, appear at most once in the whole menu.
 - **Questions only,** no answers under them.
-- **Skip the menu when the chat holds one clear problem, or Ash has said what to build and to go.** Send your prompt and the problem in one line each, then the design.
+- **Skip the menu when the chat holds one clear problem, or Ash has said what to build and to go.** Send the problem in one line, then the design.
 
 Done when every question makes sense with the chat hidden and the first problem is the one the outcome waits on.
 
@@ -76,15 +74,20 @@ Title: the picked question, word for word (a letter, or a skipped menu: the big 
   - **A settled number or choice changes only here,** as an option Ash can refuse.
   - **When it hinges on how it looks,** one option is "see a rough version first". **When the answer is in someone else's head,** name who to ask.
 
-Close with **Say "A to all" or change any.** Then, when there was a menu, its other problems in one line ("B and C are their own designs"). Then, once per design, **Want the chapter on [the idea's name]?**, which runs `/learn:teach-side-chat` on it.
+**When Ash wants to learn the ideas behind the design** (he says "teach me", "I want to understand this", "so I can use it for life", or the design rests on concepts he asked about), a chapter on the main idea replaces "The real problem", "Where the problem lies" and "The idea". "Done when" then opens "The design". The chapter follows teach-side-chat's step 2 and writing rules (`../../../learn/skills/teach-side-chat/SKILL.md`), and matches `references/example-chapter.md`:
+- **Its sections, in order:** where you are now; what usually happens; where the problem lies; the idea (bold, then a metaphor, then the name); how it works, as numbered steps that each say what happens inside the person or system; how you'd build it; how it looks when you use it; far away and in your world; when it isn't enough; the answer.
+- **One main idea per chapter, at most three new names.** Another concept he needs is offered as its own chapter, never added as a list of concepts.
+- **The mechanism is the proof.** Ash learns what happens inside the person or system; a study appears only as writing rule 9 allows.
 
-Done when the design passes every writing rule below, nothing settled has moved outside "Your call", and every part is tagged.
+Close with **Say "A to all" or change any.** Then, when there was a menu, its other problems in one line ("B and C are their own designs"). Then, once per design without a chapter, **Want the chapter on [the idea's name]?**, which runs `/learn:teach-side-chat` on it.
+
+Done when the design passes every writing rule below, nothing settled has moved outside "Your call", every part is tagged, and any chapter teaches one idea by its mechanism.
 
 ### 5. Rounds
 
-- **Ash answers:** say back what changed in 2 or 3 short bullets, show only the parts his answer moves, and ask only the calls his answer opened that block the build. A follow-up question gets an answer under 150 words in the same voice.
+- **Ash answers:** say back what changed in 2 or 3 short bullets, then redesign every part his answer moves as thoroughly as the first design: that part of the design drawn again, its "What stays, what changes" and its checks. Bullets alone never make a round. Ask only the calls his answer opened that block the build. A follow-up question gets an answer under 150 words in the same voice.
 - **The design is done** when no calls are left and Ash says go. Act on it only then.
-- **In a repo with its own grilling rules** (Fuji: `gear/rulebook.md`, section 3), follow them from the design on: show the ticket block once at the top of the design and of each round, with the ticket's own progress as the ticket has it (never guessed), and save once at the end. Never open a ticket to fill the block.
+- **Inside a grilling, the grilling's goal is the frame** (Fuji: `gear/rulebook.md`, section 3, or any session with its own grilling rules). The outcome in step 1 is the ticket's or grilling's outcome, the menu's big problems are the ones that block it, and "Done when" serves it. Show the ticket block at the top of the menu, the design and every round, with the ticket's own progress as the ticket has it (never guessed), and save once at the end. Never open a ticket to fill the block. The rest of the process stays the same.
 
 ### 6. Hand off
 
@@ -107,6 +110,7 @@ Reading only the bold phrases of any section gives its point.
 6. **Each bullet opens with its point in bold,** a phrase or one short sentence. Bold nothing else in it.
 7. **Short paragraphs, of 3 sentences at most,** and steps of 3 to 5. A list holds as many items as the thing has.
 8. **Invent examples, never facts.** Made-up students and numbers are fine, marked "say"; made-up statistics, studies, company results or quotes are not.
-9. **Say the claim:** no slogans, "not X but Y", or em dashes. A contrast with real numbers is fine.
-10. **Text only:** text diagrams and block quotes, since the chat may be a terminal.
-11. **Never summarise the chat back to him.** He was there.
+9. **A study gets one line, only when knowing it changes what Ash would do:** what it found in plain words, then why he needs it. "Founded on: children who loved drawing drew less once a certificate was promised for it. Why it matters: a trophy promised in advance can turn the work into a job." No authors, years, sample sizes or percentages unless the number is the point.
+10. **Say the claim:** no slogans, "not X but Y", or em dashes. A contrast with real numbers is fine.
+11. **Text only:** text diagrams and block quotes, since the chat may be a terminal.
+12. **Never summarise the chat back to him.** He was there.

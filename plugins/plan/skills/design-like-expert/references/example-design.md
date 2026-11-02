@@ -4,8 +4,6 @@ Made beside a Fuji session where Ash planned how Shasta reads YouTube transcript
 
 ---
 
-**The prompt I gave myself:** *You've built search for libraries and newsrooms for ten years. Ash opens Shasta on a weeknight with 20 minutes to learn about pricing. What are the two questions he's really asking, and what's the smallest thing that answers each?*
-
 **Your chat has two big problems. The first unlocks the second: you can only map a new field once reading its sources is cheap. I'd start with A.**
 
 **A. How do you get the useful ideas out of 20 hours of YouTube videos, without paying an AI to read all 20 hours every time you ask something?**
