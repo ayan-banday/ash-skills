@@ -113,7 +113,7 @@ Then type `/` and a plugin's name to see its skills: `/write`, `/visualize`, `/p
 | Skill | The problem it solves | What you get |
 |---|---|---|
 | `teach-side-chat (shasta)` | How do I learn the field behind what I'm building, while agents work beside me? | A menu of the big problems in your chat, then a short chapter from a ten-year expert on the one you pick. |
-| `write-side-articles (shasta)` | How do I learn the side skills behind a note I wrote, as short articles I read later instead of a grilling? | One to five chapters from your note on one phone page, each a named idea from another field with a metaphor you'll remember. |
+| `write-side-articles (shasta)` | How do I learn the side skills behind a note I wrote, as short articles I read later instead of a grilling? | Runs teach-side-chat's chapter on up to five problems from your note, each an idea from a far field with a daily-life metaphor, on one phone page. |
 | `study (shasta)` | How do I learn a topic the Shasta way? | An evening from your first question to an approved learning brief, then a study page. |
 | `break-into-field (shasta)` | How do I break into a whole field I know nothing about, starting from a real problem in my work? | A study book: a map of the field's problems in the order they unlock, and chapters that each solve one. |
 | `study-bba (jain)` | How do I study a Jain BBA unit from my notes, slides or past papers so I can solve its questions and use it in a tech company? | Up to three problems the material solves, then a study page with worked examples, practice you check yourself, and a Claude tutor beside it. |

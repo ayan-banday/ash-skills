@@ -44,7 +44,7 @@ Title: the picked question, word for word. These sections, in order, headings in
 - **Where you are now:** 2 or 3 bullets of where he stands, from the chat (state it, never retell what was said or built), each ending with what it costs him so far (a cost not yet paid takes "say" or "could"). Then one bold line, no heading: "After you read this, you can [what it lets him do in his work]."
 - **What usually happens:** the failure as a table (When | What happens | What you see), 2 to 4 short rows with days and counts, the last ending in the cost.
 - **Where the problem lies:** the root cause in bold, with someone doing something: "**The AI reads, answers and forgets.**"
-- **The idea that fixes it:** one or two bold sentences, under 40 words together, that a 7th grader who never saw the chat could act on: who does what, to what, and what follows. Then the metaphor from daily life in 2 or 3 sentences, from a different world than the far-away example. Then the name: "That list is called an index."
+- **The idea that fixes it:** one or two bold sentences, under 40 words together, that a 7th grader who never saw the chat could act on: who does what, to what, and what follows. Then the metaphor from daily life in 2 or 3 sentences, from a different world than the far-away example. Then the name: "That list is called an index." Build all three by "How the idea and its metaphor are made" below.
 - **How it works, from [start] to [end]:** name it for the real journey. 3 to 5 numbered steps, each what happens then what it produces. Then a text diagram in a code block, and a "today" against "with this" table when two ways are compared.
 - **How you'd build it, and what changes for you:** the parts and what each is for ("A cutter: a short script that…"), never a transcript of what to type. Agents in the design can pull more context when a piece alone isn't enough. Then "What changes for you:" in 2 or 3 bullets.
 - **How it looks when you use it:** a block quote of 3 or 4 lines: the question whoever uses it would ask (standing alone), what the system does, what comes back (quoted), what it cost.
@@ -61,6 +61,23 @@ Done when the chapter passes every writing rule below.
 - **On yes:** one Markdown file inside a four-backtick fence (the chapter has its own code blocks): the chapter, then "Other questions from this chat" with the unpicked questions in full. He files it. On no, carry on.
 - **A follow-up question:** same voice and rules, under 150 words. A new concept gets offered as its own chapter: "That's its own chapter. Want it?"
 - **Principles from something he built:** only when he asks.
+
+## How the idea and its metaphor are made
+
+Ash, 2026-11-03: the metaphors are "much, much more valuable" than anything else in a chapter, and "metaphors become important after I understand the thing". So the order is fixed: **understand, then picture, then name.**
+
+1. **Find the mechanism first.** "Where the problem lies" names a cause as someone doing something, and what follows from it: "The team copies what the founder rewards." A symptom ("the talk's shape is invisible") is not yet a mechanism; ask why until someone acts.
+2. **State the idea so it's clear on its own,** before any picture: the idea sentence above. Ash should understand it from that sentence alone; the metaphor then makes it stick.
+3. **Pick a daily-life scene where the same mechanism runs,** in a world nothing like the problem's. Ash has lived it (a park, a flat, a bus, a kitchen, a phone call), and the scene shows cause and effect, not just a look:
+   - Worn park path → culture: each walker follows the last one's steps, so the path forms from copying. **Mechanism: people repeat what the last person did.**
+   - Flatmates → merger integration: share the kitchen to save money, keep bedrooms shut to sleep well. **Mechanism: share what creates value, protect what would die if changed.**
+   - Bus stop cord → flagging trouble: pulling is free and never scolded, so nobody rides past their stop. **Mechanism: a free, safe signal gets used early.**
+4. **Check the map.** Each part of the scene matches one part of the idea (walker → new hire, worn earth → habit, the architect's paths → the values page). A scene that is the same activity in another job (a museum guide walking and stopping, for a speaker walking and stopping) is an example, never a metaphor: it repeats the look and hides the mechanism.
+5. **Name it last,** as a label for what he already understands: a real term an expert in that field would use, never one made up for the chapter.
+
+Every chapter gets a metaphor built this way; this rule wins over match-ash-writing's "a metaphor only for an idea too hard to say plainly". Write the map as one line, arrows between parts.
+
+Done when the idea sentence makes sense with the metaphor hidden, the metaphor names its mechanism in one line, and every part of the scene maps to a part of the idea.
 
 ## Writing rules
 
