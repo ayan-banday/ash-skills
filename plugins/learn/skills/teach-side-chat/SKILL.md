@@ -48,7 +48,7 @@ Title: the picked question, word for word. These sections, in order, headings in
 - **How it works, from [start] to [end]:** name it for the real journey. 3 to 5 numbered steps, each what happens then what it produces. Then a text diagram in a code block, and a "today" against "with this" table when two ways are compared.
 - **How you'd build it, and what changes for you:** the parts and what each is for ("A cutter: a short script that…"), never a transcript of what to type. Agents in the design can pull more context when a piece alone isn't enough. Then "What changes for you:" in 2 or 3 bullets.
 - **How it looks when you use it:** a block quote of 3 or 4 lines: the question whoever uses it would ask (standing alone), what the system does, what comes back (quoted), what it cost.
-- **Where else the same idea works:** two bold-led examples of 2 or 3 bullets each. **Far away:** a field nothing like this one, never the metaphor's picture; the part he learns most from, so make it vivid and exact. **In your world:** Udyaan, Fuji, Shasta or the micro-SaaS with Mohit.
+- **Where else the same idea works:** two bold-led examples of 2 or 3 bullets each. **Far away:** a field nothing like this one, never the metaphor's picture; the part he learns most from, so make the mechanism vivid and exact, never the trivia around it. **In your world:** Udyaan, Fuji, Shasta or the micro-SaaS with Mohit.
 - **When it isn't enough:** 2 or 3 bullets of at most 2 sentences: where the idea stops working and what experts reach for next, named after its meaning. The last bullet is a one-line test for choosing.
 - **The answer:** one or two bold sentences answering the title, then 2 or 3 sentences on what it means for his work and the far transfer. The main idea's name once. No sentence over 30 words, no glossary.
 
@@ -68,7 +68,7 @@ Ash, 2026-11-03: the metaphors are "much, much more valuable" than anything else
 
 1. **Find the mechanism first.** "Where the problem lies" names a cause as someone doing something, and what follows from it: "The team copies what the founder rewards." A symptom ("the talk's shape is invisible") is not yet a mechanism; ask why until someone acts.
 2. **State the idea so it's clear on its own,** before any picture: the idea sentence above. Ash should understand it from that sentence alone; the metaphor then makes it stick.
-3. **Pick a daily-life scene where the same mechanism runs,** in a world nothing like the problem's. Ash has lived it (a park, a flat, a bus, a kitchen, a phone call), and the scene shows cause and effect, not just a look:
+3. **Pick a daily-life scene where the same mechanism runs,** in a world nothing like the problem's. Ash has lived it (a park, a flat, a bus, a kitchen, a phone call), and the scene shows cause and effect, including what goes wrong there without the idea (the blurred photo you retake, the plumber called for a spilled glass):
    - Worn park path → culture: each walker follows the last one's steps, so the path forms from copying. **Mechanism: people repeat what the last person did.**
    - Flatmates → merger integration: share the kitchen to save money, keep bedrooms shut to sleep well. **Mechanism: share what creates value, protect what would die if changed.**
    - Bus stop cord → flagging trouble: pulling is free and never scolded, so nobody rides past their stop. **Mechanism: a free, safe signal gets used early.**
@@ -77,7 +77,7 @@ Ash, 2026-11-03: the metaphors are "much, much more valuable" than anything else
 
 Every chapter gets a metaphor built this way; this rule wins over match-ash-writing's "a metaphor only for an idea too hard to say plainly". Write the map as one line, arrows between parts.
 
-Done when the idea sentence makes sense with the metaphor hidden, the metaphor names its mechanism in one line, and every part of the scene maps to a part of the idea.
+Done when the idea sentence makes sense with the metaphor hidden, the metaphor names its mechanism in one line, and every part of the scene maps to a part of the idea, including who acts: the person acting in the scene stands for the person acting in the problem.
 
 ## Writing rules
 
