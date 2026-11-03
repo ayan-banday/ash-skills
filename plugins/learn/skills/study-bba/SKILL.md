@@ -42,7 +42,7 @@ Done when he picks a letter or names his own question.
 
 ### 3. Build the page
 
-Write the page straight into HTML. Copy the `<head>`, CSS and nav from `references/example-page.html`, and follow `references/page-shape.md` for the parts in order, `references/writing-rules.md` for every line, and `references/tutor.md` for the tutor tab (paste its HTML, CSS and script as given).
+Write the page straight into HTML. Copy the `<head>`, CSS and nav from `references/example-page.html`, then swap its `:root{...}` palette for this page's own: `python ../../../visualize/skills/match-ash-design/scripts/palette.py --place dark --format study --seed "<page title>"` (dark only, a combination from Wada Sanzo's colour book, leaning to the palettes Ash already liked; Ash, Nov 3 2026). Write every colour through those tokens, pictures included: `--ink` for labels and lines on the board, `--on` for text inside a filled shape. Follow `references/page-shape.md` for the parts in order, `references/writing-rules.md` for every line, and `references/tutor.md` for the tutor tab (paste its HTML, CSS and script as given).
 
 - **Procedural subjects:** each concept ends in a worked example pair: the worked example in exam layout, then "Your turn" with new numbers and the answer hidden in `<details>`.
 - **Theory subjects:** each concept ends in a worked scenario pair: one scenario reasoned through step by step, then "Your turn: think it through" with a new scenario, a box he writes in, a send button to the tutor, and one strong answer hidden in `<details>` to compare.

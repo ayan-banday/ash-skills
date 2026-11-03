@@ -19,10 +19,10 @@ Claude runs inside the published page on Ash's own account: no key, no setup. He
 **CSS,** inside the page's `<style>`:
 
 ```css
-.tutor-tab{position:fixed;right:0;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;z-index:30;font:600 14px Inter,system-ui,sans-serif;letter-spacing:.04em;color:var(--ink);background:var(--sand);border:0;border-radius:8px 0 0 8px;padding:16px 9px;cursor:pointer}
+.tutor-tab{position:fixed;right:0;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;z-index:30;font:600 14px "Atkinson Hyperlegible",system-ui,sans-serif;letter-spacing:.04em;color:var(--on);background:var(--sand);border:0;border-radius:8px 0 0 8px;padding:16px 9px;cursor:pointer}
 .tutor-tab:hover,.tutor-tab:focus-visible{background:var(--sand-f);outline:none}
 .tutor-tab[hidden]{display:none}
-.tutor{position:fixed;top:0;right:0;bottom:0;width:min(var(--tutorw,400px),100vw);z-index:40;background:var(--surface);border-left:1px solid var(--line);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .2s ease;font:15px/1.55 Inter,system-ui,sans-serif}
+.tutor{position:fixed;top:0;right:0;bottom:0;width:min(var(--tutorw,400px),100vw);z-index:40;background:var(--surface);border-left:1px solid var(--line);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .2s ease;font:15px/1.55 "Atkinson Hyperlegible",system-ui,sans-serif}
 .tutor.open{transform:none}
 @media (prefers-reduced-motion: reduce){.tutor{transition:none}}
 .tutor header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);color:var(--head);font-weight:600}
@@ -34,24 +34,24 @@ Claude runs inside the published page on Ash's own account: no key, no setup. He
 .tutor .bot b{color:var(--bold)}
 .tutor form{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--line)}
 .tutor textarea{flex:1;resize:none;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font:inherit}
-.btn{font:600 14px Inter,system-ui,sans-serif;color:var(--ink);background:var(--sand);border:0;border-radius:6px;padding:8px 14px;cursor:pointer}
+.btn{font:600 14px "Atkinson Hyperlegible",system-ui,sans-serif;color:var(--on);background:var(--sand);border:0;border-radius:6px;padding:8px 14px;cursor:pointer}
 .btn:hover,.btn:focus-visible{background:var(--sand-f);outline:none}
 .think{margin:10px 0 14px;display:flex;gap:8px;align-items:flex-end}
-.think textarea{flex:1;min-width:0;min-height:38px;max-height:240px;resize:vertical;background:var(--paper);color:var(--ink);border:1px solid var(--sand);border-radius:8px;padding:8px 12px;font:14px/1.45 Inter,system-ui,sans-serif}
-.think textarea::placeholder{color:#8a817a}
+.think textarea{flex:1;min-width:0;min-height:38px;max-height:240px;resize:vertical;background:var(--paper);color:var(--ink);border:1px solid var(--sand);border-radius:8px;padding:8px 12px;font:14px/1.45 "Atkinson Hyperlegible",system-ui,sans-serif}
+.think textarea::placeholder{color:var(--muted)}
 .think textarea:focus{outline:2px solid var(--sand);outline-offset:1px}
 .think .btn{flex:none;padding:9px 14px}
 .think .btn[hidden]{display:none}
 .tutor .hlchip{display:flex;justify-content:space-between;gap:8px;margin:0 16px;padding:6px 0 6px 10px;border-left:3px solid var(--sand);font-size:13px;color:var(--muted);max-height:3.4em;overflow:hidden}
 .tutor .hlchip[hidden]{display:none}
 .tutor .hlchip button{background:none;border:0;color:var(--muted);cursor:pointer;font-size:16px;line-height:1}
-.tutor .route{font:500 12px Inter,system-ui,sans-serif;color:var(--muted);align-self:flex-end;margin-top:-6px}
-.tutor .route b{color:var(--ink);background:var(--sand);border-radius:3px;padding:0 6px;font-weight:600}
-.tutor .bot .nm{color:var(--ink);background:var(--sand-f);border-radius:3px;padding:0 4px;font-weight:600}
+.tutor .route{font:500 12px "Atkinson Hyperlegible",system-ui,sans-serif;color:var(--muted);align-self:flex-end;margin-top:-6px}
+.tutor .route b{color:var(--on);background:var(--sand);border-radius:3px;padding:0 6px;font-weight:600}
+.tutor .bot .nm{color:var(--on);background:var(--sand-f);border-radius:3px;padding:0 4px;font-weight:600}
 .tutor .bot hr{border:0;border-top:1px solid var(--line);margin:12px 0}
-.tutor .pick{display:flex;gap:12px;flex-wrap:wrap;padding:0 16px 10px;font:500 12.5px Inter,system-ui,sans-serif;color:var(--muted)}
+.tutor .pick{display:flex;gap:12px;flex-wrap:wrap;padding:0 16px 10px;font:500 12.5px "Atkinson Hyperlegible",system-ui,sans-serif;color:var(--muted)}
 .tutor .pick label{display:flex;align-items:center;gap:6px}
-.tutor .pick select{font:500 13px Inter,system-ui,sans-serif;color:var(--text);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:3px 6px;cursor:pointer}
+.tutor .pick select{font:500 13px "Atkinson Hyperlegible",system-ui,sans-serif;color:var(--text);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:3px 6px;cursor:pointer}
 .tutor .pick select:disabled{opacity:.45;cursor:default}
 .tutor .grip{position:absolute;left:0;top:0;bottom:0;width:10px;z-index:3;cursor:col-resize;touch-action:none}
 .tutor .grip::after{content:"";position:absolute;left:3px;top:50%;width:4px;height:48px;margin-top:-24px;border-radius:2px;background:var(--line)}

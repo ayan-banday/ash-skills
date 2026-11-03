@@ -8,6 +8,9 @@
     python scripts/palette.py --place dark --combo 273 --key band          force a key-line style (dark only)
     python scripts/palette.py --place light --combo 273 --format json      tokens plus the book's colours
     python scripts/palette.py --place dark --count 6 --sheet sheet.html    six candidates to look at
+    python scripts/palette.py --place dark --near "Espresso and Sand"      only combinations like one favourite
+    python scripts/palette.py --place dark --format study --seed "Title"   the study-page tokens (BBA, Shasta)
+    python scripts/palette.py --place dark --any                           ignore the favourites lean
     python scripts/palette.py --list                                       how many combinations fit each place
     python scripts/palette.py --test                                       every combination, every place, the presets
 
@@ -22,6 +25,16 @@ Places:
 Prints a :root{...} block with 12 tokens (--bg --bg2 --bg3 --tx --mu --ln --p1 --p2 --p3 --acc --acc2 --on
 --onacc) plus --b1..--b4, the combination's colours exactly as printed (big shapes only, never behind text).
 On dark it also prints the key-line CSS. combo_hues(n) gives other scripts (brief-page) the book's hues.
+
+Favourites lean (Ash, Nov 3 2026): on dark, a seeded pick lands about 75% of the time on a combination
+that reimagines one of the palettes Ash already liked (Shasta's four and the three presets); the
+rest of the book shares the other 25%. --near keeps only one favourite's look; --any turns the lean off.
+
+--format study prints the token names Ash's study pages use (BBA pages and Shasta study pages):
+--bg --surface --line --text --muted --head --bold --hl --hl-text --bullet --link, the picture board
+--paper (dark) with --ink (labels and strokes on it), --on (dark text inside any soft fill), and one
+colour per meaning in pictures: --sand/--sand-f (plan, yes), --loss/--loss-f (problem), --memory/
+--memory-f (memory, notes), --grey (done, past, no).
 Data: assets/wada-colors.json (MIT, see assets/LICENSE-wada-colors). Pure standard library.
 """
 import argparse
@@ -238,6 +251,109 @@ def checks(p, place):
 def fits(place):
     return [n for n in BOOK if (t := tokens(n, place)) and not checks(t, place)]
 
+# ---------- Favourites: the palettes Ash already liked (lead colour, second colour, what it fits) ----------
+
+FAVOURITES = {
+    "Espresso and Sand": ("#E4D2B4", "#CE9D95", "money, habits and slow, steady building"),
+    "Charcoal Rose": ("#F0C9CD", "#BCA880", "people, writing and communication"),
+    "Ink and Clay": ("#EFCCBC", "#C79CB3", "tools, systems and how things work"),
+    "Night Plum": ("#EEC9D6", "#C8A285", "creative work, design and ideas"),
+    "Graphite and chalk": ("#EBC3CE", "#E58A6F", "study books"),
+    "Ink and clay": ("#E2B6A4", "#D2603F", "study books"),
+    "Charcoal and rose": ("#F0C4D2", "#C8668A", "study books"),
+}
+FAV_SHARE = 0.75
+
+def _hd(a, b):
+    d = abs(a - b) % 360
+    return min(d, 360 - d)
+
+def like(n):
+    """The favourites a combination reimagines on dark: its lead pastel near theirs, a second colour near their second."""
+    t = tokens(n, "dark")
+    if not t:
+        return []
+    h1 = oklch(t["p1"])[2]
+    others = [oklch(t[k])[2] for k in ("p2", "p3", "acc") if oklch(t[k])[1] > .02]
+    out = []
+    for name, (lead, second, _) in FAVOURITES.items():
+        if _hd(h1, oklch(lead)[2]) <= 20 and others and min(_hd(o, oklch(second)[2]) for o in others) <= 30:
+            out.append(name)
+    return out
+
+def _fav_name(q):
+    hits = [k for k in FAVOURITES if k.lower() == q.lower()] or [k for k in FAVOURITES if k.lower().startswith(q.lower())]
+    if len(hits) != 1:
+        sys.exit(f"--near takes one of: {', '.join(FAVOURITES)}")
+    return hits[0]
+
+def pool(place, near=None, lean=True, study=False):
+    """Candidate combinations and their weights for a place."""
+    ns = fits(place)
+    if study:
+        ns = [n for n in ns if not study_checks(study_tokens(tokens(n, place)))]
+    if near:
+        ns = [n for n in ns if near in like(n)]
+        return ns, [1.0] * len(ns)
+    if place != "dark" or not lean:
+        return ns, [1.0] * len(ns)
+    fav = {n for n in ns if like(n)}
+    if not fav or len(fav) == len(ns):
+        return ns, [1.0] * len(ns)
+    wf, wo = FAV_SHARE / len(fav), (1 - FAV_SHARE) / (len(ns) - len(fav))
+    return ns, [wf if n in fav else wo for n in ns]
+
+def choose(seed, place, count=1, near=None, lean=True, study=False):
+    ns, ws = pool(place, near, lean, study)
+    if not ns:
+        sys.exit("no combination fits these options")
+    rng, picked = random.Random(seed), []
+    while ns and len(picked) < count:
+        i = rng.choices(range(len(ns)), weights=ws)[0]
+        picked.append(ns.pop(i)); ws.pop(i)
+    return picked
+
+# ---------- Study-page tokens (BBA and Shasta study pages) ----------
+
+def study_tokens(p):
+    L, C, gh = oklch(p["bg"])
+    gc = 1 if C > 0.004 else 0
+    def text_on_bg(hx, need=4.5):
+        return _lift(hx, p["bg"], need, .01)
+    h1, h3 = oklch(p["p1"])[2], oklch(p["p3"])[2]
+    reds = sorted((p["acc"], p["acc2"]), key=lambda x: _hd(oklch(x)[2], 25))
+    loss = text_on_bg(reds[0])
+    lh = oklch(loss)[2]
+    return {
+        "bg": p["bg"], "surface": p["bg2"], "line": px(.33, .012 * gc, gh),
+        "text": p["tx"], "muted": p["mu"], "head": px(.97, .006 * gc, gh),
+        "bold": p["p1"], "hl": px(.32, .04, h1), "hl-text": p["tx"],
+        "bullet": text_on_bg(p["acc"]), "link": p["p2"],
+        "paper": p["bg3"], "ink": p["tx"], "on": p["bg"],
+        "sand": p["p1"], "sand-f": px(.88, oklch(p["p1"])[1] * .6, h1),
+        "loss": loss, "loss-f": px(.85, min(oklch(loss)[1], .06), lh),
+        "memory": p["p3"], "memory-f": px(.88, oklch(p["p3"])[1] * .6, h3),
+        "grey": px(.80, .008 * gc, gh),
+    }
+
+def study_checks(t):
+    bad = []
+    need = [("text", "bg", 7), ("muted", "bg", 4.5), ("muted", "surface", 4.5), ("head", "bg", 7),
+            ("bold", "bg", 4.5), ("bullet", "bg", 4.5), ("link", "bg", 4.5), ("hl-text", "hl", 4.5),
+            ("ink", "paper", 7), ("loss", "bg", 4.5), ("loss", "paper", 3), ("memory", "paper", 3),
+            ("sand", "paper", 3)]
+    need += [("on", k, 7) for k in ("sand", "sand-f", "loss-f", "memory", "memory-f", "grey")]
+    for a, b, r in need:
+        if contrast(t[a], t[b]) < r:
+            bad.append(f"{a} on {b} {contrast(t[a], t[b]):.1f}:1 < {r}")
+    return bad
+
+def study_css(label, t):
+    keys = list(t)
+    rows = ["  " + " ".join(f"--{k}:{t[k]};" for k in keys[i:i + 5]) for i in range(0, len(keys), 5)]
+    return "\n".join([f"/* Palette: {label} · study page, dark (match-ash-design scripts/palette.py --format study) */",
+                      ":root{", *rows, "  color-scheme:dark;", "}"])
+
 # ---------- Approved presets (dark, Nov 2 2026) ----------
 
 PRESETS = {
@@ -291,11 +407,11 @@ def css(label, place, p, key=None):
     return "\n".join(lines)
 
 def label_of(n):
-    return f"No. {n}, " + " + ".join(c["name"] for c in BOOK[n])
+    fav = like(n)
+    return f"No. {n}, " + " + ".join(c["name"] for c in BOOK[n]) + (f" · like {', '.join(fav)}" if fav else "")
 
 def pick_seed(seed, place):
-    pool = fits(place)
-    return random.Random(seed).choice(pool)
+    return choose(seed, place)[0]
 
 def sheet(items, place):
     cards = []
@@ -316,10 +432,19 @@ section{padding:16px;border-radius:6px}h2{font-size:19px;margin:10px 0 4px}.dots
 def selftest():
     fails = 0
     for place in PLACES:
-        pool = fits(place)
-        print(f"{place:6} {len(pool):3} of {len(BOOK)} combinations fit")
-        if len(pool) < 200:
+        fit = fits(place)
+        print(f"{place:6} {len(fit):3} of {len(BOOK)} combinations fit")
+        if len(fit) < 200:
             print(f"FAIL {place}: fewer than 200 combinations fit"); fails += 1
+    ns, ws = pool("dark")
+    share = sum(w for n, w in zip(ns, ws) if like(n))
+    print(f"favourites: {sum(1 for n in ns if like(n))} combinations look like one, picked {share:.0%} of the time on dark")
+    for fav in FAVOURITES:
+        print(f"  {fav:20} {len(pool('dark', near=fav)[0]):3}")
+    st = pool("dark", study=True)[0]
+    print(f"study  {len(st):3} of {len(BOOK)} combinations fit study pages")
+    if len(st) < 150:
+        print("FAIL study: fewer than 150 fit"); fails += 1
     for i in PRESETS:
         name, key, p = preset(i)
         bad = checks(p, "dark")
@@ -342,7 +467,9 @@ def main():
     ap.add_argument("--combo", type=int)
     ap.add_argument("--preset", type=int, choices=[1, 2, 3])
     ap.add_argument("--key", choices=KEYS)
-    ap.add_argument("--format", choices=["css", "json"], default="css")
+    ap.add_argument("--format", choices=["css", "json", "study"], default="css")
+    ap.add_argument("--near", help="only combinations that look like one favourite: " + ", ".join(FAVOURITES))
+    ap.add_argument("--any", action="store_true", help="every fitting combination equally likely")
     ap.add_argument("--count", type=int, default=1)
     ap.add_argument("--sheet", metavar="PATH")
     ap.add_argument("--list", action="store_true")
@@ -353,7 +480,13 @@ def main():
     if a.list:
         for place in PLACES:
             print(f"{place:6} {len(fits(place)):3} of {len(BOOK)}")
+        print(f"study  {len(pool('dark', study=True)[0]):3} of {len(BOOK)}")
+        for fav in FAVOURITES:
+            print(f"  like {fav:20} {len(pool('dark', near=fav)[0]):3}")
         return 0
+    study = a.format == "study"
+    if study and a.place != "dark":
+        sys.exit("--format study is for dark study pages: use --place dark")
     if a.preset:
         if a.place != "dark":
             sys.exit("presets are dark only")
@@ -366,9 +499,7 @@ def main():
             sys.exit(f"no combination {a.combo}; the book has 1 to {max(BOOK)}")
         ns = [a.combo]
     else:
-        pool = fits(a.place)
-        rng = random.Random(seed)
-        ns = rng.sample(pool, min(a.count, len(pool)))
+        ns = choose(seed, a.place, a.count, _fav_name(a.near) if a.near else None, not a.any, study)
     items = []
     for n in ns:
         p = tokens(n, a.place)
@@ -382,9 +513,16 @@ def main():
         print("wrote", a.sheet, "with", ", ".join(f"No. {n}" for n, _ in items))
         return 0
     for n, p in items:
+        if study:
+            t = study_tokens(p)
+            bad = study_checks(t)
+            if bad:
+                sys.exit(f"{label_of(n)} fails for study pages: {'; '.join(bad)}. Pick another combination.")
+            print(study_css(label_of(n), t))
+            continue
         if a.format == "json":
             print(json.dumps({"combo": n, "book": [{"name": c["name"], "hex": c["hex"]} for c in BOOK[n]],
-                              "place": a.place, "tokens": p}, indent=1))
+                              "place": a.place, "like": like(n), "tokens": p}, indent=1))
         else:
             key = (a.key or random.Random(f"{seed}-{n}-key").choice(KEYS)) if a.place == "dark" else None
             print(css(label_of(n), a.place, p, key))

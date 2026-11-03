@@ -19,6 +19,8 @@ Every rule traces to where Ash said it. **[3+]** means three or more of his skil
 - **How a combination becomes a page:**
   - **Dark (Ash's pages):** the darkest colour becomes the near-black ground, the light colours become the pastels, the strongest becomes the accent.
   - **Light (for others):** the lightest colour becomes the paper, the darkest becomes the ink, and every colour becomes a soft fill.
+- **The lean to his favourites** (Ash, Nov 3 2026: "I quite like the color palettes that I was using"): on dark pages a seeded pick lands about 75% of the time on a combination that reimagines a palette he already liked (Shasta's Espresso and Sand, Charcoal Rose, Ink and Clay, Night Plum; the presets Graphite and chalk, Ink and clay, Charcoal and rose). The rest of the book shares the other 25%, so pages still vary. `--near "<favourite>"` keeps one favourite's look (Shasta's four each fit a topic, listed in the script); `--any` turns the lean off.
+- **Study pages Ash studies from** (BBA pages, Shasta study pages, study books) are always dark. BBA and Shasta pages take `--format study`, which prints their own token names with a dark picture board.
 - **Which place:** `dark` for Ash's own pages; `light` for briefs, slides, posts, Udyaan; `pitch` for outsiders (drops green); `print` for paper (quieter). Brief pages use their own script with `--combo N`, which takes the same book's hues.
 - **How many fit:** run `--list`. On Nov 3: dark 342, light 347, pitch 314, print 347 of 348.
 - **The book's colours as printed** (`--b1` to `--b4`) go on big shapes only: a post card's blocks, a slide's diagram, a seedling's leaves. Never behind text.
