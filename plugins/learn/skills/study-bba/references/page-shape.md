@@ -25,6 +25,8 @@ One page per problem, read on a laptop. `example-page.html` is the approved look
 
 **The exam section** (`<section class="part" id="exam">`), only when the material holds questions or a key: each question answered in the course's terms with one worked number or example, tagged with its question letter. A question that needs more than a definition gets its own practice pair here.
 
+**Stations** (`tutor.md`): a ring before "The idea that fixes it" and before each `.q` block, and one per later part. Each part's content sits in its own `.wrap`.
+
 ## The practice pairs
 
 **Procedural** (the example page's `.pair`):
@@ -54,7 +56,6 @@ One page per problem, read on a laptop. `example-page.html` is the approved look
   </tbody></table></div>
   <div class="lbl turn">Your turn: think it through</div>
   <p><b>[A new scenario, complete on its own.]</b> [The question, one ask.]</p>
-  <div class="think"><textarea rows="1" placeholder="Your thinking, rough is fine."></textarea><button class="btn" type="button">Send</button></div>
   <details class="check"><summary>Show one strong answer</summary><div class="filled scroll-x">[same table shape]</div></details>
 </div>
 ```

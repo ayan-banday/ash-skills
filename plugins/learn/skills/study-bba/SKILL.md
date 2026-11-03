@@ -42,22 +42,23 @@ Done when he picks a letter or names his own question.
 
 ### 3. Build the page
 
-Write the page straight into HTML. Copy the `<head>`, CSS and nav from `references/example-page.html`, then swap its `:root{...}` palette for this page's own: `python ../../../visualize/skills/match-ash-design/scripts/palette.py --place dark --format study --seed "<page title>"` (dark only, a combination from Wada Sanzo's colour book, leaning to the palettes Ash already liked; Ash, Nov 3 2026). Write every colour through those tokens, pictures included: `--ink` for labels and lines on the board, `--on` for text inside a filled shape. Follow `references/page-shape.md` for the parts in order, `references/writing-rules.md` for every line (it opens with break-into-field's rules), and `references/tutor.md` for the tutor tab (paste its HTML, CSS and script as given).
+Write the page straight into HTML. Copy the `<head>`, CSS and nav from `references/example-page.html`, then swap its `:root{...}` palette for this page's own: `python ../../../visualize/skills/match-ash-design/scripts/palette.py --place dark --format study --seed "<page title>"` (dark only, a combination from Wada Sanzo's colour book, leaning to the palettes Ash already liked; Ash, Nov 3 2026). Write every colour through those tokens, pictures included: `--ink` for labels and lines on the board, `--on` for text inside a filled shape. Follow `references/page-shape.md` for the parts in order, `references/writing-rules.md` for every line (it opens with break-into-field's rules), and `references/tutor.md` for the tutors: a station beside every big concept, pasted from break-into-field.
 
 - **Procedural subjects:** each concept ends in a worked example pair: the worked example in exam layout, then "Your turn" with new numbers and the answer hidden in `<details>`.
-- **Theory subjects:** each concept ends in a worked scenario pair: one scenario reasoned through step by step, then "Your turn: think it through" with a new scenario, a box he writes in, a send button to the tutor, and one strong answer hidden in `<details>` to compare.
+- **Theory subjects:** each concept ends in a worked scenario pair: one scenario reasoned through step by step, then "Your turn: think it through" with a new scenario, which he works at the station beside it, and one strong answer hidden in `<details>` to compare.
 - **Write it with the strongest model available.** Haiku and Sonnet only answer inside the page (`references/tutor.md`): a Haiku-written page came out thinner than the example.
 
 Done when every concept from step 1 that belongs to the picked problem is taught and practised, and every number adds up (recheck each sum).
 
 ### 4. Check it
 
-Run both from this skill's folder and fix every FAIL:
+Run all three from this skill's folder and fix every FAIL:
 
 - `python ../break-into-field/scripts/check_chapter.py <page.html>`: the writing rules.
 - `python scripts/check_contrast.py <page.html>`: every box with a text colour and a background, the tutor's controls included, reads at 4.5 to 1 or better.
+- `python ../break-into-field/scripts/check_tutor.py <page.html>`: 3 to 6 stations in the chapter, one per later part, each with a question and 2 or 3 suggestions.
 
-Done when neither prints a FAIL.
+Done when none prints a FAIL.
 
 ### 5. One critic pass
 
@@ -67,7 +68,7 @@ Done when the fixes are applied and the checker passes again.
 
 ### 6. Publish and save
 
-- **Publish** with the Artifact tool, `capabilities: {sample: {}}` (the tutor needs it). Desktop check only: Ash never studies on a phone.
+- **Publish** with the Artifact tool, `capabilities: {sample: {}, db: {}}` (the stations need both: Claude, and his saved notes). Desktop check only: Ash never studies on a phone.
 - **Save the HTML** into the Jain-BBA repo when the material came from there: `D:\Jain-BBA\<Subject>\<Unit folder>\<Letter>_<short_question_slug>.html`, following the folders already there. Commit and push straight to `main`.
 - **Log it in Fuji:** `python gear/log.py ranges/learning/jain-university "<subject, unit, problem letter: page built>" log.md`, then `python gear/check-maps.py`, commit and push.
 
