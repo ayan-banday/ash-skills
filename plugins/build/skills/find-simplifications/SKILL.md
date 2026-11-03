@@ -4,7 +4,7 @@ description: "How do I find parts of the code that are more complicated than the
 disable-model-invocation: true
 ---
 
-# Improve Codebase Architecture
+# Find Simplifications
 
 Surface architectural friction and propose **deepening opportunities**: refactors that turn shallow modules into deep ones. The aim is testability and AI-navigability.
 

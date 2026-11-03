@@ -14,7 +14,8 @@ Name the **one command Ash should type** for what he's doing now, from the skill
    - **Ash's loose skills:** the same grep over `C:/Users/ayanb/.claude/skills/*/SKILL.md`. Typed as `/<name>`.
    - **Other plugins:** `claude plugin list` names the enabled ones as `<plugin>@<marketplace>` with their versions. Their skills sit anywhere under `C:/Users/ayanb/.claude/plugins/cache/<marketplace>/<plugin>/<version>/skills/`, sometimes in category folders, so grep it recursively for `SKILL.md`. Skip `in-progress` folders and every version but the listed one. Typed as `/<plugin>:<name>`.
    - **Anthropic's and Claude Code's own skills** (`anthropic-skills:...`, `/code-review`, `/simplify`): from your own skill listing in this session.
-   Done when every source above was read in this run.
+   - **In a cloud session** (no `D:` or `C:` drive): run the same grep over `/root/.claude/plugins/marketplaces/ash-skills/plugins/*/skills/*/SKILL.md` for Ash's plugins, take everything else from your own skill listing in this session, and say which sources you used.
+   Done when every source above that exists on this machine was read in this run.
 3. **Pick the skill.** Match Ash's task to each description's question first, then to its trigger and look-alike lines.
    - **Prefer Ash's own copy.** A bracket like `[Matt: to-spec]` marks a skill copied from another pack: name the ash-skills one (`/plan:write-spec`) over the original (`/mattpocock-skills:to-spec`). The same goes for a loose skill that now also lives in a plugin.
    - **Weigh the skills only Ash can type** (`disable-model-invocation: true`) like the rest. They're the ones he forgets.
