@@ -1,6 +1,6 @@
 ---
 name: "course-lesson (udyaan)"
-description: "[course] How do I write a Day N lesson or course page students actually read? Write or rewrite student-facing course content in a plain, spoken, 7th-grade-clear voice: question-led days that each move the student one step from A to B, answer every question they raise in full, follow one running student as the worked example, and end in one low-effort Do with a GPT. Also writes welcome pages and week openers, and runs a whole week with fresh reviewers. Use whenever Ash asks to draft, rewrite, tighten, or \"make clearer\" a Day, module, lesson, week, welcome page, or course page for Udyaan, the Agriculture Edition, or any future course. Also use for \"write day 4\", \"next module\", \"week 2 lessons\", \"student-facing\", \"make it less AI\", \"bold and bullet this\", \"do it like Dan Koe or Nicolas Cole\", pasted course text that sounds stiff, or questions about what a module should contain. Use it even when he only says \"write the next day\". Replaces the old course-page-writer and course-module-writer skills."
+description: "[course] How do I write a Day N lesson or course page students actually read? Writes or rewrites student-facing course content in a plain, spoken, 7th-grade-clear voice: question-led days that each move the student one step from A to B, one running student as the worked example, and one low-effort Do with a GPT. Also writes welcome pages and week openers, and runs a whole week with fresh reviewers. Use whenever Ash asks to draft, rewrite, tighten, or \"make clearer\" a Day, module, lesson, week, welcome page, or course page for Udyaan, the Agriculture Edition, or any future course. Also use for \"write day 4\", \"next module\", \"week 2 lessons\", \"student-facing\", \"make it less AI\", \"bold and bullet this\", \"do it like Dan Koe or Nicolas Cole\", pasted course text that sounds stiff, or questions about what a module should contain. Use it even when he only says \"write the next day\"."
 ---
 
 # Course Writer
@@ -185,9 +185,9 @@ Self-review is not enough. Drafts that read as compliant still carried em dashes
 
 - `references/write-a-week.md`: writing a whole week or more: the plan, the fact sheet, writers and fresh reviewers, and the consistency pass.
 - `references/structure.md`: the module's jobs in detail, the learning modes, and the content structures inside them.
-- `references/good-and-bad.md`: bad and good pairs for every rule, including round 2's corrections.
+- `references/good-and-bad.md`: bad and good pairs for every rule.
 - `references/variation.md`: how to keep modules fresh, with Dan Koe moves.
-- `references/examples.md`: approved Days 1 to 3, and Day 6 in the question-led shape.
+- `references/examples.md`: Day 6, the approved question-led shape.
 - `references/welcome-page.md`: the approved welcome page and the rules for non-module pages.
 - `scripts/lint_module.py`: mechanical check for banned patterns, run before every draft is shown.
 

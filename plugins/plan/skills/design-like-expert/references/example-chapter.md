@@ -1,6 +1,6 @@
 # Example: a chapter on the idea behind a design
 
-Made inside a Fuji grilling where Ash planned how to keep Udyaan students working without pay. Ash approved it. Match its shape, its plainness, its steps that say what happens inside the person, and its one short line for a study. The numbers are made up.
+Match its shape, its plainness, its steps that say what happens inside the person, and its one short line for a study. The numbers are made up.
 
 ---
 

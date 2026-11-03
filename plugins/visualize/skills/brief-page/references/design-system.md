@@ -40,7 +40,7 @@ Ask what the subject is made of, then take a hue from it:
 - **Turmeric, marigold:** about 80 to 90.
 - **Plum, beetroot:** about 340 to 355.
 
-Avoid by default: navy night heroes, Anthropic's clay and ivory, purple-to-blue gradients. Green is allowed for a brief page when the subject calls for it, but Ash dislikes it in pitch work, so it is never the default.
+Avoid by default: the colours in "What Ash rejects" (`../../match-ash-design/references/design.md`). Green is allowed for a brief page when the subject calls for it, but Ash dislikes it in pitch work, so it is never the default.
 
 ## Tokens and what each one means
 

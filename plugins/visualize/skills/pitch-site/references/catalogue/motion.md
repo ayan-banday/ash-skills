@@ -263,7 +263,7 @@ Starred first. One purpose per screen.
 - Moves: none; a change of colour marks a new chapter and tints stay flat.
 - Build: `.band { position: relative; padding-block: clamp(80px, 11vw, 140px); overflow-x: clip }`, colour set inline or by class; content in `.wrap` (max 1180px, gutters max(24px, safe-area)) at z-index 2 above the grain.
   `.woodbg { background: #3A2B22; color: #F4F1EA }` with label #C9B8A6, lede #E6DCCF, body #D9CDBF. Cards on washes use rgba(255,255,255,.4-.5); on dark, rgba(244,241,234,.06) with a .12-.14 ring.
-  New clients get new hues on the same rules: chalky and flat; no navy hero, no green, and never Anthropic's clay with ivory.
+  New clients get new hues on the same rules: chalky and flat, and nothing in "What Ash rejects" (`../../../match-ash-design/references/design.md`).
 - Narrow: padding clamps down to 80px · Reduced motion: n/a.
 - Use when: a long single scroll needs chapters without a nav (ARC-01). · Avoid when: dark bands pass 1 in 3 sections, or two adjacent sections share a topic (keep one colour).
 - Effort: S · Needs lib: no · Code: TVS harvest (Part 3) · Sources: P035, P037 (TVS site, page.html ~L8-39, L466-878) · Verdict: KEEP (merged; palette guard added)

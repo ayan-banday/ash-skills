@@ -1,6 +1,6 @@
 # Example: a menu and one design
 
-Made beside a Fuji session where Ash planned how Shasta reads YouTube transcripts. Match its shape, its plainness, its order of meaning before name, and how the design draws the thing itself. The numbers and quotes are made up.
+Match its shape, its plainness, its order of meaning before name, and how the design draws the thing itself. The numbers and quotes are made up.
 
 ---
 

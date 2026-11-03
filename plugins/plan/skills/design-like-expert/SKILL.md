@@ -110,9 +110,9 @@ Reading only the bold phrases of any section gives its point.
 4. **Someone does something** in every claim.
 5. **Numbers he can picture:** "about an hour of video, not 20". Guesses, including numbers the design sets, say "say" or "about".
 6. **Each bullet opens with its point in bold,** a phrase or one short sentence. Bold nothing else in it.
-7. **Short paragraphs, of 3 sentences at most,** and steps of 3 to 5. A list holds as many items as the thing has.
+7. **Short paragraphs, of 3 sentences at most,** and steps of 3 to 5. Lists follow match-ash-writing's 3-item rule (`../../../write/skills/match-ash-writing/references/writing.md`, "Bullets for anything with parts").
 8. **Invent examples, never facts.** Made-up students and numbers are fine, marked "say"; made-up statistics, studies, company results or quotes are not.
 9. **A study gets one line, only when knowing it changes what Ash would do:** what it found in plain words, then why he needs it. "Founded on: children who loved drawing drew less once a certificate was promised for it. Why it matters: a trophy promised in advance can turn the work into a job." No authors, years, sample sizes or percentages unless the number is the point.
 10. **Say the claim:** no slogans, "not X but Y", or em dashes. A contrast with real numbers is fine.
-11. **Show sequences, comparisons and parallel points as a Markdown table,** a few keywords per cell, so Ash reads them by their keywords. Taking more space is fine when it reads faster. A code-block diagram puts a blank line between sections, and no section's text wraps under the next label. Text only: tables, text diagrams and block quotes, since the chat may be a terminal.
+11. **Show sequences, comparisons and parallel points as a Markdown table,** a few keywords per cell, so Ash reads them by their keywords. Taking more space is fine when it reads faster. A code-block diagram puts a blank line between sections, and no section's text wraps under the next label. Text only: tables, text diagrams and block quotes, since the chat may be a terminal. **Inside a grilling, follow grilling's phone format instead** (`../grilling/SKILL.md`, "The message format": no tables, lists of 3 at most), for every table and list in this skill; tables stay outside a grilling.
 12. **Never summarise the chat back to him.** He was there.

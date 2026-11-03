@@ -1,6 +1,6 @@
 ---
 name: "study (shasta)"
-description: "How do I learn a topic the Shasta way? Ash's way of learning any topic through Shasta, his learning library. Use whenever Ash says he wants to study, learn, understand or is curious about something (\"I want to study design thinking\", \"I'm curious about AI agents\", \"teach me pricing\", \"help me understand how skills work\"), asks what he could learn about a topic, or asks for a study page, cluster or learning brief. It runs the evening from first question to an approved learning brief, then builds the study page."
+description: "How do I learn a topic the Shasta way? Runs the evening in Shasta, Ash's learning library, from first question to an approved learning brief, then builds the study page. Use whenever Ash says he wants to study, learn, understand or is curious about something (\"I want to study design thinking\", \"I'm curious about AI agents\", \"teach me pricing\", \"help me understand how skills work\"), asks what he could learn about a topic, or asks for a study page, cluster or learning brief."
 ---
 
 # Study

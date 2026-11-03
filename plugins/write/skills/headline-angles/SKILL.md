@@ -1,6 +1,6 @@
 ---
 name: "headline-angles (substack)"
-description: "How do I find the headline that makes people open my Substack post? Generates a ranked list of 10 headline and subheadline angles for any idea, topic, outline, or draft, using the 10 ways (tips, stats, steps, lessons, benefits, mistakes, reasons, questions, examples, personal story) and the 5 headline pieces (number, what, who, why, twist). Reads the idea and the reader from the chat and pulls the reader's situation, fear, and wanted outcome on its own. Invented numbers and stories are allowed and tagged. Use when the user wants headlines, angles, or idea directions for a newsletter piece."
+description: "How do I find the headline that makes people open my Substack post? Generates a ranked list of 10 headline and subheadline angles for any idea, topic, outline, or draft, from the 10 ways and the 5 headline pieces, with the reader's situation, fear and wanted outcome read from the chat. Invented numbers and stories are allowed and tagged. Use when the user wants headlines, angles, or idea directions for a newsletter piece."
 ---
 
 # Newsletter Headlines
@@ -26,9 +26,9 @@ Every headline is built from 5 pieces: a number, the what, the who, the why, and
 2. **Inventory, silently.** Note what is real in the idea: numbers, names, cases, steps, stakes. Then extract the reader's situation, fear, wanted outcome, and unseen cost. Real material always beats invented material.
 3. **Load the references** you need:
    - `references/ten-ways.md` for the formula, good pairs, and bad pairs for each way
-   - `references/headline-craft.md` for the 5 pieces, the modes, the length caps, the subhead jobs, and the cut list
+   - `references/headline-craft.md` for the 5 pieces, the modes, the subhead jobs, and the cut list
    - `references/rejected.md` for shapes that failed before. Check every pair against it before showing it, since each entry is a pattern the user has already rejected
-4. **Build each headline in full first.** Put in the number, the what, the who, the why, and a twist when a true one exists. Then trim to the length caps in `headline-craft.md`. Never start from the short version and fill it with something clever.
+4. **Build each headline in full first.** Put in the number, the what, the who, the why, and a twist when a true one exists. Then trim to the length in gate 8. Never start from the short version and fill it with something clever.
 5. **Write one pair per way**, 10 in total, with the subhead doing a job the headline had no room for. For Lessons and Reasons, also write the opposite side as a Flip line.
 6. **Invent to fill gaps** under the invention rule below.
 7. **Rank** the 10 pairs.

@@ -36,18 +36,7 @@ from what Ash said about real work, mostly in his own words.
 
 ## What he rejects
 
-- The JAIN navy hero (#161A2E) and any navy night hero; green anywhere; Anthropic's clay and ivory as a palette.
-- A first screen where the next section bleeds in; a headline packed with data instead of saying what the section is about.
-- A line running behind the copy for the whole page ("distracting from the message").
-- Horizontal step strips ("far too lazy"); team lists ("garbage"); a generic avatar; a vague last step ("absolute garbage").
-- Choose-your-own-adventure, role pickers, "pick your layer", a paper leave-behind. He wants it "fed down the throat".
-- Taking credit or implying the client lacks something ("we're not roasting them"); dated plans nobody committed to.
-- Buzzwords in isolation: every capability must say why the reader should care.
-- Videos in the page; motion built in code is fine.
-- Anything that looks like "a random HTML file" or a template.
-- Labelled concentric rings or stacked bands for an idea that matters ("such a boring way to show things").
-- A caption box that pops up when a marker is clicked ("so boring"); a scene full of markers to hunt ("clicky").
-- A glow that follows the cursor ("garbage"); hover that glides or fades ("not a fan of how smooth it is").
+One list for every skill, in Ash's words: "What Ash rejects" in `../../match-ash-design/references/design.md`.
 
 ## How he works
 

@@ -17,15 +17,7 @@ motion house style) see `../pitch-site/references/taste.md`.
 
 ## What he rejects
 
-- "Such a boring way to show things": labelled rings, layers or bands for ideas that matter.
-- "So boring": click a marker, a caption appears.
-- "Still clicky": markers scattered to hunt.
-- "Too much information": more than a line or two per screen.
-- "Not like a story": stops in no told order, no rise and release.
-- "Kind of garbage": a light that follows the cursor.
-- "Not a fan of how smooth it is": gliding, fading hover.
-- "Relatively not that creative": a caption system dressed up as a scene.
-- A pretty object standing in for the idea (the mountain itself).
+One list for every skill, in Ash's words: "What Ash rejects" in `../../match-ash-design/references/design.md`.
 
 ## How he works on stories
 

@@ -1,6 +1,6 @@
 ---
 name: graphify
-description: "[files to knowledge graph] How do I see how everything in a folder connects? Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a graphify query first. Turns any input (code, docs, papers, images, videos) into a persistent knowledge graph with god nodes, community detection, and query/path/explain tools."
+description: "[files to knowledge graph] How do I see how everything in a folder connects? Use when graphify-out/ exists, treating the question as a graphify query first, or when Ash asks for a graph. Turns any input (code, docs, papers, images, videos) into a persistent knowledge graph with god nodes, community detection, and query/path/explain tools."
 ---
 
 # /graphify

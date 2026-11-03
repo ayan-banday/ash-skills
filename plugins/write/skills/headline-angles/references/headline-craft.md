@@ -79,7 +79,7 @@ The subhead says what the headline had no room for. It never restates the headli
 
 - **Bad:** Headline "3 Reasons Your Focus Routine Keeps Failing" with subhead "3 reasons your focus routine keeps failing and what to do." It adds zero information.
 
-**Length is a feel.** Real winning subheads run from 3 words to 18 words. Aim for roughly 6 to 16 and never pad or cut to hit a number. The job decides the length.
+**Length:** gate 8 in SKILL.md. Never pad a subhead to reach it.
 
 **Proof can be yours or someone else's.** A first-person headline needs no first-person subhead. A Mode B headline can take third-party proof or method-as-proof:
 - "How to Build a Tiny AI Company That Actually Makes Money" with "And how one guy uses the same playbook to make $3 million per day."

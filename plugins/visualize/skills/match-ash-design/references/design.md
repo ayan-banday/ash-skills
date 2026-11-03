@@ -114,11 +114,13 @@ Every rule traces to where Ash said it. **[3+]** means three or more of his skil
 
 ## What Ash rejects
 
-Ash's words in quotes. (pitch-site taste "What he rejects"; story-plan taste; break-into-field look)
-- **Layouts:** horizontal step strips ("far too lazy"); three identical cards; cards inside cards; team lists ("garbage"); a first screen where the next section bleeds in; anything that looks like "a random HTML file" or a template.
-- **Colour:** gradients; pure white or black; navy night heroes; Anthropic's clay and ivory; neon; green in pitches; a yellow marker on his own pages.
-- **Decoration:** emoji and icon sets, stock photos, videos in the page, a line running behind the copy ("distracting"), glows that follow the cursor, smooth gliding hover.
-- **Metaphors that don't carry meaning:** labelled rings, caption boxes, click-to-reveal markers, the mountain by default.
+Ash's words in quotes. **This is the one list:** other skills point here, and a new rejection goes here with his words. (From pitch-site taste, story-plan taste and break-into-field look.)
+- **Layouts:** horizontal step strips ("far too lazy"); three identical cards; cards inside cards; team lists ("garbage"); a first screen where the next section bleeds in; anything that looks like "a random HTML file" or a template; choose-your-own-adventure, role pickers, "pick your layer" or a paper leave-behind (he wants it "fed down the throat").
+- **Colour:** gradients; pure white or black; navy night heroes (the JAIN hero, #161A2E); Anthropic's clay and ivory; neon; green in pitches; a yellow marker on his own pages.
+- **Decoration:** emoji and icon sets, stock photos, a generic avatar, videos in the page (motion built in code is fine), a line running behind the copy ("distracting from the message"), a glow that follows the cursor ("garbage"), hover that glides or fades ("not a fan of how smooth it is").
+- **Metaphors that don't carry meaning:** labelled rings, layers or bands for an idea that matters ("such a boring way to show things"); a caption box that pops up when a marker is clicked ("so boring"); markers scattered to hunt ("clicky"); a caption system dressed up as a scene ("relatively not that creative"); a pretty object standing in for the idea (the mountain by default).
+- **Stories:** stops in no told order, with no rise and release ("not like a story"); more than a line or two per screen ("too much information").
+- **Pitch copy:** a headline packed with data instead of saying what the section is about; a vague last step ("absolute garbage"); taking credit or implying the client lacks something ("we're not roasting them"); dated plans nobody committed to; a buzzword with no reason the reader should care.
 
 ## Phone study page
 

@@ -1,11 +1,11 @@
 ---
 name: story-plan
-description: "How do I turn an abstract idea into a story people watch? Turn any content into a visual story the reader watches instead of reads, then hand it to the skill that builds it. Finds the one-sentence thesis, casts abstract ideas as a living metaphor (one world, one creature or object per part, each backed by a real fact), and writes a storyboard (one row per screen with its story beat, shot size, the one bright thing, the one thing that moves, 20 words or fewer, a tension score, and plants and payoffs), checked by a script. Uses film craft (the covered tests, the story spine, the tension curve, where the eye goes, setup and payoff, full circle) with guardrails that keep names, numbers and the ask in plain words. Use whenever Ash says \"visual story\", \"visual storytelling\", \"tell it as a story\", \"show, don't tell\", \"make it a story, not a list\", \"visual metaphor\", \"mental model as a picture\", \"storyboard this\", \"it's too clicky\", \"too much information\", or wants values, a framework, a process, a pitch, a lesson or a personal map shown as a journey. Works with pitch-site, brief-page, polished-doc and course-lesson, which build what it plans."
+description: "How do I turn an abstract idea into a story people watch? Turns any content into a visual story the reader watches instead of reads: a living metaphor (one world, one creature or object per part, each backed by a real fact) and a script-checked storyboard built on film craft, with names, numbers and the ask kept in plain words. Use whenever Ash says \"visual story\", \"visual storytelling\", \"tell it as a story\", \"show, don't tell\", \"make it a story, not a list\", \"visual metaphor\", \"mental model as a picture\", \"storyboard this\", \"it's too clicky\", \"too much information\", or wants values, a framework, a process, a pitch, a lesson or a personal map shown as a journey. Works with pitch-site, brief-page, polished-doc and course-lesson, which build what it plans."
 ---
 
 # Visual storytelling
 
-**Read `/write:match-ash-writing` and `/visualize:match-ash-design` first** (`../../../write/skills/match-ash-writing/SKILL.md`, `../../../visualize/skills/match-ash-design/SKILL.md`): Ash's writing rules, and his design rules and colours, for every case. This skill's own rules win where they are newer or more specific.
+**Read `/write:match-ash-writing` first** (`../../../write/skills/match-ash-writing/SKILL.md`): Ash's writing rules for every case. **Read `/visualize:match-ash-design`'s SKILL.md** (`../../../visualize/skills/match-ash-design/SKILL.md`) **only when the plan names colours or the screen it shows on (phone or laptop);** the building skill reads the rest. This skill's own rules win where they are newer or more specific.
 
 This skill plans a story the reader can follow with their eyes. It does not build pages. It gives any building skill
 a thesis, a world, and a storyboard that says, screen by screen, what is bright, what moves, which few words
@@ -75,8 +75,9 @@ After the host's first render, run the story reviewer in `references/review.md` 
 agent (Sonnet is enough). It checks the board against what was built. Apply its fixes through the host skill.
 
 ### 8. Learn
-When Ash reacts, add his words to `references/taste.md` (loved or rejected, with the reason) and, if a new device
-or failure appears, to `references/examples.md`.
+When Ash reacts, add his words with the reason: what he loved to `references/taste.md`, what he rejected to "What Ash rejects"
+in `../match-ash-design/references/design.md`. If a new device
+or failure appears, add it to `references/examples.md`.
 
 ## Rules that are easy to get wrong
 

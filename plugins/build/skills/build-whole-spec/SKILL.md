@@ -10,6 +10,8 @@ The issue tracker should have been provided to you. If not, tell the user to run
 
 The goal is the entire spec implemented on a single **integration branch**, with every ticket resolved the way the issue tracker closes work.
 
+Follow the repo's branch rule: some repos, like Fuji, commit straight to main, and there main is the integration branch.
+
 The tickets are not a list of steps. They are a **task graph** with blocking relationships between them. This means there is always a **frontier** of tickets which are ready to be grabbed.
 
 Communication to and from subagents should be sparse. Communicate primarily through **context pointers**: to the spec, tickets, research notes, and previous commits. Don't duplicate information already available via pointers.
