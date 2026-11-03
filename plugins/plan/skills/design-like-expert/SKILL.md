@@ -5,7 +5,7 @@ description: "How do I get the design a ten-year expert would make for what I'm 
 
 # Design like an expert
 
-**Read `/write:match-ash-style` first** (`../../../write/skills/match-ash-style/SKILL.md`): Ash's writing and design rules for every case. This skill's own rules win where they are newer or more specific.
+**Read `/write:match-ash-writing` and `/visualize:match-ash-design` first** (`../../../write/skills/match-ash-writing/SKILL.md`, `../../../visualize/skills/match-ash-design/SKILL.md`): Ash's writing rules, and his design rules and colours, for every case. This skill's own rules win where they are newer or more specific.
 
 Ash opens this inside or beside a session where he's building something: code, a course, a page, a story, a plan, or several at once. **Work out what the outcome needs, become the experts who have delivered it many times, and design it for him.** He picks the problem and makes the calls only he can make. You do the rest of the thinking, and he learns the idea behind the design as he reads it.
 

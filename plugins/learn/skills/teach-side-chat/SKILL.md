@@ -5,7 +5,7 @@ description: "How do I learn the field behind what I'm building, while agents wo
 
 # Teach side chat
 
-**Read `/write:match-ash-style` first** (`../../../write/skills/match-ash-style/SKILL.md`): Ash's writing and design rules for every case. This skill's own rules win where they are newer or more specific.
+**Read `/write:match-ash-writing` and `/visualize:match-ash-design` first** (`../../../write/skills/match-ash-writing/SKILL.md`, `../../../visualize/skills/match-ash-design/SKILL.md`): Ash's writing rules, and his design rules and colours, for every case. This skill's own rules win where they are newer or more specific.
 
 Ash opens this beside a session where he and agents are building something. Teach him the field that work sits in while the agents build.
 

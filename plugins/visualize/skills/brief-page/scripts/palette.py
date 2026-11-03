@@ -5,6 +5,11 @@ Usage:
   python palette.py --seed N [--hue DEG] [--harmony NAME]            # print the theme CSS block
   python palette.py --seed N --count 6 --sheet palettes.html          # preview six candidates
   python palette.py --seed N --format json                            # roles and contrast ratios
+  python palette.py --seed N --wada --count 6 --sheet palettes.html   # six candidates from Wada Sanzo's book
+  python palette.py --seed N --combo 273                              # one combination by its number
+
+--combo takes its hues from one numbered combination in the book (/visualize:match-ash-design);
+this file's lightness ranges and contrast checks still apply.
 
 --hue fixes the base hue when the subject has a material colour (kraft card is about 65,
 terracotta 40, indigo dye 275, chalkboard 160). Without it the seed picks one.
@@ -21,6 +26,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import random
 import sys
 
@@ -150,19 +156,47 @@ def theme(rng, ranges, hues, dark):
     return col, ratios, failed
 
 
-def generate(seed, harmony=None, hue=None):
+def _wada():
+    """The book's combinations, from /visualize:match-ash-design."""
+    import importlib.util
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "match-ash-design", "scripts", "palette.py")
+    spec = importlib.util.spec_from_file_location("wada_palette", path)
+    wada = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(wada)
+    return wada
+
+
+def combo_for(seed):
+    """A combination number picked from the seed, among those with at least two colours."""
+    wada = _wada()
+    pool = [n for n in wada.BOOK if len([c for c in wada.BOOK[n] if c["o"][1] >= .03]) >= 2]
+    return random.Random(seed).choice(pool)
+
+
+def generate(seed, harmony=None, hue=None, combo=None):
     rng = random.Random(seed)
-    harmony = harmony or rng.choice(HARMONIES)
-    hue = (rng.uniform(0, 360) if hue is None else float(hue)) % 360
-    ah = accent_hue(harmony, hue, rng)
+    if combo:
+        # Hues from one numbered combination in Wada Sanzo's book; this file's ranges and checks set lightness.
+        hs = [c for c in _wada().combo_hues(combo) if c[3] >= .03] or _wada().combo_hues(combo)
+        hue = hs[0][4]
+        far = [c[4] for c in hs[1:] if hue_dist(c[4], hue) > 25]
+        ah = far[0] if far else (hs[1][4] if len(hs) > 1 else hue)
+        third = far[1] if len(far) > 1 else (hs[2][4] if len(hs) > 2 else (hue + 120) % 360)
+        marker = next((c[4] for c in hs if not (85 <= c[4] < 110)), ah)  # never a yellow marker
+        harmony = "wada No. %d" % combo
+    else:
+        harmony = harmony or rng.choice(HARMONIES)
+        hue = (rng.uniform(0, 360) if hue is None else float(hue)) % 360
+        ah = accent_hue(harmony, hue, rng)
+        third = max([(hue + 120) % 360, (hue + 240) % 360], key=lambda h: hue_dist(h, ah))
+        marker = ah
     alert_h, ok_h = away(30, [hue, ah], rng), away(150, [hue, ah], rng)
-    third = max([(hue + 120) % 360, (hue + 240) % 360], key=lambda h: hue_dist(h, ah))
     hues = {r: hue for r in ROLES}
-    hues.update(accent=ah, accent_soft=ah, marker=ah, alert=alert_h, ok=ok_h,
+    hues.update(accent=ah, accent_soft=ah, marker=marker, alert=alert_h, ok=ok_h,
                 tint_1=hue, tint_2=ah, tint_3=third)
     light, lr, lf = theme(random.Random(seed * 7 + 1), LIGHT, hues, False)
     dark, dr, df = theme(random.Random(seed * 7 + 2), DARK, hues, True)
-    out = {"seed": seed, "harmony": harmony, "hues": {"brand": round(hue, 1), "accent": round(ah, 1), "third": round(third, 1)},
+    out = {"seed": seed, "harmony": harmony, "combo": combo, "hues": {"brand": round(hue, 1), "accent": round(ah, 1), "third": round(third, 1)},
            "light": light, "dark": dark, "contrast": {"light": lr, "dark": dr}}
     if lf or df:
         out["failed"] = {"light": lf, "dark": df}
@@ -213,11 +247,14 @@ def main(argv=None):
     ap.add_argument("--hue", type=float)
     ap.add_argument("--harmony", choices=HARMONIES)
     ap.add_argument("--count", type=int, default=1)
+    ap.add_argument("--combo", type=int, help="one combination number from Wada Sanzo's book (1 to 348)")
+    ap.add_argument("--wada", action="store_true", help="pick each candidate's combination from the book by seed")
     ap.add_argument("--format", choices=["css", "json"], default="css")
     ap.add_argument("--sheet", metavar="PATH")
     a = ap.parse_args(argv)
     seed0 = a.seed if a.seed is not None else random.SystemRandom().randrange(1, 10 ** 6)
-    pals = [generate(seed0 + i, a.harmony, a.hue) for i in range(max(1, a.count))]
+    combos = [a.combo] if a.combo else [combo_for(seed0 + i) if a.wada else None for i in range(max(1, a.count))]
+    pals = [generate(seed0 + i, a.harmony, a.hue, c) for i, c in enumerate(combos)]
     if a.sheet:
         with open(a.sheet, "w", encoding="utf-8") as f:
             f.write(sheet(pals))

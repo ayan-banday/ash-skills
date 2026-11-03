@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Study a BBA unit
 
-**Read `/write:match-ash-style` first** (`../../../write/skills/match-ash-style/SKILL.md`): Ash's writing and design rules for every case. This skill's own rules win where they are newer or more specific.
+**Read `/write:match-ash-writing` and `/visualize:match-ash-design` first** (`../../../write/skills/match-ash-writing/SKILL.md`, `../../../visualize/skills/match-ash-design/SKILL.md`): Ash's writing rules, and his design rules and colours, for every case. This skill's own rules win where they are newer or more specific.
 
 Ash drops in his BBA material and gets one study page he learns from, with Claude in the page as his tutor. The approved standard is `references/example-page.html` (Managerial Accounting, "Does each sale make money?"): match its look, depth and worked examples, and apply the fixes in `references/writing-rules.md`, which came from his comments on it.
 

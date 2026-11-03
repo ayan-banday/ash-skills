@@ -5,7 +5,7 @@ description: "How do I break into a whole field I know nothing about, like techn
 
 # Break into a field
 
-**Read `/write:match-ash-style` first** (`../../../write/skills/match-ash-style/SKILL.md`): Ash's writing and design rules for every case. This skill's own rules win where they are newer or more specific.
+**Read `/write:match-ash-writing` and `/visualize:match-ash-design` first** (`../../../write/skills/match-ash-writing/SKILL.md`, `../../../visualize/skills/match-ash-design/SKILL.md`): Ash's writing rules, and his design rules and colours, for every case. This skill's own rules win where they are newer or more specific.
 
 Build a study book that takes Ash from "I don't know what I don't know" to seeing which problems in his work the field can solve, and briefing Claude to build the answer. Technology was the first field (Fuji ticket 34, Oct 30 2026). The rules below came from Ash's feedback on that first version, so follow them over your own taste.
 
@@ -14,7 +14,7 @@ Build a study book that takes Ash from "I don't know what I don't know" to seein
 ## Steps
 
 1. **Grill before any map.** Follow `references/grilling.md`. Done when Ash has said yes to: the outcome in his own words, the one real project that is the book's spine, the field's shelves, the sources, and the map's picture (two or three options from the field's own world, one line each, recommended first; `references/moving-map.md`). When Ash hands over these answers up front and says not to grill him, take them as given and go. Save the decisions to the ticket, never his words.
-2. **Pick the palette, then draw the problem map as a moving map.** Run `python scripts/palette.py --seed "<book title>"` and paste its tokens and key-line CSS (`references/look.md`): dark only, a new palette per book. Order the map by `references/unlock-order.md`, draw it by `references/moving-map.md`, in a picture from the field's own world (never the mountain by default). Done when every problem names what it waits on, the motif draws on layer by layer as Ash scrolls, the first chapter is the open problem the most others wait on, and the map rests fully labelled.
+2. **Pick the palette, then draw the problem map as a moving map.** Run `python ../../../visualize/skills/match-ash-design/scripts/palette.py --place dark --seed "<book title>"` and paste its tokens and key-line CSS (`references/look.md`): dark only, a new combination from Wada Sanzo's book per book. Order the map by `references/unlock-order.md`, draw it by `references/moving-map.md`, in a picture from the field's own world (never the mountain by default). Done when every problem names what it waits on, the motif draws on layer by layer as Ash scrolls, the first chapter is the open problem the most others wait on, and the map rests fully labelled.
 3. **Draw the shelves.** Follow "The shelves" in `references/book-shape.md`. Done when each shelf has its fields, each field has its words and one problem from Ash's world, and the shelves he hasn't touched carry suggested problems.
 4. **Research only what the next chapter needs.** Follow `references/research.md`. Done when the brief's questions each have the one best source, fetched, indexed and read by Haiku agents that return exact quotes with context, and the main chat never fetched a transcript.
 5. **Build the chapter straight into the book's HTML.** Follow the chapter skeleton in `references/book-shape.md` and every rule in `references/writing-rules.md` while writing, so the first draft is already close. No markdown draft first: writing it twice costs twice. Write in short paragraphs from the first line ("Short paragraphs, one idea each": at most 3 sentences and 60 words, a bold lead-in on every paragraph of two or more sentences). Run `python scripts/check_chapter.py <book.html>`; it checks every chapter and every paragraph in the book. Done when it prints no FAIL.
@@ -39,9 +39,8 @@ Build a study book that takes Ash from "I don't know what I don't know" to seein
 - `references/unlock-order.md`: what waits on what; how it orders chapters, phases and tickets.
 - `references/research.md`: the source pipeline, cheap.
 - `references/critic.md`: the critic agent's one pass on the HTML.
-- `references/look.md`: the look: dark palettes from `scripts/palette.py`, the key-line styles, fonts, checked on desktop.
+- `references/look.md`: the look: dark palettes from `/visualize:match-ash-design`, the key-line styles, fonts, checked on desktop.
 - `references/tutor.md`: the tutor inside the book: stations, the rail, the desk, the config to write, where notes are saved.
 - `assets/tutor.css`, `assets/tutor.html`: the tutor's code, pasted unchanged into every book.
-- `scripts/palette.py`: a dark palette and key-line style per book; `--test` checks 20 seeds and the presets.
 - `scripts/check_tutor.py`: every chapter has 3 to 6 stations, each with a question and 2 or 3 suggestions, and the config matches the page.
 - `scripts/check_chapter.py`: the mechanical check: every chapter's shape, and the paragraph rule across the whole book.

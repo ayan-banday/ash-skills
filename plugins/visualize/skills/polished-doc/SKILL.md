@@ -5,7 +5,7 @@ description: "How do I turn my draft into a clean PDF or Word file? Make any doc
 
 # Clear Documents
 
-**Read `/write:match-ash-style` first** (`../../../write/skills/match-ash-style/SKILL.md`): Ash's writing and design rules for every case. This skill's own rules win where they are newer or more specific.
+**Read `/write:match-ash-writing` and `/visualize:match-ash-design` first** (`../../../write/skills/match-ash-writing/SKILL.md`, `../../../visualize/skills/match-ash-design/SKILL.md`): Ash's writing rules, and his design rules and colours, for every case. This skill's own rules win where they are newer or more specific.
 
 This skill takes a document someone already has and gives it back **clearer, with the same sections in the same order**: plainer words, long lists broken into shapes a reader can hold, visuals where a picture beats a paragraph, a harmonious palette, and pages with no wasted space. The output is a document first, PDF by default, in any format the user needs.
 

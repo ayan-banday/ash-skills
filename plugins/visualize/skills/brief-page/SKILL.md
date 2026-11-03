@@ -5,7 +5,7 @@ description: "[for teammates] How do I brief a teammate so they arrive knowing w
 
 # Clear visual HTML: the brief page
 
-**Read `/write:match-ash-style` first** (`../../../write/skills/match-ash-style/SKILL.md`): Ash's writing and design rules for every case. This skill's own rules win where they are newer or more specific.
+**Read `/write:match-ash-writing` and `/visualize:match-ash-design` first** (`../../../write/skills/match-ash-writing/SKILL.md`, `../../../visualize/skills/match-ash-design/SKILL.md`): Ash's writing rules, and his design rules and colours, for every case. This skill's own rules win where they are newer or more specific.
 
 This skill turns an idea into one HTML page that a teammate reads alone before a session. **Nobody presents it.** The page has to explain itself to someone who dislikes reading, so they arrive primed: they know the plan, why it is shaped that way, what it will look like, and what they'll be asked to decide.
 
@@ -37,8 +37,8 @@ The reference build is `assets/examples/plugins-brief.html` (source: `plugins-br
 2. **Write the reader's questions.** List what the reader would ask, in the order they'd ask it. Each becomes a section, phrased by the heading rules in `references/writing-rules.md`. If Ash gave a structure, keep his sections and order, and still phrase each heading as the reader's question. The default page order is in `references/page-shape.md`.
 3. **Write the copy first,** section by section, in plain text before any markup. Each section answers its question so the reader could explain it back in two or three sentences. Cut every line that doesn't help answer it.
 4. **Pick one drawing per section** from `references/visual-patterns.md`: find the lazy default in your draft (a list, a card row, a step strip, a bold number) and use the drawn pattern that replaces it. **Record each pick in a `data-pattern` attribute;** the scan fails a page that uses one twice. Some sections need no drawing.
-5. **Pick the palette and type.** Run `python scripts/palette.py --seed N --count 6 --sheet palettes.html` (add `--hue` when the subject has a material colour), screenshot the sheet, pick one, and pick a type pairing. Method in `references/design-system.md`.
-6. **Build from the starter.** Copy `assets/starter.template.html` to a short work path. Fill sections, copying pattern markup from the reference build. Then `python scripts/build.py --template T --libs L --out OUT --seed N` swaps in the palette, inlines any libraries, and runs the copy scan.
+5. **Pick the palette and type.** Run `python scripts/palette.py --seed N --wada --count 6 --sheet palettes.html` (six combinations from Wada Sanzo's book; `--hue` instead when the subject has a material colour), screenshot the sheet, pick one, and pick a type pairing. Method in `references/design-system.md`.
+6. **Build from the starter.** Copy `assets/starter.template.html` to a short work path. Fill sections, copying pattern markup from the reference build. Then `python scripts/build.py --template T --libs L --out OUT --seed N --combo C` swaps in the palette, inlines any libraries, and runs the copy scan.
 7. **QA with `references/qa-checklist.md`:** copy scan clean, section screenshots read in both themes, 400px overflow probe clean, the cover test (pictures alone, then words alone).
 8. **Hand over:** what the file is, where it is, the seed and type pairing, and one short list of what you invented (names, draft labels, decisions you framed) so Ash can correct it. When Ash will share a link, add `--artifact <path>` to the build and publish that copy as a private artifact (load artifact-design first).
 

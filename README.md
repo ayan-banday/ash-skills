@@ -23,6 +23,7 @@ Then type `/` and a plugin's name to see its skills: `/write`, `/visualize`, `/p
   - **(udyaan):** tuned for Udyaan's brand, students and team.
   - **(shasta):** tuned for Shasta, Ash's learning library.
   - **(substack):** tuned for writing a Substack newsletter.
+  - **(wada):** built on Sanzo Wada's *A Dictionary of Color Combinations* (1933).
 - **A helper** is loaded by other skills. You don't type it.
 - **Some skills Claude starts on its own** when your words match them. The rest run only when you type them, because they're long or meant to run on purpose.
 
@@ -46,7 +47,7 @@ Then type `/` and a plugin's name to see its skills: `/write`, `/visualize`, `/p
 |---|---|---|
 | `course-lesson (udyaan)` | How do I write a Day N lesson or course page students actually read? | Lessons in a plain, spoken voice. Each day moves the student one step, follows one running student as the example, and ends in one small task. It can also run a whole week past fresh reviewers. |
 | `headline-angles (substack)` | How do I find the headline that makes people open my Substack post? | 10 headline and subheadline angles, ranked, built from your idea and your reader's fear and wanted outcome. |
-| `match-ash-style` | How do I write and design anything Ash or his readers will see, so he never has to correct the same thing twice? | Ash's writing and design rules in one place, by case: who reads it and on what screen. Every building skill reads it first, and it fixes the draft before Ash sees it. |
+| `match-ash-writing` | How do I write anything Ash or his readers will read, so he never has to correct the same words twice? | Ash's writing rules in one place, by case: who reads it and on what screen. Every building skill reads it first, and it fixes the draft before Ash sees it. |
 | `re-explain (matt)` | How do I get Claude to re-explain a reply that didn't make sense? | Claude stops and pitches its last message again, more simply. |
 | `agent-docs (matt)` | How do I write a skill or CLAUDE.md that Claude follows every time? | The rules for writing for agents: steps with done tests, pointers that fire, and cutting what Claude would do anyway. |
 
@@ -56,6 +57,7 @@ Then type `/` and a plugin's name to see its skills: `/write`, `/visualize`, `/p
 
 | Skill | The problem it solves | What you get |
 |---|---|---|
+| `match-ash-design (wada)` | How do I design and colour anything Ash or his readers will see, so it looks like his and never the same twice? | Ash's design rules by case, and a palette for every page from one numbered combination in Wada Sanzo's colour book (348 combinations), contrast-checked for dark pages, briefs, pitches and print. |
 | `story-plan` | How do I turn an abstract idea into a story people watch? | A thesis, a living metaphor and a storyboard checked by a script, ready for another skill to build. |
 | `polished-doc` | How do I turn my draft into a clean PDF or Word file? | Your draft rewritten clearer, with the same structure and visuals only where they explain faster, exported as PDF, Word, Google Docs or HTML. |
 | `brief-page (udyaan)` | How do I brief a teammate so they arrive knowing what we're deciding? | A page a teammate reads alone. Every heading is the question they'd ask, and every answer is drawn as well as written. |
@@ -140,3 +142,5 @@ exit 0
 ## Credits
 
 Skills tagged `(matt)` are copied from Matt Pocock's skills (https://github.com/mattpocock/skills, MIT licence, see `LICENSE-matt-pocock` in each plugin) and renamed. They no longer receive his updates. `design-like-expert` borrows its "smallest change that fully works" ladder from [ponytail](https://github.com/dietrichgebert/ponytail) (MIT).
+
+`match-ash-design (wada)` uses the colours of Sanzo Wada's *A Dictionary of Color Combinations* (Seigensha) from the [dictionary-of-colour-combinations](https://github.com/mattdesl/dictionary-of-colour-combinations) dataset by Matt DesLauriers, first compiled by Dain M. Blodorn Kim (MIT, see `plugins/visualize/skills/match-ash-design/assets/LICENSE-wada-colors`).

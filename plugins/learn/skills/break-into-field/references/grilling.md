@@ -11,7 +11,7 @@ A field map is a big build, so it gets its own grilling first (Ash, Oct 30 2026)
 5. **The first chapter's problem.** Propose it from the unlock order; let him change it.
 6. **Sources.** "Who do you trust in this field, and who explains the why best?" Then the rule: pick the best source per question, never a ranked list.
 7. **The map's picture.** Offer two or three pictures from the field's own world, one line each, the recommended one first (`moving-map.md`): what each part of the picture stands for, and why it fits this map's shape. Never the mountain by default.
-8. **The look.** The palette comes from `python scripts/palette.py --seed "<book title>"` (`look.md`): show its swatch line and key-line style, and offer `--seed random` or a preset if he wants another. Ask only how much flair, if this is a new kind of page.
+8. **The look.** The palette comes from one combination in Wada Sanzo's book, picked by the book title (`look.md`): show its number, its colour names and its key-line style, and offer `--combo N`, `--seed random` or a preset if he wants another. Ask only how much flair, if this is a new kind of page.
 
 ## Ready means
 

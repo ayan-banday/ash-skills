@@ -5,7 +5,7 @@ description: "[course] How do I write a Day N lesson or course page students act
 
 # Course Writer
 
-**Read `/write:match-ash-style` first** (`../match-ash-style/SKILL.md`): Ash's writing and design rules for every case. This skill's own rules win where they are newer or more specific.
+**Read `/write:match-ash-writing` and `/visualize:match-ash-design` first** (`../match-ash-writing/SKILL.md`, `../../../visualize/skills/match-ash-design/SKILL.md`): Ash's writing rules, and his design rules and colours, for every case. This skill's own rules win where they are newer or more specific.
 
 Writes the pages a student reads in a course. Two kinds:
 

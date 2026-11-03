@@ -3,12 +3,28 @@
 Every rule traces to where Ash said it. **[3+]** means three or more of his skills say it. The building skills hold the full systems (tokens, scripts, catalogues); this file says which applies when, and what holds everywhere.
 
 ## Contents
+- Colour from the book
 - When to draw, when to write
 - The look for each case
 - Phone and laptop
 - Simple
 - What Ash rejects
 - Phone study page
+
+## Colour from the book
+
+**Every page takes one numbered combination from Wada Sanzo's *A Dictionary of Color Combinations*** (配色事典, 1933): 348 combinations of 2 to 4 colours. "I love all of these colors." (Ash, Nov 3 2026, after seeing them on mockups of every kind of page)
+
+- **Pick it with the script:** `python scripts/palette.py --place <dark|light|pitch|print> --seed "<page title>"`. The same seed gives the same combination; `--combo N` takes one by its number; `--count 6 --sheet sheet.html` shows six to choose from. The script turns the combination into tokens, checks contrast, and refuses a combination that fails.
+- **How a combination becomes a page:**
+  - **Dark (Ash's pages):** the darkest colour becomes the near-black ground, the light colours become the pastels, the strongest becomes the accent.
+  - **Light (for others):** the lightest colour becomes the paper, the darkest becomes the ink, and every colour becomes a soft fill.
+- **Which place:** `dark` for Ash's own pages; `light` for briefs, slides, posts, Udyaan; `pitch` for outsiders (drops green); `print` for paper (quieter). Brief pages use their own script with `--combo N`, which takes the same book's hues.
+- **How many fit:** run `--list`. On Nov 3: dark 342, light 347, pitch 314, print 347 of 348.
+- **The book's colours as printed** (`--b1` to `--b4`) go on big shapes only: a post card's blocks, a slide's diagram, a seedling's leaves. Never behind text.
+- **Name it on the page:** put `No. 273, Hermosa Pink + Pansy Purple + ...` in a CSS comment, so Ash can ask for it again by number.
+- **A little new each time:** don't reuse the last page's combination. When the subject has a material colour (kraft, turmeric, indigo), pick a combination that carries it.
+- **The look Ash approved:** the gallery of mockups at https://claude.ai/artifact/X5ksGgHaPb9gcA2Mi6TSAH (study pages, books, week page, charts, pitches, briefs, slides, print, Udyaan, post cards).
 
 ## When to draw, when to write
 
@@ -37,8 +53,8 @@ Every rule traces to where Ash said it. **[3+]** means three or more of his skil
 ## The look for each case
 
 **Everywhere** [3+]
-- **One palette per page,** picked from a seed and contrast-checked in code. No two pages alike. Use the building skill's `palette.py`.
-- **Take the base hue from the subject's own world:** kraft, terracotta, indigo dye, turmeric, plum. (brief-page design-system "Picking the base hue")
+- **One combination from the book per page,** contrast-checked in code ("Colour from the book" above). No two pages in a row alike.
+- **Lean to the subject's own world:** kraft, terracotta, indigo dye, turmeric, plum. Pick a combination that carries it. (brief-page design-system "Picking the base hue")
 - **60-30-10:** about 60% page and text, 30% a quiet layer, 10% or less brand, accent and marker.
 - **Colour carries one meaning,** and a word carries it too. The marker means "what you get or decide"; alert means "goes wrong or goes away". Never colour five things just to tell them apart.
 - **One bright thing per screen.** One accent does the pointing. One marker per screen; a second cancels the first.
@@ -54,7 +70,7 @@ Every rule traces to where Ash said it. **[3+]** means three or more of his skil
 
 **Pages for Ash** (study pages, study results, his own tools)
 - **Dark.** "I would never want to read things in white." Near-black charcoal grounds. (break-into-field look)
-- **Pastels do the colour:** pink, clay, apricot, sand, lilac. **No blue or green in any ground. No yellow marker** ("I'm not a fan of yellow"); a muted sand is fine. The directions he leans to: Ink and clay, Charcoal and rose. (break-into-field look)
+- **Pastels do the colour, from any colour in the book,** greens and blues included (Ash, Nov 3 2026). **Grounds stay near-black, never tinted blue or green. No yellow marker** ("I'm not a fan of yellow"), so the lead pastel is never yellow; a muted sand is fine. The approved presets stay available: Ink and clay, Charcoal and rose, Graphite and chalk. (break-into-field look)
 - **Fonts:** Overpass for headings, Atkinson Hyperlegible for body, Overpass Mono for labels. The old serif is out. (break-into-field look, Nov 2)
 
 **Pages for others**
@@ -98,7 +114,7 @@ Every rule traces to where Ash said it. **[3+]** means three or more of his skil
 
 Ash's words in quotes. (pitch-site taste "What he rejects"; story-plan taste; break-into-field look)
 - **Layouts:** horizontal step strips ("far too lazy"); three identical cards; cards inside cards; team lists ("garbage"); a first screen where the next section bleeds in; anything that looks like "a random HTML file" or a template.
-- **Colour:** gradients; pure white or black; navy night heroes; Anthropic's clay and ivory; neon; green in pitches; yellow on his own pages.
+- **Colour:** gradients; pure white or black; navy night heroes; Anthropic's clay and ivory; neon; green in pitches; a yellow marker on his own pages.
 - **Decoration:** emoji and icon sets, stock photos, videos in the page, a line running behind the copy ("distracting"), glows that follow the cursor, smooth gliding hover.
 - **Metaphors that don't carry meaning:** labelled rings, caption boxes, click-to-reveal markers, the mountain by default.
 

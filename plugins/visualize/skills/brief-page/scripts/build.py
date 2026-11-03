@@ -47,6 +47,7 @@ def main():
     ap.add_argument("--seed", type=int)
     ap.add_argument("--hue", type=float)
     ap.add_argument("--harmony")
+    ap.add_argument("--combo", type=int)
     ap.add_argument("--artifact", metavar="PATH")
     a = ap.parse_args()
 
@@ -56,7 +57,7 @@ def main():
         import palette
         if not PAL.search(tpl):
             sys.exit("template has no /* PALETTE START */ ... /* PALETTE END */ block")
-        p = palette.generate(a.seed, a.harmony, a.hue)
+        p = palette.generate(a.seed, a.harmony, a.hue, a.combo)
         if "failed" in p:
             sys.exit("palette seed %d fails contrast: %s. Pick another seed." % (a.seed, p["failed"]))
         tpl = PAL.sub(lambda m: m.group(1) + "\n" + palette.css_block(p) + "\n" + m.group(3), tpl)

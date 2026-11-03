@@ -19,10 +19,10 @@ Every brief page gets its own palette and type pairing, so no two pages look lik
 
 The method combines polished-doc' seeded generator with pitch-site's habit of taking colour from the subject's world.
 
-1. **Pick the base hue** from the subject when it has a material colour (below). Otherwise let the seed choose.
-2. **Preview six candidates:** `python scripts/palette.py --seed N --count 6 --sheet palettes.html [--hue H] [--harmony analogous]`. Screenshot the sheet (`shots.py` or headless Chrome) and look at it. Each card shows the light and dark theme with a sample heading, marker, tints and status words.
-3. **Pick one** that fits the tone, then build with `python scripts/build.py ... --seed N [--hue H --harmony X]`. The build swaps the block between `/* PALETTE START */` and `/* PALETTE END */` in the template.
-4. **Record the seed** in a CSS comment (the script writes it) and in the hand-off note.
+1. **Take the hues from Wada Sanzo's book by default** (Ash, Nov 3 2026): each brief gets one numbered combination, chosen by `/visualize:match-ash-design`. Use `--hue` instead only when the subject has a material colour (below) that no combination carries.
+2. **Preview six candidates:** `python scripts/palette.py --seed N --wada --count 6 --sheet palettes.html` (each card names its combination), or `--combo N` for one Ash named. Screenshot the sheet (`shots.py` or headless Chrome) and look at it. Each card shows the light and dark theme with a sample heading, marker, tints and status words.
+3. **Pick one** that fits the tone, then build with `python scripts/build.py ... --seed N --combo C` (or `[--hue H --harmony X]` without the book). The build swaps the block between `/* PALETTE START */` and `/* PALETTE END */` in the template.
+4. **Record the seed and the combination number** in a CSS comment (the script writes it) and in the hand-off note.
 
 Every palette is contrast-checked in both themes. `palette.py` exits with an error and names the failing check when a seed can't pass; pick another seed.
 

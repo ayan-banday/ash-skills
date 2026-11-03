@@ -1,5 +1,5 @@
 /* ===== The tutor inside the book (break-into-field assets/tutor.css) =====
-   Uses only the 12 palette tokens from scripts/palette.py. Paste after the book's own CSS. */
+   Uses only the palette tokens from /visualize:match-ash-design scripts/palette.py. Paste after the book's own CSS. */
 
 /* Stations: a ring and its question in the right margin beside the concept */
 .stn-wrap{position:relative}

@@ -66,7 +66,7 @@ Every rule here traces to where Ash said it. A source in brackets names the skil
 - **The verdict first, in one line:** holds, doesn't hold, or not sure yet.
 - **Up to three reasons,** one line each, each a new fact with what it means for him. Never restate the verdict line; two real reasons beat three padded ones.
 - **One next step** he can take, with what's done when.
-- Sources and method behind a tap. Shape and look: "Phone study page" in `design.md`. (Ash, Nov 2, via the grilling-layers session)
+- Sources and method behind a tap. Shape and look: "Phone study page" in `/visualize:match-ash-design` (`../../../visualize/skills/match-ash-design/references/design.md`). (Ash, Nov 2, via the grilling-layers session)
 
 **A study page or book** (he's learning a topic)
 - Open with "Where you are now" (2 or 3 bullets, each with its cost), then "After this, you can", written as what changes in his work. (break-into-field book-shape)
