@@ -189,7 +189,6 @@ Self-review is not enough. Drafts that read as compliant still carried em dashes
 - `references/variation.md`: how to keep modules fresh, with Dan Koe moves.
 - `references/examples.md`: approved Days 1 to 3, and Day 6 in the question-led shape.
 - `references/welcome-page.md`: the approved welcome page and the rules for non-module pages.
-- `references/legacy-passages.md`: two older voice samples, used for tone only.
 - `scripts/lint_module.py`: mechanical check for banned patterns, run before every draft is shown.
 
 ## Refinements
