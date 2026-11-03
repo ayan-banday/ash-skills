@@ -18,6 +18,8 @@ Claude runs inside the published page on Ash's own account: no key, no setup. He
 
 **CSS,** inside the page's `<style>`:
 
+**Every control takes its text and its background from the same side** (Ash, Nov 3 2026, after the model picker showed pale words on a pale box). Inside the panel that is `--text` on `--bg` or `--surface`; on paper blocks it is `--ink` on `--paper`. Never pair a panel colour with a paper colour. `scripts/check_contrast.py` fails the build when a pair can't be read.
+
 ```css
 .tutor-tab{position:fixed;right:0;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;z-index:30;font:600 14px "Atkinson Hyperlegible",system-ui,sans-serif;letter-spacing:.04em;color:var(--on);background:var(--sand);border:0;border-radius:8px 0 0 8px;padding:16px 9px;cursor:pointer}
 .tutor-tab:hover,.tutor-tab:focus-visible{background:var(--sand-f);outline:none}
@@ -51,8 +53,9 @@ Claude runs inside the published page on Ash's own account: no key, no setup. He
 .tutor .bot hr{border:0;border-top:1px solid var(--line);margin:12px 0}
 .tutor .pick{display:flex;gap:12px;flex-wrap:wrap;padding:0 16px 10px;font:500 12.5px "Atkinson Hyperlegible",system-ui,sans-serif;color:var(--muted)}
 .tutor .pick label{display:flex;align-items:center;gap:6px}
-.tutor .pick select{font:500 13px "Atkinson Hyperlegible",system-ui,sans-serif;color:var(--text);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:3px 6px;cursor:pointer}
+.tutor .pick select{font:500 13px "Atkinson Hyperlegible",system-ui,sans-serif;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:3px 6px;cursor:pointer}
 .tutor .pick select:disabled{opacity:.45;cursor:default}
+.tutor .pick option{color:var(--text);background:var(--surface)}
 .tutor .grip{position:absolute;left:0;top:0;bottom:0;width:10px;z-index:3;cursor:col-resize;touch-action:none}
 .tutor .grip::after{content:"";position:absolute;left:3px;top:50%;width:4px;height:48px;margin-top:-24px;border-radius:2px;background:var(--line)}
 .tutor .grip:hover::after,.tutor .grip:focus-visible::after,.tutor.sizing .grip::after{background:var(--sand)}

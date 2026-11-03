@@ -52,9 +52,12 @@ Done when every concept from step 1 that belongs to the picked problem is taught
 
 ### 4. Check it
 
-Run `python ../break-into-field/scripts/check_chapter.py <page.html>` from this skill's folder and fix every FAIL.
+Run both from this skill's folder and fix every FAIL:
 
-Done when it prints no FAIL.
+- `python ../break-into-field/scripts/check_chapter.py <page.html>`: the writing rules.
+- `python scripts/check_contrast.py <page.html>`: every box with a text colour and a background, the tutor's controls included, reads at 4.5 to 1 or better.
+
+Done when neither prints a FAIL.
 
 ### 5. One critic pass
 
