@@ -34,6 +34,7 @@ Then type `/` and a plugin's name to see its skills: `/write`, `/visualize`, `/p
 | Get the design a ten-year expert would make, and learn why it works | `/plan:design-like-expert` |
 | Find the holes in an idea before you commit to it | `/plan:grill-idea` |
 | Learn the field behind what you're building, while agents build | `/learn:teach-side-chat` |
+| Learn the side skills behind a note you wrote, as articles to read later | `/learn:write-side-articles` |
 | Make an outside reader say yes to a proposal | `/visualize:pitch-site` |
 | Turn a messy draft into a clean PDF | `/visualize:polished-doc` |
 | Find the real cause of a bug | `/build:find-bug` |
@@ -112,13 +113,14 @@ Then type `/` and a plugin's name to see its skills: `/write`, `/visualize`, `/p
 | Skill | The problem it solves | What you get |
 |---|---|---|
 | `teach-side-chat (shasta)` | How do I learn the field behind what I'm building, while agents work beside me? | A menu of the big problems in your chat, then a short chapter from a ten-year expert on the one you pick. |
+| `write-side-articles (shasta)` | How do I learn the side skills behind a note I wrote, as short articles I read later instead of a grilling? | One to five chapters from your note on one phone page, each a named idea from another field with a metaphor you'll remember. |
 | `study (shasta)` | How do I learn a topic the Shasta way? | An evening from your first question to an approved learning brief, then a study page. |
 | `break-into-field (shasta)` | How do I break into a whole field I know nothing about, starting from a real problem in my work? | A study book: a map of the field's problems in the order they unlock, and chapters that each solve one. |
 | `study-bba (jain)` | How do I study a Jain BBA unit from my notes, slides or past papers so I can solve its questions and use it in a tech company? | Up to three problems the material solves, then a study page with worked examples, practice you check yourself, and a Claude tutor beside it. |
 | `graphify` | How do I see how everything in a folder connects? | A knowledge graph of any folder, from code and docs to papers and videos, that you can query. |
 | `which-skill` | Which of my skills should I use right now? | The one command to type for what you're doing, with one line of why. |
 
-**Which one?** Learn from the chat you're in: `teach-side-chat`. A topic you choose: `study`. A whole field: `break-into-field`. A BBA unit for the exam: `study-bba`.
+**Which one?** Learn from the chat you're in: `teach-side-chat`. From a note, to read later: `write-side-articles`. A topic you choose: `study`. A whole field: `break-into-field`. A BBA unit for the exam: `study-bba`.
 
 ## Using these in Claude Code on the web
 
