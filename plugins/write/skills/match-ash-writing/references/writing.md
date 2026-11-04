@@ -38,7 +38,7 @@ Every rule here traces to where Ash said it. A source in brackets names the skil
 
 **Only what was asked**
 - **Add nothing nobody asked for:** no extra tips, "Add your first idea" boxes, analogies or marketing lines. "Remove the hedges... don't have anything that sounds like marketing material. I'm talking to my team." (Ash, Oct 27)
-- **A metaphor only for an idea too hard to say plainly.** Otherwise a plain line, then a mini example. ("No analogies, no water, nothing", Ash, Oct 27; study-bba rule 3)
+- **A metaphor only for an idea too hard to say plainly.** Otherwise a plain line, then a mini example. ("No analogies, no water, nothing", Ash, Oct 27; study-bba writing-rules "A metaphor only where the idea is hard")
 - **Leave out your tools and internal names:** "make them fill a form", never the form tool's name. (Ash, Nov 2; pitch-site copy-rules)
 - **Examples use one running character with a plain made-up name,** never a real person's name. (Ash, Oct 28 and 29)
 

@@ -1,0 +1,55 @@
+<!-- ===== The book's chapter tabs (study-bba assets/tabs.html) =====
+     Paste once, just before break-into-field's tutor script (after window.TUTOR). Same for every book: change nothing here.
+     It builds one tab per <section data-tab> (the cover gets ⌂), opens one at a time, follows #chN links,
+     colours the page with the open chapter's palette (:root[data-on]) and tells the tutor (tutor:refresh). -->
+<nav class="tabs" id="tabs" role="tablist" aria-label="Chapters"></nav>
+<script>
+(() => {
+  const parts = [...document.querySelectorAll("main > .cover, main > section[data-tab]")];
+  if (!parts.length) return;
+  document.body.classList.add("tabbed");
+  const nav = document.getElementById("tabs");
+  const label = p => p.classList.contains("cover") ? "⌂" : p.dataset.tab;
+  nav.innerHTML = parts.map(p => `<button type="button" role="tab" id="tab-${p.id}" aria-controls="${p.id}" data-p="${p.id}"` +
+    (p.dataset.chapter ? ` data-chapter="${p.dataset.chapter}"` : "") + (p.classList.contains("cover") ? ` class="home" title="The book's cover" aria-label="Cover"` : ` title="${label(p).replace(/"/g, "&quot;")}"`) +
+    `>${label(p)}</button>`).join("");
+  const tabsW = () => document.documentElement.style.setProperty("--tabsw", (nav.getBoundingClientRect().width || 48) + "px");
+  const store = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} } };
+  const key = "book-tab:" + (document.title || "book");
+  function show(id, anchor) {
+    const p = parts.find(x => x.id === id) || parts[0];
+    parts.forEach(x => { x.hidden = x !== p; });
+    nav.querySelectorAll("button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.p === p.id)));
+    if (p.dataset.chapter) document.documentElement.dataset.on = p.dataset.chapter; else delete document.documentElement.dataset.on;
+    store.set(key, p.id);
+    const target = anchor && document.getElementById(anchor);
+    if (target && target !== p) target.scrollIntoView(); else scrollTo(0, 0);
+    tabsW();
+    dispatchEvent(new Event("tutor:refresh"));
+  }
+  // Any #id link: open the part that holds it, then scroll to it.
+  function go(hash) {
+    const id = decodeURIComponent((hash || "").replace(/^#/, ""));
+    const el = id && document.getElementById(id);
+    const p = el && parts.find(x => x === el || x.contains(el));
+    if (p) { show(p.id, id); return true; }
+    return false;
+  }
+  nav.querySelectorAll("button").forEach(b => b.onclick = () => { show(b.dataset.p); try { history.replaceState(null, "", "#" + b.dataset.p); } catch (e) {} });
+  document.addEventListener("click", e => {
+    const a = e.target.closest?.('a[href^="#"]');
+    if (a && go(a.getAttribute("href"))) { e.preventDefault(); try { history.replaceState(null, "", a.getAttribute("href")); } catch (e2) {} }
+  });
+  addEventListener("hashchange", () => go(location.hash));
+  // The tutor asks for a station's tab when a ring, the rail or the Gaps list opens one in a closed chapter.
+  addEventListener("tutor:reveal", e => { const p = parts.find(x => x.contains(e.detail)); if (p) show(p.id); });
+  addEventListener("keydown", e => {
+    if (!e.target.closest?.(".tabs") || !["ArrowUp", "ArrowDown"].includes(e.key)) return;
+    e.preventDefault();
+    const i = parts.findIndex(x => !x.hidden), j = (i + (e.key === "ArrowDown" ? 1 : parts.length - 1)) % parts.length;
+    show(parts[j].id); nav.querySelector(`[data-p="${parts[j].id}"]`).focus();
+  });
+  addEventListener("resize", tabsW);
+  if (!go(location.hash)) show(store.get(key) || parts[0].id);
+})();
+</script>

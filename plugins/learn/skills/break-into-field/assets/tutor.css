@@ -41,16 +41,40 @@ body.desk-open .rail{opacity:0;pointer-events:none}
 .rail button:hover .q,.rail button:focus-visible .q{display:block}
 .rail button:focus-visible{outline:none}.rail button:focus-visible i{box-shadow:0 0 0 3px var(--tx)}
 @media (max-width:899px){.rail{display:none}}
+/* A tabbed book (study-bba): the chapter tabs hang off the right edge, the rail sits just inside them,
+   and the reading column moves left by the tabs' width */
+body.tabbed .rail{right:calc(var(--tabsw,48px) + 14px)}
+@media (min-width:1200px){
+  body.tutor.tabbed .part > .wrap{margin-left:max(24px,calc((100vw - 760px - 470px - var(--tabsw,48px))/2))}
+  body.desk-open.tabbed .part > .wrap{margin-left:max(24px,calc((100vw - var(--deskw,480px) - 20px - 760px)/2))}
+}
 
 /* Selection: a pastel, never the browser blue */
 ::selection{background:color-mix(in srgb,var(--p1) 42%,transparent);color:var(--tx)}
 .desk ::selection{color:var(--tx)}
 
 /* The selection dot */
-.aidot{position:absolute;z-index:35;display:none;width:26px;height:26px;border-radius:50%;border:0;background:var(--acc);color:var(--on);font:700 14px/26px Overpass,sans-serif;text-align:center;cursor:pointer;box-shadow:0 0 0 4px rgba(0,0,0,.35);padding:0}
+.aidot{position:absolute;z-index:45;display:none;width:26px;height:26px;border-radius:50%;border:0;background:var(--acc);color:var(--onacc);font:700 14px/26px Overpass,sans-serif;text-align:center;cursor:pointer;box-shadow:0 0 0 4px rgba(0,0,0,.35);padding:0}
 .aidot.show{display:block}
+/* The gap symbol beside it (GAPS books): a bookmark, "save it for later" */
+.gapdot{position:absolute;z-index:45;display:none;width:26px;height:26px;border-radius:50%;border:0;background:var(--p2);color:var(--on);cursor:pointer;box-shadow:0 0 0 4px rgba(0,0,0,.35);padding:0;align-items:center;justify-content:center}
+.gapdot.show{display:flex}
+.aidot:focus-visible,.gapdot:focus-visible{outline:2px solid var(--tx);outline-offset:2px}
+/* The small box the gap symbol opens: "What aren't you sure of?" */
+.gapbox{position:absolute;z-index:46;width:300px;max-width:calc(100vw - 24px);background:var(--bg2);color:var(--tx);border:1px solid var(--ln);border-radius:10px;padding:12px 13px;box-shadow:0 10px 30px rgba(0,0,0,.45);font:14.5px/1.45 "Atkinson Hyperlegible",sans-serif}
+.gapbox[hidden]{display:none}
+.gapbox .gq{color:var(--mu);font-size:13px;border-left:3px solid var(--p2);padding-left:8px;margin-bottom:8px;max-height:3em;overflow:hidden}
+.gapbox label{display:block;font:800 14.5px Overpass,sans-serif;margin-bottom:6px}
+.gapbox textarea{width:100%;resize:none;background:var(--bg);color:var(--tx);border:1px solid var(--ln);border-radius:8px;padding:7px 10px;font:14.5px/1.45 "Atkinson Hyperlegible",sans-serif}
+.gapbox textarea:focus{outline:2px solid var(--p2);outline-offset:0}
+.gapbox .gr{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
+.gapbox button{font:700 13px Overpass,sans-serif;border-radius:6px;padding:6px 12px;cursor:pointer}
+.gapbox .gx{color:var(--tx);background:var(--bg3);border:1px solid var(--ln)}
+.gapbox .gs{color:var(--on);background:var(--p2);border:0}
+.gaptoast{position:fixed;z-index:47;left:50%;bottom:24px;transform:translateX(-50%);background:var(--bg3);color:var(--tx);border-left:3px solid var(--p2);border-radius:6px;padding:8px 14px;font:14px "Atkinson Hyperlegible",sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.gaptoast[hidden]{display:none}
 
-/* The notes button in the top bar */
+/* The notes button in the top bar (Shasta), or the gaps button (BBA books, id gapsbtn) */
 /* Quiet, like the rest of the bar: dark surface, light text, no pastel fill and no chip inside it (Ash, Nov 2: the pink pill with an orange "open" chip was "garbage") */
 .notesbtn{flex:none;font:500 14px "Atkinson Hyperlegible",sans-serif;color:var(--tx);background:var(--bg2);border:1px solid var(--ln);border-radius:6px;padding:5px 12px;cursor:pointer;white-space:nowrap;margin-left:auto}
 .notesbtn:hover{border-color:var(--mu)}
@@ -115,11 +139,7 @@ body.sizing .part > .wrap{transition:none}
 .sug button::before{content:"→ ";color:var(--p1)}
 .sug button:hover{box-shadow:inset 0 0 0 1px var(--p1)}
 .err{color:var(--acc);font-size:14px;margin-top:8px}
-/* Gaps he marks (Ash, Nov 4 2026: "saves it as something I don't understand fully") */
-.gapbtn{margin-left:auto;font:700 12.5px Overpass,sans-serif;color:var(--tx);background:var(--bg3);border:1px solid var(--ln);border-radius:6px;padding:7px 10px;cursor:pointer;white-space:nowrap}
-.gapbtn[hidden]{display:none}
-.gapbtn:hover{border-color:var(--p2)}
-.gapok{margin-top:14px;font-size:14px;color:var(--tx);background:var(--bg3);border-left:3px solid var(--p2);border-radius:6px;padding:8px 11px}
+/* Gaps he marked, listed in the desk's second tab (Ash, Nov 4 2026: "saves it as something I don't understand fully") */
 .gcard{background:var(--bg3);color:var(--tx);border-left:4px solid var(--p2);border-radius:8px;padding:10px 12px;margin:0 0 10px;font-size:14.5px;line-height:1.5}
 .gcard .gk{font:600 11px "Overpass Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--p2);margin-bottom:3px}
 .gcard .gn{color:var(--mu)}
@@ -154,13 +174,17 @@ body.sizing .part > .wrap{transition:none}
 .moves button{white-space:nowrap;font:600 11.5px "Overpass Mono",monospace;color:var(--p2);background:none;border:1px solid var(--ln);border-radius:20px;padding:3px 10px;cursor:pointer}
 .moves button:hover{border-color:var(--p2)}
 .compose .rw{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:10px}
-/* The model picker: two quiet selects beside Send */
-.pick{display:flex;gap:10px;flex-wrap:wrap;min-width:0}
-.pick label{display:flex;align-items:center;gap:6px;font:600 11px "Overpass Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--mu)}
-.pick select{font:600 13px Overpass,sans-serif;color:var(--tx);background:var(--bg3);border:1px solid var(--ln);border-radius:6px;padding:4px 6px;cursor:pointer}
-.pick select:hover{border-color:var(--mu)}
-.pick select:disabled{opacity:.45;cursor:default}
-.pick select:focus-visible{outline:2px solid var(--p1);outline-offset:1px}
+/* The model and thinking dots under the input (Ash, Nov 4 2026): top row Haiku, Sonnet, Opus; bottom row low, medium, high.
+   No labels; each dot names itself on hover. None picked is Auto. */
+.dots{display:flex;flex-direction:column;gap:2px}
+.drow{display:flex;gap:2px}
+.drow button{width:24px;height:22px;display:flex;align-items:center;justify-content:center;background:none;border:0;padding:0;cursor:pointer}
+.drow button::before{content:"";width:12px;height:12px;border-radius:50%;border:2px solid var(--mu);box-sizing:border-box}
+.drow button:hover::before{border-color:var(--tx)}
+.drow[data-k="model"] button[aria-pressed="true"]::before{background:var(--p1);border-color:var(--p1)}
+.drow[data-k="effort"] button[aria-pressed="true"]::before{background:var(--p2);border-color:var(--p2)}
+.drow.off button{cursor:default}.drow.off button::before{opacity:.35}
+.drow button:focus-visible{outline:none}.drow button:focus-visible::before{box-shadow:0 0 0 3px var(--tx)}
 .send{font:800 13.5px Overpass,sans-serif;color:var(--on);background:var(--p1);border:0;border-radius:6px;padding:8px 16px;cursor:pointer}
 .send:disabled{opacity:.45;cursor:default}
 .off{font-size:13px;color:var(--mu);margin-top:8px}

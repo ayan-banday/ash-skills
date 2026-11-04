@@ -69,11 +69,26 @@ def main(path):
     ex = cfg.get("EXAMPLE")
     if ex and ex.get("station") not in st:
         fails.append("EXAMPLE.station is not a station")
-    for needle, what in (('id="desk"', "the desk (assets/tutor.html)"), ('id="trail"', "the rail (assets/tutor.html)"),
-                         ('id="aidot"', "the selection dot (assets/tutor.html)"), ("function countIdeas", "the tutor script (assets/tutor.html)"),
-                         (".rail{", "the tutor CSS (assets/tutor.css)"), ('id="notesbtn"', 'the "My notes" button in the top bar')):
+    notes_on, gaps_on = cfg.get("NOTES", True) is not False, bool(cfg.get("GAPS"))
+    need = [('id="desk"', "the desk (assets/tutor.html)"), ('id="trail"', "the rail (assets/tutor.html)"),
+            ('id="aidot"', "the selection dot (assets/tutor.html)"), ("function countIdeas", "the tutor script (assets/tutor.html)"),
+            ('id="dpick"', "the model and thinking dots (an old assets/tutor.html with dropdowns? paste the current one)"),
+            (".rail{", "the tutor CSS (assets/tutor.css)"), (".drow{", "the dots' CSS (paste the current assets/tutor.css)")]
+    if notes_on:
+        need.append(('id="notesbtn"', 'the "My notes" button in the top bar'))
+    if gaps_on:
+        need.append(('id="gapdot"', "the gap symbol (paste the current assets/tutor.html)"))
+        if not notes_on:
+            need.append(('id="gapsbtn"', 'the "Gaps" button in the top bar'))
+    for needle, what in need:
         if needle not in html:
             fails.append(f"missing {what}")
+    if not notes_on and 'id="notesbtn"' in html:
+        fails.append('NOTES is false but the top bar still has the "My notes" button: use the "Gaps" button')
+    if 'id="dmodel"' in html or 'id="dgap"' in html:
+        fails.append("old tutor code (Model dropdowns or the Mark as a gap button): paste the current assets/tutor.html and tutor.css")
+    if cfg.get("SCOPE") not in (None, "book", "chapter"):
+        fails.append('SCOPE is "chapter" or left out')
     if html.find("window.TUTOR") > html.find("function countIdeas") > -1:
         fails.append("window.TUTOR must come before the tutor script")
     for f in fails:

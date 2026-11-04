@@ -27,7 +27,7 @@ Build a study book that takes Ash from "I don't know what I don't know" to seein
 
 - **The book's HTML:** Shasta, `<Area>/books/<Book title>.html`, plus the artifact link in the Fuji ticket.
 - **Research findings:** Shasta, `<Area>/books/<Book title> findings.md`, one file per field, grown by each chapter (moved from Fuji on Oct 30 2026).
-- **Ash's notes and chats from the tutor:** the book's artifact database, `notes/<bookId>__<stationId>` (what he's got, still open, his plan) and `chats/<bookId>__<stationId>`. Read them with `ArtifactData` (`list` `notes`) before writing the next chapter: "still open" is what to teach next.
+- **Ash's notes and chats from the tutor:** the book's artifact database, `notes/<bookId>__<stationId>` (what he's got, his plan) and `chats/<bookId>__<stationId>`. Read them with `ArtifactData` (`list` `notes`) before writing the next chapter: the chats show where he got stuck.
 - **The grilling's decisions:** the Fuji ticket's Answer. The field's book gets one ticket per chapter once the map exists, ordered by the unlock order.
 
 ## Reference

@@ -10,6 +10,8 @@
     python scripts/palette.py --place dark --count 6 --sheet sheet.html    six candidates to look at
     python scripts/palette.py --place dark --near "Espresso and Sand"      only combinations like one favourite
     python scripts/palette.py --place dark --format study --seed "Title"   the study-page tokens (BBA, Shasta)
+    python scripts/palette.py --place dark --format study --no-red --seed "Title"   the same, never red-led
+    python scripts/palette.py --format study --chapters 4 --seed "Title"   one palette per chapter tab, none red
     python scripts/palette.py --place dark --any                           ignore the favourites lean
     python scripts/palette.py --list                                       how many combinations fit each place
     python scripts/palette.py --test                                       every combination, every place, the presets
@@ -287,9 +289,16 @@ def _fav_name(q):
         sys.exit(f"--near takes one of: {', '.join(FAVOURITES)}")
     return hits[0]
 
-def pool(place, near=None, lean=True, study=False):
+def red_led(n, place="dark"):
+    """A combination whose lead pastel or accent is red, salmon or pink (Ash, Nov 4 2026: "use the different colour palettes apart from red")."""
+    t = tokens(n, place)
+    return any(oklch(t[k])[1] > .03 and (oklch(t[k])[2] >= 345 or oklch(t[k])[2] <= 55) for k in ("p1", "acc"))
+
+def pool(place, near=None, lean=True, study=False, no_red=False):
     """Candidate combinations and their weights for a place."""
     ns = fits(place)
+    if no_red:
+        ns = [n for n in ns if not red_led(n, place)]
     if study:
         ns = [n for n in ns if not study_checks(study_tokens(tokens(n, place)))]
     if near:
@@ -303,14 +312,28 @@ def pool(place, near=None, lean=True, study=False):
     wf, wo = FAV_SHARE / len(fav), (1 - FAV_SHARE) / (len(ns) - len(fav))
     return ns, [wf if n in fav else wo for n in ns]
 
-def choose(seed, place, count=1, near=None, lean=True, study=False):
-    ns, ws = pool(place, near, lean, study)
+def choose(seed, place, count=1, near=None, lean=True, study=False, no_red=False):
+    ns, ws = pool(place, near, lean, study, no_red)
     if not ns:
         sys.exit("no combination fits these options")
     rng, picked = random.Random(seed), []
     while ns and len(picked) < count:
         i = rng.choices(range(len(ns)), weights=ws)[0]
         picked.append(ns.pop(i)); ws.pop(i)
+    return picked
+
+def chapters(seed, count, lean=True):
+    """One combination per chapter of a tabbed book: none red-led, lead pastels at least 45 degrees apart."""
+    ns, ws = pool("dark", lean=lean, study=True, no_red=True)
+    rng, picked = random.Random(seed), []
+    while ns and len(picked) < count:
+        i = rng.choices(range(len(ns)), weights=ws)[0]
+        n = ns.pop(i); ws.pop(i)
+        h = oklch(tokens(n, "dark")["p1"])[2]
+        if all(_hd(h, oklch(tokens(m, "dark")["p1"])[2]) >= 45 for m in picked):
+            picked.append(n)
+    if len(picked) < count:
+        sys.exit(f"only {len(picked)} chapter palettes fit; ask for fewer chapters")
     return picked
 
 # ---------- Study-page tokens (BBA and Shasta study pages) ----------
@@ -471,6 +494,9 @@ def main():
     ap.add_argument("--near", help="only combinations that look like one favourite: " + ", ".join(FAVOURITES))
     ap.add_argument("--any", action="store_true", help="every fitting combination equally likely")
     ap.add_argument("--count", type=int, default=1)
+    ap.add_argument("--no-red", action="store_true", help="skip combinations led by red, salmon or pink")
+    ap.add_argument("--chapters", type=int, metavar="N",
+                    help="with --format study: one palette per chapter of a tabbed book, as [data-chapter=\"chK\"] blocks (never red)")
     ap.add_argument("--sheet", metavar="PATH")
     ap.add_argument("--list", action="store_true")
     ap.add_argument("--test", action="store_true")
@@ -494,12 +520,25 @@ def main():
         print(css(name, "dark", p, a.key or key))
         return 0
     seed = random.random() if a.seed == "random" else a.seed
+    if a.chapters:
+        if not study:
+            sys.exit("--chapters needs --format study")
+        # Each block colours its tab (data-chapter="chK") and, while that tab is open, the whole page and
+        # the tutor (:root[data-on="chK"]), so the rail, the desk and the background follow the chapter.
+        for k, n in enumerate(chapters(seed, a.chapters, not a.any), 1):
+            p = tokens(n, "dark")
+            t = study_tokens(p)
+            tut = {key: p[key] for key in ("bg2", "bg3", "tx", "mu", "ln", "p1", "p2", "p3", "acc", "acc2", "onacc")}
+            body = study_css(label_of(n), t).replace(":root{", f'[data-chapter="ch{k}"],:root[data-on="ch{k}"]{{')
+            body = body.replace("  color-scheme:dark;\n", "  " + " ".join(f"--{key}:{v};" for key, v in tut.items()) + "\n")
+            print(body.replace("study page, dark", f"chapter {k}, dark"))
+        return 0
     if a.combo:
         if a.combo not in BOOK:
             sys.exit(f"no combination {a.combo}; the book has 1 to {max(BOOK)}")
         ns = [a.combo]
     else:
-        ns = choose(seed, a.place, a.count, _fav_name(a.near) if a.near else None, not a.any, study)
+        ns = choose(seed, a.place, a.count, _fav_name(a.near) if a.near else None, not a.any, study, a.no_red)
     items = []
     for n in ns:
         p = tokens(n, a.place)
