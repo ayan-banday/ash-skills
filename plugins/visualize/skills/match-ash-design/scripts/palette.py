@@ -323,13 +323,16 @@ def choose(seed, place, count=1, near=None, lean=True, study=False, no_red=False
     return picked
 
 def chapters(seed, count, lean=True):
-    """One combination per chapter of a tabbed book: none red-led, lead pastels at least 45 degrees apart."""
+    """One combination per chapter of a tabbed book: none red-led, no yellow accent, lead pastels at least 45 degrees apart."""
     ns, ws = pool("dark", lean=lean, study=True, no_red=True)
     rng, picked = random.Random(seed), []
     while ns and len(picked) < count:
         i = rng.choices(range(len(ns)), weights=ws)[0]
         n = ns.pop(i); ws.pop(i)
-        h = oklch(tokens(n, "dark")["p1"])[2]
+        t = tokens(n, "dark")
+        if is_yellow(oklch(t["acc"])) or is_yellow(oklch(t["acc2"])):  # a lemon kicker or loss colour across a whole chapter
+            continue
+        h = oklch(t["p1"])[2]
         if all(_hd(h, oklch(tokens(m, "dark")["p1"])[2]) >= 45 for m in picked):
             picked.append(n)
     if len(picked) < count:

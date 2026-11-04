@@ -61,7 +61,7 @@ Ash reads a book alone, and nothing checks what he understood. The tutor fixes t
    ```
    - **`q`** ties the concept to the book's outcome and stands alone. **`sug`**: 2 or 3 questions written for that exact part, each naming its thing, never generic.
    - **`IDEAS`:** 6 to 12 per chapter, 3 to 6 per part, with plain synonyms ("wobble" and "noise" are one idea). Start every word of 4 letters or fewer with a space (`" rank"`, `" loop"`, `" ga "`) so it matches only as a whole word (simple endings like "ranks" or "ranked" still count): "rank" alone would also count "frank", and "loop" would count "loophole", inflating the count toward Sonnet.
-   - **Switches** (all optional): `"NOTES": false` turns his notes off; `"GAPS": true` turns on the gap symbol; `"SCOPE": "chapter"` makes each station read only the cover and its own chapter (`"CHAPTER"` names the chapter element's selector, default `section`).
+   - **Switches** (all optional): `"NOTES": false` turns his notes off; `"GAPS": true` turns on the gap symbol; `"SCOPE": "chapter"` makes each station read only the cover and its own chapter (`"CHAPTER"` names the chapter element's selector, default `section`). `"LEGACY"` maps an older page's saved ids to stations in this book (`{"<old bookId>__<old stationId>": "<new stationId>"}`), so a rebuilt book still shows his old gaps and chats.
    - **`EXAMPLE`** (optional, one per book): a real-sounding teach-back and the reply the tutor should give, shown on the first chapter's first station until Ash sends his own. It shows him what a good exchange looks like. It is never saved or sent.
 6. **Paste `assets/tutor.html`** after the config, before `</body>`.
 7. **Run `python scripts/check_tutor.py <book.html>`.** Done when it prints no FAIL.

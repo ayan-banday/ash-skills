@@ -121,6 +121,9 @@ def main(path, names=()):
                          ('id="gapsbtn"', 'the "Gaps" button in the top bar'), ('id="gapdot"', "the current tutor (break-into-field assets/tutor.html)")):
         if needle not in html:
             fails.append(f"missing {what}")
+    styles = "\n".join(re.findall(r"<style[^>]*>(.*?)</style>", html, re.S))
+    if re.search(r"(?m)^\s*\.tabs(?:\{| button)", styles):
+        fails.append("old tabs CSS styles the desk's own Talk and Gaps tabs too: paste the current assets/tabs.css (scoped to #tabs)")
     if 'id="notesbtn"' in html:
         fails.append('a "My notes" button: BBA books have the "Gaps" button only')
     for k in range(1, len(secs) + 1):

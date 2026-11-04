@@ -537,10 +537,15 @@ Return only JSON: {"got": "...", "plan": "..."}
   [sample, db] = await Promise.all([use("sample"), use("db")]);
   if (!sample) { $("doff").hidden = false; $("dsend").disabled = true; ta.disabled = true; }
   if (db) {
-    const mine = d => { const [b, id] = d.id.split("__"); return b === BOOK.id && S[id] ? id : null; };
+    // LEGACY maps an older page's "<bookId>__<stationId>" to a station here, so a rebuilt book keeps his old gaps and chats.
+    const mine = d => { const [b, id] = d.id.split("__"); if (b === BOOK.id && S[id]) return id; const m = (T.LEGACY || {})[b + "__" + id]; return m && S[m] ? m : null; };
     try {
       const [notes, chats, gaps] = await Promise.all([(NOTES_ON ? db.collection("notes").get() : { docs: [] }), db.collection("chats").get(), (T.GAPS ? db.collection("gaps").get().catch(() => ({ docs: [] })) : { docs: [] })]);
-      for (const d of gaps.docs) { const id = mine(d), v = d.data(); if (id && v?.gid && !S[id].gaps.some(x => x.gid === v.gid)) S[id].gaps.push(v); }
+      for (const d of gaps.docs) {
+        const id = mine(d), v = d.data(); if (!id || !v?.gid) continue;
+        const i = S[id].gaps.findIndex(x => x.gid === v.gid);
+        if (i < 0) S[id].gaps.push(v); else if (v.status === "closed") S[id].gaps[i] = v;  // a closed copy wins over an open one
+      }
       for (const d of notes.docs) { const id = mine(d), v = d.data(); if (id && v?.got) S[id].notes = { got: v.got, plan: v.plan || "" }; }
       for (const d of chats.docs) { const id = mine(d), v = d.data(); if (id && Array.isArray(v?.turns) && !S[id].turns.length) { S[id].turns = v.turns.filter(t => t && t.role && t.content); if (S[id].turns.at(-1)?.role === "user") S[id].turns.pop(); } }
       renderStations(); if ($("desk").classList.contains("open")) { tab === "notes" ? renderNotes() : renderTalk(); }

@@ -14,14 +14,14 @@
 
 ## Where the rings go
 
-- **Each chapter gets 3 to 6:** one before "The idea that fixes it" and one before each problem section, in reading order. Put the empty button right before it, inside the `.wrap`: `<button class="stn" type="button" data-s="c2-q1"></button>`. Prefix each id with its chapter (`c1-`, `c2-`, `fq-`).
+- **Each chapter gets 3 to 6:** one before each problem section, and one before "The idea that fixes it" while that keeps it at 6 (page-shape.md, "A chapter"), in reading order. Put the empty button right before it, inside the `.wrap`: `<button class="stn" type="button" data-s="c2-q1"></button>`. Prefix each id with its chapter (`c1-`, `c2-`, `fq-`).
 - **The founder questions get one,** before the first question.
 - **Name each chapter in the config "Chapter: <its tab name>"** (the checker counts 3 to 6 only for names starting "Chapter"); the founder questions take "Questions a founder might still have".
 - **Theory books:** "Your turn: think it through" ends with its scenario and the hidden strong answer. He works it at the ring beside that question. No `.think` box.
 
 ## The config, filled for the BBA
 
-- **`BOOK.id`:** stable for the unit's life (`bba-ma-u2`): his chats and gaps are saved under it, and a new chapter keeps it.
+- **`BOOK.id`:** stable for the unit's life (`bba-ma-u2`): his chats and gaps are saved under it, and a new chapter keeps it. **A book that replaces older pages on the same link maps their saved ids in `"LEGACY"`** (list the old `gaps` and `chats` with `ArtifactData` first; each document id is `<old bookId>__<old stationId>__…`), so his old gaps and chats show at the ring that now teaches that concept.
 - **`BOOK.field`:** the subject, the university and the unit: "managerial accounting at Jain BBA, Unit 2: budgeting and variance analysis".
 - **`BOOK.outcome`:** what the book lets him do, then "and answer the professor's questions in the course's own terms". **`BOOK.work`:** the book's invented company in one line with its numbers, then "and the tech company Ash will build". **`BOOK.short`:** the company and the period ("Sensa's quarter").
 - **`ASH`:** break-into-field's line, ending "His exams come first: answers use the course's own terms and formulas (the professor's <subject> course)." Never a teacher's name, here or anywhere in the config.

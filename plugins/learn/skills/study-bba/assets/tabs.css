@@ -4,15 +4,16 @@
    off the right edge like notebook dividers, each in its chapter's own palette (palette.py --chapters N). */
 .chapter[hidden],.endpart[hidden],.cover[hidden]{display:none}
 section.part.chapter,section.part.endpart{border-top:0;padding-top:48px}
-.tabs{position:fixed;right:0;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:21;display:flex;flex-direction:column;gap:6px;max-height:calc(100vh - 70px);padding-right:env(safe-area-inset-right,0px)}
-.tabs button{writing-mode:vertical-rl;flex:0 1 auto;min-height:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:700 13px/1 Overpass,sans-serif;letter-spacing:.02em;color:var(--on);background:var(--bold);border:0;border-radius:8px 0 0 8px;padding:12px 11px;cursor:pointer;opacity:.6;transform:translateX(6px);transition:transform .15s,opacity .15s;box-shadow:-3px 2px 0 rgba(0,0,0,.35)}
-.tabs button:hover{opacity:.9;transform:translateX(2px)}
-.tabs button[aria-selected="true"]{opacity:1;transform:none;padding-right:15px}
-.tabs button:focus-visible{outline:3px solid var(--head);outline-offset:2px}
-.tabs button.home{writing-mode:horizontal-tb;flex:none;padding:8px 11px;background:var(--surface);color:var(--text);border:1px solid var(--line);border-right:0;font-size:15px}
-@media (prefers-reduced-motion: reduce){.tabs button{transition:none}}
-@media (max-width:899px){.tabs button{padding:10px 8px;font-size:12px}}
-body.desk-open .tabs{display:none}
+#tabs{position:fixed;right:0;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:21;display:flex;flex-direction:column;gap:6px;max-height:calc(100vh - 70px);padding-right:env(safe-area-inset-right,0px)}
+#tabs button{writing-mode:vertical-rl;flex:0 1 auto;min-height:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:700 13px/1 Overpass,sans-serif;letter-spacing:.02em;color:var(--on);background:var(--bold);border:0;border-radius:8px 0 0 8px;padding:12px 11px;cursor:pointer;opacity:.6;transform:translateX(6px);transition:transform .15s,opacity .15s;box-shadow:-3px 2px 0 rgba(0,0,0,.35)}
+#tabs button:hover{opacity:.9;transform:translateX(2px)}
+#tabs button[aria-selected="true"]{opacity:1;transform:none;padding-right:15px}
+#tabs button:focus-visible{outline:3px solid var(--head);outline-offset:2px}
+#tabs button.home{writing-mode:horizontal-tb;flex:none;padding:8px 11px;background:var(--surface);color:var(--text);border:1px solid var(--line);border-right:0;font-size:15px}
+@media (prefers-reduced-motion: reduce){#tabs button{transition:none}}
+@media (max-width:899px){#tabs button{padding:10px 8px;font-size:12px}}
+body.desk-open #tabs{display:none}
+/* Scoped to #tabs: the tutor's desk has its own .tabs (Talk, Gaps), which must stay as they are. */
 /* The concepts a chapter covers, as small tags under its heading; on the cover, each tag opens its chapter */
 .ctags{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px;padding:0;list-style:none}
 .ctags li,.ctags a{margin:0;font:600 13px/1.3 Overpass,sans-serif;color:var(--on);background:var(--bold);border-radius:20px;padding:3px 11px;text-decoration:none}
