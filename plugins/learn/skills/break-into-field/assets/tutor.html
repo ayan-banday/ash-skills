@@ -22,6 +22,7 @@
         <label title="Auto: Haiku for one or two ideas, Sonnet for more."><span>Model</span><select id="dmodel"><option value="auto">Auto</option><option value="haiku">Haiku</option><option value="sonnet">Sonnet</option><option value="opus">Opus</option></select></label>
         <label title="How long the model thinks before it answers."><span>Thinking</span><select id="deffort"><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></label>
       </div>
+      <button class="gapbtn" id="dgap" type="button" title="Save the highlight, or what you typed, as something you don't fully get yet">Mark as a gap</button>
       <button class="send" id="dsend">Send</button>
     </div>
     <div class="off" id="doff" hidden>The tutor needs Claude: open this page in Claude to talk to it. Your stations and notes still show.</div>
@@ -107,7 +108,7 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
   const order = btns.map(b => b.dataset.s);
   const chapterOf = id => STATIONS[id].chapter;
   const inChapter = ch => order.filter(id => chapterOf(id) === ch);
-  const S = {}; for (const id of order) S[id] = { turns: [], notes: null };
+  const S = {}; for (const id of order) S[id] = { turns: [], notes: null, gaps: [] };
   if (T.EXAMPLE && S[T.EXAMPLE.station]) S[T.EXAMPLE.station].example = [
     { role: "user", content: T.EXAMPLE.me, route: T.EXAMPLE.route, example: true },
     { role: "assistant", content: T.EXAMPLE.bot, example: true }];
@@ -185,7 +186,8 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
     btns.forEach(b => {
       const id = b.dataset.s, n = S[id].notes;
       b.classList.toggle("done", !!n);
-      b.querySelector(".st").innerHTML = n ? (openCount(id) ? `<b>${openCount(id)} still open</b> · taught back` : "taught back") : "";
+      const g = gapCount(id), gl = g ? ` · ${g} gap${g > 1 ? "s" : ""} marked` : "";
+      b.querySelector(".st").innerHTML = (n ? (openCount(id) ? `<b>${openCount(id)} still open</b> · taught back` : "taught back") : "") + (n ? gl : gl.slice(3));
     });
     const done = order.filter(k => S[k].notes).length, open = order.reduce((a, k) => a + openCount(k), 0);
     const nb = $("notesbtn");
@@ -195,6 +197,7 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
     $("dline").querySelectorAll("button").forEach(b => b.onclick = () => openDesk(b.dataset.s, true));
     updateRail(true);
   }
+  function gapCount(id) { return S[id].gaps.filter(g => g.status !== "closed").length; }
   function pairs() { const t = turnsOf(cur), p = []; for (let i = 0; i < t.length; i += 2) p.push([t[i], t[i + 1]]); return p; }
   // One conversation per station: every exchange stacks in one scrolling thread, and the newest opens at its top.
   function renderTalk() {
@@ -220,6 +223,12 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
   function renderNotes() {  // taught-back stations first as pink cards, then the rest as a short list
     const taught = order.filter(k => S[k].notes), rest = order.filter(k => !S[k].notes);
     let html = "", last = "";
+    const gaps = order.flatMap(k => S[k].gaps.filter(g => g.status !== "closed").map(g => ({ ...g, k })));
+    if (gaps.length) {
+      html += `<div class="nch">Gaps you marked</div>` + gaps.map(g => `<div class="gcard"><div class="gk">${esc(STATIONS[g.k].name)}</div>` +
+        (g.marked ? `<div>“${esc(g.marked)}”</div>` : "") + (g.note ? `<div class="gn">${esc(g.note)}</div>` : "") +
+        `<div class="gb"><button type="button" data-s="${g.k}" data-g="${esc(g.gid)}" class="gtalk">Work on it</button><button type="button" data-s="${g.k}" data-g="${esc(g.gid)}" class="gdone">Got it now</button></div></div>`).join("");
+    }
     for (const k of taught) {
       const n = S[k].notes, ch = chapterOf(k);
       if (ch !== last) { html += `<div class="nch">${esc(ch)}</div>`; last = ch; }
@@ -233,6 +242,12 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
       rest.map(k => `<button type="button" data-s="${k}"><span>${esc(chapterOf(k))}</span>${esc(STATIONS[k].name)}</button>`).join("") + `</div>`;
     $("pNotes").innerHTML = html;
     $("pNotes").querySelectorAll("h4 button, .nrest button").forEach(b => b.onclick = () => openDesk(b.dataset.s, true, "talk"));
+    $("pNotes").querySelectorAll(".gtalk").forEach(b => b.onclick = () => {
+      const g = S[b.dataset.s].gaps.find(x => x.gid === b.dataset.g);
+      openDesk(b.dataset.s, true, "talk"); if (g?.marked) setPicked(g.marked);
+      $("din").value = "I marked this as a gap: " + (g?.note || "I don't fully get it yet.") + " Take me through it from the start, with a small example.";
+    });
+    $("pNotes").querySelectorAll(".gdone").forEach(b => b.onclick = () => closeGap(b.dataset.s, b.dataset.g));
   }
   function setTab(t) {
     tab = t; $("tabTalk").classList.toggle("on", t === "talk"); $("tabNotes").classList.toggle("on", t === "notes");
@@ -251,6 +266,24 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
       if (m[2] || !sample) { $("din").value = m[1]; $("din").focus(); $("din").setSelectionRange(m[1].length, m[1].length); }
       else send(m[1]);
     });
+  }
+
+  // ================= Gaps he marks: saved to the page's database, pulled into his notes repo by a later session =================
+  async function markGap() {
+    const id = cur, marked = picked, note = $("din").value.trim();
+    const gid = Date.now().toString(36);
+    const g = { gid, station: id, book: BOOK.title, chapter: chapterOf(id), concept: STATIONS[id].name, marked, note, status: "open", created: new Date().toISOString() };
+    S[id].gaps.push(g);
+    try { await db?.doc(`gaps/${docId(id)}__${gid}`).set(g); } catch (e) {}
+    setPicked(""); $("din").value = ""; $("din").oninput?.();
+    renderStations(); renderTalk();
+    $("pTalk").insertAdjacentHTML("beforeend", `<div class="gapok">Saved as a gap${marked ? `: “${esc(marked.slice(0, 120))}”` : ` on ${esc(STATIONS[id].name)}`}. It's in My notes, and the next session copies it into your notes folder.${db ? "" : " (Open the page in Claude to keep it.)"}</div>`);
+  }
+  async function closeGap(id, gid) {
+    const g = S[id].gaps.find(x => x.gid === gid); if (!g) return;
+    g.status = "closed"; g.closed = new Date().toISOString();
+    try { await db?.doc(`gaps/${docId(id)}__${gid}`).set(g); } catch (e) {}
+    renderStations(); renderNotes();
   }
 
   function openDesk(id, keepPick, t = "talk") {
@@ -274,7 +307,8 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
     st.turns.push(me); $("dsend").disabled = true; renderTalk();
     me.route = await judge(msg); if (cur === id) renderTalk();
     const lead = `${RULES}\n\nTHE BOOK\n${bookText()}\n\nTHE CONCEPT HE OPENED YOU FROM\n${STATIONS[id].name}: ${STATIONS[id].q}` +
-      (hl ? `\n\nHE HIGHLIGHTED\n${hl}` : "") + (st.notes ? `\n\nHIS NOTES SO FAR\n${JSON.stringify(st.notes)}` : "");
+      (hl ? `\n\nHE HIGHLIGHTED\n${hl}` : "") + (st.notes ? `\n\nHIS NOTES SO FAR\n${JSON.stringify(st.notes)}` : "") +
+      (gapCount(id) ? `\n\nHE MARKED THESE AS GAPS HERE (target them)\n${st.gaps.filter(g => g.status !== "closed").map(g => "- " + (g.marked ? "\u201c" + g.marked + "\u201d " : "") + (g.note || "")).join("\n")}` : "");
     // The whole conversation at this station goes along (its last 30 turns), so every follow-up keeps the context.
     const hist = st.turns.slice(-30).map(t => ({ role: t.role, content: t.content }));
     while (hist.length && hist[0].role !== "user") hist.shift();
@@ -419,6 +453,7 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
   ta.oninput = () => { ta.style.height = "auto"; ta.style.height = Math.min(ta.scrollHeight + 2, 220) + "px"; };
   ta.onkeydown = e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); $("df").requestSubmit(); } };
   $("df").onsubmit = e => { e.preventDefault(); const v = ta.value.trim(); if (v && sample) { ta.value = ""; ta.oninput(); send(v); } };
+  $("dgap").onclick = markGap;
   renderMoves(); renderStations();
 
   // ================= Claude and the page's database =================
@@ -428,7 +463,8 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
   if (db) {
     const mine = d => { const [b, id] = d.id.split("__"); return b === BOOK.id && S[id] ? id : null; };
     try {
-      const [notes, chats] = await Promise.all([db.collection("notes").get(), db.collection("chats").get()]);
+      const [notes, chats, gaps] = await Promise.all([db.collection("notes").get(), db.collection("chats").get(), db.collection("gaps").get().catch(() => ({ docs: [] }))]);
+      for (const d of gaps.docs) { const id = mine(d), v = d.data(); if (id && v?.gid && !S[id].gaps.some(x => x.gid === v.gid)) S[id].gaps.push(v); }
       for (const d of notes.docs) { const id = mine(d), v = d.data(); if (id && v?.got) S[id].notes = { got: v.got, open: v.open || [], plan: v.plan || "" }; }
       for (const d of chats.docs) { const id = mine(d), v = d.data(); if (id && Array.isArray(v?.turns) && !S[id].turns.length) { S[id].turns = v.turns.filter(t => t && t.role && t.content); if (S[id].turns.at(-1)?.role === "user") S[id].turns.pop(); } }
       renderStations(); if ($("desk").classList.contains("open")) { tab === "notes" ? renderNotes() : renderTalk(); }

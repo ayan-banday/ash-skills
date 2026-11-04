@@ -67,6 +67,7 @@ Ash reads a book alone, and nothing checks what he understood. The tutor fixes t
 ## Where his notes live
 
 - `notes/<bookId>__<stationId>`: `{book, chapter, concept, got, open: [], plan, updated}`, rewritten after every reply.
+- `gaps/<bookId>__<stationId>__<gid>`: `{gid, station, book, chapter, concept, marked, note, status, created, closed?}`, one per press of **Mark as a gap** (beside Send: saves the highlight and what he typed as something he doesn't fully get yet; Ash, Nov 4 2026). Open gaps show first in My notes with "Work on it" and "Got it now", count on the station's ring, and go to the tutor with every call at that station.
 - `chats/<bookId>__<stationId>`: `{book, chapter, concept, turns: [{role, content, route}], updated}`, the last 40 turns.
 - **A later session reads them** with the `ArtifactData` tool on the book's artifact: `list` the collection `notes` (or `chats`). Read `notes` before writing the book's next chapter or planning his next move: "still open" is what to teach next.
 

@@ -12,6 +12,8 @@
 - **The tutor's tokens:** run `palette.py --place dark --seed "<page title>"` with the same seed as the study tokens (same seed, same combination) and paste its `--bg2` to `--onacc` lines into the same `:root`. Add Overpass, Overpass Mono and Atkinson Hyperlegible to the fonts link if the page lacks them.
 - **Every control takes its text and its background from the same side** (Ash, Nov 3 2026, after the model picker showed pale words on a pale box). Never pair a panel colour with a paper colour. `scripts/check_contrast.py` fails the build when a pair can't be read.
 
+**Mark as a gap** (beside Send) saves what he doesn't fully get into the page's `gaps` collection. A Jain-BBA session copies them into the chapter's `marked_gaps/` file (Jain-BBA `system/playbooks/07_pull_marked_gaps.md`), so add each new page's link to that playbook's list.
+
 ## Where the stations go
 
 - **The chapter (`#ch1`) gets 3 to 6:** one before "The idea that fixes it" and one before each `.q` block, in reading order. Put the empty button right before it, inside the `.wrap`: `<button class="stn" type="button" data-s="b-q1"></button>`.
