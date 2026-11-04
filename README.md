@@ -23,6 +23,7 @@ Then type `/` and a plugin's name to see its skills: `/write`, `/visualize`, `/p
   - **(udyaan):** tuned for Udyaan's brand, students and team.
   - **(shasta):** tuned for Shasta, Ash's learning library.
   - **(substack):** tuned for writing a Substack newsletter.
+  - **(caru):** copied from [caru-ini's stack-diagram](https://github.com/caru-ini/stack-diagram) (MIT, licence in `plugins/visualize/LICENSE-caru`).
   - **(wada):** built on Sanzo Wada's *A Dictionary of Color Combinations* (1933).
 - **A helper** is loaded by other skills. You don't type it.
 - **Some skills Claude starts on its own** when your words match them. The rest run only when you type them, because they're long or meant to run on purpose.
@@ -64,6 +65,7 @@ Then type `/` and a plugin's name to see its skills: `/write`, `/visualize`, `/p
 | `brief-page (udyaan)` | How do I brief a teammate so they arrive knowing what we're deciding? | A page a teammate reads alone. Every heading is the question they'd ask, and every answer is drawn as well as written. |
 | `pitch-site (udyaan)` | How do I make an outside reader say "Hell yeah, let's do this"? | A one-file proposal website for readers who won't read, with a phone version, ending in one concrete ask. |
 | `post-page-online` | How do I put a page I made online so friends outside Claude can open it? | Your page tested in a browser, published to GitHub Pages, and its public link. |
+| `draw-stack-diagram (caru)` | How do I show how a system's parts connect, in one picture a teammate or their agent gets at a glance? | An architecture diagram with real logos, grouped boxes and clean arrows: one HTML file plus light and dark PNGs. |
 
 **Which one?** A draft you hand over as a file: `polished-doc`. Notes a teammate must understand alone: `brief-page`. An outsider must say yes: `pitch-site`. An abstract or list-like idea: `story-plan` first. Finished and should be seen outside Claude: `post-page-online`. To make a desktop page work on phones, follow [docs/mobile-site-playbook.md](docs/mobile-site-playbook.md).
 
