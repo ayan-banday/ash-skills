@@ -117,6 +117,7 @@ body.sizing .part > .wrap{transition:none}
 .err{color:var(--acc);font-size:14px;margin-top:8px}
 /* Gaps he marks (Ash, Nov 4 2026: "saves it as something I don't understand fully") */
 .gapbtn{margin-left:auto;font:700 12.5px Overpass,sans-serif;color:var(--tx);background:var(--bg3);border:1px solid var(--ln);border-radius:6px;padding:7px 10px;cursor:pointer;white-space:nowrap}
+.gapbtn[hidden]{display:none}
 .gapbtn:hover{border-color:var(--p2)}
 .gapok{margin-top:14px;font-size:14px;color:var(--tx);background:var(--bg3);border-left:3px solid var(--p2);border-radius:6px;padding:8px 11px}
 .gcard{background:var(--bg3);color:var(--tx);border-left:4px solid var(--p2);border-radius:8px;padding:10px 12px;margin:0 0 10px;font-size:14.5px;line-height:1.5}

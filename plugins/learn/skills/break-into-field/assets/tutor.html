@@ -22,7 +22,7 @@
         <label title="Auto: Haiku for one or two ideas, Sonnet for more."><span>Model</span><select id="dmodel"><option value="auto">Auto</option><option value="haiku">Haiku</option><option value="sonnet">Sonnet</option><option value="opus">Opus</option></select></label>
         <label title="How long the model thinks before it answers."><span>Thinking</span><select id="deffort"><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></label>
       </div>
-      <button class="gapbtn" id="dgap" type="button" title="Save the highlight, or what you typed, as something you don't fully get yet">Mark as a gap</button>
+      <button class="gapbtn" id="dgap" type="button" hidden title="Save the highlight, or what you typed, as something you don't fully get yet">Mark as a gap</button>
       <button class="send" id="dsend">Send</button>
     </div>
     <div class="off" id="doff" hidden>The tutor needs Claude: open this page in Claude to talk to it. Your stations and notes still show.</div>
@@ -453,7 +453,8 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
   ta.oninput = () => { ta.style.height = "auto"; ta.style.height = Math.min(ta.scrollHeight + 2, 220) + "px"; };
   ta.onkeydown = e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); $("df").requestSubmit(); } };
   $("df").onsubmit = e => { e.preventDefault(); const v = ta.value.trim(); if (v && sample) { ta.value = ""; ta.oninput(); send(v); } };
-  $("dgap").onclick = markGap;
+  // Mark as a gap is for BBA pages only (Ash, Nov 4 2026): they set "GAPS": true in window.TUTOR.
+  if (T.GAPS) { $("dgap").hidden = false; $("dgap").onclick = markGap; }
   renderMoves(); renderStations();
 
   // ================= Claude and the page's database =================
@@ -463,7 +464,7 @@ Return only JSON: {"got": "...", "open": ["..."], "plan": "..."}
   if (db) {
     const mine = d => { const [b, id] = d.id.split("__"); return b === BOOK.id && S[id] ? id : null; };
     try {
-      const [notes, chats, gaps] = await Promise.all([db.collection("notes").get(), db.collection("chats").get(), db.collection("gaps").get().catch(() => ({ docs: [] }))]);
+      const [notes, chats, gaps] = await Promise.all([db.collection("notes").get(), db.collection("chats").get(), (T.GAPS ? db.collection("gaps").get().catch(() => ({ docs: [] })) : { docs: [] })]);
       for (const d of gaps.docs) { const id = mine(d), v = d.data(); if (id && v?.gid && !S[id].gaps.some(x => x.gid === v.gid)) S[id].gaps.push(v); }
       for (const d of notes.docs) { const id = mine(d), v = d.data(); if (id && v?.got) S[id].notes = { got: v.got, open: v.open || [], plan: v.plan || "" }; }
       for (const d of chats.docs) { const id = mine(d), v = d.data(); if (id && Array.isArray(v?.turns) && !S[id].turns.length) { S[id].turns = v.turns.filter(t => t && t.role && t.content); if (S[id].turns.at(-1)?.role === "user") S[id].turns.pop(); } }
