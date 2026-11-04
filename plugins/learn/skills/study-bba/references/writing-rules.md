@@ -33,3 +33,9 @@
 ## 6. Also out on a BBA page
 
 **No praise of the reader,** and none of: at the end of the day, when it comes to, in today's, demystify, optimize (match-ash-writing holds the rest of the list).
+
+## 7. The page is named for the concept he's learning
+
+**Each page's `<title>` and its artifact name is the concept he's learning, in the course's words: "Variance Analysis", "Budgeting and Working Capital".** Never a clever line about the scenario. The problem question stays as the `h1`; the title is what he'll search his gallery and calendar for. Ash, Nov 3 2026: the titles were clever lines instead of the concept.
+- Bad: "Why the Month Missed"
+- Good: "Variance Analysis"
