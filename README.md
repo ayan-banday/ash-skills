@@ -1,6 +1,6 @@
 # ash-skills
 
-**Claude Code skills for people who build with AI every day and want the result to be clear, simple and right.** Ash Banday made them while running Udyaan, an agriculture startup program for students, and building his own tools with Claude. They come in five plugins, one for each moment you're in: writing, showing, planning, building or learning.
+**Claude Code skills for people who build with AI every day and want the result to be clear, simple and right.** They were built from real work, then cleaned up so anyone can use them. They come in five plugins, one for each moment you're in: writing, showing, planning, building or learning.
 
 **Every skill is named for what it does and described by the question it answers.** If the question sounds like your problem, that's the skill.
 
@@ -18,10 +18,8 @@ Then type `/` and a plugin's name to see its skills: `/write`, `/visualize`, `/p
 ## How to read a skill's name
 
 - **The command is `/plugin:skill`,** like `/plan:design-like-expert`.
-- **A word in brackets says where the skill came from or who it's tuned for.** The skill still works elsewhere; read those names as examples.
+- **A word in brackets says where the skill came from or what it's tuned for.** The skill still works elsewhere; read those names as examples.
   - **(matt):** copied from [Matt Pocock's skills](https://github.com/mattpocock/skills) and renamed.
-  - **(udyaan):** tuned for Udyaan's brand, students and team.
-  - **(shasta):** tuned for Shasta, Ash's learning library.
   - **(substack):** tuned for writing a Substack newsletter.
   - **(caru):** copied from [caru-ini's stack-diagram](https://github.com/caru-ini/stack-diagram) (MIT, licence in `plugins/visualize/LICENSE-caru`).
   - **(wada):** built on Sanzo Wada's *A Dictionary of Color Combinations* (1933).
@@ -47,9 +45,9 @@ Then type `/` and a plugin's name to see its skills: `/write`, `/visualize`, `/p
 
 | Skill | The problem it solves | What you get |
 |---|---|---|
-| `course-lesson (udyaan)` | How do I write a Day N lesson or course page students actually read? | Lessons in a plain, spoken voice. Each day moves the student one step, follows one running student as the example, and ends in one small task. It can also run a whole week past fresh reviewers. |
+| `course-lesson` | How do I write a Day N lesson or course page a learner actually reads? | Lessons in a plain, spoken voice. Each day moves the learner one step, follows one running learner as the example, and ends in one small task. It can also run a whole week past fresh reviewers. |
 | `headline-angles (substack)` | How do I find the headline that makes people open my Substack post? | 10 headline and subheadline angles, ranked, built from your idea and your reader's fear and wanted outcome. |
-| `match-ash-writing` | How do I write anything Ash or his readers will read, so he never has to correct the same words twice? | Ash's writing rules in one place, by case: who reads it and on what screen. Every building skill reads it first, and it fixes the draft before Ash sees it. |
+| `match-ash-writing` | How do I write anything for a specific reader, so the words match one person's voice and never need correcting twice? | One person's writing rules in one place, by case: who reads it and on what screen. Other skills read it first, and it fixes the draft before the author sees it. |
 | `re-explain (matt)` | How do I get Claude to re-explain a reply that didn't make sense? | Claude stops and pitches its last message again, more simply. |
 | `agent-docs (matt)` | How do I write a skill or CLAUDE.md that Claude follows every time? | The rules for writing for agents: steps with done tests, pointers that fire, and cutting what Claude would do anyway. |
 
@@ -59,11 +57,11 @@ Then type `/` and a plugin's name to see its skills: `/write`, `/visualize`, `/p
 
 | Skill | The problem it solves | What you get |
 |---|---|---|
-| `match-ash-design (wada)` | How do I design and colour anything Ash or his readers will see, so it looks like his and never the same twice? | Ash's design rules by case, and a palette for every page from one numbered combination in Wada Sanzo's colour book (348 combinations), contrast-checked for dark pages, briefs, pitches and print. |
+| `match-ash-design (wada)` | How do I design and colour anything a reader will see, so it looks consistent and never the same twice? | One person's design rules by case, and a palette for every page from one numbered combination in Wada Sanzo's colour book (348 combinations), contrast-checked for dark pages, briefs, pitches and print. |
 | `story-plan` | How do I turn an abstract idea into a story people watch? | A thesis, a living metaphor and a storyboard checked by a script, ready for another skill to build. |
 | `polished-doc` | How do I turn my draft into a clean PDF or Word file? | Your draft rewritten clearer, with the same structure and visuals only where they explain faster, exported as PDF, Word, Google Docs or HTML. |
-| `brief-page (udyaan)` | How do I brief a teammate so they arrive knowing what we're deciding? | A page a teammate reads alone. Every heading is the question they'd ask, and every answer is drawn as well as written. |
-| `pitch-site (udyaan)` | How do I make an outside reader say "Hell yeah, let's do this"? | A one-file proposal website for readers who won't read, with a phone version, ending in one concrete ask. |
+| `brief-page` | How do I brief a teammate so they arrive knowing what we're deciding? | A page a teammate reads alone. Every heading is the question they'd ask, and every answer is drawn as well as written. |
+| `pitch-site` | How do I make an outside reader say "Hell yeah, let's do this"? | A one-file proposal website for readers who won't read, with a phone version, ending in one concrete ask. |
 | `post-page-online` | How do I put a page I made online so friends outside Claude can open it? | Your page tested in a browser, published to GitHub Pages, and its public link. |
 | `draw-stack-diagram (caru)` | How do I show how a system's parts connect, in one picture a teammate or their agent gets at a glance? | An architecture diagram with real logos, grouped boxes and clean arrows: one HTML file plus light and dark PNGs. |
 
@@ -114,15 +112,15 @@ Then type `/` and a plugin's name to see its skills: `/write`, `/visualize`, `/p
 
 | Skill | The problem it solves | What you get |
 |---|---|---|
-| `teach-side-chat (shasta)` | How do I learn the field behind what I'm building, while agents work beside me? | A menu of the big problems in your chat, then a short chapter from a ten-year expert on the one you pick. |
-| `write-side-articles (shasta)` | How do I learn the side skills behind a note I wrote, as short articles I read later instead of a grilling? | Turns up to five problems from your note into swipe decks, one artifact each: its own colours and drawings, a daily-life metaphor, a far field, and an Ask pane that answers in cards. |
-| `study (shasta)` | How do I learn a topic the Shasta way? | An evening from your first question to an approved learning brief, then a study page. |
-| `break-into-field (shasta)` | How do I break into a whole field I know nothing about, starting from a real problem in my work? | A study book: a map of the field's problems in the order they unlock, and chapters that each solve one. |
-| `study-bba (jain)` | How do I study a Jain BBA unit from my notes, slides or past papers so I can solve its questions and use it in a tech company? | Up to three problems the material solves, then one tabbed book for the unit: a chapter per problem with worked examples, practice you check yourself, a Claude tutor beside every concept and gaps you mark on any highlight. |
+| `teach-side-chat` | How do I learn the field behind what I'm building, while agents work beside me? | A menu of the big problems in your chat, then a short chapter from a ten-year expert on the one you pick. |
+| `write-side-articles` | How do I learn the side skills behind a note I wrote, as short articles I read later instead of a grilling? | Turns up to five problems from your note into swipe decks, one artifact each: its own colours and drawings, a daily-life metaphor, a far field, and an Ask pane that answers in cards. |
+| `study` | How do I learn a topic in a structured way? | An evening from your first question to an approved learning brief, then a study page. |
+| `break-into-field` | How do I break into a whole field I know nothing about, starting from a real problem in my work? | A study book: a map of the field's problems in the order they unlock, and chapters that each solve one. |
+| `study-bba` | How do I study a course unit from my notes, slides or past papers so I can solve its questions and use the ideas at work? | Up to three problems the material solves, then one tabbed book for the unit: a chapter per problem with worked examples, practice you check yourself, a Claude tutor beside every concept and gaps you mark on any highlight. |
 | `graphify` | How do I see how everything in a folder connects? | A knowledge graph of any folder, from code and docs to papers and videos, that you can query. |
 | `which-skill` | Which of my skills should I use right now? | The one command to type for what you're doing, with one line of why. |
 
-**Which one?** Learn from the chat you're in: `teach-side-chat`. From a note, to read later: `write-side-articles`. A topic you choose: `study`. A whole field: `break-into-field`. A BBA unit for the exam: `study-bba`.
+**Which one?** Learn from the chat you're in: `teach-side-chat`. From a note, to read later: `write-side-articles`. A topic you choose: `study`. A whole field: `break-into-field`. A course unit for the exam: `study-bba`.
 
 ## Using these in Claude Code on the web
 
@@ -135,13 +133,13 @@ bash "$HOME/.claude/plugins/marketplaces/ash-skills/cloud/setup.sh" || echo "ash
 exit 0
 ```
 
-- **The real work is in [cloud/setup.sh](cloud/setup.sh),** so changes there need no new paste. It installs every plugin and tells Claude where to find a skill that didn't load. It also holds lines for Ash's own private repos; copy it and remove those for your own setup.
+- **The real work is in [cloud/setup.sh](cloud/setup.sh),** so changes there need no new paste. It installs every plugin and tells Claude where to find a skill that didn't load. It also holds lines for one maintainer's private repos; remove those for your own setup.
 - **A skill pushed today can take up to about 7 days to reach cloud sessions,** because environments cache the setup. Until then, ask for the skill by name: Claude pulls this repo and reads its SKILL.md.
 
 ## How this repo is built
 
 - **Every rule for naming, describing, writing and shipping a skill** is in [CONVENTIONS.md](CONVENTIONS.md). `/build:make-skill` follows it.
-- **The skills here are the master copies.** `docs/build_all.py` ran once, on 2026-10-20, to copy and rename them. Running it again would overwrite every edit since.
+- **The skills here are the master copies.** `docs/build_all.py` was a one-time script that copied and renamed them. Don't run it again: it would overwrite every edit made since.
 
 ## Credits
 
