@@ -8,7 +8,7 @@ Ash's limit is his own thinking: about 2 hours, then rest. Every rule here exist
 ## Steps
 
 1. **Find the layer.** Read `references/layers.md` once per chat: each layer's goal, its slots, what it may and may not ask, and two worked examples. Ash names the layer, or you infer it: a new problem starts at Layer 1; a ticket handed down from Layer 2 starts Layer 3. **One chat works one layer.**
-   - **Name the chat** with the claude-code-remote tool `set_session_title` (its own id from `get_session`): `L<layer>: <the goal, in 3 to 6 words>`, like "L1: Why I don't learn" or "L2: How a learning card teaches" (Ash, 2026-11-05: "so I know it's layer 1, and what are we trying to solve").
+   - **Name the chat** with the claude-code-remote tool `set_session_title` (its own id from `get_session`): `L<layer>: <the goal, in 3 to 6 words>`, like "L1: Why I don't learn" or "L2: How a learning card teaches" (Ash, 2026-11-05: "so I know it's layer 1, and what are we trying to solve"). **Layer 3 is named by its kind and the Layer 1 problem, not its specifics:** `L3: <Prototype, Plan or Build> for <the L1 name>`, like "L3: Prototype for learning without study sessions".
    Done when you can name the layer and its goal, and the chat's title shows both.
 2. **Read what's written before asking.** In Fuji: `olympus.md`, the map's Destination, the phase's `phase.md` and the ticket; elsewhere, the repo's docs and the chat. Done when you know what's already decided above this layer.
 3. **Open the layer.**
