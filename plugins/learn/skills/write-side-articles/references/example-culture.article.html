@@ -1,0 +1,234 @@
+<style id="tokens">
+/* Palette: No. 197, Eosine Pink + Dark Soft Violet + Neutral Gray · like Graphite and chalk, Charcoal and rose · place dark (match-ash-design scripts/palette.py) */
+:root{
+  --bg:#171112; --bg2:#211618; --bg3:#2A1C1E;
+  --tx:#EDE6E6; --mu:#AFA5A6; --ln:rgba(237,230,230,0.12);
+  --p1:#F5AEB8; --p2:#BFBDF9; --p3:#DCB1B6; --acc:#F37F94; --acc2:#66629C;
+  --on:#171112; --onacc:#171112;
+  --b1:#F37F94; --b2:#66629C; --b3:#B6BFC1; --b4:#F37F94;
+  --island:var(--b3); /* Neutral Gray: the combination's colour that isn't the accent */
+  color-scheme:dark;
+}
+</style>
+
+<script type="application/json" id="article">
+{
+  "id": "culture-before-ten-hires",
+  "title": "Culture Before Ten Hires",
+  "question": "How do you build a company culture where people move fast and own their work, before you've hired your first ten people?",
+  "world": "Udyaan",
+  "expert": "a ten-year expert in organisational psychology and early-stage startup teams",
+  "reader": "Ash is a founder building Udyaan, an online course for agriculture students in India, with a small team: a UI/UX designer, a content designer and a real-world tester. He already knows founder problems from living them; he wants the one idea that moves him from where he is to where he wants to be.",
+  "asker": "founder",
+  "askers": "Founders",
+  "written_by": "the build session, strongest model",
+  "parts": [
+    {"name": "Polish", "long": "The polish trap", "c": "var(--p1)"},
+    {"name": "Shouts", "long": "Where rules live", "c": "var(--p2)"},
+    {"name": "Udyaan", "long": "In Udyaan", "c": "var(--p3)"},
+    {"name": "Habits", "long": "Your three habits", "c": "var(--tx)"}
+  ]
+}
+</script>
+
+<template class="card" data-part="0" data-kind="question">
+  <p class="eyebrow">Side skills · Culture</p>
+  <h1>@@QUESTION@@</h1>
+  <div class="seq">
+    <p><b>You know what keeps people going:</b> choice, good people, getting better.</p>
+    <p>You don't yet know how a team learns <span class="mark">"how we do things here"</span>.</p>
+  </div>
+</template>
+
+<template class="card" data-part="0" data-kind="promise">
+  <p class="eyebrow">What you get</p>
+  <h2>What will you be able to do?</h2>
+  <p class="big">Pick <b>three habits</b> for Udyaan's team, and see every new person live them within <b>two weeks</b>.</p>
+</template>
+
+<template class="card" data-part="0" data-kind="wrong">
+  <p class="eyebrow">The usual story</p>
+  <h2>How does it usually go wrong in a young team?</h2>
+  <div class="stops">
+    <div class="stop"><span class="w">Day 1</span><span>You share a values page: "We move fast."</span><span class="r">Everyone nods.</span></div>
+    <div class="stop hit"><span class="w">Week 2</span><span>A designer shares a rough draft. You list three flaws in front of everyone.</span><span class="r">Nobody shares early again.</span></div>
+    <div class="stop hit"><span class="w">Month 2</span><span>Work arrives polished, and late.</span><span class="r">They learned "polish first".</span></div>
+  </div>
+  <div class="keyline"><span class="l">The problem</span><span class="t">The team copies what you reward and punish, and skips what you write.</span></div>
+</template>
+
+<template class="card" data-part="1" data-kind="instead">
+  <p class="eyebrow">The fix</p>
+  <h2>What if we do this instead?</h2>
+  <div class="board"><svg viewBox="0 0 340 214" role="img" aria-labelledby="c-in"><title id="c-in">Day 2: a rough sketch of the sign-up screen arrives. You reply "Thanks, early is right" and send two fixes in private. Day 9: three drafts arrive by Tuesday.</title>
+    <rect x="8" y="18" width="96" height="74" rx="3" class="s-bg3"/>
+    <path d="M22 38h60M22 52h44M22 66h52" class="k-ln" stroke-dasharray="3 5"/>
+    <text x="56" y="112" text-anchor="middle" class="s-mu" font-size="13">day 2: a sketch</text>
+    <path d="M110 55h22" class="k-p2"/><path d="M128 49l7 6-7 6" class="k-p2"/>
+    <rect x="140" y="20" width="192" height="44" rx="3" class="s-bg3"/>
+    <text x="236" y="47" text-anchor="middle" class="s-p2" font-size="15" font-weight="700">"Thanks, early is right"</text>
+    <text x="236" y="84" text-anchor="middle" class="s-mu" font-size="13">+ two fixes, in private</text>
+    <path d="M236 96v26" class="k-p2"/><path d="M230 116l6 7 6-7" class="k-p2"/>
+    <rect x="166" y="138" width="56" height="40" rx="3" class="s-bg3"/><rect x="230" y="138" width="56" height="40" rx="3" class="s-bg3"/><rect x="294" y="138" width="38" height="40" rx="3" class="s-bg3"/>
+    <text x="332" y="202" text-anchor="end" class="s-p2" font-size="14" font-weight="700">day 9: three drafts by Tuesday</text>
+  </svg></div>
+  <p class="line">A designer shows you a rough sketch on day 2. You say <b>"Thanks, early is right"</b> and send two fixes in private.</p>
+  <p class="line mu">The next week, three more drafts arrive early.</p>
+</template>
+
+<template class="card" data-part="1" data-kind="why">
+  <p class="eyebrow">Why it works</p>
+  <h2>Why does that work?</h2>
+  <div class="board"><svg viewBox="0 0 340 210" role="img" aria-labelledby="c-why"><title id="c-why">A street cricket game in a lane. The ball hits the side wall. The older kids shout "Four!". The new kid, watching, learns: the wall counts as four.</title>
+    <rect x="10" y="20" width="320" height="22" rx="2" class="s-bg3"/>
+    <text x="170" y="36" text-anchor="middle" class="s-mu" font-size="13">the wall</text>
+    <rect x="40" y="120" width="8" height="40" class="s-tx"/><rect x="52" y="120" width="8" height="40" class="s-tx"/>
+    <path d="M70 150 C130 110 190 70 236 44" class="k-p1" stroke-dasharray="2 7" stroke-width="4"/>
+    <circle cx="238" cy="46" r="7" class="s-p1"/>
+    <rect x="214" y="74" width="108" height="36" rx="18" class="s-bg3"/>
+    <text x="268" y="98" text-anchor="middle" class="s-p2" font-size="16" font-weight="800">"Four!"</text>
+    <circle cx="150" cy="170" r="10" class="s-mu"/><path d="M150 180v18" class="k-ln"/>
+    <text x="170" y="174" class="s-p2" font-size="14" font-weight="700">new kid learns:</text>
+    <text x="170" y="194" class="s-p2" font-size="14" font-weight="700">wall = four</text>
+  </svg></div>
+  <p class="lead">Think of a new kid joining a street cricket game.</p>
+  <div class="seq">
+    <p>Nobody hands them the rules.</p>
+    <p>The ball hits the wall, and the older kids shout "Four!"</p>
+    <p><span class="mark">The kid learns the rule from the shout.</span></p>
+  </div>
+  <p class="line">A team learns like that kid. <b>Its rules live in your reactions.</b></p>
+</template>
+
+<template class="card" data-part="1" data-kind="concept">
+  <p class="eyebrow">Where the rules live</p>
+  <h2>Where does your team look to learn the rules?</h2>
+  <p class="line">A new hire reads you in four places:</p>
+  <ol class="places">
+    <li><span>1</span>What you ask</li>
+    <li><span>2</span>How you react</li>
+    <li><span>3</span>Who you praise</li>
+    <li><span>4</span>Who gets in</li>
+  </ol>
+  <p class="line mu">Every week, these four show what's safe here.</p>
+</template>
+
+<template class="card" data-part="1" data-kind="concept">
+  <p class="eyebrow">One habit, all four places</p>
+  <h2>How does one habit show up in all four?</h2>
+  <div class="stops watch">
+    <div class="stop"><span class="w">1 · What you ask</span><span>"What did you share before it was perfect?"</span></div>
+    <div class="stop"><span class="w">2 · How you react</span><span>"Thanks, early is right."</span></div>
+    <div class="stop"><span class="w">3 · Who you praise</span><span>The designer who showed a rough sketch</span></div>
+    <div class="stop"><span class="w">4 · Who gets in</span><span>The hire who shows rough work</span></div>
+  </div>
+    <div class="keyline"><span class="l">Its name</span><span class="t">These four places are called <b class="name">embedding mechanisms</b>: where a leader's habits get built into a team.</span></div>
+</template>
+
+<template class="card" data-part="2" data-kind="team">
+  <p class="eyebrow">In a team</p>
+  <h2>How would it look in a team?</h2>
+  <div class="ba">
+    <span class="col was">Before</span><span class="col now">Now</span>
+    <span class="when">Day 2, a rough draft</span>
+    <div class="was"><b>You list its flaws in front of everyone</b><i>Drafts go into hiding</i></div>
+    <div class="now"><b>"Thanks, early is right"</b><i>More drafts on day 2</i></div>
+    <span class="when">The weekly check-in</span>
+    <div class="was"><b>"Any updates?"</b><i>Work shows up polished</i></div>
+    <div class="now"><b>"What did you share early?"</b><i>Problems show by Tuesday</i></div>
+    <span class="when">Month 2, the deadline</span>
+    <div class="was"><b>Work lands on Friday</b><i>No time left to fix it</i></div>
+    <div class="now"><b>Drafts land on Tuesday</b><i>Three days to fix the real problem</i></div>
+  </div>
+</template>
+
+<template class="card" data-part="2" data-kind="world">
+  <p class="eyebrow">In Udyaan · the habits</p>
+  <h2>How would you apply this in Udyaan?</h2>
+  <p class="line">Pick three habits you could see happen on a Tuesday.</p>
+  <ol class="places habits">
+    <li><span>1</span><div>Show work early<i>The designer shares the sign-up screen as a sketch on day 2.</i></div></li>
+    <li><span>2</span><div>Say when you're stuck<i>The content designer posts "Stuck: the Day 4 example feels fake" that morning.</i></div></li>
+    <li><span>3</span><div>Check it with a real student<i>The tester puts every new lesson in front of one student before it ships.</i></div></li>
+  </ol>
+</template>
+
+<template class="card" data-part="2" data-kind="world">
+  <p class="eyebrow">In Udyaan · every week</p>
+  <h2>How do you keep the habits alive?</h2>
+  <div class="rows">
+    <div><span>Your weekly question, to every person</span><b class="quote">"What did a real student do with your work this week?"</b><em class="mu">It only has an answer if all three habits are real.</em></div>
+    <div><span>Your first crisis</span><b class="quote">The tester's first bad report. You thank them in front of everyone.</b><em class="now">Every role learns that bad news is welcome.</em></div>
+  </div>
+</template>
+
+<template class="card" data-part="2" data-kind="changes">
+  <p class="eyebrow">What changes for you</p>
+  <h2>What changes for you?</h2>
+  <div class="talk">
+    <p><span class="who">The content designer</span>"The week 2 lesson is half done. Wait till it's polished?"</p>
+    <p><span class="who">You</span><b>"Send it now. Which part are you unsure of?"</b></p>
+  </div>
+  <div class="seq">
+    <p>One sentence you'll say ten times a month.</p>
+    <p><span class="mark">Your reaction on a bad day counts most.</span></p>
+    <p>You hire for the three habits before the portfolio.</p>
+  </div>
+</template>
+
+<template class="card" data-part="2" data-kind="far">
+  <p class="eyebrow">Far away · dolphin training</p>
+  <h2>How do you tell a dolphin which jump you wanted?</h2>
+  <div class="board"><svg viewBox="0 0 340 200" role="img" aria-labelledby="c-far"><title id="c-far">A dolphin arcs out of a pool. At the top of the jump the trainer's whistle sounds. The fish comes later, at the pool edge.</title>
+    <path d="M10 150 H330" class="k-ln"/>
+    <path d="M10 160 H330 M10 172 H330" class="k-ln" stroke-dasharray="4 10"/>
+    <path d="M70 150 C110 40 190 40 230 150" class="k-p2" stroke-dasharray="2 8" stroke-width="4"/>
+    <ellipse cx="150" cy="70" rx="26" ry="10" class="s-p2"/>
+    <rect x="96" y="12" width="108" height="30" rx="15" class="s-bg3"/>
+    <text x="150" y="32" text-anchor="middle" class="s-p1" font-size="15" font-weight="800">whistle: now</text>
+    <circle cx="300" cy="128" r="9" class="s-mu"/><path d="M300 137v13" class="k-ln"/>
+    <text x="300" y="192" text-anchor="middle" class="s-mu" font-size="13">fish, later</text>
+    <text x="150" y="192" text-anchor="middle" class="s-p2" font-size="14" font-weight="700">the exact moment</text>
+  </svg></div>
+  <div class="seq">
+    <p>A trainer wants a dolphin to jump high.</p>
+    <p>The fish comes a minute later, too late to say which move earned it.</p>
+    <p><span class="mark">So a whistle sounds at the top of the jump.</span></p>
+  </div>
+  <div class="keyline"><span class="l">The first principle</span><span class="t">A signal at the exact moment, called a <b class="name">bridge</b>, tells the learner which move earned it.</span></div>
+</template>
+
+<template class="card" data-part="3" data-kind="limit">
+  <p class="eyebrow">One limit</p>
+  <h2>When does this stop working?</h2>
+  <p class="big">Past about 20 people, people copy their own lead, not you.</p>
+  <p class="line">So each lead needs your three habits and your weekly question.</p>
+  <div class="keyline"><span class="l">The test</span><span class="t">After two weeks, can a new hire name your three habits without reading anything?</span></div>
+</template>
+
+<template class="card" data-part="3" data-kind="answer">
+  <p class="eyebrow">The answer</p>
+  <h2>How do you build the culture before ten hires?</h2>
+  <div class="ans">
+    <div class="st"><span class="sn">Step 1</span><b>Pick three habits</b>
+      <div class="chips"><span>Show work early</span><span>Say when you're stuck</span><span>Check with a real student</span></div></div>
+    <div class="st"><span class="sn">Step 2</span><b>Make them win, every time, in four places</b>
+      <ol class="places small"><li><span>1</span>What you ask</li><li><span>2</span>How you react</li><li><span>3</span>Who you praise</li><li><span>4</span>Who gets in</li></ol></div>
+  </div>
+  <p class="line">Those four places are <b class="name">embedding mechanisms</b>. <span class="mark">The team follows your reactions, not the page.</span></p>
+  <details><summary>Sources</summary><ol>
+    <li>Edgar H. Schein, <a href="https://yoannbazin.com/wp-content/uploads/2017/10/schein-2010-chapter-13.pdf">"How Leaders Embed and Transmit Culture"</a>, <em>Organizational Culture and Leadership</em>, 2010. The four places come from his primary embedding mechanisms.</li>
+    <li>Karen Pryor, <em>Don't Shoot the Dog!</em>, 1999, p. 29: the click or whistle as a "bridge". Keller and Marian Breland named the "bridging stimulus" in the 1940s (<a href="https://en.wikipedia.org/wiki/Clicker_training">summary with sources</a>).</li>
+    <li>John Shook, <a href="https://sloanreview.mit.edu/article/how-to-change-a-culture-lessons-from-nummi/">"How to Change a Culture: Lessons From NUMMI"</a>, MIT Sloan Management Review, 2010.</li>
+  </ol></details>
+</template>
+
+<template class="card" data-part="3" data-kind="other">
+  <p class="eyebrow">Other questions</p>
+  <h2>What else do you want to know?</h2>
+  <div class="qs">
+    <button class="q" data-q="How do you hire people who'll fit the habits you want, when all they've seen is a job post?">How do you hire people who'll fit the habits you want, when all they've seen is a job post?</button>
+    <button class="q" data-q="How do you keep a small team moving fast for months without people burning out?">How do you keep a small team moving fast for months without people burning out?</button>
+    <button class="q" data-q="How do you change a habit your team already learned the wrong way?">How do you change a habit your team already learned the wrong way?</button>
+  </div>
+</template>

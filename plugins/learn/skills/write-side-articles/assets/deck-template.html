@@ -1,0 +1,596 @@
+<title>@@TITLE@@</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Overpass:wght@600;800&family=Overpass+Mono:wght@500&display=swap">
+<style>
+/* Engine: write-side-articles assets/deck-template.html. One card per screen, a 4-part trail on top, swipe to move; the island at the bottom of each card opens the Ask pane. Dark only, by Ash's rule. */
+/* The article's own combination, island and part colours (build_deck.py puts them here): */
+@@TOKENS@@
+:root{
+  --page:var(--bg);
+  --f-head:"Overpass","Segoe UI",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;
+  --f-mono:"Overpass Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+[hidden],template{display:none!important}
+html,body{height:100%}
+html{background:var(--bg)}
+body{background:var(--page);color:var(--tx);font-family:var(--f-body);font-size:18px;line-height:1.55;margin:0;-webkit-text-size-adjust:100%;transition:background-color .5s ease;overscroll-behavior:none}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--page)}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid var(--p2);outline-offset:3px;border-radius:3px}
+
+.app{display:flex;flex-direction:column;min-height:100%;max-width:600px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px calc(env(safe-area-inset-bottom,0px) + 12px);box-sizing:border-box}
+
+/* top: the trail of 4 parts, then where you are */
+.top{display:flex;flex-direction:column;gap:10px;padding-bottom:12px}
+.trailrow{display:flex;gap:8px;align-items:center}
+.trail{flex:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;min-width:0}
+.leg{position:relative;overflow:hidden;border-radius:999px;min-height:36px;padding:0 8px;display:flex;align-items:center;justify-content:center;font-family:var(--f-head);font-size:13px;font-weight:600;color:var(--mu);box-shadow:inset 0 0 0 1.5px var(--ln)}
+.leg .fill{position:absolute;left:0;bottom:0;height:4px;background:var(--c);transition:width .3s ease}
+.leg .lt{position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.leg.cur{color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent);box-shadow:inset 0 0 0 1.5px var(--c)}
+.leg.done{background:var(--c);color:var(--on);box-shadow:none}
+.leg.done .fill{display:none}
+.dots{flex:none;width:44px;height:44px;display:grid;place-items:center;border-radius:4px;color:var(--mu)}
+.dots svg{width:22px;height:22px}
+.where{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mu)}
+.where b{font-weight:500;color:var(--c)}
+
+/* the model menu behind the three dots */
+.menu{position:absolute;z-index:40;right:max(16px,env(safe-area-inset-right,0px));top:calc(env(safe-area-inset-top,0px) + 58px);background:var(--bg3);border-radius:4px;box-shadow:0 12px 36px rgba(0,0,0,.5);padding:6px;min-width:230px}
+.menu p{margin:6px 10px 4px;font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mu)}
+.menu button{display:flex;justify-content:space-between;gap:16px;width:100%;padding:12px 10px;border-radius:3px;text-align:left;min-height:44px;font-size:16px}
+.menu button span{color:var(--mu);font-size:14px}
+.menu button[aria-checked="true"]{background:color-mix(in srgb,var(--p2) 16%,transparent);color:var(--p2)}
+
+/* the card */
+.stage{flex:1;display:flex;flex-direction:column;min-height:0;touch-action:pan-y}
+.card{background:var(--bg2);border-radius:4px;padding:20px 18px 22px;display:flex;flex-direction:column;gap:14px;flex:1}
+@media (prefers-reduced-motion:no-preference){.card.in-next{animation:inR .22s ease-out}.card.in-prev{animation:inL .22s ease-out}}
+@keyframes inR{from{opacity:.3;transform:translateX(18px)}to{opacity:1;transform:none}}
+@keyframes inL{from{opacity:.3;transform:translateX(-18px)}to{opacity:1;transform:none}}
+.eyebrow{font-family:var(--f-mono);font-size:12.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--c);margin:0}
+h1,h2{font-family:var(--f-head);font-weight:800;line-height:1.15;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(24px,6.5vw,32px)}
+h2{font-size:clamp(24px,6.4vw,30px)}
+p{margin:0}
+.card b,.card strong{color:color-mix(in srgb,var(--tx) 70%,#fff)}
+.big{font-size:21px;line-height:1.45}
+.line{font-size:18px;line-height:1.5}
+.mu{color:var(--mu)}
+.name{color:var(--p2)!important;font-weight:700;text-decoration:underline dotted;text-decoration-thickness:2px;text-underline-offset:5px}
+/* visual weights: a lead line, a short sequence, a marker for the result */
+.lead{font-family:var(--f-head);font-weight:800;font-size:22px;line-height:1.3;color:var(--c)}
+.seq{display:flex;flex-direction:column;gap:6px;padding-left:14px;border-left:2px solid var(--ln);font-size:18px;line-height:1.45}
+.mark{color:color-mix(in srgb,var(--tx) 70%,#fff);font-weight:700;background-image:linear-gradient(color-mix(in srgb,var(--p1) 50%,transparent),color-mix(in srgb,var(--p1) 50%,transparent));background-size:100% .34em;background-repeat:no-repeat;background-position:0 92%;-webkit-box-decoration-break:clone;box-decoration-break:clone;padding:0 2px}
+.keyline{background:var(--bg3);border-radius:3px;padding:14px 16px}
+.keyline .l{display:block;font-family:var(--f-mono);font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
+.keyline .t{font-family:var(--f-head);font-weight:600;font-size:19px;line-height:1.4}
+
+/* drawings */
+.board{background:var(--bg);border-radius:4px;padding:14px 12px}
+.board svg{display:block;width:100%;height:auto;max-width:420px;margin:0 auto}
+svg text{font-family:var(--f-body)}
+.s-tx{fill:var(--tx)} .s-mu{fill:var(--mu)} .s-p1{fill:var(--p1)} .s-p2{fill:var(--p2)} .s-p3{fill:var(--p3)} .s-bg2{fill:var(--bg2)} .s-bg3{fill:var(--bg3)} .s-on{fill:var(--on)}
+.k-ln{stroke:var(--mu);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.k-p1{stroke:var(--p1);stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.k-p2{stroke:var(--p2);stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.k-p3{stroke:var(--p3);stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* where it goes wrong: three stops down one line */
+.stops{position:relative;display:flex;flex-direction:column;gap:12px;padding-left:28px}
+.stops::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:var(--ln)}
+.stop{position:relative;display:flex;flex-direction:column;gap:2px}
+.stop::before{content:"";position:absolute;left:-28px;top:5px;width:16px;height:16px;border-radius:50%;background:var(--bg3);box-shadow:inset 0 0 0 2px var(--mu)}
+.stop.hit::before{background:var(--p1);box-shadow:none}
+.stop .w{font-family:var(--f-mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mu)}
+.stop .r{font-weight:700;color:var(--mu)}
+.stop.hit .r{color:var(--p1)}
+.places{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.places li{display:flex;align-items:center;gap:14px;font-family:var(--f-head);font-weight:800;font-size:24px;line-height:1.2}
+.ans{display:flex;flex-direction:column;gap:14px}
+.st{display:flex;flex-direction:column;gap:8px}
+.st > b{font-family:var(--f-head);font-weight:800;font-size:20px;line-height:1.25}
+.sn{font-family:var(--f-mono);font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--mu)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{border:1.5px solid color-mix(in srgb,var(--p3) 60%,transparent);color:var(--p3);border-radius:999px;padding:5px 12px;font-size:15px;font-weight:700}
+.gen .stop > span:nth-child(2){font-size:18px}
+.places.gen li{font-size:20px}
+.rows.parts{--c:var(--p2)}
+.rows.parts b{font-size:18px;line-height:1.35}
+.places.small{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px}
+.places.small li{font-size:17px;gap:10px}
+.places.small span{width:28px;height:28px;font-size:13px}
+.habits li{align-items:flex-start;font-size:21px}
+.habits div{display:flex;flex-direction:column;gap:4px}
+.habits i{font-style:normal;font-family:var(--f-body);font-weight:400;font-size:16px;line-height:1.4;color:var(--mu)}
+.rows .quote{font-family:var(--f-head);font-size:20px;line-height:1.35}
+.rows em{font-style:normal;font-size:16px}
+.rows em.now{color:var(--p2);font-weight:700}
+.places span{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--p2) 18%,transparent);color:var(--p2);font-family:var(--f-mono);font-weight:500;font-size:15px}
+.watch .stop::before{background:var(--p2);box-shadow:none}
+.watch .stop > span:last-child{font-weight:700}
+
+
+/* before and now, side by side, read row by row */
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px}
+.ba .col{font-family:var(--f-mono);font-size:12px;letter-spacing:.07em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.ba .col::before{content:"";width:12px;height:12px;border-radius:50%;background:currentColor}
+.ba .col.was{color:var(--p1)} .ba .col.now{color:var(--p2)}
+.ba .when{grid-column:1 / -1;font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);margin-top:8px;padding-top:10px;border-top:1px solid var(--ln)}
+.ba div{display:flex;flex-direction:column;gap:4px;font-size:16px;line-height:1.35}
+.ba div i{font-style:normal;font-weight:700}
+.ba div.was i{color:var(--p1)} .ba div.now i{color:var(--p2)}
+
+/* label and value rows */
+.rows{display:flex;flex-direction:column;gap:12px}
+.rows div{display:grid;gap:2px}
+.rows span{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--c)}
+.talk{display:flex;flex-direction:column;gap:8px;background:var(--bg3);border-radius:3px;padding:14px 16px;font-size:17px}
+.talk .who{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);display:block}
+
+/* other questions */
+.qs{display:flex;flex-direction:column;gap:10px}
+.q{text-align:left;background:var(--bg3);border-radius:4px;padding:16px;min-height:44px;font-family:var(--f-head);font-weight:600;font-size:18px;line-height:1.3;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.q::after{content:"›";color:var(--p2);font-size:24px}
+.q:active{background:color-mix(in srgb,var(--p2) 14%,var(--bg3))}
+details{border-top:1px solid var(--ln);padding-top:8px}
+summary{cursor:pointer;font-family:var(--f-mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);min-height:44px;display:flex;align-items:center}
+details ol{font-size:14.5px;color:var(--mu);padding-left:1.2em;margin:4px 0 0;display:grid;gap:6px}
+details a{color:var(--p2)}
+
+@media (prefers-reduced-motion:no-preference){.card.flip{animation:flip .26s ease-out}}
+@keyframes flip{from{transform:perspective(900px) rotateY(-70deg);opacity:.2}to{transform:none;opacity:1}}
+
+/* the back of the card: where "Other questions" answer, framed in two fine lines of the third pastel */
+.card.back{background:var(--bg3);padding:20px 20px 24px;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--p3) 45%,transparent),inset 0 0 0 6px var(--bg3),inset 0 0 0 7px color-mix(in srgb,var(--p3) 25%,transparent);transition:background-color .5s ease}
+.back .head{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px}
+.turn{min-height:44px;padding:0 4px;font-family:var(--f-head);font-weight:600;font-size:15px;color:var(--mu)}
+.back .re{font-family:var(--f-mono);font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--p3)}
+.said{font-style:italic;color:var(--mu);font-size:16px}
+.part{display:grid;gap:4px}
+.part .l{font-family:var(--f-mono);font-size:12px;letter-spacing:.07em;text-transform:uppercase}
+.l.right{color:var(--p3)} .l.fix{color:var(--p1)} .l.idea{color:var(--p2)}
+.ask{font-family:var(--f-head);font-weight:600;font-size:20px;line-height:1.35;color:var(--p2);padding-right:70px}
+.back .board{background:var(--bg2)}
+.pips{display:flex;gap:6px}
+.pips i{width:18px;height:4px;border-radius:2px;background:var(--ln)}
+.pips i.on{background:var(--p3)}
+.pips i.off{opacity:.4}
+.wait{display:flex;flex-direction:column;gap:10px;color:var(--mu)}
+.wait .bars i{display:block;height:12px;border-radius:3px;background:var(--bg2);margin-top:8px}
+/* laptop only: quiet arrows beside the card */
+.side{display:none}
+@media (min-width:760px) and (hover:hover){.side{display:grid;place-items:center;position:fixed;top:50%;transform:translateY(-50%);width:44px;height:64px;border-radius:4px;color:var(--mu);font-size:28px}.side:hover{color:var(--tx);background:var(--bg2)}.side:disabled{opacity:.25}#sprev{left:calc(50% - 360px)}#snext{right:calc(50% - 360px)}}
+/* Ask: a tiny pill at the bottom opens a pane to talk about the card on screen */
+.card{position:relative}
+/* the island: a small capsule docked at the bottom of every card, in a colour of the article's combination that isn't the accent, where the thumb rests */
+.card.front{padding-bottom:64px}
+.dot{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);width:104px;height:44px;display:grid;place-items:center;border-radius:999px}
+.dot i{display:flex;align-items:center;gap:7px;width:84px;height:28px;padding:0 10px;box-sizing:border-box;border-radius:999px;background:var(--island);box-shadow:0 6px 16px rgba(0,0,0,.45),inset 0 -2px 0 rgba(0,0,0,.18);transition:width .2s ease}
+.dot i::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--bg);box-shadow:0 0 0 2px color-mix(in srgb,var(--bg) 30%,transparent)}
+.dot i::after{content:"";flex:1;height:4px;border-radius:2px;background:color-mix(in srgb,var(--bg) 70%,transparent)}
+.dot:active i{width:96px}
+.grab{display:grid;place-items:center;height:22px;cursor:grab;touch-action:none}
+.grab i{width:44px;height:5px;border-radius:3px;background:color-mix(in srgb,var(--mu) 55%,transparent)}
+.scrim{position:fixed;inset:0;z-index:34;background:rgba(0,0,0,.5)}
+.pane{position:fixed;z-index:35;left:0;right:0;bottom:0;height:56dvh;transition:height .28s cubic-bezier(.2,.8,.2,1);background:var(--bg3);border-radius:8px 8px 0 0;box-shadow:0 -14px 40px rgba(0,0,0,.55),inset 0 1px 0 color-mix(in srgb,var(--p3) 50%,transparent);display:flex;padding:0 max(16px,env(safe-area-inset-right,0px)) env(safe-area-inset-bottom,0px) max(16px,env(safe-area-inset-left,0px))}
+.pane-in{max-width:600px;width:100%;margin:0 auto;display:flex;flex-direction:column;min-height:0}
+.pane.full{height:calc(100dvh - env(safe-area-inset-top,0px) - 8px)}
+.pane.dragging{transition:none}
+.pane header{display:flex;align-items:center;gap:10px;padding:0 0 6px;touch-action:none}
+.pane header .re{flex:1;min-width:0;font-family:var(--f-mono);font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--p3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pane header button{min-width:44px;min-height:44px;color:var(--mu);font-size:20px}
+.thread{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:4px 0 12px;--c:var(--p2)}
+.rcard{background:var(--bg2);border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.sugs{display:flex;flex-direction:column;gap:8px}
+.sug{text-align:left;padding:12px 14px;border-radius:4px;background:var(--bg2);font-size:16px;font-weight:700;line-height:1.35;min-height:44px;box-shadow:inset 0 0 0 1px var(--ln)}
+.sug::before{content:"› ";color:var(--p2)}
+.sugs.row{flex-direction:row;flex-wrap:wrap}
+.sugs.row .sug{padding:8px 12px;min-height:40px;font-size:15px}
+.composer{display:flex;gap:8px;align-items:flex-end;padding:8px 0 12px;border-top:1px solid var(--ln)}
+.composer textarea{flex:1;min-width:0;resize:none;background:transparent;border:0;color:var(--tx);font:inherit;font-size:17px;line-height:1.4;max-height:120px;padding:9px 2px}
+.composer textarea:focus{outline:none}
+.composer button{flex:none;width:42px;height:42px;border-radius:50%;background:var(--island);color:var(--on);font-size:20px;font-weight:800}
+.toast{position:fixed;z-index:50;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 18px);background:var(--bg3);color:var(--tx);padding:12px 16px;border-radius:4px;font-size:15px;max-width:min(90vw,460px);box-shadow:0 8px 30px rgba(0,0,0,.45)}
+</style>
+
+<div class="app">
+  <header class="top">
+    <div class="trailrow">
+      <nav class="trail" id="trail" aria-label="The article in 4 parts"></nav>
+      <button class="dots" id="dots" aria-label="Choose the model" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2" fill="currentColor"/><circle cx="12" cy="12" r="2" fill="currentColor"/><circle cx="19" cy="12" r="2" fill="currentColor"/></svg></button>
+    </div>
+    <div class="where" id="where"></div>
+  </header>
+  <main class="stage" id="stage"></main>
+</div>
+
+<div class="menu" id="menu" hidden role="menu" aria-label="Who answers when you talk">
+  <p>Who answers</p>
+  <button role="menuitemradio" data-model="haiku">Haiku <span>fastest</span></button>
+  <button role="menuitemradio" data-model="sonnet">Sonnet <span>smarter</span></button>
+  <button role="menuitemradio" data-model="opus">Opus <span>deepest, slower</span></button>
+</div>
+
+<div class="toast" id="toast" hidden role="status"></div>
+<div class="scrim" id="scrim" hidden></div>
+<section class="pane" id="pane" hidden aria-label="Ask about this card">
+  <div class="pane-in">
+    <div class="grab" id="grab" aria-hidden="true"><i></i></div>
+    <header id="panetop"><span class="re" id="panehead"></span><button id="paneclose" aria-label="Close">✕</button></header>
+    <div class="thread" id="thread" aria-live="polite"></div>
+    <form class="composer" id="composer"><textarea id="ask" rows="1" placeholder="Ask, or say what you think" aria-label="Your message"></textarea><button type="submit" aria-label="Send">↑</button></form>
+  </div>
+</section>
+
+<button class="side" id="sprev" aria-label="Previous card">‹</button>
+<button class="side" id="snext" aria-label="Next card">›</button>
+
+@@ARTICLE@@
+
+<script>
+(function(){
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const md = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+const store = {get(k){try{return localStorage.getItem(k)}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+const ART = JSON.parse(document.getElementById('article').textContent);
+const QUESTION = ART.question;
+const WORLD = ART.world;              // where Ash applies it, from his note (like "Udyaan")
+const PARTS = ART.parts;              // 4 parts: {name, long, c}
+const CARDS = [...document.querySelectorAll('template.card')].map(t => ({part: +t.dataset.part, kind: t.dataset.kind, html: t.innerHTML.replaceAll('@@QUESTION@@', esc(QUESTION))}));
+const KEY = 'deck-' + ART.id + '-';
+const plain = h => { const d = document.createElement('div'); d.innerHTML = h; d.querySelectorAll('title,details').forEach(n => n.remove()); return d.textContent.replace(/\s+/g, ' ').trim(); };
+const DECK_TEXT = CARDS.map((c, i) => `Card ${i + 1} (${PARTS[c.part].name}): ${plain(c.html)}`).join('\n');
+
+/* ---------- the deck ---------- */
+let at = Math.min(Math.max(parseInt(store.get(KEY + 'at') || '0', 10) || 0, 0), CARDS.length - 1);
+const inPart = k => CARDS.map((c, i) => c.part === k ? i : -1).filter(i => i >= 0);
+let face = 'front';
+const back = {mode: 'compose', cards: [], i: 0, label: ''};
+
+
+const cls = dir => dir === 'flip' ? 'flip' : dir ? 'in-' + dir : '';
+function frontHtml(dir){ const c = CARDS[at]; return `<article class="card front ${cls(dir)}" style="--c:${PARTS[c.part].c}"><button class="dot" data-act="ask" aria-label="Ask about this card"><i></i></button>${c.html}</article>`; }
+function backHtml(dir){
+  const n = Math.max(back.cards.length, back.expect || 0);
+  const pips = back.mode === 'reply' && n > 1 ? `<span class="pips">${Array.from({length: n}, (_, k) => `<i class="${k === back.i ? 'on' : k >= back.cards.length ? 'off' : ''}"></i>`).join('')}</span>` : '';
+  const head = `<div class="head"><button class="turn" data-act="front">‹ Card</button>${pips}<span class="re">${esc(back.label)}</span></div>`;
+  let body;
+  body = back.cards[back.i] || waitCard('');
+  return `<article class="card back ${cls(dir)}" style="--c:var(--p3)">${head}${body}</article>`;
+}
+
+function render(dir){
+  const c = CARDS[at], steps = inPart(c.part), pos = steps.indexOf(at);
+  $('trail').innerHTML = PARTS.map((p, k) => {
+    const s = inPart(k), state = k < c.part ? 'done' : k === c.part ? 'cur' : '';
+    const pct = state === 'done' ? 100 : state === 'cur' ? Math.round((pos + 1) / s.length * 100) : 0;
+    return `<button class="leg ${state}" style="--c:${p.c}" data-go="${s[0]}" ${state === 'cur' ? 'aria-current="step"' : ''}><span class="fill" style="width:${pct}%"></span><span class="lt">${p.name}</span></button>`;
+  }).join('');
+  $('where').style.setProperty('--c', PARTS[c.part].c);
+  $('where').innerHTML = `<b>${PARTS[c.part].long}</b><span>${pos + 1} of ${steps.length}</span>`;
+  $('stage').innerHTML = face === 'front' ? frontHtml(dir) : backHtml(dir);
+  $('sprev').disabled = face === 'front' && at === 0;
+  $('snext').disabled = face === 'front' && at === CARDS.length - 1;
+  store.set(KEY + 'at', at);
+  if (CARDS[at].kind === 'answer') markRead();
+  window.scrollTo(0, 0);
+}
+function go(i){ if (i < 0 || i >= CARDS.length) return; if (i === at && face === 'front') return; const dir = i > at ? 'next' : 'prev'; face = 'front'; at = i; render(dir); }
+function toFront(){ face = 'front'; render('flip'); }
+function toBack(mode, label, cards){ face = 'back'; back.mode = mode; back.label = label; back.cards = cards || []; back.i = 0; back.expect = 0; }
+function step(d){
+  if (face === 'back'){
+    const j = back.i + d;
+    const n = Math.max(back.cards.length, back.expect || 0);
+    if (back.mode === 'reply' && j >= 0 && j < n){ back.i = j; render(d > 0 ? 'next' : 'prev'); return; }
+    if (back.mode === 'reply' && d > 0 && n > 1) return;
+    toFront(); return;
+  }
+  go(at + d);
+}
+$('sprev').onclick = () => step(-1);
+$('snext').onclick = () => step(1);
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-go],[data-q],[data-act],[data-sug]');
+  if (!t) return;
+  if (t.dataset.go) go(+t.dataset.go);
+  else if (t.dataset.q) answerQuestion(t.dataset.q);
+  else if (t.dataset.sug) talk(t.dataset.sug, true);
+  else if (t.dataset.act === 'front') toFront();
+  else if (t.dataset.act === 'ask') openPane();
+});
+document.addEventListener('keydown', e => {
+  if (e.target.id === 'ask'){
+    if (e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); $('composer').requestSubmit(); }
+    return;
+  }
+  if (e.target.closest('input,textarea')) return;
+  if (e.key === 'ArrowRight') step(1);
+  if (e.key === 'ArrowLeft') step(-1);
+  if (e.key === 'Escape'){ if (!$('menu').hidden) toggleMenu(false); else if (pane.open) closePane(); else if (face === 'back') toFront(); }
+});
+/* swipe: left for next, right for back */
+let sx = null, sy = null;
+document.addEventListener('touchstart', e => { if (pane.open || e.target.closest('textarea,.menu,.pane')) return; sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, {passive:true});
+document.addEventListener('touchend', e => {
+  if (sx === null) return;
+  const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; sx = null;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.4) step(dx < 0 ? 1 : -1);
+}, {passive:true});
+
+/* ---------- who answers: three dots, not a dropdown ---------- */
+const MODELS = {haiku:{id:'claude-haiku-5-5', tier:'quick', name:'Haiku'}, sonnet:{id:'claude-sonnet-5-5', tier:'default', name:'Sonnet'}, opus:{id:'claude-opus-5-5', tier:'complex', name:'Opus'}};
+let model = MODELS[store.get('deck-model')] ? store.get('deck-model') : 'haiku';
+function paintMenu(){ document.querySelectorAll('[data-model]').forEach(b => b.setAttribute('aria-checked', b.dataset.model === model)); }
+function toggleMenu(show){ $('menu').hidden = !show; $('dots').setAttribute('aria-expanded', show); }
+$('dots').onclick = e => { e.stopPropagation(); toggleMenu($('menu').hidden); };
+$('menu').onclick = e => { const b = e.target.closest('[data-model]'); if (!b) return; model = b.dataset.model; store.set('deck-model', model); paintMenu(); toggleMenu(false); toast(`${MODELS[model].name} answers now.`); };
+document.addEventListener('click', e => { if (!$('menu').hidden && !e.target.closest('#menu,#dots')) toggleMenu(false); });
+paintMenu();
+
+let toastT;
+function toast(msg){ const t = $('toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 3200); }
+
+/* ---------- asking Claude ---------- */
+let sample = null;
+window.claude?.use?.('sample').then(s => { sample = s; }).catch(() => {});
+/* reaching the answer card marks the deck read; Fuji's daily runs read this doc (collection progress, doc read) */
+let dbP = null, readSaved = false;
+function markRead(){
+  if (readSaved) return; readSaved = true;
+  dbP = dbP || Promise.resolve(window.claude?.use?.('db')).catch(() => null);
+  dbP.then(async db => { if (!db) return; const ref = db.doc('progress/read'); const s = await ref.get(); if (!s.exists) await ref.set({read: true, at: Date.now()}); }).catch(() => { readSaved = false; });
+}
+
+const WHO = `You are ${ART.expert}, teaching Ash one-on-one. ${ART.reader}`;
+const VOICE = `How you write: 7th-grade words, short sentences, specific, no hedges, no filler, no praise like "great question", no bullet lists, no jargon until it has been explained. Teach a new concept as a reverse explanation: first say what problem it solves and how it works in plain words, then give its name last. Never open with a name or a definition.`;
+const SVG_RULES = `"svg": a drawing ONLY if it explains faster than words, else "". If you draw: one <svg viewBox="0 0 320 180"> using only rect, circle, line, path, text. Colour with these classes and nothing else: fills s-tx s-mu s-p1 s-p2 s-p3 s-bg2; strokes k-ln k-p1 k-p2 k-p3. Text font-size 13 to 16, at most 6 labels of 1 to 3 words, nothing outside the viewBox. One clear path for the eye, top to bottom or left to right.`;
+
+let rally = [];   // this talk's turns, so each call knows what came before
+
+function cardText(){ return plain(CARDS[at].html); }
+
+async function callClaude(prompt){
+  const m = MODELS[model];
+  const {text} = await sample(prompt, {model: m.id, modelTier: m.tier, cache: false});
+  const s = text.indexOf('{'), e = text.lastIndexOf('}');
+  if (s < 0 || e < s) throw {code: 'bad_reply'};
+  return JSON.parse(text.slice(s, e + 1));
+}
+function errCopy(e){
+  return {not_granted: 'Claude is switched off for this page. Reload it and allow Claude to talk.', rate_limited: 'Too many asks at once. Wait a minute, then send again.', sampling_disabled: "That model isn't available on your account. Pick another behind the three dots."}[e?.code]
+    || "Claude couldn't answer that time. Send it again.";
+}
+function needClaude(){
+  if (sample) return true;
+  toast('Talking works when this page is open in claude.ai, signed in.');
+  return false;
+}
+function waitCard(said, key){
+  return `${said ? `<p class="said">"${esc(said)}"</p>` : ''}<div class="wait"><p>Thinking, on ${MODELS[key || model].name}…</p><div class="bars"><i style="width:90%"></i><i style="width:70%"></i><i style="width:80%"></i></div></div>`;
+}
+
+function cleanSvg(src){
+  if (!src || typeof src !== 'string' || src.length > 9000) return '';
+  const doc = new DOMParser().parseFromString(src, 'image/svg+xml');
+  const svg = doc.documentElement;
+  if (!svg || svg.nodeName.toLowerCase() !== 'svg' || doc.querySelector('parsererror')) return '';
+  const ok = new Set(['svg','g','rect','circle','ellipse','line','path','polyline','polygon','text','tspan','title','defs','marker']);
+  [...svg.querySelectorAll('*')].forEach(n => { if (!ok.has(n.nodeName.toLowerCase())) n.remove(); });
+  [svg, ...svg.querySelectorAll('*')].forEach(n => [...n.attributes].forEach(a => {
+    const k = a.name.toLowerCase();
+    if (k.startsWith('on') || k === 'style' || k.includes('href')) n.removeAttribute(a.name);
+  }));
+  svg.removeAttribute('width'); svg.removeAttribute('height'); svg.setAttribute('role', 'img');
+  return `<div class="board">${new XMLSerializer().serializeToString(svg)}</div>`;
+}
+function withName(text, name){
+  let h = md(text);
+  if (name){ const n = esc(name); const i = h.toLowerCase().lastIndexOf(n.toLowerCase()); h = i >= 0 ? h.slice(0, i) + `<b class="name">${h.slice(i, i + n.length)}</b>` + h.slice(i + n.length) : h + ` <b class="name">${n}</b>`; }
+  return h;
+}
+
+/* streaming: Claude writes one JSON object per line, so each card or part shows the moment its line is done */
+function parseLine(l){ l = l.trim().replace(/^```(json)?/, '').replace(/```$/, '').trim(); if (!l.startsWith('{')) return null; try { return JSON.parse(l); } catch (e) { return null; } }
+async function streamLines(prompt, onObj, key){
+  key = key || model; const m = MODELS[key]; let done = 0;
+  const take = (text, all) => { const ls = text.split('\n'); const end = all ? ls.length : ls.length - 1; for (let k = done; k < end; k++){ const o = parseLine(ls[k]); if (o) onObj(o); } done = Math.max(done, end); };
+  const {text} = await sample(prompt, {model: m.id, modelTier: m.tier, effort: key === 'haiku' ? 'low' : undefined, cache: false, onText: ({text}) => take(text, false)});
+  take(text, true);
+}
+/* a name gets its dotted underline where it appears; if it never appears, a last line names it */
+function namedLines(lines, name){
+  lines = (Array.isArray(lines) ? lines : [lines]).filter(Boolean).slice(0, 4);
+  let hit = false;
+  const out = lines.map(l => { if (name && !hit && l.toLowerCase().includes(name.toLowerCase())){ hit = true; return withName(l, name); } return md(l); });
+  if (name && !hit) out.push(`This is called <b class="name">${esc(name)}</b>.`);
+  return out.length ? `<div class="seq">${out.map(h => `<p>${h}</p>`).join('')}</div>` : '';
+}
+/* each answer card is drawn with the deck's own cheap visuals: stops, before and now, a named idea, numbered steps */
+const A = v => [].concat(v || []).filter(Boolean);
+function qCard(c, k, q){
+  const top = `${k === 0 ? `<p class="mu" style="font-size:15px">${esc(q)}</p>` : ''}<h2>${esc(c.h || '')}</h2>`;
+  const mark = c.mark ? `<div class="keyline"><span class="l">${c.type === 'answer' ? 'In one line' : c.type === 'wrong' ? 'The problem' : 'What comes back'}</span><span class="t">${md(c.mark)}</span></div>` : '';
+  if (c.type === 'wrong') return top + `<div class="stops gen">${A(c.stops).slice(0, 3).map((x, i) => `<div class="stop ${i ? 'hit' : ''}"><span class="w">${esc(x.when)}</span><span>${md(x.what)}</span>${x.result ? `<span class="r">${md(x.result)}</span>` : ''}</div>`).join('')}</div>` + mark;
+  if (c.type === 'instead') return top + (c.lead ? `<p class="lead">${md(c.lead)}</p>` : '')
+    + `<div class="ba gen"><span class="col was">Before</span><span class="col now">Now</span>${A(c.rows).slice(0, 2).map(x => `<span class="when">${esc(x.when)}</span><div class="was"><b>${md(x.was)}</b>${x.was_result ? `<i>${md(x.was_result)}</i>` : ''}</div><div class="now"><b>${md(x.now)}</b>${x.now_result ? `<i>${md(x.now_result)}</i>` : ''}</div>`).join('')}</div>` + mark;
+  if (c.type === 'idea') return top + namedLines(c.lines, '')
+    + (A(c.parts).length ? `<div class="rows parts">${A(c.parts).slice(0, 3).map(x => `<div><span>${esc(x.part)}</span><b>${md(x.means)}</b>${x.example ? `<em class="mu">${md(x.example)}</em>` : ''}</div>`).join('')}</div>` : '')
+    + (c.why ? `<p><span class="mark">${md(c.why)}</span></p>` : '')
+    + (c.name ? `<div class="keyline"><span class="l">Its name</span><span class="t"><b class="name">${esc(c.name)}</b>${c.mark ? `: ${md(c.mark)}` : ''}</span></div>` : mark);
+  if (c.type === 'answer') return top + `<ol class="places habits gen">${A(c.steps).slice(0, 3).map((x, i) => `<li><span>${i + 1}</span><div>${md(x.step || x)}${x.how ? `<i>${md(x.how)}</i>` : ''}</div></li>`).join('')}</ol>` + mark;
+  return top + namedLines(c.lines, c.name) + mark;
+}
+/* a talk answer is a list of parts; the page draws each kind with the deck's own visuals */
+function rallyCard(said, parts, live){
+  let h = `<p class="said">"${esc(said)}"</p>`, steps = [];
+  const flush = () => { if (steps.length){ h += `<ol class="places habits gen">${steps.map(x => `<li><span>${esc(x.n || '')}</span><div>${md(x.text)}${x.example ? `<i>${md(x.example)}</i>` : ''}</div></li>`).join('')}</ol>`; steps = []; } };
+  for (const x of parts){
+    if (x.kind === 'step'){ steps.push(x); continue; }
+    flush();
+    if (x.kind === 'right') h += `<div class="part"><span class="l right">Right</span><p class="line">${md(x.text)}</p></div>`;
+    else if (x.kind === 'fix') h += `<div class="part"><span class="l fix">Fix</span><p class="line"><span class="mark">${md(x.text)}</span></p></div>`;
+    else if (x.kind === 'problem') h += `<div class="part"><span class="l fix">The hard part</span><p class="lead" style="font-size:20px;color:var(--tx)">${md(x.text)}</p></div>`;
+    else if (x.kind === 'idea') h += namedLines(x.lines, '') + (x.name ? `<div class="keyline" style="--c:var(--p2)"><span class="l">Its name</span><span class="t"><b class="name">${esc(x.name)}</b>${x.means ? `: ${md(x.means)}` : ''}</span></div>` : '');
+    else if (x.kind === 'answer') h += `<div class="keyline" style="--c:var(--p3)"><span class="l">In one line</span><span class="t">${md(x.text)}</span></div>`;
+  }
+  flush();
+  if (live) h += `<div class="wait"><div class="bars"><i style="width:70%"></i></div></div>`;
+  return h;
+}
+/* hard questions go to Sonnet: long, or asking why/how in his own words (the suggested ones stay on Haiku) */
+function isHard(said, suggested){
+  if (model !== 'haiku' || suggested) return false;
+  const w = said.split(/\s+/).length;
+  return w >= 16 || (w >= 8 && /\b(why|how (do|would|should|can)|what if|difference|trade-?off|versus|vs)\b/i.test(said));
+}
+const SHORT = `Every line is one short sentence of at most 14 words. No paragraphs. Short, but give him enough real knowledge to use it: the parts, a real example, and why it works. Use **bold** at most once per card.`;
+
+async function talk(said, suggested){
+  said = said.trim();
+  if (!said || !needClaude()) return;
+  if (!pane.open) openPane();
+  const key = isHard(said, suggested) ? 'sonnet' : model;
+  const idx = pane.items.push(waitCard(said, key)) - 1; pane.live = true; pane.next = []; drawThread();
+  document.body.classList.add('thinking');
+  const history = rally.slice(-6).map(t => `${t.who}: ${t.text}`).join('\n');
+  const prompt = `${WHO}
+
+He is reading a swipe deck that answers: "${QUESTION}"
+The whole deck:
+${DECK_TEXT}
+
+The card on his screen now: ${cardText()}
+${history ? `\nThe talk so far:\n${history}\n` : ''}
+Ash just said: "${said}"
+
+First decide which of these three he sent, then answer in that shape.
+A) HIS THINKING (a claim or his own take): say what's right in his words, fix the one wrong or missing part. Add a new idea ONLY if it is the next thing he needs; most of the time, don't.
+B) AN APPLIED QUESTION ("how would this look in ${WORLD}", "how do I do this", "how would I measure it"): name the hard part in one line, then 2 or 3 numbered steps that answer it, each with a concrete ${WORLD} example (who, what, when). Name an idea only if it is the one he'll reuse; otherwise leave the idea line out.
+C) A BIG OR HARD QUESTION: teach it the way the deck does. Name where he is and the hard part in one line. Then build it in 3 numbered steps, one new piece per step, each with a concrete example from his world. Then the idea's real name and what it means. Then the whole answer in one line.
+NAMES: at most ONE named idea in the whole answer, and only one he'll use again. Explain everything else in plain words with no name. Never drop extra terms in passing.
+In every shape, finish with two questions a sharp ${ART.asker || 'founder'} would ask next about this, specific to ${WORLD}, never generic.
+
+${VOICE}
+Every line is one short sentence, at most 16 words. No paragraphs. Specific beats short: give the real detail (numbers, who does what, what to count).
+
+Write one JSON object per line, in order, and nothing else (no array, no code fences). Use only the kinds your shape needs:
+{"kind": "right", "text": "what he got right, in his words"}
+{"kind": "fix", "text": "the one wrong or missing part, fixed"}
+{"kind": "problem", "text": "the hard part, in one line"}
+{"kind": "step", "n": 1, "text": "the step", "example": "what it looks like in ${WORLD}"}
+{"kind": "idea", "lines": ["1 or 2 lines: what it does, before the name"], "name": "its real name", "means": "what it shows or does, a few words"}
+{"kind": "answer", "text": "the whole answer in one line"}
+{"kind": "next", "qs": ["question one", "question two"]}`;
+  const parts = []; let next = [];
+  const show = live => { pane.items[idx] = rallyCard(said, parts, live); drawThread(); };
+  try {
+    await streamLines(prompt, o => { if (o.kind === 'next'){ next = [].concat(o.qs || []).slice(0, 2); return; } if (o.kind) { parts.push(o); show(true); } }, key);
+    if (!parts.length) throw {code: 'bad_reply'};
+    rally.push({who: 'Ash', text: said}, {who: 'You', text: parts.map(x => x.text || [].concat(x.lines || []).join(' ') + (x.name ? ' ' + x.name : '')).join(' ')});
+    pane.next = next;
+    pane.items[idx] = rallyCard(said, parts, false);
+  } catch (e) {
+    pane.items[idx] = rallyCard(said, parts, false) + `<p class="line">${esc(errCopy(e))}</p>`;
+  } finally { document.body.classList.remove('thinking'); pane.live = false; drawThread(); }
+}
+
+async function answerQuestion(q){
+  if (!needClaude()) return;
+ 
+  toBack('wait', 'Other question', [`<h2>${esc(q)}</h2>${waitCard('')}`]); render('flip');
+  document.body.classList.add('thinking');
+  const prompt = `${WHO}
+
+He just finished a swipe deck that answered: "${QUESTION}"
+What he has already read:
+${DECK_TEXT}
+
+Now answer his next question in the same card style: "${q}"
+Don't repeat what the deck said; build on it. Every card stands alone: never say "the same draft" or refer back to another card.
+${VOICE}
+${SHORT}
+
+Write exactly 4 cards, one JSON object per line, in this order, and nothing else (no array, no code fences, no drawings):
+{"type": "wrong", "h": "How does it usually go wrong?", "stops": [{"when": "Day 1", "what": "what happens in his world, ${WORLD}", "result": "what it leads to"}, 2 more stops], "mark": "the core problem in one line"}
+{"type": "instead", "h": "What if we do this instead?", "lead": "", "rows": [{"when": "the moment", "was": "the old move", "was_result": "what it led to", "now": "the new move", "now_result": "what comes back"}, 1 more row], "mark": "what comes back overall"}
+{"type": "idea", "h": "a plain question about the big idea that makes it work", "lines": ["2 short lines: the problem the idea solves, in plain words, before any name"], "parts": [{"part": "a part of the idea, 1 to 3 words", "means": "what it is, in plain words", "example": "what it looks like in ${WORLD}"}, 1 or 2 more parts], "why": "why it works, in one line", "name": "the idea's real name", "mark": "what the name means, in a few plain words"}
+{"type": "answer", "h": "So what's the answer?", "steps": [{"step": "a short step", "how": "what it looks like in ${WORLD}"}, 1 or 2 more], "mark": "the whole answer in one line"}
+"lead" is a metaphor ONLY if it makes the idea clearer, and then it carries its own meaning in the same line, like "Like a test drive: you see how it handles before you buy." Otherwise leave it "".`;
+  const got = [];
+  try {
+    await streamLines(prompt, o => {
+      if (!o.h) return;
+      got.push(o);
+      const keep = back.i;
+      toBack('reply', 'Other question', got.map((c, k) => qCard(c, k, q)));
+      back.expect = 4; back.i = Math.min(keep, 3);
+      render();
+    });
+    if (!got.length) throw {code: 'bad_reply'};
+    back.expect = got.length;
+    rally.push({who: 'Ash asked', text: q}, {who: 'You', text: got.map(c => [].concat(c.lines || []).join(' ') + ' ' + (c.mark || '')).join(' ')});
+  } catch (e) {
+    if (got.length){ back.expect = got.length; toast(errCopy(e)); }
+    else toBack('reply', 'Other question', [`<h2>${esc(q)}</h2><p class="line">${esc(errCopy(e))}</p>`]);
+  } finally { document.body.classList.remove('thinking'); render(); }
+}
+
+/* ---------- the Ask pane: type or dictate (Wispr Flow works here), answers come back as cards ---------- */
+const pane = {open: false, items: [], live: false, next: []};
+function cardHeading(){ const m = CARDS[at].html.match(/<h[12]>([\s\S]*?)<\/h[12]>/); return m ? plain(m[1]) : ''; }
+function suggestions(){
+  const name = (CARDS[at].html.match(/class="name">([^<]+)</) || [])[1];
+  const s = [`How would this look in ${WORLD}?`, "What's the catch with this?", 'Give me one more example.'];
+  if (name) s.unshift(`Explain ${name} more simply.`);
+  return s.slice(0, 3);
+}
+function drawThread(){
+  const el = $('thread');
+  if (!pane.items.length){
+    el.innerHTML = `<p class="mu">Ask anything about this card, or say what you think and I'll fix the one part that's off.</p><div class="sugs">${suggestions().map(q => `<button class="sug" data-sug="${esc(q)}">${esc(q)}</button>`).join('')}</div>`;
+    return;
+  }
+  el.innerHTML = pane.items.map(h => `<div class="rcard">${h}</div>`).join('')
+    + (pane.live || !(pane.next || []).length ? '' : `<p class="sn" style="margin-top:4px">${esc(ART.askers || 'Founders')} ask next</p><div class="sugs">${pane.next.map(q => `<button class="sug" data-sug="${esc(q)}">${esc(q)}</button>`).join('')}</div>`);
+  el.scrollTop = el.scrollHeight;
+}
+function openPane(){
+  if (!needClaude()) return;
+  pane.open = true;
+  $('panehead').textContent = 'Ask about: ' + cardHeading();
+  $('pane').classList.remove('full'); $('pane').style.height = ''; $('pane').hidden = false; $('scrim').hidden = false;
+  drawThread();
+  setTimeout(() => $('ask').focus(), 60);
+}
+function closePane(){ pane.open = false; $('pane').hidden = true; $('scrim').hidden = true; $('ask').blur(); }
+/* push the pane up to read full screen, pull it down to half or away */
+(() => {
+  let y0 = null, h0 = 0, moved = false;
+  const el = $('pane');
+  const down = e => { if (e.target.closest('button')) return; y0 = e.clientY; h0 = el.getBoundingClientRect().height; moved = false; el.classList.add('dragging'); e.currentTarget.setPointerCapture?.(e.pointerId); };
+  const move = e => { if (y0 === null) return; const dy = e.clientY - y0; if (Math.abs(dy) > 4) moved = true; el.style.height = Math.max(120, Math.min(window.innerHeight, h0 - dy)) + 'px'; };
+  const up = e => {
+    if (y0 === null) return;
+    el.classList.remove('dragging');
+    const h = el.getBoundingClientRect().height, vh = window.innerHeight; y0 = null; el.style.height = '';
+    if (!moved){ el.classList.toggle('full'); return; }
+    if (h < vh * 0.3) closePane(); else el.classList.toggle('full', h > vh * 0.68);
+  };
+  ['grab', 'panetop'].forEach(id => { $(id).addEventListener('pointerdown', down); $(id).addEventListener('pointermove', move); $(id).addEventListener('pointerup', up); $(id).addEventListener('pointercancel', up); });
+})();
+$('paneclose').onclick = closePane;
+$('scrim').onclick = closePane;
+$('composer').onsubmit = e => { e.preventDefault(); const v = $('ask').value.trim(); if (!v || document.body.classList.contains('thinking')) return; $('ask').value = ''; $('ask').style.height = ''; talk(v); };
+$('ask').addEventListener('input', e => { e.target.style.height = 'auto'; e.target.style.height = Math.min(e.target.scrollHeight, 120) + 'px'; });
+
+render();
+})();
+</script>
