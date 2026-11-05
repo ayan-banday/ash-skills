@@ -1,6 +1,6 @@
 # One article, one deck: the format and the card rules
 
-Open on every run, before writing the first card. Every rule here is Ash's, from his comments on the deck prototype (Fuji ticket 39, Nov 5 2026, 14 versions). `scripts/build_deck.py` checks the ones code can check; the rest are yours.
+Open on every run, before writing the first card. **For cards, this file wins over teach-side-chat:** its chapter rules (Markdown tables for sequences, the worn park path as the model metaphor) are for chat chapters, never decks. Every rule here is Ash's, from his comments on the deck prototype (Fuji ticket 39, Nov 5 2026, 14 versions). `scripts/build_deck.py` checks the ones code can check; the rest are yours.
 
 ## The file you write
 
@@ -22,6 +22,7 @@ One `<name>.article.html` per article, three blocks, nothing else. The engine (`
  "reader": "Who Ash is for this question, in two plain sentences from his note.",
  "asker": "founder", "askers": "Founders",
  "written_by": "the build session, strongest model",
+ "metaphor": "street cricket", "far": "dolphin training",
  "parts": [{"name": "Oneword", "long": "A longer name", "c": "var(--p1)"}, ... 4 in all]}
 </script>
 
@@ -30,7 +31,8 @@ One `<name>.article.html` per article, three blocks, nothing else. The engine (`
 ```
 
 - **`--island`:** pick a `--b` token whose value differs from `--acc`. When `b1` equals `acc`, take `b2` or `b3`; a near-black one disappears on the card, so take the lightest of the rest.
-- **Part colours:** four different tokens, usually `--p1`, `--p2`, `--p3`, `--tx`.
+- **Part colours:** four tokens that look different and read on the page, usually `--p1`, `--p2`, `--p3`, `--tx`. Many two-colour combinations give two near-identical pastels; `build_deck.py` rejects them, so re-seed (step 4) until it passes rather than swap in a dull grey.
+- **`metaphor` and `far`:** the daily-life scene and the far field, a few words each. The library keeps them so no later deck reuses them (`--avoid-worlds`).
 - **Part names:** one contextual word each, at most 9 letters, so four fit at 390px ("Polish, Shouts, Udyaan, Habits"). `long` is what the row under the trail says.
 - **`world`:** where Ash applies it, from his note. It fills the Ask pane's prompts and its suggested question ("How would this look in Udyaan?"). `asker` and `askers` name who he is in this question ("Founders ask next"; a BBA finance question might be "a student who runs a business").
 - **`@@QUESTION@@`** in the first card's `<h1>` becomes the question.
@@ -69,7 +71,9 @@ One `<name>.article.html` per article, three blocks, nothing else. The engine (`
 - **Cut every line that adds nothing,** above all the hedging kind ("No speech. No values poster.").
 - **At most two named concepts in a deck:** the big concept and the far-transfer name. Everything else in plain words.
 - **No how-to lines** ("tap Ask", "swipe"): Ash knows how the deck works.
-- **The metaphor comes from a daily-life scene Ash has lived,** in a world nothing like the problem's, mapped part by part (teach-side-chat, "How the idea and its metaphor are made").
+- **No dead space.** Every card but the promise fills at least half of its screen. A short card gets a bigger drawing, `p.big` or `.seq.big` (the question card's two lines), never filler.
+- **Every number shows where it came from,** in one line on the same card ("₹9,000 more today skips eleven ₹1,000 payments"). A made-up example amount is fine; an unexplained one is not.
+- **The metaphor comes from a daily-life scene Ash has lived,** in a world nothing like the problem's, mapped part by part (teach-side-chat, "How the idea and its metaphor are made"). For money, lending a thing (your scooter for a month) is a metaphor; lending money in another job is an example, not a metaphor.
 - **Far transfer** is the same first principle solving a different problem in another field, said in plain short lines ("What happens if you pay an AI one point per target?"). Never the same problem somewhere else.
 - **The answer card** comes in steps (pick three as chips; the numbered parts), then one marked line.
 
@@ -86,7 +90,7 @@ Use each where its job is; a card that needs none of them is fine.
 | A dotted underline | `b.name` | the one concept name |
 | One box | `div.keyline` with `span.l` and `span.t` | the principle, the problem or the name, once per card |
 
-The other parts: `.seq` (short lines down a thin rule), `.stops` with `.stop` / `.stop.hit` (`span.w` when, plain span what, `span.r` result), `.stops.watch` (one example through each part), `.ba` (`span.col.was`, `span.col.now`, then per row `span.when`, `div.was`, `div.now`, each `<b>` the move and `<i>` what it leads to), `.rows` (label `span`, `b.quote`, `em`), `.talk` (`span.who` per speaker), `.ans` with `.st` (`span.sn`, `<b>`, `.chips`), `p.big`, `p.line`, `p.line.mu`, `p.eyebrow`. The example article uses each one: `references/example-culture.article.html`.
+The other parts: `.seq` (short lines down a thin rule), `.stops` with `.stop` / `.stop.hit` (`span.w` when, plain span what, `span.r` result), `.stops.watch` (one example through each part), `.ba` (`span.col.was`, `span.col.now`, then per row `span.when`, `div.was`, `div.now`, each `<b>` the move and `<i>` what it leads to), `.rows` (label `span`, `b.quote`, `em`), `.talk` (`span.who` per speaker), `.ans` with `.st` (`span.sn`, `<b>`, `.chips`), `p.big`, `p.line`, `p.line.mu`, `p.eyebrow`. Two example articles use them: `references/example-culture.article.html` (a team habit) and `references/example-money.article.html` (a finance concept, with numbers).
 
 ## Drawings
 

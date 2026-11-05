@@ -1,0 +1,237 @@
+<style id="tokens">
+/* Palette: No. 241, Red Orange + Pale Lemon Yellow + Isabella Color + Dark Medici Blue · like Espresso and Sand · place dark (match-ash-design scripts/palette.py) */
+:root{
+  --bg:#171110; --bg2:#211715; --bg3:#2A1D1A;
+  --tx:#EDE6E4; --mu:#AFA5A3; --ln:rgba(237,230,228,0.12);
+  --p1:#C5A56E; --p2:#F6B0A2; --p3:#ACCAD1; --acc:#DD4027; --acc2:#FFEFAE;
+  --on:#171110; --onacc:#171110;
+  --b1:#DD4027; --b2:#FFEFAE; --b3:#C5A56E; --b4:#547076;
+  --island:var(--b3); /* Isabella Color: the combination's colour that isn't the accent */
+  color-scheme:dark;
+}
+</style>
+
+<script type="application/json" id="article">
+{
+  "id": "money-now-or-later",
+  "title": "Money Now Or Later",
+  "question": "How do you choose between money now and a different amount later, like paying for a tool yearly or monthly, or a client paying more later?",
+  "world": "Udyaan",
+  "expert": "a ten-year expert in startup finance who has run the books of early-stage companies",
+  "reader": "Ash is a founder building Udyaan, an online course for agriculture students in India, with a small team and tight cash. In BBA finance he memorised the time value of money formula; he wants to use it on real Udyaan decisions, like paying a tool yearly or taking a client's money now.",
+  "asker": "founder",
+  "askers": "Founders",
+  "written_by": "the build session, strongest model",
+  "metaphor": "lending your scooter",
+  "far": "bees and flowers",
+  "parts": [
+    {"name": "Totals", "long": "The totals trap", "c": "var(--p1)"},
+    {"name": "Today", "long": "Bring it to today", "c": "var(--p2)"},
+    {"name": "Udyaan", "long": "In Udyaan", "c": "var(--p3)"},
+    {"name": "Rule", "long": "Your money rule", "c": "var(--tx)"}
+  ]
+}
+</script>
+
+<template class="card" data-part="0" data-kind="question">
+  <p class="eyebrow">Side skills · Money</p>
+  <h1>@@QUESTION@@</h1>
+  <div class="seq big">
+    <p><b>You know the formula:</b> today's value is the later amount ÷ (1 + r)ⁿ.</p>
+    <p>You don't yet know <span class="mark">which r is yours</span>, or when it flips the answer.</p>
+  </div>
+</template>
+
+<template class="card" data-part="0" data-kind="promise">
+  <p class="eyebrow">What you get</p>
+  <h2>What will you be able to do?</h2>
+  <p class="big">Put any two money offers on <b>the same day</b>, and pick the better one for Udyaan in <b>two minutes</b>.</p>
+</template>
+
+<template class="card" data-part="0" data-kind="wrong">
+  <p class="eyebrow">The usual story</p>
+  <h2>How does it usually go wrong in a young startup?</h2>
+  <div class="stops">
+    <div class="stop"><span class="w">Monday</span><span>A tool costs ₹1,000 a month, or ₹10,000 a year.</span><span class="r">You pick monthly. It feels smaller.</span></div>
+    <div class="stop hit"><span class="w">Same week</span><span>A client offers ₹50,000 now, or ₹60,000 in six months.</span><span class="r">You wait. ₹60,000 is bigger.</span></div>
+    <div class="stop hit"><span class="w">Month 4</span><span>The client pays two months late.</span><span class="r">No cash for the ads you planned.</span></div>
+  </div>
+  <div class="keyline"><span class="l">The problem</span><span class="t">You compare amounts that land on different days, as if they landed together.</span></div>
+</template>
+
+<template class="card" data-part="1" data-kind="instead">
+  <p class="eyebrow">The fix</p>
+  <h2>What if we do this instead?</h2>
+  <div class="board"><svg viewBox="0 0 340 200" role="img" aria-labelledby="t-in"><title id="t-in">Two rows of payments over a year. Yearly: one ₹10,000 block today. Monthly: twelve ₹1,000 blocks. The extra ₹9,000 paid today saves eleven ₹1,000 payments, about 3.5% a month.</title>
+    <text x="10" y="30" class="s-p2" font-size="14" font-weight="700">yearly</text>
+    <rect x="70" y="14" width="44" height="24" rx="3" class="s-p2"/>
+    <text x="10" y="82" class="s-mu" font-size="14">monthly</text>
+    <rect x="70" y="68" width="16" height="20" rx="2" class="k-p1"/><rect x="92" y="68" width="16" height="20" rx="2" class="k-p1"/><rect x="114" y="68" width="16" height="20" rx="2" class="k-p1"/><rect x="136" y="68" width="16" height="20" rx="2" class="k-p1"/><rect x="158" y="68" width="16" height="20" rx="2" class="k-p1"/><rect x="180" y="68" width="16" height="20" rx="2" class="k-p1"/><rect x="202" y="68" width="16" height="20" rx="2" class="k-p1"/><rect x="224" y="68" width="16" height="20" rx="2" class="k-p1"/><rect x="246" y="68" width="16" height="20" rx="2" class="k-p1"/><rect x="268" y="68" width="16" height="20" rx="2" class="k-p1"/><rect x="290" y="68" width="16" height="20" rx="2" class="k-p1"/><rect x="312" y="68" width="16" height="20" rx="2" class="k-p1"/>
+    <path d="M92 100 H328" class="k-p2" stroke-dasharray="3 6"/>
+    <text x="70" y="122" class="s-tx" font-size="14">₹9,000 extra today</text>
+    <text x="328" y="122" text-anchor="end" class="s-p2" font-size="14" font-weight="700">saves ₹11,000</text>
+    <rect x="40" y="146" width="260" height="40" rx="20" class="s-bg3"/>
+    <text x="170" y="172" text-anchor="middle" class="s-p2" font-size="16" font-weight="800">about 3.5% a month</text>
+  </svg></div>
+  <p class="line">Pay ₹9,000 more today, skip eleven ₹1,000 payments: <b>₹11,000</b> back on ₹9,000.</p>
+  <p class="line mu">That's about 3.5% a month, over 40% a year. No bank pays that, so yearly wins if you keep the tool.</p>
+</template>
+
+<template class="card" data-part="1" data-kind="why">
+  <p class="eyebrow">Why it works</p>
+  <h2>Why does that work?</h2>
+  <div class="board"><svg viewBox="0 0 340 200" role="img" aria-labelledby="t-why"><title id="t-why">Your scooter goes to a friend for a month and comes back with a full tank worth ₹400. That month you pay ₹2,000 for autos.</title>
+    <circle cx="40" cy="104" r="13" class="k-ln"/><circle cx="112" cy="104" r="13" class="k-ln"/>
+    <path d="M40 104 C40 84 56 80 74 84 H104 L112 104" class="k-p2"/><path d="M104 84 L116 50 H128" class="k-p2"/>
+    <rect x="50" y="70" width="30" height="9" rx="4" class="s-p2"/>
+    <text x="74" y="138" text-anchor="middle" class="s-mu" font-size="13">your scooter</text>
+    <path d="M136 80 H186" class="k-ln"/><path d="M180 74 l7 6 -7 6" class="k-ln"/>
+    <text x="161" y="66" text-anchor="middle" class="s-mu" font-size="13">one month</text>
+    <rect x="200" y="30" width="130" height="40" rx="3" class="s-bg3"/>
+    <text x="265" y="56" text-anchor="middle" class="s-p2" font-size="15" font-weight="700">back: tank ₹400</text>
+    <rect x="200" y="96" width="130" height="40" rx="3" class="s-bg3"/>
+    <text x="265" y="122" text-anchor="middle" class="s-p1" font-size="15" font-weight="700">autos: ₹2,000</text>
+    <text x="170" y="184" text-anchor="middle" class="s-tx" font-size="15" font-weight="700">₹400 back, ₹2,000 lost</text>
+  </svg></div>
+  <p class="lead">Think of a friend who wants your scooter for a month.</p>
+  <div class="seq">
+    <p>He'll bring it back with a full tank.</p>
+    <p>That month, you pay ₹2,000 for autos.</p>
+    <p><span class="mark">The full tank doesn't cover the month you lost.</span></p>
+  </div>
+  <p class="line">Money is like that scooter. <b>While you hold it, it does a job for you.</b></p>
+</template>
+
+<template class="card" data-part="1" data-kind="concept">
+  <p class="eyebrow">What sets the value</p>
+  <h2>What decides what later money is worth today?</h2>
+  <p class="line">Four things set it:</p>
+  <ol class="places">
+    <li><span>1</span>How much</li>
+    <li><span>2</span>How long you wait</li>
+    <li><span>3</span>What it earns meanwhile</li>
+    <li><span>4</span>The chance it never comes</li>
+  </ol>
+  <p class="line mu">Change any one, and the better offer can flip.</p>
+</template>
+
+<template class="card" data-part="1" data-kind="concept">
+  <p class="eyebrow">One offer, all four</p>
+  <h2>How does one client offer run through all four?</h2>
+  <div class="stops watch">
+    <div class="stop"><span class="w">1 · How much</span><span>₹60,000 later, against ₹50,000 now</span></div>
+    <div class="stop"><span class="w">2 · How long you wait</span><span>Six months</span></div>
+    <div class="stop"><span class="w">3 · What it earns meanwhile</span><span>Say 7% a year in a bank deposit: ₹58,000 today</span></div>
+    <div class="stop"><span class="w">4 · The chance it never comes</span><span>Say 1 in 5 such clients never pay: about ₹46,000</span></div>
+  </div>
+  <div class="keyline"><span class="l">Its name</span><span class="t">What later money is worth today is its <b class="name">present value</b>. ₹46,000 loses to ₹50,000 now.</span></div>
+</template>
+
+<template class="card" data-part="2" data-kind="team">
+  <p class="eyebrow">In a startup</p>
+  <h2>How would it look in a startup?</h2>
+  <div class="ba">
+    <span class="col was">Before</span><span class="col now">Now</span>
+    <span class="when">The tool renewal</span>
+    <div class="was"><b>Monthly, because it feels smaller</b><i>₹2,000 a year gone</i></div>
+    <div class="now"><b>Yearly, after three months of use</b><i>₹2,000 saved, no wasted year</i></div>
+    <span class="when">The client deal</span>
+    <div class="was"><b>Wait for ₹60,000</b><i>Six months short of cash</i></div>
+    <div class="now"><b>Take ₹50,000 now</b><i>Waiting was worth about ₹46,000 today</i></div>
+    <span class="when">Spare cash</span>
+    <div class="was"><b>Sits in the current account</b><i>Earns nothing</i></div>
+    <div class="now"><b>Goes into a bank deposit</b><i>Earns while it waits</i></div>
+  </div>
+</template>
+
+<template class="card" data-part="2" data-kind="world">
+  <p class="eyebrow">In Udyaan · the habits</p>
+  <h2>How would you apply this in Udyaan?</h2>
+  <p class="line">Three money calls you'll make this year:</p>
+  <ol class="places habits">
+    <li><span>1</span><div>Turn "pay yearly" into a rate<i>The video tool's yearly plan: ₹9,000 extra today saves ₹11,000.</i></div></li>
+    <li><span>2</span><div>Say later money in today's rupees<i>Before you sign for ₹60,000 in June, write its value in today's rupees.</i></div></li>
+    <li><span>3</span><div>Check your cash first<i>Count the months of cash left before you pick the rate.</i></div></li>
+  </ol>
+</template>
+
+<template class="card" data-part="2" data-kind="world">
+  <p class="eyebrow">In Udyaan · when cash is short</p>
+  <h2>What changes when Udyaan is short of cash?</h2>
+  <div class="rows">
+    <div><span>Six months of cash in the bank</span><b class="quote">Your rate is what a bank deposit pays: about 7% a year.</b><em class="mu">₹60,000 in six months is about ₹58,000 today.</em></div>
+    <div><span>Two months of cash left</span><b class="quote">Your rate is what a credit card charges: about 3.75% a month.</b><em class="now">The same ₹60,000 is about ₹48,000 today. Take ₹50,000 now.</em></div>
+  </div>
+</template>
+
+<template class="card" data-part="2" data-kind="changes">
+  <p class="eyebrow">What changes for you</p>
+  <h2>What changes for you?</h2>
+  <div class="talk">
+    <p><span class="who">The client</span>"We can pay ₹50,000 now, or ₹60,000 after the season."</p>
+    <p><span class="who">You</span><b>"₹50,000 now, please. We start Monday."</b></p>
+  </div>
+  <div class="seq">
+    <p>One question before every money call: what is it worth today?</p>
+    <p><span class="mark">Your months of cash set the rate.</span></p>
+    <p>A later offer has to beat that rate and its risk.</p>
+  </div>
+</template>
+
+<template class="card" data-part="2" data-kind="far">
+  <p class="eyebrow">Far away · bees and flowers</p>
+  <h2>When should a bee leave a patch of flowers?</h2>
+  <div class="board"><svg viewBox="0 0 340 200" role="img" aria-labelledby="t-far"><title id="t-far">Nectar gathered in one patch rises fast, then flattens as the flowers empty. A straight line shows the bee's usual pace elsewhere. Where the curve gets slower than that line, the bee leaves.</title>
+    <path d="M20 170 H330" class="k-ln"/>
+    <text x="330" y="190" text-anchor="end" class="s-mu" font-size="13">time in patch</text>
+    <path d="M60 170 C90 100 140 70 320 52" class="k-p2" stroke-width="4"/>
+    <path d="M20 170 L250 50" class="k-p1" stroke-dasharray="4 7"/>
+    <circle cx="176" cy="74" r="7" class="s-p2"/>
+    <text x="176" y="40" text-anchor="middle" class="s-p2" font-size="15" font-weight="800">leave here</text>
+    <path d="M176 46 V64" class="k-p2"/>
+    <text x="70" y="150" class="s-p1" font-size="13">pace elsewhere</text>
+    <text x="330" y="80" text-anchor="end" class="s-mu" font-size="13">nectar here</text>
+  </svg></div>
+  <div class="seq">
+    <p>A bee sips fast at first. Then the flowers run dry.</p>
+    <p>Flying to the next patch costs time.</p>
+    <p><span class="mark">It leaves when this patch pays slower than its pace elsewhere.</span></p>
+  </div>
+  <div class="keyline"><span class="l">The first principle</span><span class="t">Stay only while this choice grows faster than your next best one. Ecologists call it the <b class="name">marginal value theorem</b>.</span></div>
+</template>
+
+<template class="card" data-part="3" data-kind="limit">
+  <p class="eyebrow">One limit</p>
+  <h2>When does this stop working?</h2>
+  <p class="big">It only weighs money.</p>
+  <p class="line">A client who pays later but brings five colleges gets no credit in the sum.</p>
+  <div class="keyline"><span class="l">The test</span><span class="t">Make both amounts equal. Still want it? Then your reason is something other than money.</span></div>
+</template>
+
+<template class="card" data-part="3" data-kind="answer">
+  <p class="eyebrow">The answer</p>
+  <h2>How do you choose between money now and later?</h2>
+  <div class="ans">
+    <div class="st"><span class="sn">Step 1</span><b>Pick your rate from your cash</b>
+      <div class="chips"><span>6+ months: about 7% a year</span><span>Under 3 months: about 3.75% a month</span></div></div>
+    <div class="st"><span class="sn">Step 2</span><b>Bring both offers to today</b>
+      <ol class="places small"><li><span>1</span>How much</li><li><span>2</span>How long</li><li><span>3</span>What it earns</li><li><span>4</span>Will it come?</li></ol></div>
+  </div>
+  <p class="line">That today number is its <b class="name">present value</b>. <span class="mark">Pick the bigger number today.</span></p>
+  <details><summary>Sources</summary><ol>
+    <li>Richard Brealey, Stewart Myers and Franklin Allen, <em>Principles of Corporate Finance</em>, chapter 2: present value, and the discount rate as the return you give up.</li>
+    <li>Eric L. Charnov, "Optimal foraging, the marginal value theorem", <em>Theoretical Population Biology</em> 9 (1976): 129 to 136.</li>
+    <li>SBI Card finance charges of 3.75% a month on unsecured cards from 1 November 2024, <a href="https://businesstoday.in/personal-finance/news/story/credit-card-updates-sbi-card-hikes-charges-on-these-cards-from-november-1-check-details-452230-2024-11-01">Business Today</a>. Bank deposit rates near 7% a year are a rounded guess.</li>
+    <li>The tool, client and amounts are made up for the example; the yearly plan's rate is computed : ₹9,000 now against eleven ₹1,000 payments is about 3.5% a month.</li>
+  </ol></details>
+</template>
+
+<template class="card" data-part="3" data-kind="other">
+  <p class="eyebrow">Other questions</p>
+  <h2>What else do you want to know?</h2>
+  <div class="qs">
+    <button class="q" data-q="How big a discount should Udyaan offer a college that pays for the year upfront?">How big a discount should Udyaan offer a college that pays for the year upfront?</button>
+    <button class="q" data-q="How do you decide whether to hire someone now or in three months?">How do you decide whether to hire someone now or in three months?</button>
+    <button class="q" data-q="How do you tell whether a loan to grow faster is worth its interest?">How do you tell whether a loan to grow faster is worth its interest?</button>
+  </div>
+</template>

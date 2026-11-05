@@ -65,6 +65,7 @@ p{margin:0}
 /* visual weights: a lead line, a short sequence, a marker for the result */
 .lead{font-family:var(--f-head);font-weight:800;font-size:22px;line-height:1.3;color:var(--c)}
 .seq{display:flex;flex-direction:column;gap:6px;padding-left:14px;border-left:2px solid var(--ln);font-size:18px;line-height:1.45}
+.seq.big{font-size:21px;gap:10px}
 .mark{color:color-mix(in srgb,var(--tx) 70%,#fff);font-weight:700;background-image:linear-gradient(color-mix(in srgb,var(--p1) 50%,transparent),color-mix(in srgb,var(--p1) 50%,transparent));background-size:100% .34em;background-repeat:no-repeat;background-position:0 92%;-webkit-box-decoration-break:clone;box-decoration-break:clone;padding:0 2px}
 .keyline{background:var(--bg3);border-radius:3px;padding:14px 16px}
 .keyline .l{display:block;font-family:var(--f-mono);font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
@@ -182,7 +183,7 @@ details a{color:var(--p2)}
 .pane.full{height:calc(100dvh - env(safe-area-inset-top,0px) - 8px)}
 .pane.dragging{transition:none}
 .pane header{display:flex;align-items:center;gap:10px;padding:0 0 6px;touch-action:none}
-.pane header .re{flex:1;min-width:0;font-family:var(--f-mono);font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--p3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pane header .re{flex:1;min-width:0;font-family:var(--f-mono);font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--p3);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.4}
 .pane header button{min-width:44px;min-height:44px;color:var(--mu);font-size:20px}
 .thread{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:4px 0 12px;--c:var(--p2)}
 .rcard{background:var(--bg2);border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:10px}
@@ -351,19 +352,11 @@ function markRead(){
 
 const WHO = `You are ${ART.expert}, teaching Ash one-on-one. ${ART.reader}`;
 const VOICE = `How you write: 7th-grade words, short sentences, specific, no hedges, no filler, no praise like "great question", no bullet lists, no jargon until it has been explained. Teach a new concept as a reverse explanation: first say what problem it solves and how it works in plain words, then give its name last. Never open with a name or a definition.`;
-const SVG_RULES = `"svg": a drawing ONLY if it explains faster than words, else "". If you draw: one <svg viewBox="0 0 320 180"> using only rect, circle, line, path, text. Colour with these classes and nothing else: fills s-tx s-mu s-p1 s-p2 s-p3 s-bg2; strokes k-ln k-p1 k-p2 k-p3. Text font-size 13 to 16, at most 6 labels of 1 to 3 words, nothing outside the viewBox. One clear path for the eye, top to bottom or left to right.`;
 
 let rally = [];   // this talk's turns, so each call knows what came before
 
 function cardText(){ return plain(CARDS[at].html); }
 
-async function callClaude(prompt){
-  const m = MODELS[model];
-  const {text} = await sample(prompt, {model: m.id, modelTier: m.tier, cache: false});
-  const s = text.indexOf('{'), e = text.lastIndexOf('}');
-  if (s < 0 || e < s) throw {code: 'bad_reply'};
-  return JSON.parse(text.slice(s, e + 1));
-}
 function errCopy(e){
   return {not_granted: 'Claude is switched off for this page. Reload it and allow Claude to talk.', rate_limited: 'Too many asks at once. Wait a minute, then send again.', sampling_disabled: "That model isn't available on your account. Pick another behind the three dots."}[e?.code]
     || "Claude couldn't answer that time. Send it again.";
@@ -446,10 +439,11 @@ function rallyCard(said, parts, live){
   return h;
 }
 /* hard questions go to Sonnet: long, or asking why/how in his own words (the suggested ones stay on Haiku) */
-function isHard(said, suggested){
-  if (model !== 'haiku' || suggested) return false;
-  const w = said.split(/\s+/).length;
-  return w >= 16 || (w >= 8 && /\b(why|how (do|would|should|can)|what if|difference|trade-?off|versus|vs)\b/i.test(said));
+/* Ash, Nov 5 (ticket 39): suggested questions run on Haiku at low effort; anything he types of 16 words or more,
+   or asking why, how or the difference between two things, goes to Sonnet; the three dots change the default */
+function isHard(said){
+  if (model !== 'haiku') return false;
+  return said.split(/\s+/).length >= 16 || /\b(why|how|difference|differ|versus|vs|compared? (to|with))\b/i.test(said);
 }
 const SHORT = `Every line is one short sentence of at most 14 words. No paragraphs. Short, but give him enough real knowledge to use it: the parts, a real example, and why it works. Use **bold** at most once per card.`;
 
@@ -457,7 +451,7 @@ async function talk(said, suggested){
   said = said.trim();
   if (!said || !needClaude()) return;
   if (!pane.open) openPane();
-  const key = isHard(said, suggested) ? 'sonnet' : model;
+  const key = suggested ? 'haiku' : isHard(said) ? 'sonnet' : model;
   const idx = pane.items.push(waitCard(said, key)) - 1; pane.live = true; pane.next = []; drawThread();
   document.body.classList.add('thinking');
   const history = rally.slice(-6).map(t => `${t.who}: ${t.text}`).join('\n');
@@ -548,9 +542,7 @@ const pane = {open: false, items: [], live: false, next: []};
 function cardHeading(){ const m = CARDS[at].html.match(/<h[12]>([\s\S]*?)<\/h[12]>/); return m ? plain(m[1]) : ''; }
 function suggestions(){
   const name = (CARDS[at].html.match(/class="name">([^<]+)</) || [])[1];
-  const s = [`How would this look in ${WORLD}?`, "What's the catch with this?", 'Give me one more example.'];
-  if (name) s.unshift(`Explain ${name} more simply.`);
-  return s.slice(0, 3);
+  return [name ? `Explain ${name} more simply.` : 'Explain this more simply.', `How would this look in ${WORLD}?`, "What's the catch?"];
 }
 function drawThread(){
   const el = $('thread');

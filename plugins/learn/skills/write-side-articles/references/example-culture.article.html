@@ -1,12 +1,12 @@
 <style id="tokens">
-/* Palette: No. 197, Eosine Pink + Dark Soft Violet + Neutral Gray · like Graphite and chalk, Charcoal and rose · place dark (match-ash-design scripts/palette.py) */
+/* Palette: No. 223, Light Brown Drab + Ochraceous Salmon + Turquoise Green · place dark (match-ash-design scripts/palette.py) */
 :root{
-  --bg:#171112; --bg2:#211618; --bg3:#2A1C1E;
-  --tx:#EDE6E6; --mu:#AFA5A6; --ln:rgba(237,230,230,0.12);
-  --p1:#F5AEB8; --p2:#BFBDF9; --p3:#DCB1B6; --acc:#F37F94; --acc2:#66629C;
-  --on:#171112; --onacc:#171112;
-  --b1:#F37F94; --b2:#66629C; --b3:#B6BFC1; --b4:#F37F94;
-  --island:var(--b3); /* Neutral Gray: the combination's colour that isn't the accent */
+  --bg:#171111; --bg2:#211616; --bg3:#2A1D1C;
+  --tx:#EDE6E5; --mu:#AFA5A4; --ln:rgba(237,230,229,0.12);
+  --p1:#B5DECC; --p2:#D8A37B; --p3:#DEBAB9; --acc:#D8A37B; --acc2:#B5DECC;
+  --on:#171111; --onacc:#171111;
+  --b1:#B59392; --b2:#D8A37B; --b3:#B5DECC; --b4:#B59392;
+  --island:var(--b1); /* Light Brown Drab: the combination's colour that isn't the accent */
   color-scheme:dark;
 }
 </style>
@@ -22,6 +22,8 @@
   "asker": "founder",
   "askers": "Founders",
   "written_by": "the build session, strongest model",
+  "metaphor": "street cricket",
+  "far": "dolphin training",
   "parts": [
     {"name": "Polish", "long": "The polish trap", "c": "var(--p1)"},
     {"name": "Shouts", "long": "Where rules live", "c": "var(--p2)"},
@@ -34,7 +36,7 @@
 <template class="card" data-part="0" data-kind="question">
   <p class="eyebrow">Side skills · Culture</p>
   <h1>@@QUESTION@@</h1>
-  <div class="seq">
+  <div class="seq big">
     <p><b>You know what keeps people going:</b> choice, good people, getting better.</p>
     <p>You don't yet know how a team learns <span class="mark">"how we do things here"</span>.</p>
   </div>
@@ -60,17 +62,18 @@
 <template class="card" data-part="1" data-kind="instead">
   <p class="eyebrow">The fix</p>
   <h2>What if we do this instead?</h2>
-  <div class="board"><svg viewBox="0 0 340 214" role="img" aria-labelledby="c-in"><title id="c-in">Day 2: a rough sketch of the sign-up screen arrives. You reply "Thanks, early is right" and send two fixes in private. Day 9: three drafts arrive by Tuesday.</title>
+  <div class="board"><svg viewBox="0 0 340 220" role="img" aria-labelledby="c-in"><title id="c-in">Day 2: a rough sketch of the sign-up screen arrives. You reply "Thanks, early is right" and send two fixes in private. The next week, three rough drafts arrive early.</title>
     <rect x="8" y="18" width="96" height="74" rx="3" class="s-bg3"/>
-    <path d="M22 38h60M22 52h44M22 66h52" class="k-ln" stroke-dasharray="3 5"/>
+    <path d="M22 38h60M22 52h44M22 66h52" class="k-p1" stroke-dasharray="3 5"/>
     <text x="56" y="112" text-anchor="middle" class="s-mu" font-size="13">day 2: a sketch</text>
     <path d="M110 55h22" class="k-p2"/><path d="M128 49l7 6-7 6" class="k-p2"/>
     <rect x="140" y="20" width="192" height="44" rx="3" class="s-bg3"/>
     <text x="236" y="47" text-anchor="middle" class="s-p2" font-size="15" font-weight="700">"Thanks, early is right"</text>
     <text x="236" y="84" text-anchor="middle" class="s-mu" font-size="13">+ two fixes, in private</text>
-    <path d="M236 96v26" class="k-p2"/><path d="M230 116l6 7 6-7" class="k-p2"/>
-    <rect x="166" y="138" width="56" height="40" rx="3" class="s-bg3"/><rect x="230" y="138" width="56" height="40" rx="3" class="s-bg3"/><rect x="294" y="138" width="38" height="40" rx="3" class="s-bg3"/>
-    <text x="332" y="202" text-anchor="end" class="s-p2" font-size="14" font-weight="700">day 9: three drafts by Tuesday</text>
+    <path d="M236 96v24" class="k-p2"/><path d="M230 114l6 7 6-7" class="k-p2"/>
+    <rect x="150" y="132" width="56" height="52" rx="3" class="s-bg3"/><rect x="212" y="132" width="56" height="52" rx="3" class="s-bg3"/><rect x="274" y="132" width="56" height="52" rx="3" class="s-bg3"/>
+    <path d="M160 148h36M160 160h24M160 172h30M222 148h36M222 160h28M222 172h20M284 148h36M284 160h22M284 172h32" class="k-p1" stroke-dasharray="3 4"/>
+    <text x="332" y="208" text-anchor="end" class="s-p2" font-size="14" font-weight="700">next week: three drafts, early</text>
   </svg></div>
   <p class="line">A designer shows you a rough sketch on day 2. You say <b>"Thanks, early is right"</b> and send two fixes in private.</p>
   <p class="line mu">The next week, three more drafts arrive early.</p>
@@ -195,7 +198,7 @@
     <p>The fish comes a minute later, too late to say which move earned it.</p>
     <p><span class="mark">So a whistle sounds at the top of the jump.</span></p>
   </div>
-  <div class="keyline"><span class="l">The first principle</span><span class="t">A signal at the exact moment, called a <b class="name">bridge</b>, tells the learner which move earned it.</span></div>
+  <div class="keyline"><span class="l">The first principle</span><span class="t">The learner repeats what the signal marks. That signal is a <b class="name">bridge</b>.</span></div>
 </template>
 
 <template class="card" data-part="3" data-kind="limit">
