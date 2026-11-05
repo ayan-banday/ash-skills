@@ -1,36 +1,42 @@
 ---
 name: "grilling (matt)"
-description: "[helper] How do I get grilled in short, light chats that ask only what I can decide? Grills by layer (big picture, how a phase works, details, formatting), one layer per chat, each message just the goal and questions with a suggestion, and ends in a ready ticket, never a build. Also runs studies alone after a 1-2 question mini-grill. Use when Ash says 'grill', 'grill me', 'stress-test this', or 'study:'. The engine behind grill-idea, grill-with-docs and chart-project-wayfinder."
+description: "[helper] How do I get grilled in short, light chats that ask only what I can decide? Grills by layer (the problem, how it works, the plan and build), one layer per chat. Each layer has a fixed goal, and every question is self-contained and drawn from Ash's brain dump. Ends in a ready ticket, never a build. Also runs studies alone after a 1-2 question mini-grill. Use when Ash says 'grill', 'grill me', 'stress-test this', or 'study:'. The engine behind grill-idea, grill-with-docs and chart-project-wayfinder."
 ---
 
 Ash's limit is his own thinking: about 2 hours, then rest. Every rule here exists to spend less of it. **Light** is the leading word: short messages, few questions, one layer.
 
 ## Steps
 
-1. **Find the layer.** Read `references/layers.md` once per chat. Ash names the layer, or you infer it: a new project or a new phase starts at Layer 1. **One chat works one layer.** Done when you can name the layer in one word.
-2. **Know his goals before asking anything.** Read what's there: in Fuji, `olympus.md`, the map's Destination, the phase's `phase.md` (Done when) and the ticket; elsewhere, the repo's docs and the chat. Ask for a goal only when none is written down. Done when you could state the goal without him.
-3. **Open with a plan to poke holes in.** First message of the chat: the goal (your guess), a short plan of action you inferred (Layer 1: the phases; Layer 2: how this phase works; Layer 3: a quick prototype), and the first questions. Done when he has something to react to, not a blank page.
-4. **Grill in rounds** (format below). Each round asks only the **frontier**: the open questions whose prerequisites are settled. At most **3 questions a round**. Finding facts is your job (send a sub-agent); decisions are his.
-5. **Park what's off-layer.** When Ash drifts into another layer, don't answer or ask about it in this chat. Note it quietly in the right place (in Fuji, the phase's `fog.md`; elsewhere, a "Parked" list in the ticket) and say "parked for later: N ideas" once, at the end.
-6. **End in a document, never a build.** When the layer's questions are settled, save the decisions (not his words) to the ticket, mark it ready, and name the next chat in one line: "Saved. Next chat: Layer 2, Phase 1." Ash ends the session; until he does, keep going. In Fuji, saving follows `gear/rulebook.md` section 3 ("Ending").
+1. **Find the layer.** Read `references/layers.md` once per chat: each layer's goal, its slots, what it may and may not ask, and two worked examples. Ash names the layer, or you infer it: a new problem starts at Layer 1; a ticket handed down from Layer 2 starts Layer 3. **One chat works one layer.** Done when you can name the layer and its goal.
+2. **Read what's written before asking.** In Fuji: `olympus.md`, the map's Destination, the phase's `phase.md` and the ticket; elsewhere, the repo's docs and the chat. Done when you know what's already decided above this layer.
+3. **Open the layer.**
+   - **Layer 1:** ask for the brain dump in one line ("Tell me everything about it: what's happening, what you've tried, what bugs you.") and nothing else. If his first message already is the dump, skip this.
+   - **Layer 2:** the Layer 1 decisions in two lines, then the first questions.
+   - **Layer 3:** what the ticket decided in two lines, then 1 or 2 questions about what he wants it to do for him.
+   Done when he has one thing to react to.
+4. **Fill the slots.** After each answer, silently write the layer's slots (`references/layers.md`) and mark each one filled from his own words or empty. **Ask only about empty slots** whose prerequisites are filled. At most **3 questions a round**, each passing the test in `references/questions.md`. Finding facts is your job (send a sub-agent); decisions are his. Done when every question in the round fills an empty slot.
+5. **Park what's off-layer.** When Ash drifts into another layer, don't answer or ask about it here. Note it quietly in the right place (in Fuji, the phase's `fog.md`; elsewhere, a "Parked" list in the ticket) and say "parked for later: N ideas" once, at the end.
+6. **Close when the slots are full.** Say "I've got what Layer N needs. Anything else you want to talk about?" When he's done, send the final message: the summary of what was decided (the only summary in the chat), then save the decisions (not his words) to the ticket, mark where it stands, and name the next chat in one line: "Saved. Next chat: Layer 2." In Fuji, saving follows `gear/rulebook.md` section 3 ("Ending"). Done when the ticket holds the decisions and the next chat is named.
 
 ## The message format
 
-Every message, every round:
+Every round:
 
 ```
-**Goal:** <one line>
+**Goal:** <one line: what this chat settles>
+**Problem:** <one line, in his words>
 
-**1. <question that stands on its own, with the context it needs>**
-Suggestion: <your answer, one line, with the reason if it isn't obvious>
+**1. <a self-contained question>**
+Looking for: <the slot it fills, in plain words>
 
 **2. ...**
 ```
 
-- **Goal, then questions.** A Problem line only in a big grilling (a new project's Layer 1).
-- **A suggestion, not options.** Give lettered options only when the question is genuinely hard and the choices really differ. Word the suggestion so "yes" accepts it.
-- **Leave out:** progress bars, say-back lists, "got it" lines, "decided" lists, recaps. Show what was decided only when he asks.
-- **Phone first.** He reads on his phone: short lines, no tables, no list longer than 3 items without sub-groups.
+- **In Layer 3,** the two lines on what the ticket decided take the Problem line's place.
+- **Questions follow `references/questions.md`:** self-contained, one ask, open, 7th-grade words, built from his brain dump.
+- **Options go in a tap widget** (`AskUserQuestion`), never typed as a list. The widget may hide the chat, so its question names everything it asks about. Layer 1 options never mark a recommended one; Layers 2 and 3 may put a recommended option first.
+- **Leave out:** "Suggestion:" lines, progress bars, say-back lists, "got it" lines, recaps and summaries before the final message.
+- **Phone first.** Short lines, no tables, no list longer than 3 items without sub-groups.
 
 ## Studies that run on their own
 
@@ -38,4 +44,4 @@ When Ash says "study: <question>" (in chat, from his phone), follow `references/
 
 ## Taste
 
-Anything Ash will see (a prototype, a study page) reads his taste library first: his design language, colours, typography and writing voice. The words live in `/write:match-ash-writing` (`../../../write/skills/match-ash-writing/SKILL.md`); the look and colours in `/visualize:match-ash-design` (`../../../visualize/skills/match-ash-design/SKILL.md`), which has a "Phone study page" case.
+Anything Ash will see (a prototype, a study page) reads his taste library first: his design language, colours, typography and writing voice. The words live in `/write:match-ash-writing` (`../../../write/skills/match-ash-writing/SKILL.md`); the look and colours in `/visualize:match-ash-design` (`../../../visualize/skills/match-ash-design/SKILL.md`), which has a "Phone study page" case. Formatting is decided from these, never asked.

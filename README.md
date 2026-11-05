@@ -76,7 +76,7 @@ Then type `/` and a plugin's name to see its skills: `/write`, `/visualize`, `/p
 | Skill | The problem it solves | What you get |
 |---|---|---|
 | `design-like-expert` | How do I get the design a ten-year expert would make, and learn why it works? | Claude works out which experts your goal needs and lists the big problems in your chat. For the one you pick, it designs the smallest solution that fully works: the root cause, the idea and its name, the thing itself drawn out, what's left out, when it stops working, and only the calls that are yours. |
-| `grill-idea (matt)` | How do I find the holes in an idea before I commit to it? | A relentless interview, in rounds, with a recommended answer for every question. |
+| `grill-idea (matt)` | How do I find the holes in an idea before I commit to it? | A relentless interview by layer: your story first, then the real problem, then how it works, then the plan. Every question stands on its own. |
 | `grill-with-docs (matt)` | How do I sharpen a feature and keep a record of what we decided? | The same interview, plus a glossary and decision records written as you go. |
 | `chart-project-wayfinder (matt)` | How do I plan a project too big for one session when I can't see the route yet? | A map of decision tickets on your issue tracker, worked one at a time until the way is clear. |
 | `write-spec (matt)` | How do I turn what we just decided into one written plan? | A spec built from the conversation, with no new interview, published to your tracker. |
