@@ -7,7 +7,9 @@ Ash's limit is his own thinking: about 2 hours, then rest. Every rule here exist
 
 ## Steps
 
-1. **Find the layer.** Read `references/layers.md` once per chat: each layer's goal, its slots, what it may and may not ask, and two worked examples. Ash names the layer, or you infer it: a new problem starts at Layer 1; a ticket handed down from Layer 2 starts Layer 3. **One chat works one layer.** Done when you can name the layer and its goal.
+1. **Find the layer.** Read `references/layers.md` once per chat: each layer's goal, its slots, what it may and may not ask, and two worked examples. Ash names the layer, or you infer it: a new problem starts at Layer 1; a ticket handed down from Layer 2 starts Layer 3. **One chat works one layer.**
+   - **Name the chat** with the claude-code-remote tool `set_session_title` (its own id from `get_session`): `L<layer>: <the goal, in 3 to 6 words>`, like "L1: Why I don't learn" or "L2: How a learning card teaches" (Ash, 2026-11-05: "so I know it's layer 1, and what are we trying to solve").
+   Done when you can name the layer and its goal, and the chat's title shows both.
 2. **Read what's written before asking.** In Fuji: `olympus.md`, the map's Destination, the phase's `phase.md` and the ticket; elsewhere, the repo's docs and the chat. Done when you know what's already decided above this layer.
 3. **Open the layer.**
    - **Layer 1:** ask for the brain dump in one line ("Tell me everything about it: what's happening, what you've tried, what bugs you.") and nothing else. If his first message already is the dump, skip this.
@@ -16,7 +18,7 @@ Ash's limit is his own thinking: about 2 hours, then rest. Every rule here exist
    Done when he has one thing to react to.
 4. **Fill the slots.** After each answer, silently write the layer's slots (`references/layers.md`) and mark each one filled from his own words or empty. **Ask only about empty slots** whose prerequisites are filled. At most **3 questions a round**, each passing the test in `references/questions.md`. Finding facts is your job (send a sub-agent); decisions are his. Done when every question in the round fills an empty slot.
 5. **Park what's off-layer.** When Ash drifts into another layer, don't answer or ask about it here. Note it quietly in the right place (in Fuji, the phase's `fog.md`; elsewhere, a "Parked" list in the ticket) and say "parked for later: N ideas" once, at the end.
-6. **Close when the slots are full.** Say "I've got what Layer N needs. Anything else you want to talk about?" When he's done, send the final message: the summary of what was decided (the only summary in the chat), then save the decisions (not his words) to the ticket, mark where it stands, and name the next chat in one line: "Saved. Next chat: Layer 2." In Fuji, saving follows `gear/rulebook.md` section 3 ("Ending"). Done when the ticket holds the decisions and the next chat is named.
+6. **Close when the slots are full.** Say "I've got what Layer N needs. Anything else you want to talk about?" When he's done, send the final message: the summary of what was decided (the only summary in the chat), then save the decisions (not his words) to the ticket, mark where it stands, and name the next chat in one line: "Saved. Next chat: Layer 2." **When Ash says to pass it on,** start the next layer's chat from this one with `create_session`, titled `L<next layer>: <its goal>`, with a prompt that stands alone: the ticket's path, what this layer decided, and the next layer's goal. It sits under this chat, the way L2 sits under L1. In Fuji, saving follows `gear/rulebook.md` section 3 ("Ending"). Done when the ticket holds the decisions and the next chat is named.
 
 ## The message format
 
