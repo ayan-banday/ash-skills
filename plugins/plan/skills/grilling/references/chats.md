@@ -32,6 +32,7 @@ Only when Ash asks ("open the next layer", "open a chat for the content one"):
 
 - Start it from this chat with `create_session`, one layer down: Layer 1 opens Layer 2, Layer 2 opens Layer 3. A side grill opens at Layer 1.
 - **Layer 2 may open several Layer 3 chats,** one per ticket it produced, each when he asks for it. A ticket nobody asked about waits without a chat.
+- **Give it this chat's repo:** pass `source_url` (in Fuji, `https://github.com/ayan-banday/fuji`), so the new chat runs the repo's start hook and loads the newest skills, this rule included. A chat started with no repo can run an old copy of this skill.
 - Title it by the rule above. Its prompt stands alone: the ticket's path, what the layers above decided, and this layer's goal.
 - Reply with the new chat's title, in one line.
 
