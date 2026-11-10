@@ -43,8 +43,8 @@ One `<name>.article.html` per article, three blocks, nothing else. The engine (`
 
 | # | kind | Its heading (Ash's plain question) | What it holds |
 |---|---|---|---|
-| 1 | `question` | the question (`@@QUESTION@@`) | where Ash is, in two short lines |
-| 2 | `promise` | "What will you be able to do?" | the outcome in his context, never the steps |
+| 1 | `question` | the question (`@@QUESTION@@`) | where Ash is, in three or four lines: what he already sees (his best version), the gap, and the real moment he needs it |
+| 2 | `promise` | "What will you be able to do?" | the outcome in his context, in one big line, then the two or three things he'll be able to do, each tied to a real moment (`ol.places`); never the steps |
 | 3 | `wrong` | "How does it usually go wrong …?" | three stops down one line (`.stops`), then one box with the problem |
 | 4 | `instead` | "What if we do this instead?" | a drawing of the new move, then two or three short lines |
 | 5 | `why` | "Why does that work?" | the metaphor: a drawing, a lead line, short lines, the marked result |
@@ -71,7 +71,8 @@ One `<name>.article.html` per article, three blocks, nothing else. The engine (`
 - **Cut every line that adds nothing,** above all the hedging kind ("No speech. No values poster.").
 - **At most two named concepts in a deck:** the big concept and the far-transfer name. Everything else in plain words.
 - **No how-to lines** ("tap Ask", "swipe"): Ash knows how the deck works.
-- **No dead space.** Every card but the promise fills at least half of its screen. A short card gets a bigger drawing, `p.big` or `.seq.big` (the question card's two lines), never filler.
+- **No dead space.** Every card fills at least half of its screen. A short card gets a bigger drawing, `p.big` or `.seq.big`, never filler.
+- **The first two cards are full** (Ash, 2026-11-10: "it just keeps a lot of the page empty"). The question card names what he already sees, the gap, and the moment he needs it (his people, his deadline, his project), at most 70 words. The promise card is the outcome in one big line, then two or three abilities, each tied to a real moment. Detail from his note goes here, written as his best version, never his words repeated back.
 - **Every number shows where it came from,** in one line on the same card ("₹9,000 more today skips eleven ₹1,000 payments"). A made-up example amount is fine; an unexplained one is not.
 - **The metaphor comes from a daily-life scene Ash has lived,** in a world nothing like the problem's, mapped part by part (teach-side-chat, "How the idea and its metaphor are made"). For money, lending a thing (your scooter for a month) is a metaphor; lending money in another job is an example, not a metaphor.
 - **Far transfer** is the same first principle solving a different problem in another field, said in plain short lines ("What happens if you pay an AI one point per target?"). Never the same problem somewhere else.

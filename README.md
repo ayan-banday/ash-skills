@@ -33,7 +33,7 @@ Then type `/` and a plugin's name to see its skills: `/write`, `/visualize`, `/p
 | Get the design a ten-year expert would make, and learn why it works | `/plan:design-like-expert` |
 | Find the holes in an idea before you commit to it | `/plan:grill-idea` |
 | Learn the field behind what you're building, while agents build | `/learn:teach-side-chat` |
-| Learn the side skills behind a note you wrote, as swipe decks to read later | `/learn:write-side-articles` |
+| Turn what you just read or thought through into one article to read in the same sitting | `/learn:write-side-articles` |
 | Make an outside reader say yes to a proposal | `/visualize:pitch-site` |
 | Turn a messy draft into a clean PDF | `/visualize:polished-doc` |
 | Find the real cause of a bug | `/build:find-bug` |
@@ -113,14 +113,14 @@ Then type `/` and a plugin's name to see its skills: `/write`, `/visualize`, `/p
 | Skill | The problem it solves | What you get |
 |---|---|---|
 | `teach-side-chat` | How do I learn the field behind what I'm building, while agents work beside me? | A menu of the big problems in your chat, then a short chapter from a ten-year expert on the one you pick. |
-| `write-side-articles` | How do I learn the side skills behind a note I wrote, as short articles I read later instead of a grilling? | Turns up to five problems from your note into swipe decks, one artifact each: its own colours and drawings, a daily-life metaphor, a far field, and an Ask pane that answers in cards. |
+| `write-side-articles` | How do I turn what I just read or thought through into one article I can read in the same sitting? | Turns a brain dump into one swipe deck built on its one core insight: its own colours and drawings, a daily-life metaphor, a far field, and an Ask pane that answers in cards. The link comes in minutes; a critic polishes it in the background. |
 | `study` | How do I learn a topic in a structured way? | An evening from your first question to an approved learning brief, then a study page. |
 | `break-into-field` | How do I break into a whole field I know nothing about, starting from a real problem in my work? | A study book: a map of the field's problems in the order they unlock, and chapters that each solve one. |
 | `study-bba` | How do I study a course unit from my notes, slides or past papers so I can solve its questions and use the ideas at work? | Up to three problems the material solves, then one tabbed book for the unit: a chapter per problem with worked examples, practice you check yourself, a Claude tutor beside every concept and gaps you mark on any highlight. |
 | `graphify` | How do I see how everything in a folder connects? | A knowledge graph of any folder, from code and docs to papers and videos, that you can query. |
 | `which-skill` | Which of my skills should I use right now? | The one command to type for what you're doing, with one line of why. |
 
-**Which one?** Learn from the chat you're in: `teach-side-chat`. From a note, to read later: `write-side-articles`. A topic you choose: `study`. A whole field: `break-into-field`. A course unit for the exam: `study-bba`.
+**Which one?** Learn from the chat you're in: `teach-side-chat`. From a brain dump or note, to read now: `write-side-articles`. A topic you choose: `study`. A whole field: `break-into-field`. A course unit for the exam: `study-bba`.
 
 ## Using these in Claude Code on the web
 

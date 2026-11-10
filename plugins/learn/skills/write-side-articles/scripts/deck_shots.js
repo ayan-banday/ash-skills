@@ -4,7 +4,7 @@
 //   node scripts/deck_shots.js <deck>.html <outdir>
 //
 // Prints one line per problem and exits 1 if any: a card taller than the screen (Ash would have to scroll),
-// sideways scroll, text under the island, text smaller than 12px, a drawing label cut off at its edge, dead space (content under half the card, the promise card aside). Shots: <outdir>/card-NN.png.
+// sideways scroll, text under the island, text smaller than 12px, a drawing label cut off at its edge, dead space (content under half the card). Shots: <outdir>/card-NN.png.
 const { chromium } = require('playwright');
 const path = require('path');
 const fs = require('fs');
@@ -59,8 +59,8 @@ const fs = require('fs');
     if (r.wide > 0) bad.push(`${tag}: ${r.wide}px sideways scroll`);
     if (r.under) bad.push(`${tag}: ${r.under} block(s) under the island`);
     if (r.tiny) bad.push(`${tag}: ${r.tiny} text element(s) under 12px`);
-    // the promise is one big line by design (prototype v14); every other card fills at least half
-    if (kinds[i] !== 'promise' && r.fill < 50) bad.push(`${tag}: dead space, the content fills ${r.fill}% of the card; draw bigger, use p.big, or cut the card`);
+    // every card fills at least half, the promise too (Ash, 2026-11-10: the first two cards left the page empty)
+    if (r.fill < 50) bad.push(`${tag}: dead space, the content fills ${r.fill}% of the card; draw bigger, use p.big, or cut the card`);
     if (r.cut.length) bad.push(`${tag}: drawing label(s) cut off at the edge: ${r.cut.join(' | ')}`);
     if (r.svgTiny) bad.push(`${tag}: ${r.svgTiny} drawing label(s) under 11px on screen`);
     await page.screenshot({ path: path.join(out, `card-${String(i + 1).padStart(2, '0')}.png`), fullPage: true });

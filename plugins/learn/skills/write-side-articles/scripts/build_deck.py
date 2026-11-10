@@ -226,8 +226,16 @@ def check(tokens: str, meta: dict, cards: list[dict], avoid: set[int], worlds: l
                 add(where, "words before the picture; picture first, words after")
         if c["kind"] in ("instead", "why", "far") and not svgs:
             add(where, "no drawing; this card shows its idea as a picture")
-        if c["kind"] == "question" and words(body) > 45:
-            add(where, f"where you are runs {words(body)} words; two short lines")
+        # the first two cards are full (Ash, 2026-11-10: "it just keeps a lot of the page empty")
+        if c["kind"] == "question" and words(body) > 70:
+            add(where, f"where you are runs {words(body)} words; at most 70 in three or four lines")
+        if c["kind"] == "question" and words(body) < 35:
+            add(where, f"where you are runs {words(body)} words; fill it: what he sees, the gap, the moment (35 to 70)")
+        if c["kind"] == "promise":
+            places = re.search(r'<ol class="places[^"]*">(.*?)</ol>', h, re.S)
+            n_li = len(re.findall(r"<li\b", places[1])) if places else 0
+            if 'class="big"' not in h or not 2 <= n_li <= 3:
+                add(where, "the promise is one p.big line, then an ol.places of two or three abilities")
         if c["kind"] == "far" and not re.search(r'class="eyebrow">\s*Far away', h):
             add(where, "the far-transfer eyebrow starts 'Far away'")
         if c["kind"] == "concept" and kinds.index("concept") == i - 2 and 'class="name"' not in h:
