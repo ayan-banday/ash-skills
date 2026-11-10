@@ -7,6 +7,7 @@ Read before writing the first card, then check the draft against each line befor
 - **The note repeated back.** A card restates what Ash said instead of building on it. His note sets the A point; the cards write his best version of it and take him past it. No card summarises the note (Ash, 2026-11-10).
 - **His thinking lowballed.** A rough or wrong line in the note becomes the A point as written, so he reads a weaker version of himself. Write what a smart operator meant (Ash, 2026-11-10).
 - **Coverage over insight.** The deck walks through every question in the note one by one. Pick the one chunk that makes the others easy; include a detail only when it serves that chunk (Ash, 2026-11-10).
+- **One of his own questions dropped.** The hiring deck skipped his reward question and his interview question, then filed them under "Other questions" (2026-11-10). Every question he asks has a card or a stated reason (step 2's list).
 - **His specifics dropped.** The note named real people, deadlines or choices, and the deck went generic. The real moment (his one hire, his campus, his week) is what makes the question and world cards land.
 
 ## Cards
