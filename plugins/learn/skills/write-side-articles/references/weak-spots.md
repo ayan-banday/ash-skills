@@ -20,3 +20,7 @@ Read before writing the first card, then check the draft against each line befor
 - **Hedging lines.** "No speech. No values poster." (ticket 39). Cut any line that says what something isn't.
 - **A card that points back.** "the same draft", "like the kid". Read each card with the others hidden.
 - **The metaphor is the same activity in another job.** It must be a daily-life scene from a world nothing like the problem's (teach-side-chat's metaphor check).
+- **A source line misnames the source's terms.** "choice, competence and relatedness" for autonomy; a paper's title cut short (critic, 2026-11-10). Check every Sources line against the source's own words.
+- **The far card strawmans the field.** "Steered turn by turn, the rover hits a rock" when nobody steers rovers live (critic, 2026-11-10). Describe what the field's experts really do.
+- **A term used before it's named.** "The line" from card 4 on, named only on card 7 (critic, 2026-11-10). Until the name card, say what the thing is in plain words on every card.
+- **A metaphor Ash hasn't lived.** Pancakes and oat milk with a flatmate (critic, 2026-11-10). Pick a scene from his life in India: home, campus, the local shop, a bus.
