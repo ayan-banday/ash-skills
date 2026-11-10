@@ -168,13 +168,12 @@ details a{color:var(--p2)}
 @media (min-width:760px) and (hover:hover){.side{display:grid;place-items:center;position:fixed;top:50%;transform:translateY(-50%);width:44px;height:64px;border-radius:4px;color:var(--mu);font-size:28px}.side:hover{color:var(--tx);background:var(--bg2)}.side:disabled{opacity:.25}#sprev{left:calc(50% - 360px)}#snext{right:calc(50% - 360px)}}
 /* Ask: a tiny pill at the bottom opens a pane to talk about the card on screen */
 .card{position:relative}
-/* the island: a small capsule docked at the bottom of every card, in a colour of the article's combination that isn't the accent, where the thumb rests */
-.card.front{padding-bottom:64px}
-.dot{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);width:104px;height:44px;display:grid;place-items:center;border-radius:999px}
-.dot i{display:flex;align-items:center;gap:7px;width:84px;height:28px;padding:0 10px;box-sizing:border-box;border-radius:999px;background:var(--island);box-shadow:0 6px 16px rgba(0,0,0,.45),inset 0 -2px 0 rgba(0,0,0,.18);transition:width .2s ease}
-.dot i::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--bg);box-shadow:0 0 0 2px color-mix(in srgb,var(--bg) 30%,transparent)}
-.dot i::after{content:"";flex:1;height:4px;border-radius:2px;background:color-mix(in srgb,var(--bg) 70%,transparent)}
-.dot:active i{width:96px}
+/* the island: a small gradient dot docked at the bottom of every card, from the island colour into the article's part colours, where the thumb rests. No words, no bar (Ash, 2026-11-10: "a lot smaller", "doesn't look like a message is loading"). The button stays 44px for the thumb. */
+.card.front{padding-bottom:52px}
+.dot{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);width:44px;height:44px;display:grid;place-items:center;border-radius:50%}
+.dot i{display:block;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 32% 28%,color-mix(in srgb,var(--tx) 55%,transparent) 0 2px,transparent 5px),conic-gradient(from 210deg,var(--island),var(--p2),var(--p3),var(--island));box-shadow:0 0 0 3px color-mix(in srgb,var(--island) 22%,transparent),0 4px 12px rgba(0,0,0,.45);transition:transform .15s ease}
+.dot:hover i{transform:scale(1.12)}
+.dot:active i{transform:scale(.88)}
 .grab{display:grid;place-items:center;height:22px;cursor:grab;touch-action:none}
 .grab i{width:44px;height:5px;border-radius:3px;background:color-mix(in srgb,var(--mu) 55%,transparent)}
 .scrim{position:fixed;inset:0;z-index:34;background:rgba(0,0,0,.5)}

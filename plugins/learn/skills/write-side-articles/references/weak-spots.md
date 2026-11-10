@@ -25,3 +25,4 @@ Read before writing the first card, then check the draft against each line befor
 - **The far card strawmans the field.** "Steered turn by turn, the rover hits a rock" when nobody steers rovers live (critic, 2026-11-10). Describe what the field's experts really do.
 - **A term used before it's named.** "The line" from card 4 on, named only on card 7 (critic, 2026-11-10). Until the name card, say what the thing is in plain words on every card.
 - **A metaphor Ash hasn't lived.** Pancakes and oat milk with a flatmate (critic, 2026-11-10). Pick a scene from his life in India: home, campus, the local shop, a bus.
+- **Cards overflow after the critic pass.** Fixes add words, and four cards ran past the phone screen (2026-11-10). After republishing from the critic, run `scripts/deck_shots.js` on the deck once.
