@@ -155,7 +155,7 @@ A heading is the question its section answers (Ash, Nov 11: "the default headlin
 | Remaining issues | Which point will the reviewer raise again? |
 | Feedback point 2 | Where is the bridge between the two parts? |
 
-**Answer headings are the second option,** only when Ash asks for them ("New hires take 9 days to set up"). Never put a takeaway line styled as a second headline under a question.
+**Answer headings are the second option,** only when Ash asks for them ("New hires take 9 days to set up").
 
 **Clever headings fail.** A heading passes when someone who hasn't read the section knows exactly what it covers. It is a plain question the reader would ask, or a plain label for a recap or reference part ("Key takeaways", "Sources"). A concrete answer in everyday words works only when Ash asked for answer headings.
 

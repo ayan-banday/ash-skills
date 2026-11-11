@@ -38,7 +38,7 @@ read alone, don't give its row, rewrite the screen. Polish never fixes a line th
 
 ## Headlines are the reader's questions
 
-**The default, everywhere: the headline is the problem, as a question.** A takeaway headline is the second option, only when Ash asks, and never as an extra headline-style line under the question (Ash, Nov 11).
+**The default, everywhere: the headline is the problem, as a question.** A takeaway headline is the second option, only when Ash asks (Ash, Nov 11).
 
 The headline is the question the reader would ask at that point; the line under it answers it straight, in the
 first words. A headline that announces ("We heard you.", "The 14 days stay.") makes the reader guess what the

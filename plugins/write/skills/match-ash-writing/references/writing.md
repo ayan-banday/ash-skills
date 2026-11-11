@@ -32,7 +32,7 @@ Every rule here traces to where Ash said it. A source in brackets names the skil
 
 **Stands alone**
 - **Every heading, sentence and question makes sense read alone.** No bare "this", "it", "the above". Repeat the fact instead of pointing back. [3+] (Fuji rulebook 3: "Concise is fine; vague is not")
-- **Headings are the question the reader would ask,** naming the thing and the situation. Never a slot ("Overview", "Next steps"), a slogan, a clever label ("It's the fountain"), an announcement ("We heard you"), a template label ("Gap:", "Sharper:") or a count. "I fucking hate announcements. They're never helpful." **Questions are the default everywhere** (pages, pitch sites, slides, prototypes, docs, printed documents): the heading names the problem the section solves, as a question. A takeaway headline ("New hires take 9 days to set up") is the second option, used only when Ash asks for it, and never as an extra headline-style line under the question; the section's first sentence answers. "The default headlines are the problems… I don't want the takeaways to be underneath questions." (Ash, Nov 11) [3+] (course-lesson; brief-page; polished-doc "Headings"; Ash, Oct 27 and Nov 2: his most repeated correction)
+- **Headings are the question the reader would ask,** naming the thing and the situation. Never a slot ("Overview", "Next steps"), a slogan, a clever label ("It's the fountain"), an announcement ("We heard you"), a template label ("Gap:", "Sharper:") or a count. "I fucking hate announcements. They're never helpful." **Questions are the default everywhere** (pages, pitch sites, slides, prototypes, docs, printed documents): the heading names the problem the section solves, as a question. A takeaway headline ("New hires take 9 days to set up") is the second option, only when Ash asks. (Ash, Nov 11) [3+] (course-lesson; brief-page; polished-doc "Headings"; Ash, Oct 27 and Nov 2: his most repeated correction)
 - **Each section answers its heading in full.** The reader can say the answer in 2 sentences and act today. [3+]
 - **Put the impact in the same sentence as the claim.** "A company can't open two new cities if a fifth of its fruit rots." [3+]
 
@@ -131,7 +131,7 @@ Before showing anything, read it once as Ash would on his phone, tired, between 
 3. **Is there a list past 3, a paragraph past 3 sentences, or a heading that doesn't say what's under it?**
 4. **Did it invent something without saying so?**
 5. **Would I have to ask a follow-up question that the page could have answered?**
-6. **Is any heading an announcement, a clever label or a takeaway instead of the question the section solves?** Is there a takeaway line styled as a second headline under any question?
+6. **Is any heading an announcement or a clever label instead of what the section says?**
 7. **Is any whole sentence in bold, or did I change a date, name or number Ash gave?**
 
 **Dictation slips** to read through: "topography" means typography, "motive" means motif. (week-sheet briefs)
