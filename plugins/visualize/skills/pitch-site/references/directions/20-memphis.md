@@ -5,7 +5,7 @@
 
 **Suits:** youth brands, entertainment, media, food and beverage, events, creative agencies, teen edtech, D2C. Tone: cheeky, loud, optimistic. Audience: Gen Z, marketing teams.
 **Avoid when:** serious B2B, healthcare, government, anything about loss.
-**Cultural note:** the Memphis group (Milan, 1981 to 1988, Ettore Sottsass). No appropriation concern. Do not copy Sottsass's Bacterio laminate exactly, and skip the movement's mint and teal (green rule).
+**Cultural note:** the Memphis group (Milan, 1981 to 1988, Ettore Sottsass). No appropriation concern. Do not copy Sottsass's Bacterio laminate exactly.
 
 **Story device.** Each shape is a pillar: the circle is people, the triangle is growth, the squiggle is energy and creativity, the grid is structure. The ring at the centre is the client.
 **Badge:** one shape coloured (`s1` circle, `s2` triangle, `s3` squiggle, `s4` grid) or the ring (`core`).

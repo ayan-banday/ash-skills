@@ -52,7 +52,7 @@ Variants dropped while merging or adapting:
 - Ambient looping panels (P054, P064): loops never finish; scroll drives the clock instead.
 - Axonometric tilt toggle (P242): 3D tilt decorates; regrouping answers a question.
 - Timed auto-flip (P172): runs whether or not anyone is looking.
-- Green running dot (P017): Ash rejected green.
+- Green running dot (P017): cut under the old no-green rule, lifted Nov 11 2026; it can come back.
 - Endless halt blink (P017): keeps moving after the point is made.
 - Hinged windows as the main device (P283): tap-only; the x-ray covers it by scroll.
 - Rough Notation strike (P343): a library for one stroke; vanilla SVG does it.

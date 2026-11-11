@@ -4,7 +4,7 @@
 **Swatch:** `#2A211C #F2EEE6 #F0D2A0 #CDD3DE #E9C1AD #A04A28`
 
 **Suits:** semiconductors, EV and automotive electronics, IoT, AI and data infrastructure, deep tech, telecom, integration-heavy SaaS. Tone: precise, energetic, technical. Audience: CTOs, engineers, investors.
-**Avoid when:** the client expects a green PCB (Ash rejects green: this uses amber Kapton); non-technical, warm briefs.
+**Avoid when:** non-technical, warm briefs. (Amber Kapton is the default board; a green PCB is fine when it fits.)
 **Cultural note:** none. Paul Eisler's 1942 radio used the first printed circuit boards.
 
 **Story device.** The chip is the client's core; its pins are the interfaces; each side's traces are a workstream; the pads are deliverables; pulses running along a trace are value flowing.

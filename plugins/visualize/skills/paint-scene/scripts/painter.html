@@ -1,0 +1,81 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>paint-scene painter</title>
+<!-- Paints the kit's masks and tiles once with p5.brush. Run by scripts/paint_assets.py, never by a page.
+     The pigment trap: p5.brush mixes like real paint and only darkens paper, so every mask is painted
+     in black on white and its darkness becomes alpha (bpass in the art-style study, Fuji personal-brand). -->
+<div id="host" style="position:absolute;left:-99999px"></div>
+<script src="https://cdn.jsdelivr.net/npm/p5.brush@2.2.3/dist/brush.js"></script>
+<script>
+var S=768, OUT={}, K="#000000";
+var bc=brush.createCanvas(S,S,{parent:document.getElementById("host")});
+var tmp=document.createElement("canvas");tmp.width=S;tmp.height=S;var tx=tmp.getContext("2d",{willReadFrequently:true});
+function rng(seed){return function(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};}
+function ell(cx,cy,rx,ry,rot,wob,seed){var R=rng(seed||1),p=[],n=60;rot=rot||0;wob=wob||.08;
+  for(var i=0;i<n;i++){var t=i/n*Math.PI*2,k=1+wob*(Math.sin(3*t+R()*6)*.6+(R()-.5)*.5);
+    var x=Math.cos(t)*rx*k,y=Math.sin(t)*ry*k;p.push([cx+x*Math.cos(rot)-y*Math.sin(rot),cy+x*Math.sin(rot)+y*Math.cos(rot)]);}return p;}
+function wash(pts,a,bleed,tex){brush.noStroke();brush.noHatch();brush.fill(K,a);brush.fillBleed(bleed==null?.3:bleed);brush.fillTexture(tex==null?.55:tex,.45);brush.polygon(pts);brush.noFill();}
+function blob(x,y,r,a,bleed,seed){wash(ell(x,y,r,r*.92,0,.1,seed),a,bleed);}
+
+// paint fn in black on white, return an alpha PNG (black RGB, alpha = density), peak normalised
+function paint(seed,fn,opt){opt=opt||{};
+  brush.seed(seed);brush.noiseSeed(seed);brush.clear("#ffffff");brush.push();brush.translate(-S/2,-S/2);fn();brush.pop();brush.render();
+  tx.clearRect(0,0,S,S);tx.drawImage(bc,0,0);var im=tx.getImageData(0,0,S,S),d=im.data,hist=new Uint32Array(256),A=new Float32Array(S*S);
+  for(var p=0,j=0;p<d.length;p+=4,j++){var a=(255-(d[p]+d[p+1]+d[p+2])/3)*2.1;a=a>255?255:a;A[j]=a;hist[a|0]++;}
+  // edge fade: nothing may touch the tile edge, or CSS shows a hard crop
+  var cut=0,tot=0,want=(opt.p||.995);for(var h=255;h>=0;h--){tot+=hist[h];} var acc=0;for(var h2=0;h2<256;h2++){acc+=hist[h2];if(acc/tot>=want){cut=h2;break;}}
+  var gain=cut>0?(opt.peak||232)/cut:1, m=opt.edge==null?40:opt.edge;
+  for(var p2=0,k=0;p2<d.length;p2+=4,k++){var x=k%S,y=(k/S)|0,e=Math.min(x,y,S-1-x,S-1-y),f=m>0?Math.min(1,e/m):1;
+    if(opt.open){ // a corner or band shape keeps its open sides
+      var fx=Math.min(1,(opt.open.indexOf("l")>=0?99:x)/m,(opt.open.indexOf("r")>=0?99:S-1-x)/m),fy=Math.min(1,(opt.open.indexOf("t")>=0?99:y)/m,(opt.open.indexOf("b")>=0?99:S-1-y)/m);f=Math.min(fx,fy);}
+    var v=A[k]*gain*f;d[p2]=0;d[p2+1]=0;d[p2+2]=0;d[p2+3]=v>255?255:v;}
+  tx.putImageData(im,0,0);return tmp.toDataURL("image/png");}
+
+var c=S/2;
+// a wide wash with a soft wavy top (and bottom): many points, so bleed stays smooth instead of spiky
+function edge(top,bot,amp,seed){var R=rng(seed),p=[],n=24,i;for(i=0;i<=n;i++){p.push([-30+i/n*(S+60),top+Math.sin(i*.7+R()*.6)*amp]);}
+  for(i=n;i>=0;i--){p.push([-30+i/n*(S+60),bot+Math.sin(i*.5+R()*.6)*amp*.6]);}return p;}
+var BLOOMS={
+ "bloom-round":   function(){blob(c,c,215,190,.32,1);},
+ "bloom-core":    function(){blob(c,c,250,70,.35,2);blob(c+10,c-6,140,220,.22,3);},
+ "bloom-pair":    function(){blob(c-110,c+20,175,190,.3,4);blob(c+140,c-70,125,160,.3,5);},
+ "bloom-pool":    function(){wash(ell(c,c+30,300,150,-.08,.1,6),200,.25);},
+ "bloom-cloud":   function(){[[c-150,c+40,130],[c,c-40,160],[c+150,c+30,125],[c+30,c+90,120]].forEach(function(b,i){blob(b[0],b[1],b[2],120,.32,10+i);});},
+ "bloom-splash":  function(){blob(c-30,c,180,200,.3,7);var R=rng(8);for(var i=0;i<9;i++){var a=R()*6.28,d=230+R()*90;blob(c-30+Math.cos(a)*d,c+Math.sin(a)*d*.8,14+R()*26,190,.15,20+i);}},
+ "bloom-spots":   function(){var R=rng(9);for(var i=0;i<14;i++){blob(120+R()*530,140+R()*490,22+R()*55,150+R()*60,.25,30+i);}},
+ "bloom-tall":    function(){wash(ell(c,c,120,320,.06,.12,11),200,.3);},
+ "bloom-crescent":function(){var p=[],i;for(i=0;i<=40;i++){var t=Math.PI/2+i/40*Math.PI;p.push([c+60+Math.cos(t)*280,c+Math.sin(t)*280]);}
+                     for(i=40;i>=0;i--){var t2=Math.PI/2+i/40*Math.PI;p.push([c+130+Math.cos(t2)*230,c+Math.sin(t2)*262]);}wash(p,200,.2);},
+ "bloom-sweep":   function(){var p=[],i;for(i=0;i<=40;i++){var t=i/40;p.push([90+t*590,560-Math.sin(t*3.1)*300-t*60]);}
+                     for(i=40;i>=0;i--){var t3=i/40;p.push([90+t3*590,560-Math.sin(t3*3.1)*300-t3*60+70+Math.sin(t3*3.1)*60]);}wash(p,210,.22);},
+ "bloom-halo":    function(){blob(c,c,280,70,.4,12);blob(c,c,190,60,.35,13);},
+ "bloom-drift":   function(){blob(c-120,c+60,150,200,.3,14);wash(ell(c+90,c-40,230,110,-.6,.12,15),130,.3);},
+ // open shapes: they run off one or more sides on purpose
+ "bloom-corner":  function(){wash([[S*.25,-10],[S+10,-10],[S+10,S*.75],[S*.82,S*.7],[S*.6,S*.5],[S*.42,S*.3]],210,.32);blob(S*.8,S*.2,220,120,.3,16);},
+ "bloom-band":    function(){wash(edge(c-130,c+120,8,21),190,.12);},
+ "bloom-ground":  function(){wash(edge(S*.42,S+40,30,22),215,.1);}
+};
+var OPEN={"bloom-corner":["t","r"],"bloom-band":["l","r"],"bloom-ground":["l","r","b"]};
+
+// hatching: periodic line sets so the tile repeats (spacing divides the tile)
+function hatchTile(seed,sets,name,w){return paint(seed,function(){brush.noFill();brush.noHatch();
+  sets.forEach(function(s){var gap=s[0],ang=s[1];
+    if(ang===0){for(var y=gap/2;y<S;y+=gap)lineB(-20,y,S+20,y);}
+    else if(ang===90){for(var x=gap/2;x<S;x+=gap)lineB(x,-20,x,S+20);}
+    else {var sgn=ang>0?1:-1;for(var k=-S;k<2*S;k+=gap){ if(sgn>0)lineB(k-20,-20,k+S+20,S+20); else lineB(k+20,-20,k-S-20,S+20);} }
+  });
+  function lineB(x1,y1,x2,y2){brush.set(name,K,w);brush.line(x1,y1,x2,y2);} },{edge:0,peak:225,p:.999});}
+
+window.run=function(){
+  Object.keys(BLOOMS).forEach(function(n,i){OUT["masks/"+n+".png"]=paint(100+i,BLOOMS[n],{open:OPEN[n],edge:OPEN[n]?56:48});});
+  OUT["tiles/hatch-fine.png"]=hatchTile(201,[[16,0]],"HB",1);
+  OUT["tiles/hatch-slant.png"]=hatchTile(202,[[24,45]],"2B",1);
+  OUT["tiles/hatch-cross.png"]=hatchTile(203,[[24,45],[24,-45]],"HB",1);
+  // grain: static light and dark specks on a 256 tile (code, not brush: it must repeat cleanly)
+  var gc=document.createElement("canvas");gc.width=gc.height=256;var gx=gc.getContext("2d"),R=rng(77);
+  for(var j=0;j<2600;j++){gx.fillStyle=(R()<.5?"rgba(255,255,255,":"rgba(0,0,0,")+(.06+R()*.1)+")";gx.fillRect((R()*256)|0,(R()*256)|0,1+(R()<.3),1+(R()<.3));}
+  OUT["tiles/grain.png"]=gc.toDataURL("image/png");
+  return OUT;
+};
+window.ready=true;
+</script>

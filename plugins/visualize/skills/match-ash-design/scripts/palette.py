@@ -21,7 +21,7 @@ Places:
          green tint; every colour of the book allowed as pastels and accents (Ash, Nov 3 2026), except
          a yellow p1 (p1 is the marker band).
   light  pages for others: briefs, slides, posts, Udyaan, anything else. Warm paper from the lightest colour.
-  pitch  pitches for outsiders: light paper, no green in any shade (blue stays).
+  pitch  pitches for outsiders: the same warm light paper as light. Green is fine anywhere it fits (Ash, Nov 11 2026).
   print  printed documents: light, quieter paper and fills.
 
 Prints a :root{...} block with 12 tokens (--bg --bg2 --bg3 --tx --mu --ln --p1 --p2 --p3 --acc --acc2 --on
@@ -120,9 +120,6 @@ BOOK = load()
 def coloured(c):
     return c["o"][1] >= 0.03
 
-def is_green(o):
-    return o[1] >= 0.03 and 100 <= o[2] <= 200
-
 def is_cool(o):  # green or blue
     return o[1] >= 0.03 and 100 <= o[2] <= 268
 
@@ -187,12 +184,12 @@ def dark(cols):
              onacc=p["bg"] if contrast(p["bg"], acc) >= contrast(p["tx"], acc) else p["tx"])
     return p
 
-def light(cols, no_green=False, muted=False):
-    notes = [c for c in cols if coloured(c) and not (no_green and is_green(c["o"]))]
+def light(cols, muted=False):
+    notes = [c for c in cols if coloured(c)]
     if not notes:
         return None
     paper = max(cols, key=lambda c: c["o"][0])
-    pc = 0 if (no_green and is_green(paper["o"])) else .012
+    pc = .012
     pc *= .6 if muted else 1
     ph = paper["o"][2]
     ink = min(notes, key=lambda c: c["o"][0])["o"][2]
@@ -216,7 +213,7 @@ def light(cols, no_green=False, muted=False):
 def tokens(n, place):
     cols = BOOK[n]
     p = {"dark": lambda: dark(cols), "light": lambda: light(cols),
-         "pitch": lambda: light(cols, no_green=True), "print": lambda: light(cols, muted=True)}[place]()
+         "pitch": lambda: light(cols), "print": lambda: light(cols, muted=True)}[place]()
     if p:
         p.update({f"b{i + 1}": cols[i % len(cols)]["hex"] for i in range(4)})
     return p
@@ -236,10 +233,6 @@ def checks(p, place):
     else:
         if contrast(p["tx"], p["bg"]) < 7:
             bad.append(f"tx on bg {contrast(p['tx'], p['bg']):.1f}:1 < 7")
-        if place == "pitch":
-            for k in ("p1", "p2", "p3", "acc", "acc2"):
-                if is_green(oklch(p[k])):
-                    bad.append(f"{k} {p[k]} is green")
     if contrast(p["mu"], p["bg2"]) < 4.5:
         bad.append(f"mu on bg2 {contrast(p['mu'], p['bg2']):.1f}:1 < 4.5")
     for k in ("p1", "p2", "p3"):

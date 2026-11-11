@@ -150,28 +150,25 @@ A section sequence that works for most proposals: ground (hero) → paper → ti
 
 ### 2.3 Category and team chips
 
-Chips (team members, categories, workstreams) must look like a family: **equal lightness, equal chroma, evenly spaced hues, green removed.**
+Chips (team members, categories, workstreams) must look like a family: **equal lightness, equal chroma, evenly spaced hues.**
 
 - Use the three tints when there are three or fewer categories.
-- For more, generate in OKLCH at L 0.87, C 0.05, with hues spread evenly over the arc that skips 100 to 210 (yellow-green, green, teal, aqua). Ink text on every chip passes 10:1.
+- For more, generate in OKLCH at L 0.87, C 0.05, with hues spread evenly around the circle. Ink text on every chip passes 10:1.
 - Assign colours in a stable order (sorted by name or by org chart), so colours never shuffle between renders.
 - The TVS chips measured OKLCH L 0.85 to 0.89, which is why they read as one set.
 
 ```js
-// Equal-lightness chips with the green band removed. Vanilla JS, no deps.
+// Equal-lightness chips, hues spread evenly. Vanilla JS, no deps.
 function oklchToHex(L, C, h) {
   const a = C * Math.cos(h * Math.PI / 180), b = C * Math.sin(h * Math.PI / 180);
   const l = (L + .3963377774 * a + .2158037573 * b) ** 3, m = (L - .1055613458 * a - .0638541728 * b) ** 3, s = (L - .0894841775 * a - 1.291485548 * b) ** 3;
   return '#' + [4.0767416621 * l - 3.3077115913 * m + .2309699292 * s, -1.2684380046 * l + 2.6097574011 * m - .3413193965 * s, -.0041960863 * l - .7034186147 * m + 1.707614701 * s]
     .map(x => { x = Math.min(1, Math.max(0, x)); x = x <= .0031308 ? 12.92 * x : 1.055 * x ** (1 / 2.4) - .055; return Math.round(x * 255).toString(16).padStart(2, '0'); }).join('');
 }
-function chips(n, { L = .87, C = .05, skip = [100, 210], offset = 10 } = {}) {
-  const span = 360 - (skip[1] - skip[0]);
-  return [...Array(n)].map((_, i) => oklchToHex(L, C, (skip[1] + offset + i * span / n) % 360));
+function chips(n, { L = .87, C = .05, offset = 20 } = {}) {
+  return [...Array(n)].map((_, i) => oklchToHex(L, C, (offset + i * 360 / n) % 360));
 }
-// chips(9) ->
-// #b1ddeb #bbd8f4 #cad2f6 #dbcdf0 #e8c9e4 #f1c7d3 #f4c8c3 #efccb6 #e5d2b0
-// ink #241D18 on these: 10.96 to 11.40:1; OKLCH hues 219, 247, 275, 304, 330, 359, 26, 54, 82
+// chips(n): ink #241D18 stays near 11:1 on every chip at L 0.87
 ```
 
 ### 2.4 Dark sections (the ink and paper flip)
@@ -198,7 +195,6 @@ Implement it as a token flip, so components never need dark variants:
 ### 2.5 Never
 
 - Pure #FFFFFF or #000000, or grey with no warmth.
-- Green in any role, including mint, teal and aqua chips.
 - A navy or blue-black hero (Ash rejected #161A2E). Blue lives in tints and accents only.
 - Anthropic's values: ivory #FAF9F5, #F0EEE6, #141413, cloud #C5D3E0, peach #EBC9B7, manilla #EBDBBC, clay #D97757. A script checks every palette here against them.
 - Gradients between sections, or a gradient as a section background. Each section is one flat colour.
@@ -206,7 +202,6 @@ Implement it as a token flip, so components never need dark variants:
 - Accent as body text when it measures under 4.5:1 on paper (Riso pink, Memphis red). Those two are flagged as display-only.
 - A tint on a tint, or a card on a tint without a 1px line.
 - The marker as a large fill (more than about 15% of a screen).
-- Multiply-blending blue over yellow: it makes green. Overprint effects use pink, purple and yellow, or stack shapes opaquely.
 - Colour as the only signal in a badge. The lit part also changes opacity, and the section label names it.
 - Random hues for chips.
 - A culture's sacred imagery or script as decoration: deities, temple or mosque silhouettes, Arabic or Sanskrit text nobody on the team can read.

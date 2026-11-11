@@ -21,8 +21,8 @@ Every rule traces to where Ash said it. **[3+]** means three or more of his skil
   - **Light (for others):** the lightest colour becomes the paper, the darkest becomes the ink, and every colour becomes a soft fill.
 - **The lean to his favourites** (Ash, Nov 3 2026: "I quite like the color palettes that I was using"): on dark pages a seeded pick lands about 75% of the time on a combination that reimagines a palette he already liked (Shasta's Espresso and Sand, Charcoal Rose, Ink and Clay, Night Plum; the presets Graphite and chalk, Ink and clay, Charcoal and rose). The rest of the book shares the other 25%, so pages still vary. `--near "<favourite>"` keeps one favourite's look (Shasta's four each fit a topic, listed in the script); `--any` turns the lean off.
 - **Study pages Ash studies from** (BBA pages, Shasta study pages, study books) are always dark. BBA and Shasta pages take `--format study`, which prints their own token names with a dark picture board. **A tabbed BBA book gives every chapter its own palette, and none is red-led** (Ash, Nov 4 2026: "use the different color palettes apart from red… for every different section"): `--format study --chapters N` prints one block per tab, and the book's own tokens take `--no-red`.
-- **Which place:** `dark` for Ash's own pages; `light` for briefs, slides, posts, Udyaan; `pitch` for outsiders (drops green); `print` for paper (quieter). Brief pages use their own script with `--combo N`, which takes the same book's hues.
-- **How many fit:** run `--list`. On Nov 3: dark 342, light 347, pitch 314, print 347 of 348.
+- **Which place:** `dark` for Ash's own pages; `light` for briefs, slides, posts, Udyaan; `pitch` for outsiders (warm paper, the same tokens as `light`); `print` for paper (quieter). Brief pages use their own script with `--combo N`, which takes the same book's hues.
+- **How many fit:** run `--list`. On Nov 11: dark 342, light 347, pitch 347, print 347 of 348.
 - **The book's colours as printed** (`--b1` to `--b4`) go on big shapes only: a post card's blocks, a slide's diagram, a seedling's leaves. Never behind text.
 - **Name it on the page:** put `No. 273, Hermosa Pink + Pansy Purple + ...` in a CSS comment, so Ash can ask for it again by number.
 - **A little new each time:** don't reuse the last page's combination. When the subject has a material colour (kraft, turmeric, indigo), pick a combination that carries it.
@@ -40,6 +40,8 @@ Every rule traces to where Ash said it. **[3+]** means three or more of his skil
   - An abstract idea with 3 to 6 parts becomes **one living metaphor**: one world, one creature or object per part. Plan it with `/visualize:story-plan`. (story-plan)
 - **For Ash** (chat, study results, plans): **mostly words.** Bullets, bold, a table for comparisons. Draw only the one picture that saves him reading: the shape of a plan, the verdict at a glance. (teach-side-chat rule 11; study-bba writing-rules "A metaphor only where the idea is hard")
 - **For students:** a picture comes after the words it explains, one idea each, never first under a heading. (course-lesson formatting rule 8)
+
+**Character** (blooms, stepped light, ink figures, the coral ball) comes from `/visualize:paint-scene` and follows the same tests: a Scene must explain something, one bloom and one light per screen, and text never sits on a bloom. (Ash, Nov 11 2026)
 
 **Never start with a picture.** "Visuals are there to just make things clear, not to start things out with." Too many visuals that serve nothing get cut. (Ash, Oct 29)
 **Don't reuse one picture across pages or projects:** each gets a scene from its own world. "The mountain is not helpful." (Ash, Oct 25 and Nov 2)
@@ -77,7 +79,8 @@ Every rule traces to where Ash said it. **[3+]** means three or more of his skil
 
 **Pages for others**
 - **Briefs:** light and dark both, with an explicit theme switch. (brief-page design-system)
-- **Pitches:** warm paper, at most two dark bands. **No green in any shade** (mint, teal, aqua). No navy night hero. (pitch-site intake 2.5)
+- **Pitches:** warm paper, at most two dark bands. No navy night hero. (pitch-site intake 2.5)
+- **Green is fine anywhere it fits the design language,** pitches included (Ash, Nov 11 2026, lifting the old no-green rule).
 - **Printed documents:** light only, a muted palette. (polished-doc)
 - **Udyaan pages:** the Udyaan brand wins; read its README in Fuji `ranges/udyaan/brand/` first.
 
@@ -116,7 +119,7 @@ Every rule traces to where Ash said it. **[3+]** means three or more of his skil
 
 Ash's words in quotes. **This is the one list:** other skills point here, and a new rejection goes here with his words. (From pitch-site taste, story-plan taste and break-into-field look.)
 - **Layouts:** horizontal step strips ("far too lazy"); three identical cards; cards inside cards; team lists ("garbage"); a first screen where the next section bleeds in; anything that looks like "a random HTML file" or a template; choose-your-own-adventure, role pickers, "pick your layer" or a paper leave-behind (he wants it "fed down the throat").
-- **Colour:** gradients; pure white or black; navy night heroes (the JAIN hero, #161A2E); Anthropic's clay and ivory; neon; green in pitches; a yellow marker on his own pages.
+- **Colour:** gradients; pure white or black; navy night heroes (the JAIN hero, #161A2E); Anthropic's clay and ivory; neon; a yellow marker on his own pages.
 - **Decoration:** emoji and icon sets, stock photos, a generic avatar, videos in the page (motion built in code is fine), a line running behind the copy ("distracting from the message"), a glow that follows the cursor ("garbage"), hover that glides or fades ("not a fan of how smooth it is").
 - **Metaphors that don't carry meaning:** labelled rings, layers or bands for an idea that matters ("such a boring way to show things"); a caption box that pops up when a marker is clicked ("so boring"); markers scattered to hunt ("clicky"); a caption system dressed up as a scene ("relatively not that creative"); a pretty object standing in for the idea (the mountain by default).
 - **Stories:** stops in no told order, with no rise and release ("not like a story"); more than a line or two per screen ("too much information").

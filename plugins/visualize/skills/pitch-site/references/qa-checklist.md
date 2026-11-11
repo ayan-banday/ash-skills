@@ -18,7 +18,7 @@ particular width, or mid-animation, so reading the code is not enough.
    - cards in a row with misaligned footers
    - the pinned stage actually pinned, its counter matching the caption
    - the marker covering every wrapped line, and readable on dark bands
-   - colours that look neon, muddy or too alike; any green
+   - colours that look neon, muddy or too alike
 5. **Covered tests** (`../story-plan/references/film-craft.md`): read the copy alone, then look at the frames alone. Move any claim
    the words carry that a picture should, and cut any line that only narrates its picture.
 6. **Faithfulness:** every ask quoted verbatim, every number in facts.md, one name per need everywhere.

@@ -51,7 +51,7 @@ function girih(o = {}) {
 --accent-2 #9A2E3C               pomegranate
 ```
 **Contrast:** ink/paper **14.73** · ink/card 16.06 · ink/tint-1 10.74 · ink/tint-2 11.96 · ink/tint-3 9.73 · muted/paper **5.33** · paper/ground **12.74** · paper/ground-2 10.74 · ink/marker 10.09 · accent-1/paper 8.27 · accent-2/paper 6.36. All body-text pairs pass 4.5:1.
-Turquoise, the classic girih glaze, is left out because it falls in the green band.
+Turquoise, the classic girih glaze, can join the palette when it fits (green is allowed since Nov 11 2026).
 
 **Type:** display **Reem Kufi**, body **Readex Pro**, labels **Noto Sans Mono**, hand **Aref Ruqaa** (only to set a real name in Arabic, checked by a native reader).
 **Texture:** stucco grain, glaze sheen.

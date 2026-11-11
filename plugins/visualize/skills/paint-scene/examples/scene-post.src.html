@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Handoff Post</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@800&family=Overpass+Mono:wght@500&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Palette: No. 41, Dark Citrine + Calamine Blue · place light (match-ash-design palette.py) */
+body{margin:0;background:#DFEEEE;display:grid;place-items:center;min-height:100vh}
+canvas{width:min(540px,100vw);height:auto;display:block}
+</style>
+<canvas id="handoff-post"></canvas>
+<script src="../assets/ink.js"></script>
+<script>
+Ink.scene("#handoff-post", {
+  shape: "4:5",
+  tokens: {bg:"#ECF7F7", tx:"#231F0E", mu:"#5E5B4B", p1:"#95E1E3", p2:"#DAD2A7", b1:"#8B835B", b2:"#78CDD0", b3:"#8B835B"},
+  text: {title: "Tennis tasks end in a handoff", sub: "Done, still open, and the first action for next time.", at: "top"},
+  bloom: {name: "pair", at: [.66, .58], size: .62, c: "b2", o: .7},
+  land: {c: "p2", top: .86},
+  parts: [["desk", .44, .86, 1.15], ["laptop", "desk.left", 1.15], ["sit-write", .7, .86, 1.15, {dir: -1, id: "me"}]],
+  light: {kind: "steps", from: "laptop.screen", to: "me.hand"},
+  ball: "me.hand", rim: "b2", stamp: "No. 41", tag: "Field 01",
+  alt: "A figure at a desk hands a coral ball across to the next session."
+});
+</script>

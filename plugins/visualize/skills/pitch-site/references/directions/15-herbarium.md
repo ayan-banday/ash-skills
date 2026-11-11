@@ -4,7 +4,7 @@
 **Swatch:** `#33261F #F2EDE2 #EBC8C6 #EEDCA4 #D2CBE0 #9C2C44`
 
 **Suits:** agriculture, food, pharma and life sciences, ayurveda and wellness, beauty, research partnerships, universities, environment work. Tone: scholarly, careful, natural. Audience: researchers, regulators, premium consumers, farmer organisations (with simple copy).
-**Avoid when:** a speed or tech brand; a client who expects green foliage (Ash rejects green, so leaves stay sepia line).
+**Avoid when:** a speed or tech brand.
 **Cultural note:** the European botanical plate tradition (Curtis's Botanical Magazine from 1787) grew partly from colonial plant collecting, including Indian plants. For Indian clients, avoid colonial framing ("discovered"); Indian Company-school botanical painting is a respectful cousin worth crediting.
 
 **Story device.** The plant is the organisation: the root is its history, the stem is the client's core, each branch is an initiative, the flower is the outcome, and the numbered details (1., 2., 3.) are close-ups for the deep-dive sections. The label slip carries the proposal's facts.

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Paint Scene Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@800&family=Overpass+Mono:wght@500&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Palette: No. 275, Etruscan Red + Ecru + Madder Brown + Taupe Brown · place dark (match-ash-design palette.py) */
+:root{
+  --bg:#17110F; --bg2:#211714; --bg3:#2A1D1A;
+  --tx:#EDE6E4; --mu:#AFA5A3; --ln:rgba(237,230,228,0.12);
+  --p1:#C2AE93; --p2:#F6B0A5; --p3:#EFB0C3; --acc:#C55347; --acc2:#8D5567;
+  --b1:#C55347; --b2:#C2AE93; --b3:#762C19; --b4:#7A4456;
+  --paper:#E9E1D3; --ink:#1d1715;
+  color-scheme:dark;
+}
+body{margin:0;background:var(--bg);color:var(--tx);font:17px/1.6 "Atkinson Hyperlegible",system-ui,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:32px max(16px,env(safe-area-inset-left)) 80px}
+h1{font:800 clamp(28px,4vw,42px)/1.1 Overpass,system-ui,sans-serif;margin:8px 0 6px}
+h2{font:800 22px/1.2 Overpass,system-ui,sans-serif;margin:48px 0 4px}
+p.lead{color:var(--mu);margin:0 0 8px;max-width:68ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-top:16px}
+.grid.wide{grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
+figure{margin:0;min-width:0}
+figcaption{font:500 12px/1.4 "Overpass Mono",monospace;letter-spacing:.06em;color:var(--mu);margin-top:6px}
+figcaption b{color:var(--tx);font-weight:500}
+.mask{aspect-ratio:1;background:var(--bg2);border-radius:3px;position:relative;overflow:hidden}
+.mask i{position:absolute;inset:6%;background:var(--p2);-webkit-mask:var(--bloom) center/contain no-repeat;mask:var(--bloom) center/contain no-repeat}
+.tile{aspect-ratio:1;background:var(--bg2);border-radius:3px}
+.part{aspect-ratio:1;background:var(--paper);border-radius:3px;display:grid;place-items:center;padding:10px;box-sizing:border-box}
+.part svg{max-width:100%;max-height:100%}
+canvas{display:block;width:100%;height:auto;border-radius:3px}
+.sig{display:flex;flex-wrap:wrap;gap:28px;align-items:center;margin-top:16px}
+.demo{background:var(--bg2);border-radius:3px;padding:22px 20px;margin-top:16px}
+.demo h3{font:800 24px/1.2 Overpass,system-ui,sans-serif;margin:0}
+</style>
+<link rel="stylesheet" href="ink.css">
+<body class="ink-page">
+<div class="wrap">
+  <span class="ink-tag">paint-scene · the kit</span>
+  <h1>Every part, by name</h1>
+  <p class="lead">Pick parts by these names. Masks and tiles tint to any colour; figures and props come out in any ink. Names in <b>bold</b> are what you type.</p>
+
+  <h2>Blooms</h2>
+  <p class="lead">Watercolour masks painted once with p5.brush. One per screen. CSS: <code>data-bloom="round"</code>. Scene: <code>bloom:{name:"round"}</code>.</p>
+  <div class="grid" id="blooms"></div>
+
+  <h2>Paper</h2>
+  <p class="lead">Grain and three hatching tiles. Print uses only these.</p>
+  <div class="grid">
+    <figure><div class="tile ink-grain" style="--grain-o:1"></div><figcaption><b>grain</b> · class ink-grain</figcaption></figure>
+    <figure><div class="tile" data-hatch="fine" style="--hatch-c:var(--p1);--hatch-o:.8"></div><figcaption><b>fine</b> · data-hatch</figcaption></figure>
+    <figure><div class="tile" data-hatch="slant" style="--hatch-c:var(--p1);--hatch-o:.8"></div><figcaption><b>slant</b> · data-hatch</figcaption></figure>
+    <figure><div class="tile" data-hatch="cross" style="--hatch-c:var(--p1);--hatch-o:.8"></div><figcaption><b>cross</b> · data-hatch</figcaption></figure>
+  </div>
+
+  <h2>Light, four kinds</h2>
+  <p class="lead">One kind per screen, aimed at the one message (here, the ball). <b>steps</b> is the default; <b>contours</b> only for one hero.</p>
+  <div class="grid wide">
+    <figure><canvas id="l-steps"></canvas><figcaption><b>steps</b> · default</figcaption></figure>
+    <figure><canvas id="l-trail"></canvas><figcaption><b>trail</b> · leads the eye</figcaption></figure>
+    <figure><canvas id="l-contours"></canvas><figcaption><b>contours</b> · one hero only</figcaption></figure>
+    <figure><canvas id="l-grid"></canvas><figcaption><b>grid</b> · survey crosses</figcaption></figure>
+  </div>
+
+  <h2>Figures</h2>
+  <p class="lead">Face right; <code>{dir:-1}</code> flips. Anchors in brackets: aim the ball or the light at them, as <code>"id.hand"</code>.</p>
+  <div class="grid" id="figures"></div>
+
+  <h2>Props</h2>
+  <div class="grid" id="props"></div>
+
+  <h2>Signature</h2>
+  <div class="sig">
+    <span><span class="ink-ball"></span>the ball: what the reader gets or decides</span>
+    <span class="ink-stamp">No. 275</span>
+    <span class="ink-tag">Shasta · field 04</span>
+  </div>
+
+  <h2>Touch, in CSS</h2>
+  <div class="demo ink-steps ink-grid" style="--lx:22%;--ly:60%">
+    <h3 class="ink-bloom" data-bloom="halo" style="--bloom-c:var(--b1)">A heading with a bloom past its last word</h3>
+    <ol class="ink-trail">
+      <li>A trail runs down a list</li>
+      <li>and the light sits on the step that matters</li>
+      <li><b>ending on the ball.</b></li>
+    </ol>
+  </div>
+
+  <h2>Shapes</h2>
+  <p class="lead">One scene, four frames: 16:9, 4:5 post, 9:16 phone, 3:1 banner.</p>
+  <div class="grid wide" style="align-items:start">
+    <figure><canvas id="s-169"></canvas><figcaption><b>16:9</b></figcaption></figure>
+    <figure><canvas id="s-45"></canvas><figcaption><b>4:5</b></figcaption></figure>
+    <figure><canvas id="s-916"></canvas><figcaption><b>9:16</b></figcaption></figure>
+    <figure><canvas id="s-31"></canvas><figcaption><b>3:1</b></figcaption></figure>
+  </div>
+</div>
+<script src="ink.js"></script>
+<script>
+var tokens={bg:"#17110F",bg2:"#211714",tx:"#EDE6E4",mu:"#AFA5A3",p1:"#C2AE93",p2:"#F6B0A5",p3:"#EFB0C3",acc:"#C55347",b1:"#C55347",b2:"#C2AE93",b3:"#762C19",b4:"#7A4456"};
+var bl=document.getElementById("blooms");
+Ink.maskNames.forEach(function(n){bl.insertAdjacentHTML("beforeend",'<figure><div class="mask"><i data-bloom="'+n+'"></i></div><figcaption><b>'+n+'</b></figcaption></figure>');});
+function parts(kind,el){Ink.names(kind).forEach(function(n){var a=Object.keys(Ink.parts[n].a).join(", ");
+  document.getElementById(el).insertAdjacentHTML("beforeend",'<figure><div class="part">'+Ink.svg(n,"#1d1715","#C55347","#E9E1D3")+'</div><figcaption><b>'+n+'</b> ('+a+')</figcaption></figure>');});}
+parts("figure","figures");parts("prop","props");
+["steps","trail","contours","grid"].forEach(function(k){
+  Ink.scene("#l-"+k,{shape:"16:9",tokens:tokens,grid:k!=="grid",rim:"b4",
+    parts:[["desk",.5,.82,1.3],["lamp","desk.left",1.1],["sit-write",.68,.82,1.3,{dir:-1,id:"me"}]],
+    light:{kind:k,from:k==="trail"?[.08,.92]:"lamp.light",to:"me.hand"},ball:"me.hand",land:{c:"b3",top:.82,o:.7}});
+});
+var base={tokens:tokens,rim:"b1",bloom:{name:"round",at:[.62,.45],size:.75,c:"b4"},land:{c:"b3",top:.8},
+  light:{kind:"steps",from:"lamp.light",to:"me.hand"},ball:"me.hand",stamp:"No. 275",tag:"Field 04"};
+function sc(id,shape){Ink.scene(id,Object.assign({},base,{shape:shape,parts:[["desk",.5,.8,1],["lamp","desk.left",1],["sit-write",shape==="3:1"?.6:.74,.8,1,{dir:-1,id:"me"}]]}));}
+sc("#s-169","16:9");sc("#s-45","4:5");sc("#s-916","9:16");sc("#s-31","3:1");
+</script>
+</body>
+</html>

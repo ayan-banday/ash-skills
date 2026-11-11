@@ -12,7 +12,7 @@ KEEP means the device stays as researched, with values snapped to the house toke
 - **reveals once**: text arrives the first time it enters view, always finishes, never reverses.
 - **scroll-linked**: linear, tied to progress; text never un-reveals.
 - **steps**: a sticky stage plus caption blocks; one IntersectionObserver with rootMargin "-45% 0px -45% 0px" sets `data-step`. One change per step.
-- **tokens**: paper #F1EDE4, card #FAF7F0, ink #241D18, muted #6B6158, line rgba(36,29,24,.14), chalk tints haldi #ECD9A6, neel #C6CFDA, laterite #DDB09A, dark bands wood #3A2B22 with powder #F4F1EA text. The one accent is marker yellow: `--marker` #F2C94C for bands and pills, `--marker-ink` #A87410 for thin strokes on paper. Kumkum #9E3B2A only for problem kickers. No green, no navy, no clay.
+- **tokens**: paper #F1EDE4, card #FAF7F0, ink #241D18, muted #6B6158, line rgba(36,29,24,.14), chalk tints haldi #ECD9A6, neel #C6CFDA, laterite #DDB09A, dark bands wood #3A2B22 with powder #F4F1EA text. The one accent is marker yellow: `--marker` #F2C94C for bands and pills, `--marker-ink` #A87410 for thin strokes on paper. Kumkum #9E3B2A only for problem kickers. No navy, no clay.
 - **marker sweep**: EMP-01. **pen circle**: EMP-10.
 
 ---

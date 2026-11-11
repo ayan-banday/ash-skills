@@ -1,0 +1,84 @@
+/* paint-scene ink.css: the Touch level. Character for a page in CSS only, no script.
+   Needs the page's palette tokens first (match-ash-design palette.py: --bg --tx --mu --p1 --b1..--b4).
+   Masks and tiles arrive as data URIs from `python scripts/kit.py bundle`, which writes only the ones the page uses.
+   Rules: one bloom and one kind of light per screen; the light sits on the one message; text never sits on a bloom. */
+
+:root{--ink-ball:#F58E84; --ink-ball-edge:transparent}
+
+/* ---------- bloom: a watercolour bloom beside a heading, a card corner or behind a picture ---------- */
+/* <h2 class="ink-bloom" data-bloom="round">Heading</h2>
+   The heading shrinks to its words and the bloom sits just past its last word, never under it.
+   --bloom-c: colour (default --p1), --bloom-size, --bloom-o: strength. */
+.ink-bloom{position:relative;isolation:isolate;width:fit-content;max-width:calc(100% - 2.5em)}
+.ink-bloom::before{content:"";position:absolute;z-index:-1;pointer-events:none;
+  width:var(--bloom-size,min(4.5em,34vw));aspect-ratio:1;left:calc(100% + .1em);top:50%;translate:0 -50%;
+  background:var(--bloom-c,var(--p1));opacity:var(--bloom-o,.6);
+  -webkit-mask:var(--bloom) center/contain no-repeat;mask:var(--bloom) center/contain no-repeat}
+/* a card: the bloom bleeds off its top-right corner into the gutter; keep the card's top-right quarter free of words */
+.ink-bloom[data-at="corner"]{width:auto;max-width:none}
+.ink-bloom[data-at="corner"]::before{left:auto;right:calc(var(--bloom-size,160px) * -.42);top:calc(var(--bloom-size,160px) * -.42);translate:none;width:var(--bloom-size,160px)}
+/* behind a picture (an img, svg or canvas), centred, larger than it */
+.ink-bloom[data-at="behind"]{width:auto;max-width:none}
+.ink-bloom[data-at="behind"]::before{left:50%;top:50%;translate:-50% -50%;width:var(--bloom-size,120%)}
+
+/* ---------- light: steps (default), trail, grid. Contours live in ink.js, for one hero only ---------- */
+/* <section class="ink-steps" style="--lx:70%;--ly:30%">: flat stepped pools of light centred on the message */
+.ink-steps{position:relative;isolation:isolate}
+.ink-steps::after{content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;
+  --l:var(--light,var(--p1));
+  background:radial-gradient(ellipse 60% 70% at var(--lx,75%) var(--ly,35%),
+    color-mix(in srgb,var(--l) 16%,transparent) 0 22%,
+    color-mix(in srgb,var(--l) 11%,transparent) 22% 42%,
+    color-mix(in srgb,var(--l) 7%,transparent) 42% 64%,
+    color-mix(in srgb,var(--l) 3.5%,transparent) 64% 88%,
+    transparent 88%)}
+/* stair: flat bands rising toward one side (--la: the direction the light travels) */
+.ink-steps[data-light="stair"]::after{background:linear-gradient(var(--la,120deg),
+    transparent 0 28%, color-mix(in srgb,var(--l) 3.5%,transparent) 28% 46%,
+    color-mix(in srgb,var(--l) 7%,transparent) 46% 64%, color-mix(in srgb,var(--l) 11%,transparent) 64% 82%,
+    color-mix(in srgb,var(--l) 16%,transparent) 82%)}
+
+/* trail: a dashed route down an ordered list; its last stop fills with the light colour.
+   <ol class="ink-trail" data-end="ball"> ends on the ball instead, only when no other ball is on screen. */
+ol.ink-trail{list-style:none;padding-left:1.8em;position:relative}
+ol.ink-trail::before{content:"";position:absolute;left:.52em;top:.9em;bottom:1.1em;border-left:2px dashed color-mix(in srgb,var(--mu) 70%,transparent)}
+ol.ink-trail>li{position:relative}
+ol.ink-trail>li::before{content:"";position:absolute;left:-1.6em;top:.45em;width:.6em;height:.6em;border-radius:50%;background:var(--bg);border:2px solid var(--mu);box-sizing:border-box}
+ol.ink-trail>li:last-child::before{background:var(--light,var(--p1));border-color:var(--light,var(--p1))}
+ol.ink-trail[data-end="ball"]>li:last-child::before{background:var(--ink-ball);border-color:var(--ink-ball)}
+
+/* survey grid: faint crosses on a section or the whole page. --grid-c, --grid-o */
+.ink-grid{position:relative;isolation:isolate}
+.ink-grid::before{content:"";position:absolute;inset:0;z-index:-3;pointer-events:none;background:var(--grid-c,var(--tx));opacity:var(--grid-o,.09);
+  --x:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cpath d='M31 36h10M36 31v10' stroke='%23000' stroke-width='1.4'/%3E%3C/svg%3E");
+  -webkit-mask:var(--x) 0 0/72px 72px repeat;mask:var(--x) 0 0/72px 72px repeat}
+
+/* ---------- paper: grain and hatching ---------- */
+/* <body class="ink-grain">: static grain on the ground (never animated, so it never flickers) */
+.ink-grain{position:relative;isolation:isolate}
+.ink-grain::after{content:"";position:absolute;inset:0;z-index:-4;pointer-events:none;background:var(--ink-grain) 0 0/256px 256px repeat;opacity:var(--grain-o,.55)}
+/* <div data-hatch="slant">: pencil hatching tinted any colour; for shapes, bands and print. fine | slant | cross */
+[data-hatch]{position:relative;isolation:isolate}
+[data-hatch]::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:var(--hatch-c,var(--mu));opacity:var(--hatch-o,.35);
+  -webkit-mask:var(--hatch) 0 0/var(--hatch-size,256px) repeat;mask:var(--hatch) 0 0/var(--hatch-size,256px) repeat}
+
+/* ---------- signature: the ball, the stamp, the field tag ---------- */
+/* the coral ball: the one bright thing. It marks what the reader gets or decides, like the marker. One per screen. */
+.ink-ball{display:inline-block;width:.62em;height:.62em;border-radius:50%;vertical-align:.02em;margin-right:.35em;
+  background:radial-gradient(circle at -42% 50%,transparent 60%,rgba(255,255,255,.6) 60% 68%,transparent 68%),var(--ink-ball);
+  box-shadow:0 0 0 1.5px var(--ink-ball-edge)}
+/* on light paper the coral is under 3:1, so give it an ink edge: <html data-ink="light"> */
+[data-ink="light"]{--ink-ball-edge:color-mix(in srgb,var(--tx) 75%,transparent)}
+/* the Wada number stamp: <span class="ink-stamp">No. 273</span> */
+.ink-stamp{font:500 12px/1 "Overpass Mono",ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);
+  border:1.5px solid color-mix(in srgb,var(--mu) 55%,transparent);padding:5px 7px 4px;border-radius:2px;display:inline-block}
+/* the field tag: a survey label for a section, tied to the mountain-named systems: <span class="ink-tag">Shasta · field 04</span> */
+.ink-tag{font:500 12px/1 "Overpass Mono",ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mu);display:inline-flex;align-items:center;gap:.6em}
+.ink-tag::before{content:"";width:11px;height:11px;flex:none;
+  background:linear-gradient(currentColor,currentColor) center/100% 1.5px no-repeat,linear-gradient(currentColor,currentColor) center/1.5px 100% no-repeat}
+
+/* the page never scrolls sideways because of a bloom */
+.ink-page{overflow-x:clip}
+
+/* print: grain and hatching only */
+@media print{.ink-bloom::before,.ink-steps::after,.ink-grid::before{display:none}}
