@@ -13,7 +13,7 @@ How a page is built so the reader sees the right thing first and no space is was
 ## Ten design rules in three tiers
 
 **Can the reader find and read it?**
-1. **Headings in three levels or fewer**, each stating its point. Check: read only the headings.
+1. **Headings in three levels or fewer**, each the question its section answers. Check: read only the headings.
 2. **Comfortable body text:** 10 to 12 pt, line height about 1.5, 50 to 75 characters a line. Check: count a typical line.
 3. **Spacing matches structure:** more space above a heading than below; captions tight to figures. Check: for each heading, ask which block it belongs to.
 4. **One shared left edge,** numbers right-aligned in tables. Check: draw a line down the left margin.

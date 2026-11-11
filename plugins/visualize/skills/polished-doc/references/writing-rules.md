@@ -122,9 +122,9 @@ A reader should feel pulled into the next section, not dropped into it.
 
 Before writing a new bridge, look for it in the writer's own lines. "A company is a machine too. Its parts are people" was built from three phrases already in the draft.
 
-### 9. Make every heading give the answer
+### 9. Make every heading the reader's question
 
-See the Headings section below. Test: read only the headings. The reader should get the whole argument.
+See the Headings section below. Test: read only the headings. The reader should see every problem the document settles.
 
 ### 10. Keep the writer's voice
 
@@ -145,17 +145,19 @@ The skill changes how the document reads, never what it claims.
 
 ## Headings
 
-A heading states the point of its section. A reader scanning headings alone gets the argument.
+A heading is the question its section answers (Ash, Nov 11: "the default headlines are the problems"). A reader scanning headings alone sees every problem the document settles; the first sentence under each heading answers it.
 
-| Bad (names a slot) | Good (gives the answer) |
+| Bad (names a slot) | Good (the reader's question) |
 |---|---|
-| Overview | New hires take 9 days to set up |
-| Next steps | Pick a checklist, a buddy, or both |
-| The problem | Leads wait for the morning sort before anyone owns them |
-| Remaining issues | Point 4 is the one the reviewer will raise again |
-| Feedback point 2 | The bridge is already in your draft |
+| Overview | How long do new hires take to set up? |
+| Next steps | Which fix do we pick: a checklist or a buddy? |
+| The problem | Why do leads wait before anyone owns them? |
+| Remaining issues | Which point will the reviewer raise again? |
+| Feedback point 2 | Where is the bridge between the two parts? |
 
-**Clever headings fail.** A heading passes when someone who hasn't read the section knows exactly what it covers. It is one of three things: a plain question the reader would ask, a concrete answer in everyday words, or a plain label for a recap or reference part ("Key takeaways", "Sources").
+**Answer headings are the second option,** only when Ash asks for them ("New hires take 9 days to set up"). Never put a takeaway line styled as a second headline under a question.
+
+**Clever headings fail.** A heading passes when someone who hasn't read the section knows exactly what it covers. It is a plain question the reader would ask, or a plain label for a recap or reference part ("Key takeaways", "Sources"). A concrete answer in everyday words works only when Ash asked for answer headings.
 
 - Bad: "Two pictures to think with, and three rules that hold everywhere". It counts the contents and hides them.
 - Bad: "Three rules, two pictures and two questions to carry into your own tests"

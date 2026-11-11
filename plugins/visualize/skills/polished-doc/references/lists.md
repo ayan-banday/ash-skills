@@ -36,7 +36,7 @@ The rule also covers lists inside the document's own structure: ten rules, twelv
 Good:
 > **Cut what carries no weight:** hedges, untrue framings, setup lines, decoration
 > **Make it specific:** named things, one running example, a visible result
-> **Connect it and keep the voice:** hand-offs, answer headings, the writer's voice
+> **Connect it and keep the voice:** hand-offs, question headings, the writer's voice
 
 Bad:
 > **Group 1:** hedges, examples, voice, setup lines

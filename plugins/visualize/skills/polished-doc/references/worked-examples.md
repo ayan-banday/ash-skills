@@ -23,15 +23,15 @@ Three documents taken through the skill, each a different size. Use them to cali
 
 > **Subject: New hires take 9 days to set up**
 >
-> **The delay comes from our process**
+> **Why do new hires take 9 days to set up?**
 > New hires take about 9 days to get set up. The cause is the process, so new tools would leave it unchanged.
 >
-> **Pick a checklist, a buddy, or both**
+> **Which fix do we pick: a checklist, a buddy, or both?**
 > Two fixes are on the table: a setup checklist, and a buddy for each new hire. ==Reply by Friday== with the one you prefer, or both.
 
 **What changed, and why**
 1. Kept the shape: same subject line, two sections, same facts.
-2. Both headings now give the answer; "Overview" and "Next steps" named slots.
+2. Both headings are now the reader's questions; "Overview" and "Next steps" named slots.
 3. Cut seven hedges: kind of, probably, maybe, maybe, at some point, potentially, perhaps.
 4. "It's not really about the tools, it's more about the process" became a plain cause.
 5. Cut the setup line ("just wanted to give a quick update").

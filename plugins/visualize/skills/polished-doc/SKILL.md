@@ -16,7 +16,7 @@ It exists because busy readers give each sentence a second or two and each page 
 The proven example is `assets/reference-playbook.html` (a 16-page playbook describing this skill, built with it). Its qualities:
 
 - **The writer's structure survives.** Same parts, same order, same facts. Only the wording, list shapes, visuals, and layout change.
-- **Headings state the answer.** "Leads wait for the morning sort before anyone owns them", never "The problem".
+- **Headings are the reader's questions.** "Why do leads wait before anyone owns them?", never "The problem". Answer headings only when Ash asks (Ash, Nov 11).
 - **No long flat lists.** Ten rules sit in three named groups; twelve visuals become a two-question decision tree; a 40-item overview becomes a nested outline and a mind map.
 - **Visuals only where the content has a shape**, in two styles: hand-lettered stick-figure sketches for people and situations, clean charts for amounts and order.
 - **A palette from a seed**, muted and contrast-checked, different for every document.
@@ -30,7 +30,7 @@ Before changing anything, list its sections in order, the facts and numbers it c
 
 ### 2. Rewrite the words
 
-Follow `references/writing-rules.md`: ten rules in three groups (cut what carries no weight, make it specific, connect it and keep the voice). Rewrite headings so each gives its section's answer. Keep the writer's vivid lines. **Never invent a fact, number, quote, or result.** Anything new you must add (a deadline, a reason, a missing step) is highlighted in the document with `<mark>` and listed in the hand-off note for the writer to confirm.
+Follow `references/writing-rules.md`: ten rules in three groups (cut what carries no weight, make it specific, connect it and keep the voice). Rewrite headings so each is the question its section answers; the first sentence answers it. Keep the writer's vivid lines. **Never invent a fact, number, quote, or result.** Anything new you must add (a deadline, a reason, a missing step) is highlighted in the document with `<mark>` and listed in the hand-off note for the writer to confirm.
 
 ### 3. Fix long lists
 
