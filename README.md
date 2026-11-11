@@ -136,6 +136,10 @@ exit 0
 - **The real work is in [cloud/setup.sh](cloud/setup.sh),** so changes there need no new paste. It installs every plugin and tells Claude where to find a skill that didn't load. It also holds lines for one maintainer's private repos; remove those for your own setup.
 - **A skill pushed today can take up to about 7 days to reach cloud sessions,** because environments cache the setup. Until then, ask for the skill by name: Claude pulls this repo and reads its SKILL.md.
 
+## Skills from other people
+
+[OUTSIDE-SKILLS.md](OUTSIDE-SKILLS.md) lists other people's skills (Emil Kowalski, Ponytail, Matt Pocock, Anthropic) and the UI libraries worth saving. A few are installed in every cloud session; the rest wait on the shelf until a big build needs them, and Claude asks before fetching one.
+
 ## How this repo is built
 
 - **Every rule for naming, describing, writing and shipping a skill** is in [CONVENTIONS.md](CONVENTIONS.md). `/build:make-skill` follows it.
