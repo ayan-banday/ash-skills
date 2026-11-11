@@ -41,7 +41,7 @@ Every rule traces to where Ash said it. **[3+]** means three or more of his skil
 - **For Ash** (chat, study results, plans): **mostly words.** Bullets, bold, a table for comparisons. Draw only the one picture that saves him reading: the shape of a plan, the verdict at a glance. (teach-side-chat rule 11; study-bba writing-rules "A metaphor only where the idea is hard")
 - **For students:** a picture comes after the words it explains, one idea each, never first under a heading. (course-lesson formatting rule 8)
 
-**Character** (blooms, stepped light, ink figures, the coral ball) comes from `/visualize:paint-scene` and follows the same tests: a Scene must explain something, one bloom and one light per screen, and text never sits on a bloom. (Ash, Nov 11 2026)
+**Character** (Watercolour or Ring Eyes, with the coral ball) comes from `/visualize:paint-scene` and follows the same tests: a Scene must explain something, one bloom and one light per screen, and text never sits on a bloom. (Ash, Nov 11 2026)
 
 **Never start with a picture.** "Visuals are there to just make things clear, not to start things out with." Too many visuals that serve nothing get cut. (Ash, Oct 29)
 **Don't reuse one picture across pages or projects:** each gets a scene from its own world. "The mountain is not helpful." (Ash, Oct 25 and Nov 2)

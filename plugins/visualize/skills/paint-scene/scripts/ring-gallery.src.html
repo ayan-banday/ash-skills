@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ring Eyes Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Gaegu:wght@400;700&family=Overpass:wght@800&family=Overpass+Mono:wght@500&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Page: dark, ink #111314, coral #F58E84. Pieces: one flat Wada colour each (named on the labels). */
+:root{--bg:#141413;--bg2:#1d1d1b;--tx:#ECEAE4;--mu:#A9A69D;color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--tx);font:17px/1.6 "Atkinson Hyperlegible",system-ui,sans-serif}
+.wrap{max-width:1280px;margin:0 auto;padding:32px max(16px,env(safe-area-inset-left)) 80px}
+h1{font:800 clamp(28px,4vw,42px)/1.1 Overpass,system-ui,sans-serif;margin:6px 0 6px}
+h2{font:800 22px/1.2 Overpass,system-ui,sans-serif;margin:52px 0 4px}
+p.lead{color:var(--mu);margin:0 0 14px;max-width:70ch}
+code{font:500 14px "Overpass Mono",monospace;color:var(--tx)}
+.cast{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px}
+.cell{background:#fdbf68;border-radius:4px;padding:14px 14px 6px;aspect-ratio:1;display:grid;place-items:center}
+.cell svg{width:78%;height:auto;overflow:visible}
+.tiny{display:flex;gap:6px;align-items:center;justify-content:center;margin-top:4px}
+.tiny svg{width:24px;height:24px}
+figure{margin:0;min-width:0}
+figcaption{font:500 12px/1.4 "Overpass Mono",monospace;letter-spacing:.06em;color:var(--mu);margin-top:6px}
+figcaption b{color:var(--tx);font-weight:500}
+.rowx{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px}
+.rowx .cell{padding:10px}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:26px 16px;align-items:start}
+.s12{grid-column:span 12}.s8{grid-column:span 8}.s6{grid-column:span 6}.s5{grid-column:span 5}.s4{grid-column:span 4}.s3{grid-column:span 3}
+@media (max-width:900px){.s8,.s6,.s5,.s4,.s3{grid-column:span 12}}
+</style>
+<body>
+<div class="wrap">
+  <h1>Ring Eyes: the cast and every format</h1>
+  <p class="lead">Pick by name. A character is <code>Ring.svg("fuji",{expr,pose})</code>; a piece is <code>Ring.piece("#el",{format, bg, words, cast})</code>. Small pictures under each character are its 24px thumbnail.</p>
+
+  <h2>The cast</h2>
+  <p class="lead" id="castnote"></p>
+  <div class="cast" id="cast"></div>
+
+  <h2>Expressions</h2>
+  <p class="lead">All in the eyes, plus a dot mouth where a character has one. <code>expr:</code> open (default), closed, happy, side, surprised, worried, sleepy, wink.</p>
+  <div class="rowx" id="exprs"></div>
+
+  <h2>Poses</h2>
+  <p class="lead">Limbs are opt-in: use a pose only when the action is the message. <code>pose:</code> still (default), stand, walk, wave, cheer, point, hold, shrug, sit, hop.</p>
+  <div class="rowx" id="poses"></div>
+
+  <h2>Formats</h2>
+  <p class="lead">Each piece below is a few lines of settings. The settings sit in this page's source, one block per piece.</p>
+  <div class="grid">
+    <figure class="s12"><div id="f-comic"></div><figcaption><b>comic</b> · 16:5, three panels · Turquoise Green, Cream Yellow, Hermosa Pink</figcaption></figure>
+    <figure class="s4"><div id="f-stickers"></div><figcaption><b>stickers</b> · 1:1 · Light Lavender</figcaption></figure>
+    <figure class="s8"><div id="f-slide"></div><figcaption><b>slide</b> · 16:9 · Turquoise Green</figcaption></figure>
+    <figure class="s3"><div id="f-story"></div><figcaption><b>story</b> · 9:16 · Nile Blue</figcaption></figure>
+    <figure class="s5"><div id="f-empty"></div><figcaption><b>empty</b> · app empty state · Seashell Pink</figcaption></figure>
+    <figure class="s4"><div id="f-dark"></div><figcaption><b>dark</b> · 4:5 on ink · Cream Yellow</figcaption></figure>
+    <figure class="s12"><div id="f-banner"></div><figcaption><b>banner</b> · 3:1 · Yellow Green</figcaption></figure>
+    <figure class="s4"><div id="f-stat"></div><figcaption><b>stat</b> · 4:5 · Rainette Green</figcaption></figure>
+    <figure class="s4"><div id="f-dialogue"></div><figcaption><b>dialogue</b> · 4:5 · Turquoise</figcaption></figure>
+    <figure class="s4"><div id="f-post"></div><figcaption><b>post</b> · 4:5 · Raw Sienna</figcaption></figure>
+    <figure class="s6"><div id="f-stickers2"></div><figcaption><b>stickers</b> · the new cast · Cream Yellow</figcaption></figure>
+    <figure class="s3"><div id="f-post2"></div><figcaption><b>post</b> · Calendar · Hermosa Pink</figcaption></figure>
+    <figure class="s3"><div id="f-story2"></div><figcaption><b>story</b> · Tent · Cobalt Green</figcaption></figure>
+    <figure class="s12"><div id="f-banner2"></div><figcaption><b>banner</b> · Range and Moon · Nile Blue</figcaption></figure>
+    <figure class="s12"><div id="f-avatars"></div><figcaption><b>avatars</b> · round heads and app icons</figcaption></figure>
+  </div>
+</div>
+<script src="ring.js"></script>
+<script>
+var names=Ring.names(), cols=["#fdbf68","#96d1aa","#f9c1ce","#b5decc","#a5c8d1","#fdd4bd","#afd472","#b984af"];
+document.getElementById("castnote").textContent=names.length+" characters. Under each: what it stands for.";
+document.getElementById("cast").innerHTML=names.map(function(n,i){var d=Ring.cast[n];
+  return '<figure><div class="cell" style="background:'+cols[i%cols.length]+'">'+Ring.svg(n)+'<div class="tiny">'+Ring.svg(n)+Ring.svg(n,{expr:"happy"})+'</div></div><figcaption><b>'+n+'</b> · '+d.meaning+'</figcaption></figure>';}).join("");
+document.getElementById("exprs").innerHTML=Ring.EXPRS.map(function(e,i){return '<figure><div class="cell" style="background:'+cols[(i+2)%cols.length]+'">'+Ring.svg(i%2?"ball":"fuji",{expr:e})+'</div><figcaption><b>'+e+'</b></figcaption></figure>';}).join("");
+document.getElementById("poses").innerHTML=Ring.POSES.map(function(p,i){return '<figure><div class="cell" style="background:'+cols[(i+4)%cols.length]+'">'+Ring.svg(["phone","note","ball","fuji","sandwich"][i%5],{pose:p,expr:p==="cheer"||p==="hop"?"happy":"open"})+'</div><figcaption><b>'+p+'</b></figcaption></figure>';}).join("");
+
+// ---- one settings block per format ----
+Ring.piece("#f-comic",{format:"comic",id:"comic-2am",panels:[
+  {bg:"#96d1aa",say:["“Just one","quick reply.”"],cast:[{who:"racket",at:"left:46%;bottom:-6%",w:46},{who:"ball",at:"left:20%;bottom:14%",w:18}]},
+  {bg:"#fdbf68",say:["“OK,","one more.”"],cast:[{who:"racket",at:"left:40%;bottom:-6%",w:46,expr:"side"},{who:"ball",at:"left:12%;bottom:30%",w:16},{who:"ball",at:"left:24%;bottom:8%",w:14}]},
+  {bg:"#f9c1ce",say:["“Wait. It's",{big:"2 AM?”"}],cast:[{who:"racket",at:"left:50%;bottom:-10%",w:46,tilt:14,expr:"surprised"},{who:"ball",at:"left:32%;bottom:2%",w:15,expr:"closed"}]}]});
+Ring.piece("#f-stickers",{format:"stickers",bg:"#b984af",id:"cast-stickers",cast:["fuji","ball","racket","lamp","loop","note","flag","phone","sandwich","fog"].map(function(n){return {who:n};})});
+Ring.piece("#f-slide",{format:"slide",bg:"#b5decc",id:"sandwich-slide",words:["How I study:",{big:"SANDWICH."}],note:"Tennis opens. Golf in the middle. Tennis closes.",
+  cast:[{who:"sandwich"}],points:[["Tennis","Claude finds my gaps"],["Golf","I solve it by hand"],["Tennis","Claude checks"]]});
+Ring.piece("#f-story",{format:"story",bg:"#a5c8d1",id:"fog-story",words:["Ideas","with no map","go in the",{big:"FOG."}],cast:[{who:"fog",expr:"side",look:-1}]});
+Ring.piece("#f-empty",{format:"empty",bg:"#fdd4bd",id:"loop-empty",line:"No open loops.",big:"GO TO BED.",button:"Set tomorrow's loop",cast:[{who:"loop"}]});
+Ring.piece("#f-dark",{format:"dark",light:"#fdbf68",id:"night-run",words:["12:47 am.",{big:"NIGHT RUN."}],cast:[{who:"lamp"}]});
+Ring.piece("#f-banner",{format:"banner",bg:"#afd472",id:"week-45",words:["This is",{big:"WEEK 45."}],cast:["fuji","ball","note","phone","flag","sandwich"].map(function(n){return {who:n};})});
+Ring.piece("#f-stat",{format:"stat",bg:"#8fa071",id:"three-maps",number:"3",words:["maps per","folder.",{big:"MAX."}],cast:[{who:"fuji"},{who:"fuji"},{who:"fuji",expr:"sleepy"}]});
+Ring.piece("#f-dialogue",{format:"dialogue",bg:"#62c6bf",id:"capture",say:["Saw something good?","WhatsApp it. Sort it later."],cast:[{who:"phone",expr:"side"},{who:"ball",expr:"happy"}]});
+Ring.piece("#f-post",{format:"post",bg:"#c59f6b",id:"golf-40",words:["Golf task:",{big:"40 MIN."},{mid:"then stop."}],cast:[{who:"flag",at:"left:36%;bottom:-6%",w:44}]});
+Ring.piece("#f-stickers2",{format:"stickers",bg:"#fdbf68",title:"NEW FACES",id:"new-cast",cast:["calendar","ticket","map","clock","folder","compass","scroll","pencil","range","tent","book","bubble","kettle","moon","seedling","laptop"].map(function(n){return {who:n};})});
+Ring.piece("#f-post2",{format:"post",bg:"#f9c1ce",id:"night-before",words:["Set","tomorrow","the night",{big:"BEFORE."}],cast:[{who:"calendar",at:"right:-12%;bottom:-4%",w:52,tilt:-8,expr:"happy"}]});
+Ring.piece("#f-story2",{format:"story",bg:"#96d1aa",id:"base-camp",words:["Stuck on","the climb?","Stop at",{big:"BASE CAMP."}],bigSize:30,cast:[{who:"tent",at:"left:12%;bottom:-10%",w:76,expr:"sleepy"}]});
+Ring.piece("#f-banner2",{format:"banner",bg:"#bce4e5",id:"all-maps",words:["Every map,","one climb:",{big:"OLYMPUS."}],paradeAt:52,cast:[{who:"range",w:20},{who:"tent",w:13,expr:"happy"}]});
+Ring.piece("#f-avatars",{format:"avatars",cast:[{who:"fuji",bg:"#f9c1ce"},{who:"ball",bg:"#96d1aa"},{who:"racket",bg:"#fdbf68"},{who:"lamp",bg:"#62c6bf"},{who:"fog",bg:"#afd472"},{who:"sandwich",bg:"#b984af"}]});
+</script>
+</body>
+</html>

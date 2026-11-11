@@ -1,6 +1,6 @@
-# Character: the menu, the rules, the level per case
+# Character: the level per case, and the Watercolour look
 
-Open on every run. The parts are listed by name; the gallery (`gallery.html`) shows each one. `python scripts/kit.py list` prints the same names.
+Open on every run. "The level per case" and "Clarity rules" cover both looks; the rest is the Watercolour look. Ring Eyes has its own file, `ring-eyes.md`. The Watercolour parts are listed by name; the gallery (`gallery.html`) shows each one. `python scripts/kit.py list` prints the same names.
 
 ## Contents
 - The level per case
@@ -22,7 +22,8 @@ Open on every run. The parts are listed by name; the gallery (`gallery.html`) sh
 | Anything, when Ash says "commission", "paint it", "go heavy" | **Commission** | His words are the answer |
 
 - **Udyaan is a business project,** so it follows the "for others" row. **Character art never takes the Udyaan brand colours:** its tokens come from `palette.py` even on an Udyaan post or pitch. (match-ash-design's "Udyaan brand wins" covers the course pages students read, not the art.)
-- **The question** Ash sees, added to the building skill's intake (never a separate prompt): "Character: none, Touch (a bloom and light in CSS) or Scene (one painted picture)?" Default when he skips it: Touch on pages, Scene on post cards and slide covers.
+- **The question** Ash sees, one line added to the building skill's intake (never a separate prompt): "Character: none, Touch or Scene; and the look, Watercolour (blooms and light) or Ring Eyes (flat colour, ring-eyed characters, one huge word)?" Defaults when he skips it: Touch on pages, Scene on post cards and slide covers; the look by "Ring Eyes or Watercolour" in `ring-eyes.md`.
+- **Ash's own pages are never asked:** Watercolour Touch at most, or one small Ring Eyes mark in an empty state.
 
 ## Clarity rules
 
