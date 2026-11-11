@@ -13,25 +13,45 @@ for d in "$MP"/plugins/*/; do
 done
 
 # 1b. Install the outside skills marked "Installed" in OUTSIDE-SKILLS.md (keep the two lists the same).
-EMIL_SKILLS="emil-design-eng pick-ui-library mobile-native"
-TMP=$(mktemp -d)
-if git clone -q --depth 1 https://github.com/emilkowalski/skills "$TMP/emil" 2>/dev/null; then
+# Each entry is owner/repo:skill,skill. Each fetch gives up after 30 seconds, so a slow network never blocks the session.
+OUTSIDE="emilkowalski/skills:emil-design-eng,pick-ui-library,mobile-native backnotprop/pstack:ketchup,sharpen,interrogate,arena,in-your-own-words,bro"
+TMP=$(mktemp -d 2>/dev/null)
+if [ -n "$TMP" ] && [ -d "$TMP" ]; then
   mkdir -p "$HOME/.claude/skills"
-  for s in $EMIL_SKILLS; do
-    if [ -d "$TMP/emil/skills/$s" ]; then
-      rm -rf "$HOME/.claude/skills/$s" && cp -r "$TMP/emil/skills/$s" "$HOME/.claude/skills/$s"
+  for entry in $OUTSIDE; do
+    repo=${entry%%:*}
+    dir="$TMP/${repo/\//-}"
+    if GIT_TERMINAL_PROMPT=0 timeout 30 git clone -q --depth 1 "https://github.com/$repo" "$dir" 2>/dev/null; then
+      IFS=, read -ra names <<< "${entry#*:}"
+      for s in "${names[@]}"; do
+        if [ -d "$dir/skills/$s" ]; then
+          rm -rf "$HOME/.claude/skills/$s" && cp -r "$dir/skills/$s" "$HOME/.claude/skills/$s"
+        else
+          echo "ash-skills: $s not found in $repo" >&2
+        fi
+      done
     else
-      echo "ash-skills: Emil's $s not found" >&2
+      echo "ash-skills: could not fetch $repo" >&2
     fi
   done
-else
-  echo "ash-skills: could not fetch emilkowalski/skills" >&2
+  rm -rf "$TMP"
 fi
-rm -rf "$TMP"
+
+# 1c. pstack's interrogate and arena name Grok by default, which Claude Code can't run. Point them at Claude models,
+# unless a models file already exists (it may be Ash's own choice).
+mkdir -p "$HOME/.claude/rules"
+[ -f "$HOME/.claude/rules/pstack-models.md" ] || cat > "$HOME/.claude/rules/pstack-models.md" <<'EOF'
+# pstack models (written by ash-skills cloud/setup.sh; only Claude models exist here)
+arena runners: claude-opus-5-5, claude-sonnet-5-5
+arena cross-judge pool: claude-opus-5-5
+interrogate reviewers: claude-opus-5-5, claude-sonnet-5-5
+EOF
 
 # 2. Tell Claude where to find a skill that didn't load, or one newer than this session's copy.
 mkdir -p "$HOME/.claude"
 touch "$HOME/.claude/CLAUDE.md"
+# Make sure the file ends in a line break, or the block markers glue onto Ash's last line and the next run deletes it.
+[ -n "$(tail -c1 "$HOME/.claude/CLAUDE.md")" ] && echo >> "$HOME/.claude/CLAUDE.md"
 sed -i '/<!-- ash-skills:start -->/,/<!-- ash-skills:end -->/d' "$HOME/.claude/CLAUDE.md"
 cat >> "$HOME/.claude/CLAUDE.md" <<EOF
 <!-- ash-skills:start -->

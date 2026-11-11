@@ -8,23 +8,29 @@ Skills here come from other people's repos. A few are installed in every cloud s
 2. **Fetch nothing until he says yes.** Then pick at most three skills from the shelf below that fit the job, and name each in one line with why.
 3. **For a skill he picks, fetch it for this project only:**
    ```bash
-   git clone --depth 1 <repo url> /tmp/outside-skills/<repo name>
+   git clone --depth 1 https://github.com/<owner>/<repo> /tmp/outside-skills/<owner>-<repo>
    ```
-   Read `<path>/SKILL.md` and the files it points to in the same folder, then follow it as if it had been invoked. Don't install it permanently.
-4. **If a skill earns its place** (Ash uses it on two projects), suggest moving it to "Installed" below. That needs one line in `cloud/setup.sh`.
+   Each source gets its own folder (three repos are all called `skills`). Read `<path>/SKILL.md` and the files it points to in the same folder, then follow it as if it had been invoked. Don't install it permanently.
+4. **If a skill earns its place** (Ash uses it on two projects), suggest moving it to "Installed" below. That means adding its name to `OUTSIDE` in `cloud/setup.sh` and moving its row up there.
 5. **When Ash saves a new skill or library,** add a row here: the name, where it lives, and when to reach for it.
 
 An outside skill never overrides Ash's own rules. Where one disagrees with `match-ash-writing`, `match-ash-design` or a project's CLAUDE.md, Ash's rules win.
 
 ## Installed in every cloud session
 
-`cloud/setup.sh` copies these into `~/.claude/skills` when a session starts. On Ash's PC, install them with `npx skills@latest add emilkowalski/skills`.
+`cloud/setup.sh` copies these into `~/.claude/skills` when a session starts (the `OUTSIDE` line; keep it and this table the same). On Ash's PC, run `npx skills@latest add emilkowalski/skills` and `npx skills@latest add backnotprop/pstack`, and pick these names from the list.
 
 | Skill | From | What it does | Starts |
 |---|---|---|---|
 | `emil-design-eng` | Emil Kowalski | His rules for UI polish and animation: the right easing, shadows instead of solid borders, the details that make an interface feel good. | On its own, when building UI |
 | `pick-ui-library` | Emil Kowalski | Picks a trusted library for a frontend job (toasts, charts, command menus, drag and drop) so Claude doesn't hand-roll one or install an abandoned package. | Only when typed |
 | `mobile-native` | Emil Kowalski | Small fixes that make a web page feel like an app on a phone: the 100vh bug, inputs that zoom the page, tap flashes, safe areas. Pairs with `docs/mobile-site-playbook.md`. | On its own, for phone pages |
+| `ketchup` | pstack | Catches Ash up on a long chat or a build run: what changed in plain words, then every call waiting on him with Claude's pick. | Only when typed |
+| `sharpen` | pstack | Makes a task deeper, not bigger: what a top professional would do, the raw material, the methods, the proof, then a rewritten prompt. | Only when typed |
+| `interrogate` | pstack | Sends 2 attacker agents at a change; a bug only counts if a run proves it. Use on anything unattended or that every session depends on. On its first test it found 3 real bugs in this repo's setup script. | Only when typed |
+| `arena`, `in-your-own-words`, `bro` | pstack | Helpers that `interrogate` and `ketchup` call. `arena` also works alone: several attempts at once, best parts merged. Only worth it when the answer is wide open. | Only when typed |
+
+`cloud/setup.sh` also writes `~/.claude/rules/pstack-models.md` so `interrogate` and `arena` use Opus and Sonnet instead of Grok, which Claude Code can't run.
 
 ## The shelf
 
@@ -89,22 +95,16 @@ An outside skill never overrides Ash's own rules. Where one disagrees with `matc
 
 **Already copied into Ash's skills, so don't fetch them:** Matt's grilling, grill-me, grill-with-docs, wayfinder, to-spec, to-tickets, to-questionnaire, prototype, research, tdd, diagnosing-bugs, code-review, pr, wizard, handoff, retro, wait-what, writing-for-agents, domain-modeling, codebase-design, improve-codebase-architecture, setup-matt-pocock-skills, implement and implement-spec. Anthropic's docx, pdf, pptx, xlsx and skill-creator already come with claude.ai.
 
-### pstack: engineering rigour, plus a few for working with Claude
+### pstack: saved for later
 
-58 skills in all, mostly for serious coding. Its hub, `poteto-mode`, needs most of the others and is tuned for Cursor's multi-model setup, so don't install the whole set. Pick these one at a time:
+58 skills in all, mostly for serious coding. Its hub, `poteto-mode`, needs most of the others and is tuned for Cursor's model mix, so don't install the set. The useful ones are installed above; these two wait here. Results from a real run of each: https://claude.ai/artifact/Xo2PnHNvAQtP2jcvuwCbCn
 
 | Skill | Reach for it when |
 |---|---|
-| `ketchup` | Coming back to a long chat or a build run: what changed, in plain words, and every call waiting on Ash with Claude's pick. Only when typed. |
-| `sharpen` | A task feels shallow. Claude says what a top professional would do instead, then rewrites the prompt deeper, not bigger. Only when typed. |
-| `show-me-your-work` | Long unattended work, like a night run: one log line per decision with why and proof, so Ash can trust it after. |
-| `automate-me` | Capturing how Ash works into one personal "ash-mode" skill from his chat history. |
-| `in-your-own-words` | Checking Claude understood the goal before it starts. |
-| `interrogate` | A hard, adversarial review of finished code before it ships. |
-| `arena` | Several attempts at the same task in parallel, then the best parts merged. Costs more tokens. |
-| `principle-laziness-protocol` | The smallest change that solves it. The same idea as `ponytail`. |
+| `show-me-your-work` | Long unattended work, like a night run: one line per decision with why and proof, so Ash can trust the result after. On its first run it caught a push to main that Ash hadn't approved. A candidate for the night run's prompt. |
+| `automate-me` | Every month or two: mines Ash's commits and dated corrections for rules he keeps saying but never wrote down. Its first run found 85% of a draft "ash-mode" already in his rules, plus 7 new ones. |
 
-**Already covered by Ash's skills:** `bro` (`re-explain`), `unslop` and `technical-writing` (`match-ash-writing`), `reflect` (`improve-next-time`), `tdd` (`test-first`), `teach`, `how` and `why` (`teach-side-chat`).
+**Skipped:** `principle-laziness-protocol` (Ponytail is the full version). **Already covered by Ash's skills:** `unslop` and `technical-writing` (`match-ash-writing`), `reflect` (`improve-next-time`), `tdd` (`test-first`), `teach`, `how` and `why` (`teach-side-chat`).
 
 ## UI libraries Ash has saved
 
