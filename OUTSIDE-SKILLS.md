@@ -36,6 +36,7 @@ An outside skill never overrides Ash's own rules. Where one disagrees with `matc
 | Ponytail | https://github.com/dietrichgebert/ponytail | `skills/<name>/SKILL.md` | MIT |
 | Matt Pocock | https://github.com/mattpocock/skills | `skills/<group>/<name>/SKILL.md` | MIT |
 | Anthropic | https://github.com/anthropics/skills | `skills/<name>/SKILL.md` | see repo |
+| pstack (Poteto, React core team, Cursor) | https://github.com/backnotprop/pstack | `skills/<name>/SKILL.md` | MIT |
 
 ### Building pages, apps and UI
 
@@ -87,6 +88,23 @@ An outside skill never overrides Ash's own rules. Where one disagrees with `matc
 | `doc-coauthoring` | Anthropic | Writing a spec, proposal or decision doc together, step by step. |
 
 **Already copied into Ash's skills, so don't fetch them:** Matt's grilling, grill-me, grill-with-docs, wayfinder, to-spec, to-tickets, to-questionnaire, prototype, research, tdd, diagnosing-bugs, code-review, pr, wizard, handoff, retro, wait-what, writing-for-agents, domain-modeling, codebase-design, improve-codebase-architecture, setup-matt-pocock-skills, implement and implement-spec. Anthropic's docx, pdf, pptx, xlsx and skill-creator already come with claude.ai.
+
+### pstack: engineering rigour, plus a few for working with Claude
+
+58 skills in all, mostly for serious coding. Its hub, `poteto-mode`, needs most of the others and is tuned for Cursor's multi-model setup, so don't install the whole set. Pick these one at a time:
+
+| Skill | Reach for it when |
+|---|---|
+| `ketchup` | Coming back to a long chat or a build run: what changed, in plain words, and every call waiting on Ash with Claude's pick. Only when typed. |
+| `sharpen` | A task feels shallow. Claude says what a top professional would do instead, then rewrites the prompt deeper, not bigger. Only when typed. |
+| `show-me-your-work` | Long unattended work, like a night run: one log line per decision with why and proof, so Ash can trust it after. |
+| `automate-me` | Capturing how Ash works into one personal "ash-mode" skill from his chat history. |
+| `in-your-own-words` | Checking Claude understood the goal before it starts. |
+| `interrogate` | A hard, adversarial review of finished code before it ships. |
+| `arena` | Several attempts at the same task in parallel, then the best parts merged. Costs more tokens. |
+| `principle-laziness-protocol` | The smallest change that solves it. The same idea as `ponytail`. |
+
+**Already covered by Ash's skills:** `bro` (`re-explain`), `unslop` and `technical-writing` (`match-ash-writing`), `reflect` (`improve-next-time`), `tdd` (`test-first`), `teach`, `how` and `why` (`teach-side-chat`).
 
 ## UI libraries Ash has saved
 
